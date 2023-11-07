@@ -14,21 +14,10 @@
   <span><%= robo_job.feature_request %></span>
 </div>
 
-<div class="mb-8">
-  <% contextual_files_request = robo_job.robo_requests.of_type("contextual_files") %>
-
-  <% if contextual_files_request %>
-    <%= render "robo_jobs/files/finished", robo_request: contextual_files_request %>
-
-  <% else %>
-    <% stream_path = get_contextual_files_robo_job_path(robo_job) %>
-
-    <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="get-files">
-      <%= link_to "Step 1: Gather Contextual Files", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
-    </div>
-  <% end %>
+<div id="get-files">
+  <%= render "robo_jobs/files/index" %>
 </div>
 
 <div id="get-instructions">
-  <%= render "robo_jobs/instructions/preflight", robo_request: contextual_files_request %>
+  <%= render "robo_jobs/instructions/index" %>
 </div>

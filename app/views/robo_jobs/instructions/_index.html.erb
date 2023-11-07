@@ -1,3 +1,4 @@
+<%# Don't render this if haven't gotten to that step yet  %>
 <% contextual_files_request = robo_job.robo_requests.of_type("contextual_files") %>
 
 <% if contextual_files_request %>
@@ -11,7 +12,7 @@
       <% stream_path = get_instructions_robo_job_path(robo_job) %>
 
       <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="get-instructions">
-        <%= link_to "Step 2: Gather Instructions", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
+        <%= link_to "Step 2: Build Instructions", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
       </div>
     <% end %>
   </div>

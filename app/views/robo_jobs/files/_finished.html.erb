@@ -1,14 +1,35 @@
-<div class="mb-2 border-gray-600 border rounded-md flex justify-between p-2 pr-4">
-  <span>View conversation</span>
-  <span>v</span>
-</div>
+<div data-controller="dropdown" class="mb-8 border border-gray-600 rounded-md">
+  <div class="flex justify-between p-2 pr-4 cursor-pointer" data-action="click->dropdown#toggle">
+    <span>Contextual Files</span>
+    <span>v</span>
+  </div>
 
-<div class="font-semi-bold">Contextual Files:</div>
-<div class="border border-gray-600 p-2 rounded-md mb-8">
-  <ul class="list-disc text-left pl-5">
-    <% robo_job.contextual_files.each do |filepath| %>
-      <li><%= filepath %></li>
-    <% end %>
-  </ul>
-</div>
+  <div data-dropdown-target="panel" class="hidden p-2 mt-4">
+    <div data-controller="dropdown" class="border border-gray-600 rounded-md mb-2">
+      <div class="rounded-md flex justify-between p-2 pr-4 cursor-pointer" data-action="click->dropdown#toggle">
+        <span>Prompt</span>
+        <span>v</span>
+      </div>
+      <div class="hidden p-2" data-dropdown-target="panel">
+        <%== markdown_to_html(robo_request.prompt) %>
+      </div>
+    </div>
 
+    <div data-controller="dropdown" class="border border-gray-600 rounded-md mb-2">
+      <div class="rounded-md flex justify-between p-2 pr-4 cursor-pointer" data-action="click->dropdown#toggle">
+        <span>Response</span>
+        <span>v</span>
+      </div>
+      <div class="hidden p-2" data-dropdown-target="panel">
+        <%== markdown_to_html(robo_job.generated_instructions) %>
+      </div>
+    </div>
+
+    <div class="font-semibold mt-4">Files:</div>
+    <ul class="list-disc text-left pl-5">
+      <% robo_job.contextual_files.each do |filepath| %>
+        <li><%= filepath %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
