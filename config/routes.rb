@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root "robo_jobs#new"
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :robo_jobs, only: [:new, :create, :show]
 end

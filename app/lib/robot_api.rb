@@ -1,6 +1,10 @@
 class RobotError < StandardError; end
 
-PROMPT_MAX_LENGTH = 3200
+# GPT_4_TURBO accepts up to 128k, keeping it at 40k for now
+PROMPT_MAX_LENGTH = 40_000
+
+GPT_4 = "gpt-4"
+GPT_4_TURBO = "gpt-4-1106-preview"
 
 class RobotApi
   attr_reader :response
@@ -21,7 +25,7 @@ class RobotApi
 
     @response = client.chat(
       parameters: {
-        model: "gpt-4",
+        model: GPT_4_TURBO,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.1,
       }

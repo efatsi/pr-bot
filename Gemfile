@@ -17,6 +17,8 @@ gem "dotenv-rails"
 gem "awesome_print"
 gem "ruby-openai"
 gem "simple_form"
+gem "simple_form-tailwind"
+
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
