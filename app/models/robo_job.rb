@@ -8,22 +8,16 @@ class RoboJob < ApplicationRecord
     robo_requests.new(request_type: type)
   end
 
-  def ask_for_contextual_files(robo_request)
+  def run_request(robo_request)
     robo_request.fire!
 
     if robo_request.response
-      self.update(contextual_files: robo_request.response.scan(/[\w\-.\/]+/).select { |f| File.file?(f) })
-    else
-      raise "Error: #{robo_request.raw_response}"
-    end
-  end
-
-  def ask_for_instructions
-    robo_request = robo_requests.new(request_type: "request_instructions")
-    robo_request.fire!
-
-    if robo_request.response
-      self.update(generated_instructions: robo_request.response)
+      case robo_request.request_type
+      when "contextual_files"
+        self.update(contextual_files: robo_request.response.scan(/[\w\-.\/]+/).select { |f| File.file?(f) })
+      when "instructions"
+        self.update(generated_instructions: robo_request.response)
+      end
     else
       raise "Error: #{robo_request.raw_response}"
     end

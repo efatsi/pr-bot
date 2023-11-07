@@ -177,6 +177,7 @@ GEM
     rake (13.1.0)
     rdoc (6.6.0)
       psych (>= 4.0.0)
+    redcarpet (3.6.0)
     reline (0.3.9)
       io-console (~> 0.5)
     ruby-openai (6.0.0)
@@ -229,6 +230,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 5.0)
   rails (~> 7.0.7)
+  redcarpet
   ruby-openai
   simple_form
   simple_form-tailwind

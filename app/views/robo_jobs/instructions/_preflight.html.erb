@@ -1,0 +1,18 @@
+<% contextual_files_request = robo_job.robo_requests.of_type("contextual_files") %>
+
+<% if contextual_files_request %>
+  <div class="mb-8">
+    <% instructions_request = robo_job.robo_requests.of_type("instructions") %>
+
+    <% if instructions_request %>
+      <%= render "robo_jobs/instructions/finished", robo_request: instructions_request %>
+
+    <% else %>
+      <% stream_path = get_instructions_robo_job_path(robo_job) %>
+
+      <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="get-instructions">
+        <%= link_to "Step 2: Gather Instructions", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

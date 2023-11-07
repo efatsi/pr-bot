@@ -1,7 +1,7 @@
 class RoboRequest < ApplicationRecord
   REQUEST_TYPES = [
-    "get_contextual_files",
-    "request_instructions",
+    "contextual_files",
+    "instructions",
   ]
 
   belongs_to :robo_job
@@ -38,7 +38,7 @@ class RoboRequest < ApplicationRecord
 
   def prompt_structure
     @prompt_structure ||= case request_type
-    when "get_contextual_files"
+    when "contextual_files"
       [
         "What files from the Directory Tree should I review to implement the following feature request in this project?",
         "Directory Tree:",
@@ -50,7 +50,7 @@ class RoboRequest < ApplicationRecord
         "[PROJECT_CONTEXT]",
         "Be very concise in your response, only looking for files that are definitely relevant.",
       ]
-    when "request_instructions"
+    when "instructions"
       [
         "How would you implement the following feature request using Ruby methods add_file(filepath, text) and change_file(filepath, og_text, new_text)?",
         "Feature request:",

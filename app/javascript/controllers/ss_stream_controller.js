@@ -9,19 +9,32 @@ export default class SsStreamController extends Controller {
   startConnection(e) {
     e.preventDefault()
 
+    console.log("Opening server-side event connection:", this.urlValue)
     const eventSource = new EventSource(this.urlValue)
 
     eventSource.addEventListener("message", (event) => {
+      console.log("Received server-side event:", event)
       const data = JSON.parse(event.data)
 
       if (data.turbo_stream) {
-        Turbo.renderStreamMessage(data.turbo_stream)
+        // if data is an array, make it an array
+        if (!Array.isArray(data.turbo_stream)) {
+          data.turbo_stream = [data.turbo_stream]
+        }
+
+        // render each turbo stream message
+        for (const message of data.turbo_stream) {
+          Turbo.renderStreamMessage(message)
+        }
       }
     })
 
     eventSource.addEventListener("error", (event) => {
       if (event.eventPhase === EventSource.CLOSED) {
+        console.log("Server-side event connection closed:", event)
         eventSource.close()
+      } else {
+        console.error("Server-side event error:", event)
       }
     })
   }

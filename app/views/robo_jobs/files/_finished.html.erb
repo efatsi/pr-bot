@@ -1,23 +1,14 @@
-<% processing ||= false %>
-
-<% if processing %>
-  <div class="italic mb-1">Processing...</div>
-<% end %>
-
 <div class="mb-2 border-gray-600 border rounded-md flex justify-between p-2 pr-4">
   <span>View conversation</span>
   <span>v</span>
 </div>
 
-<% if processing %>
-  <div class="italic mb-1">Done!</div>
-<% end %>
-
 <div class="font-semi-bold">Contextual Files:</div>
-<div class="border border-gray-600 p-2 rounded-md">
+<div class="border border-gray-600 p-2 rounded-md mb-8">
   <ul class="list-disc text-left pl-5">
     <% robo_job.contextual_files.each do |filepath| %>
       <li><%= filepath %></li>
     <% end %>
   </ul>
 </div>
+
