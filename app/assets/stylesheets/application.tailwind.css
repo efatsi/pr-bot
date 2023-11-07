@@ -24,3 +24,12 @@ body {
 a.blue-link {
   @apply text-blue-600
 }
+
+code {
+  @apply whitespace-pre text-blue-300
+}
+
+/* whitespace-pre plus all the <br> tags from markdown hard_wrap don't play well */
+code br {
+  @apply hidden
+}
