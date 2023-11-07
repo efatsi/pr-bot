@@ -24,11 +24,11 @@ class RoboJobStreamsController < ApplicationController
         turbo_stream.update(
           "get-files",
           partial: "robo_jobs/files/finished",
-          locals: { robo_job: robo_job, robo_request: robo_request }
+          locals: { robo_job: robo_job, robo_request: robo_request, open_on_load: true }
         ),
         turbo_stream.update(
           "get-instructions",
-          partial: "robo_jobs/instructions/preflight",
+          partial: "robo_jobs/instructions/index",
           locals: { robo_job: robo_job }
         )
       ]
@@ -59,7 +59,7 @@ class RoboJobStreamsController < ApplicationController
       turbo_stream: turbo_stream.update(
         "get-instructions",
         partial: "robo_jobs/instructions/finished",
-        locals: { robo_job: robo_job, robo_request: robo_request }
+        locals: { robo_job: robo_job, robo_request: robo_request, open_on_load: true }
       )
     })
   ensure

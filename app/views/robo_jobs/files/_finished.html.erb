@@ -1,10 +1,12 @@
+<% open_on_load ||= false %>
+
 <div data-controller="dropdown" class="mb-8 border border-gray-600 rounded-md">
   <div class="flex justify-between p-2 pr-4 cursor-pointer" data-action="click->dropdown#toggle">
     <span>Contextual Files</span>
     <span>v</span>
   </div>
 
-  <div data-dropdown-target="panel" class="hidden p-2 mt-4">
+  <div data-dropdown-target="panel" class="<%= 'hidden' unless open_on_load %> p-2 mt-4">
     <div data-controller="dropdown" class="border border-gray-600 rounded-md mb-2">
       <div class="rounded-md flex justify-between p-2 pr-4 cursor-pointer" data-action="click->dropdown#toggle">
         <span>Prompt</span>
@@ -21,11 +23,11 @@
         <span>v</span>
       </div>
       <div class="hidden p-2" data-dropdown-target="panel">
-        <%== markdown_to_html(robo_job.generated_instructions) %>
+        <%== markdown_to_html(robo_request.response) %>
       </div>
     </div>
 
-    <div class="font-semibold mt-4">Files:</div>
+    <div class="font-semibold mt-4 mb-2">Files:</div>
     <ul class="list-disc text-left pl-5">
       <% robo_job.contextual_files.each do |filepath| %>
         <li><%= filepath %></li>
