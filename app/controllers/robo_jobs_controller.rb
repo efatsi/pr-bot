@@ -1,4 +1,8 @@
 class RoboJobsController < ApplicationController
+  include ActionController::Live
+
+  before_action :load_robo_job, only: [:show, :get_files]
+
   def new
     @robo_job = RoboJob.new
   end
@@ -14,10 +18,42 @@ class RoboJobsController < ApplicationController
   end
 
   def show
-    @robo_job = RoboJob.find(params[:id])
+  end
+
+  def get_files
+    response.headers['Content-Type'] = 'text/event-stream'
+    response.headers['Last-Modified'] = Time.now.httpdate
+
+    sse = SSE.new(response.stream, event: "message")
+
+    robo_request = @robo_job.prepare_request("get_contextual_files")
+
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "get-files",
+        partial: "robo_jobs/files/processing",
+        locals: { robo_request: robo_request }
+      )
+    })
+
+    @robo_job.ask_for_contextual_files(robo_request)
+
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "get-files",
+        partial: "robo_jobs/files/finished",
+        locals: { robo_job: @robo_job, robo_request: robo_request }
+      )
+      })
+  ensure
+    sse.close
   end
 
   private
+
+  def load_robo_job
+    @robo_job = RoboJob.find(params[:id])
+  end
 
   def robo_job_params
     params.require(:robo_job).permit(:filepath, :feature_request, :project_context)

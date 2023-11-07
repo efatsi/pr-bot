@@ -4,13 +4,11 @@ class RoboJob < ApplicationRecord
   validates :filepath, presence: true
   validates :feature_request, presence: true
 
-  def do_the_job
-    ask_for_contextual_files
-    ask_for_instructions
+  def prepare_request(type)
+    robo_requests.new(request_type: type)
   end
 
-  def ask_for_contextual_files
-    robo_request = robo_requests.new(request_type: "get_contextual_files")
+  def ask_for_contextual_files(robo_request)
     robo_request.fire!
 
     if robo_request.response

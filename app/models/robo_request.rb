@@ -10,8 +10,16 @@ class RoboRequest < ApplicationRecord
   validates :raw_response, presence: true
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
 
-  def fire!
+  def self.of_type(type)
+    where(request_type: type).by_id.last
+  end
+
+  def initialize(*args)
+    super(*args)
     self.prompt = generate_prompt
+  end
+
+  def fire!
     self.response = robot_api.ask_gpt4(prompt)
 
   rescue RobotError
@@ -35,19 +43,23 @@ class RoboRequest < ApplicationRecord
         "What files from the Directory Tree should I review to implement the following feature request in this project?",
         "Directory Tree:",
         "[DIRECTORY_TREE]",
+        "",
         "Feature request:",
         "[FEATURE_REQUEST]",
-        "Respond with minimal prose",
-        "[PROJECT_CONTEXT]"
+        "",
+        "[PROJECT_CONTEXT]",
+        "Be very concise in your response, only looking for files that are definitely relevant.",
       ]
     when "request_instructions"
       [
         "How would you implement the following feature request using Ruby methods add_file(filepath, text) and change_file(filepath, og_text, new_text)?",
         "Feature request:",
         "[FEATURE_REQUEST]",
+        "",
         "Only make changes to these contextual files, or add new ones if necessary:",
         "[FILES_CONTENT]",
-        "For each change, provide a short summary and then a ruby code block w/ a single add_file or change_file call (```ruby)",
+        "",
+        "For each change, provide a very short summary and then a ruby code block w/ a single add_file or change_file call (```ruby)",
         "For the ruby code that you're adding or swapping in, follow the style of the contextual files",
         "[PROJECT_CONTEXT]"
       ]
