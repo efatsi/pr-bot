@@ -12,7 +12,7 @@ class RoboJob < ApplicationRecord
     robo_request.fire!
 
     if robo_request.response
-      self.update(relevant_files: robo_request.response.scan(/[\w\-.\/]+/).select { |f| File.file?(f) })
+      self.update(contextual_files: robo_request.response.scan(/[\w\-.\/]+/).select { |f| File.file?(f) })
     else
       raise "Error: #{robo_request.raw_response}"
     end
@@ -57,7 +57,7 @@ class RoboJob < ApplicationRecord
   end
 
   def contextual_file_data
-    relevant_files.map { |f| { name: f, content: File.read(f) } }
+    contextual_files.map { |f| { name: f, content: File.read(f) } }
   end
 end
 
@@ -66,11 +66,11 @@ end
 # Table name: robo_jobs
 #
 #  id                     :bigint           not null, primary key
+#  contextual_files       :string           default([]), is an Array
 #  feature_request        :text             not null
 #  filepath               :string           not null
 #  generated_instructions :text
 #  project_context        :text
-#  relevant_files         :string           default([]), is an Array
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
