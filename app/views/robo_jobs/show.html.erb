@@ -1,23 +1,26 @@
-
 <div class="mb-8">
-  <div class="font-semibold mb-1">Repo Filepath:</div>
-  <span><%= link_to robo_job.filepath, "file:#{robo_job.filepath}" %></span>
+  <%= render "shared/dropdown", label: "RoboJob Details", open_on_load: true do %>
+    <div class="mb-8">
+      <div class="font-semibold mb-1">Repo Filepath:</div>
+      <span><%= link_to robo_job.filepath, "file:#{robo_job.filepath}" %></span>
+    </div>
+
+    <div class="mb-8">
+      <div class="font-semibold mb-1">Project Context:</div>
+      <span><%= robo_job.project_context %></span>
+    </div>
+
+    <div class="mb-1">
+      <div class="font-semibold mb-1">Feature Request:</div>
+      <span><%= robo_job.feature_request %></span>
+    </div>
+  <% end %>
 </div>
 
-<div class="mb-8">
-  <div class="font-semibold mb-1">Project Context:</div>
-  <span><%= robo_job.project_context %></span>
-</div>
-
-<div class="mb-8">
-  <div class="font-semibold mb-1">Feature Request:</div>
-  <span><%= robo_job.feature_request %></span>
-</div>
-
-<div id="get-files">
+<div id="get-files" class="mb-8">
   <%= render "robo_jobs/files/index" %>
 </div>
 
-<div id="get-instructions">
+<div id="get-instructions" class="mb-8">
   <%= render "robo_jobs/instructions/index" %>
 </div>

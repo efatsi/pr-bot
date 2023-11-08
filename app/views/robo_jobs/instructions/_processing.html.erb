@@ -1,6 +1,9 @@
-<div class="italic mb-1">Processing...</div>
+<%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
+  <%= render "shared/dropdown", label: "Prompt" do %>
+    <%== robo_request.prompt.gsub("\n", "<br>") %>
+  <% end %>
 
-<div class="font-semi-bold">Prompt:</div>
-<div class="border border-gray-600 p-2 rounded-md">
-  <%== robo_request.prompt.gsub("\n", "<br>") %>
-</div>
+  <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
+    Processing...
+  <% end %>
+<% end %>
