@@ -1,20 +1,22 @@
 <% label_class = robo_change.action == "update_file" ? "bg-[#523823]" : "bg-[#263a23]" %>
 <% label_button = render("robo_jobs/robo_change/actions/#{robo_change.status}", robo_change: robo_change) %>
 
-<%= render "shared/dropdown", label: robo_change.summary, label_class: label_class, label_button: label_button do %>
-  <div class="mb-1.5">
-    <b>File:</b><br>
-    <%= robo_change.file %>
-  </div>
-  <% if robo_change.action == "update_file" %>
+<div id="robo-change-<%= robo_change.id %>">
+  <%= render "shared/dropdown", label: robo_change.summary, label_class: label_class, label_button: label_button do %>
     <div class="mb-1.5">
-      <b>OG Content:</b>
-      <pre><%= robo_change.original_content %></pre>
+      <b>File:</b><br>
+      <%= robo_change.file %>
+    </div>
+    <% if robo_change.action == "update_file" %>
+      <div class="mb-1.5">
+        <b>OG Content:</b>
+        <pre><%= robo_change.original_content %></pre>
+      </div>
+    <% end %>
+
+    <div class="mb-1.5">
+      <b>New Content:</b>
+      <pre><%= robo_change.new_content %></pre>
     </div>
   <% end %>
-
-  <div class="mb-1.5">
-    <b>New Content:</b>
-    <pre><%= robo_change.new_content %></pre>
-  </div>
-<% end %>
+</div>

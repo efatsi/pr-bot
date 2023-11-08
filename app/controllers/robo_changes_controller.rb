@@ -5,15 +5,16 @@ class RoboChangesController < ApplicationController
     redirect_to robo_job_path(robo_job)
 
     # TODO: turbo update the robo_changes
-    # render turbo_stream: turbo_stream.update(
   end
 
   def execute
     robo_change.fire!
 
-    redirect_to robo_job_path(robo_job)
-
-    # TODO: turbo update robo_change
+    render turbo_stream: turbo_stream.update(
+      "robo-change-#{ robo_change.id }",
+      partial: "robo_jobs/robo_change/index",
+      locals: { robo_change: robo_change }
+    )
   end
 
   private
