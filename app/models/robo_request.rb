@@ -68,7 +68,7 @@ class RoboRequest < ApplicationRecord
         "  - summary: A brief description of the change",
         "  - action: one of `add_file`, `update_file`",
         "  - file: path to the file",
-        "  - original_content: the exact original content of the file",
+        "  - original_content: the exact content of the file, only that which will be changed by the new_content",
         "  - new_content: the new content required for the feature",
         "",
         "Example",
