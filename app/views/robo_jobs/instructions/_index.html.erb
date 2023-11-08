@@ -3,9 +3,7 @@
 
 <% if contextual_files_request %>
   <div class="mb-8">
-    <% instructions_request = robo_job.robo_requests.of_type("instructions") %>
-
-    <% if instructions_request %>
+    <% if robo_job.generated_instructions %>
       <%= render "robo_jobs/instructions/finished", robo_request: instructions_request %>
 
     <% else %>
