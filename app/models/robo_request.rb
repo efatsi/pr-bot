@@ -56,7 +56,7 @@ class RoboRequest < ApplicationRecord
         "Feature request:",
         "[FEATURE_REQUEST]",
         "",
-        "Only make changes to these contextual files, or add new ones if necessary:",
+        "Here are the existing project files:",
         "[FILES_CONTENT]",
         "",
         "For each change, provide a very short summary and then a ruby code block w/ a single add_file or change_file call (```ruby)",
