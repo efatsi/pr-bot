@@ -1,4 +1,6 @@
 class RoboRequest < ApplicationRecord
+  RETURN_AS_JSON = "Return the details of the implementation change as a JSON object with the following structure:"
+
   REQUEST_TYPES = [
     "contextual_files",
     "instructions",
@@ -52,16 +54,51 @@ class RoboRequest < ApplicationRecord
       ]
     when "instructions"
       [
-        "How would you implement the following feature request using Ruby methods add_file(filepath, text) and change_file(filepath, og_text, new_text)?",
+        "How would you implement the following feature request?",
         "Feature request:",
         "[FEATURE_REQUEST]",
         "",
-        "Here are the existing project files:",
+        "Here are the contextual project files:",
         "[FILES_CONTENT]",
         "",
-        "For each change, provide a very short summary and then a ruby code block w/ a single add_file or change_file call (```ruby)",
-        "For the ruby code that you're adding or swapping in, follow the style of the contextual files",
-        "[PROJECT_CONTEXT]"
+        RETURN_AS_JSON,
+        "- implementation_overview: Describe the steps involved to implement the feature",
+        "- additional_notes: Any other details to know, or steps to take after the implementation is complete",
+        "- changes: An array of all the file changes required, following this structure:",
+        "  - change_summary: A brief description of the change",
+        "  - action: one of `add_file`, `update_file`",
+        "  - file: path to the file",
+        "  - original_content: the exact original content of the file",
+        "  - new_content: the new content required for the feature",
+        "",
+        "Example",
+        '{
+  "implementation_overview": "We need to add a new member route to the robo_jobs resources in the routes.rb file and create a new controller action along with a corresponding template file.",
+  "changes": [
+    {
+      "change_summary": "Add a new `:robo_requests` member route to the `robo_jobs` resources",
+      "action": "update_file",
+      "file": "/pr-bot/config/routes.rb",
+      "original_content": "resources :robo_jobs, only: [:new, :create, :show, :edit, :update] do",
+      "new_content": "resources :robo_jobs, only: [:new, :create, :show, :edit, :update] do\n    get :robo_requests, on: :member"
+    },
+    {
+      "change_summary": "Add a new `robo_requests` action to the `RoboJobsController`.",
+      "action": "update_file",
+      "file": "/pr-bot/app/controllers/robo_jobs_controller.rb",
+      "orginal_content": "end\n\n  private",
+      "new_content": "end\n\n  def robo_requests\n    @robo_job = RoboJob.find(params[:id])\n  end\n\n  private"
+    },
+    {
+      "change_summary": "Add a new template file for the `robo_requests` action.",
+      "action": "add_file",
+      "file": "/pr-bot/app/views/robo_jobs/robo_requests.html.erb",
+      "original_content": "",
+      "new_content": "<h1>Robo Requests for <%= @robo_job.name %></h1>\n<% @robo_job.robo_requests.each do |request| %>\n  <div class=\"robo-request\">\n    <%# Display details of the request here %>\n  </div>\n<% end %>"
+    }
+  ],
+  "additional_notes": "you will have to make sure input is imported into `new_file`"
+}',
       ]
     end
   end

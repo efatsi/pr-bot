@@ -1,7 +1,7 @@
 class RobotError < StandardError; end
 
-# GPT_4_TURBO accepts up to 128k, keeping it at 40k for now
-PROMPT_MAX_LENGTH = 40_000
+# GPT_4_TURBO accepts up to 128k, keeping it at 10k for now (~70k = $1)
+PROMPT_MAX_LENGTH = 10_000
 
 GPT_4 = "gpt-4"
 GPT_4_TURBO = "gpt-4-1106-preview"
@@ -10,6 +10,8 @@ class RobotApi
   attr_reader :response
 
   def ask_gpt4(prompt)
+    json_mode = prompt.include?(RoboRequest::RETURN_AS_JSON)
+
     # first check prompt length is less than PROMPT_MAX_LENGTH
     token_count = OpenAI.rough_token_count(prompt)
     if token_count > PROMPT_MAX_LENGTH
@@ -27,7 +29,8 @@ class RobotApi
       parameters: {
         model: GPT_4_TURBO,
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.1,
+        response_format: { type: json_mode ? "json_object" : "text" },
+        temperature: 0.2,
       }
     )
 
