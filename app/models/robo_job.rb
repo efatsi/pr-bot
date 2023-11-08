@@ -1,5 +1,6 @@
 class RoboJob < ApplicationRecord
-  has_many :robo_requests
+  has_many :robo_requests, dependent: :destroy
+  has_many :robo_changes, dependent: :destroy
 
   validates :filepath, presence: true
   validates :feature_request, presence: true
@@ -21,6 +22,7 @@ class RoboJob < ApplicationRecord
         self.update(contextual_files: robo_request.response.scan(/[\w\-.\/]+/).select { |f| File.file?(f) })
       when "instructions"
         self.update(generated_instructions: robo_request.response)
+        self.process_instructions_to_changes
       end
     else
       raise "Error: #{robo_request.raw_response}"
@@ -56,6 +58,17 @@ class RoboJob < ApplicationRecord
 
   def contextual_file_data
     contextual_files.map { |f| { name: f, content: File.read(f) } }
+  end
+
+  private
+
+  def process_instructions_to_changes
+    parsed_instructions["changes"].each do |changeset|
+      robo_changes.create(
+        **changeset,
+        raw_json: changeset
+      )
+    end
   end
 end
 

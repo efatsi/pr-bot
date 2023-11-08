@@ -18,25 +18,25 @@
     </div>
 
     <div class="mb-4">
-      <div class="font-medium mb-1">Proposed Changes</div>
-        <% robo_job.parsed_instructions["changes"].each do |changeset| %>
-          <% label_class = changeset["action"] == "update_file" ? "bg-[#523823]" : "bg-[#263a23]" %>
+      <div class="font-medium mb-2">Proposed Changes</div>
+        <% robo_job.robo_changes.each do |changeset| %>
+          <% label_class = changeset.action == "update_file" ? "bg-[#523823]" : "bg-[#263a23]" %>
 
-          <%= render "shared/dropdown", label: changeset["summary"], label_class: label_class do %>
+          <%= render "shared/dropdown", label: changeset.summary, label_class: label_class do %>
             <div class="mb-1.5">
               <b>File:</b><br>
-              <%= changeset["file"] %>
+              <%= changeset.file %>
             </div>
-            <% if changeset["action"] == "update_file" %>
+            <% if changeset.action == "update_file" %>
               <div class="mb-1.5">
                 <b>OG Content:</b>
-                <pre><%= changeset["original_content"] %></pre>
+                <pre><%= changeset.original_content %></pre>
               </div>
             <% end %>
 
             <div class="mb-1.5">
               <b>New Content:</b>
-              <pre><%= changeset["new_content"] %></pre>
+              <pre><%= changeset.new_content %></pre>
             </div>
 
           <% end %>
