@@ -18,11 +18,16 @@
     </div>
 
     <div class="mb-4">
-      <div class="font-medium mb-2">Proposed Changes</div>
-        <% stream_path = execute_all_robo_job_robo_changes_path(robo_job) %>
-        <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>">
-          <%= link_to "Fire All!", stream_path, class: "btn-opaque float-right", "data-action": "ss-stream#startConnection" %>
-        </div>
+      <div class="flex justify-between mb-2">
+        <div class="font-medium mb-2">Proposed Changes</div>
+
+        <% if robo_job.robo_changes.pending.any? %>
+          <% stream_path = execute_all_robo_job_robo_changes_path(robo_job) %>
+          <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="fire-all">
+            <%= link_to "Fire All!", stream_path, class: "btn-opaque mr-4", "data-action": "ss-stream#startConnection" %>
+          </div>
+        <% end %>
+      </div>
 
         <% robo_job.robo_changes.each do |robo_change| %>
           <%= render "robo_jobs/robo_change/index", robo_change: robo_change %>

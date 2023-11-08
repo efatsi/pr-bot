@@ -7,7 +7,8 @@ class RoboChangesController < ApplicationController
 
     sse = SSE.new(response.stream, event: "message")
 
-    robo_job.robo_changes.pending.each do |robo_change|
+    pending_count = robo_job.robo_changes.pending.count
+    robo_job.robo_changes.pending.each_with_index do |robo_change, i|
       robo_change.fire!
 
       sse.write({
@@ -18,9 +19,18 @@ class RoboChangesController < ApplicationController
         )
       })
 
-      sleep(0.25)
+      if i+1 < pending_count
+        # sleep unless on the last one
+        sleep(0.25)
+      end
     end
   ensure
+    if robo_job.robo_changes.pending.none?
+      sse.write({
+        turbo_stream: turbo_stream.remove("fire-all")
+      })
+    end
+
     sse.close
   end
 
