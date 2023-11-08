@@ -1,7 +1,8 @@
 <% open_on_load ||= false %>
+<% label_class ||= "" %>
 
 <div data-controller="dropdown" class="mb-2 border border-gray-600 rounded-md">
-  <div class="flex justify-between p-2 pr-4 cursor-pointer" data-action="click->dropdown#toggle">
+  <div class="flex justify-between p-2 pr-4 cursor-pointer rounded-md <%= label_class %>" data-action="click->dropdown#toggle">
     <span><%= label %></span>
     <span>v</span>
   </div>

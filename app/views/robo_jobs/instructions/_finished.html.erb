@@ -14,13 +14,15 @@
 
     <div class="mb-4">
       <div class="font-medium mb-1">Implementation Overview</div>
-      <p class="text-blue-200"><%= robo_job.parsed_instructions["implementation_overview"] %></p>
+      <p><%= robo_job.parsed_instructions["implementation_overview"] %></p>
     </div>
 
     <div class="mb-4">
       <div class="font-medium mb-1">Proposed Changes</div>
         <% robo_job.parsed_instructions["changes"].each do |changeset| %>
-          <%= render "shared/dropdown", label: changeset["summary"] do %>
+          <% label_class = changeset["action"] == "update_file" ? "bg-[#523823]" : "bg-[#263a23]" %>
+
+          <%= render "shared/dropdown", label: changeset["summary"], label_class: label_class do %>
             <div class="mb-1.5">
               <b>File:</b><br>
               <%= changeset["file"] %>
@@ -45,7 +47,7 @@
     <% if robo_job.parsed_instructions["additional_notes"] %>
       <div class="mb-4">
         <div class="font-medium mb-1">Additional Notes</div>
-        <p class="text-blue-200"><%= robo_job.parsed_instructions["additional_notes"] %></p>
+        <p><%= robo_job.parsed_instructions["additional_notes"] %></p>
       </div>
     <% end %>
   </div>
