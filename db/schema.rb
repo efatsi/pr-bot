@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_08_205851) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_08_211207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,12 +18,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_08_205851) do
     t.bigint "robo_job_id", null: false
     t.json "raw_json", null: false
     t.text "summary"
-    t.string "file"
-    t.string "action"
+    t.string "file", null: false
+    t.string "action", null: false
     t.text "original_content"
-    t.text "new_content"
+    t.text "new_content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending", null: false
+    t.string "error"
     t.index ["robo_job_id"], name: "index_robo_changes_on_robo_job_id"
   end
 

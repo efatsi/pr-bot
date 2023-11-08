@@ -1,6 +1,6 @@
 class RoboJob < ApplicationRecord
-  has_many :robo_requests, dependent: :destroy
-  has_many :robo_changes, dependent: :destroy
+  has_many :robo_requests, -> { by_id }, dependent: :destroy
+  has_many :robo_changes, -> { by_id }, dependent: :destroy
 
   validates :filepath, presence: true
   validates :feature_request, presence: true

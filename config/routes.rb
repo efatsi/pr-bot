@@ -7,6 +7,12 @@ Rails.application.routes.draw do
       :get_instructions,
     ].each do |action|
       get action, on: :member, to: "robo_job_streams##{action}"
+
+      resources :robo_changes, only: [] do
+        post :execute_all, on: :collection
+        post :execute, on: :member
+      end
+
     end
   end
 end

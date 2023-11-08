@@ -66,7 +66,7 @@ class RoboRequest < ApplicationRecord
         "- additional_notes: Any other details to know, or steps to take after the implementation is complete",
         "- changes: An array of all the file changes required, following this structure:",
         "  - summary: A brief description of the change",
-        "  - action: one of `add_file`, `update_file`",
+        "  - action: one of `#{RoboChange::VALID_ACTIONS.join('`, `')}`",
         "  - file: path to the file",
         "  - original_content: the exact content of the file, only that which will be changed by the new_content",
         "  - new_content: the new content required for the feature",
