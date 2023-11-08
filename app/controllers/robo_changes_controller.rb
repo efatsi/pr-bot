@@ -1,10 +1,27 @@
 class RoboChangesController < ApplicationController
+  include ActionController::Live
+
   def execute_all
-    robo_job.robo_changes.pending.each(&:fire)
+    response.headers['Content-Type'] = 'text/event-stream'
+    response.headers['Last-Modified'] = Time.now.httpdate
 
-    redirect_to robo_job_path(robo_job)
+    sse = SSE.new(response.stream, event: "message")
 
-    # TODO: turbo update the robo_changes
+    robo_job.robo_changes.pending.each do |robo_change|
+      robo_change.fire!
+
+      sse.write({
+        turbo_stream: turbo_stream.update(
+          "robo-change-#{ robo_change.id }",
+          partial: "robo_jobs/robo_change/index",
+          locals: { robo_change: robo_change }
+        )
+      })
+
+      sleep(0.25)
+    end
+  ensure
+    sse.close
   end
 
   def execute

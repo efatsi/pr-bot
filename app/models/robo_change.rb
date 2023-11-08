@@ -18,6 +18,8 @@ class RoboChange < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
 
   STATUSES.each do |status|
+    scope status, -> { where(status: status) }
+
     define_method("#{status}?") do
       self.status == status
     end
