@@ -4,7 +4,7 @@
 <% if contextual_files_request %>
   <div class="mb-8">
     <% if robo_job.generated_instructions %>
-      <%= render "robo_jobs/instructions/finished", robo_request: instructions_request %>
+      <%= render "robo_jobs/instructions/finished", robo_request: robo_job.robo_requests.of_type("instructions") %>
 
     <% else %>
       <% stream_path = get_instructions_robo_job_path(robo_job) %>
