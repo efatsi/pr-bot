@@ -16,6 +16,19 @@ class RoboJobsController < ApplicationController
   def show
   end
 
+  def edit
+    @robo_job = RoboJob.find(params[:id])
+  end
+
+  def update
+    @robo_job = RoboJob.find(params[:id])
+    if @robo_job.update(robo_job_params)
+      redirect_to robo_job_path(@robo_job), notice: 'RoboJob was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
   private
 
   helper_method :robo_job

@@ -1,5 +1,9 @@
 <div class="mb-8">
   <%= render "shared/dropdown", label: "RoboJob Details", open_on_load: true do %>
+    <div class="float-right">
+      <%= link_to 'Edit', edit_robo_job_path(robo_job), class: 'btn-primary' %>
+    </div>
+
     <div class="mb-8">
       <div class="font-semibold mb-1">Repo Filepath:</div>
       <span><%= link_to robo_job.filepath, "file:#{robo_job.filepath}" %></span>
