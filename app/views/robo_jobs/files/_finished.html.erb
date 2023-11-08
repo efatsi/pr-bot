@@ -10,7 +10,8 @@
   <% end %>
 
   <div class="px-1">
-    <div class="font-semibold mt-4 mb-2">Files:</div>
+    <div class="inline-block font-medium mt-4 mb-2 border-b border-opacity-10">Files:</div>
+
     <ul class="list-disc text-left pl-5">
       <% robo_job.contextual_files.each do |filepath| %>
         <li><%= filepath %></li>

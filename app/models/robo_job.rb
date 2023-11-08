@@ -8,6 +8,10 @@ class RoboJob < ApplicationRecord
     robo_requests.new(request_type: type)
   end
 
+  def parsed_instructions
+    @parsed_instructions ||= JSON.parse(generated_instructions)
+  end
+
   def run_request(robo_request)
     robo_request.fire!
 

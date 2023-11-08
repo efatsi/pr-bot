@@ -1,4 +1,4 @@
-<% open_on_load ||= false %>
+<% open_on_load ||= true %>
 
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: open_on_load do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
@@ -10,9 +10,43 @@
   <% end %>
 
   <div class="px-1">
-    <div class="font-semibold mt-4 mb-2">Code Instructions:</div>
-    <pre>
-      <%= robo_job.generated_instructions %>
-    </pre>
+    <div class="inline-block font-medium mt-4 mb-2 border-b border-opacity-10">Code Instructions:</div>
+
+    <div class="mb-4">
+      <div class="font-medium mb-1">Implementation Overview</div>
+      <p class="text-blue-200"><%= robo_job.parsed_instructions["implementation_overview"] %></p>
+    </div>
+
+    <div class="mb-4">
+      <div class="font-medium mb-1">Proposed Changes</div>
+        <% robo_job.parsed_instructions["changes"].each do |changeset| %>
+          <%= render "shared/dropdown", label: changeset["summary"] do %>
+            <div class="mb-1.5">
+              <b>File:</b><br>
+              <%= changeset["file"] %>
+            </div>
+            <% if changeset["action"] == "update_file" %>
+              <div class="mb-1.5">
+                <b>OG Content:</b>
+                <pre><%= changeset["original_content"] %></pre>
+              </div>
+            <% end %>
+
+            <div class="mb-1.5">
+              <b>New Content:</b>
+              <pre><%= changeset["new_content"] %></pre>
+            </div>
+
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if robo_job.parsed_instructions["additional_notes"] %>
+      <div class="mb-4">
+        <div class="font-medium mb-1">Additional Notes</div>
+        <p class="text-blue-200"><%= robo_job.parsed_instructions["additional_notes"] %></p>
+      </div>
+    <% end %>
   </div>
 <% end %>
