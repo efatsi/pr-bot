@@ -6,7 +6,7 @@
   <% end %>
 
   <%= render "shared/dropdown", label: "Response" do %>
-    <%== markdown_to_html(robo_request.response) %>
+    <%= robo_request.response %>
   <% end %>
 
   <div class="px-1">
