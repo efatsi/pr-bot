@@ -65,7 +65,7 @@ class RoboRequest < ApplicationRecord
         "- implementation_overview: Describe the steps involved to implement the feature",
         "- additional_notes: Any other details to know, or steps to take after the implementation is complete",
         "- changes: An array of all the file changes required, following this structure:",
-        "  - change_summary: A brief description of the change",
+        "  - summary: A brief description of the change",
         "  - action: one of `add_file`, `update_file`",
         "  - file: path to the file",
         "  - original_content: the exact original content of the file",
@@ -76,28 +76,28 @@ class RoboRequest < ApplicationRecord
   "implementation_overview": "We need to add a new member route to the robo_jobs resources in the routes.rb file and create a new controller action along with a corresponding template file.",
   "changes": [
     {
-      "change_summary": "Add a new `:robo_requests` member route to the `robo_jobs` resources",
+      "summary": "Add a new `:robo_requests` member route to the `robo_jobs` resources",
       "action": "update_file",
       "file": "/pr-bot/config/routes.rb",
       "original_content": "resources :robo_jobs, only: [:new, :create, :show, :edit, :update] do",
       "new_content": "resources :robo_jobs, only: [:new, :create, :show, :edit, :update] do\n    get :robo_requests, on: :member"
     },
     {
-      "change_summary": "Add a new `robo_requests` action to the `RoboJobsController`.",
+      "summary": "Add a new `robo_requests` action to the `RoboJobsController`.",
       "action": "update_file",
       "file": "/pr-bot/app/controllers/robo_jobs_controller.rb",
       "orginal_content": "end\n\n  private",
       "new_content": "end\n\n  def robo_requests\n    @robo_job = RoboJob.find(params[:id])\n  end\n\n  private"
     },
     {
-      "change_summary": "Add a new template file for the `robo_requests` action.",
+      "summary": "Add a new template file for the `robo_requests` action.",
       "action": "add_file",
       "file": "/pr-bot/app/views/robo_jobs/robo_requests.html.erb",
       "original_content": "",
       "new_content": "<h1>Robo Requests for <%= @robo_job.name %></h1>\n<% @robo_job.robo_requests.each do |request| %>\n  <div class=\"robo-request\">\n    <%# Display details of the request here %>\n  </div>\n<% end %>"
     }
   ],
-  "additional_notes": "you will have to make sure input is imported into `new_file`"
+  "additional_notes": "Check that the template is being rendered correctly at the path `/robo_jobs/:id/robo_requests`."
 }',
       ]
     end
