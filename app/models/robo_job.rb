@@ -2,8 +2,7 @@ class RoboJob < ApplicationRecord
   has_many :robo_requests, -> { by_id }, dependent: :destroy
   has_many :robo_changes, -> { by_id }, dependent: :destroy
 
-  validates :filepath, presence: true
-  validates :feature_request, presence: true
+  validates :filepath, :project_context, :feature_request, presence: true
 
   def prepare_request(type)
     robo_requests.new(request_type: type)

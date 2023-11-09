@@ -54,12 +54,17 @@ class RoboRequest < ApplicationRecord
       ]
     when "instructions"
       [
-        "How would you implement the following feature request?",
+        "You are working on a project with these tools:",
+        "[PROJECT_CONTEXT]",
+        "",
+        "How would you implement this feature request?",
         "Feature request:",
         "[FEATURE_REQUEST]",
         "",
-        "Here are the contextual project files:",
+        "To implement this feature request, you have these contextual project files to work with:",
         "[FILES_CONTENT]",
+        "",
+        "Prefer solutions that use the project tools over generic solutions.",
         "",
         RETURN_AS_JSON,
         "- implementation_overview: Describe the steps involved to implement the feature",
