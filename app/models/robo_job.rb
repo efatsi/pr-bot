@@ -53,9 +53,12 @@ class RoboJob < ApplicationRecord
     end
 
     # Find all files and reject directories and files matching ignore patterns
-    Dir.glob("#{filepath}/**/*").reject do |e|
+    files = Dir.glob("#{filepath}/**/*").reject do |e|
       File.directory?(e) || ignore_patterns.any? { |pattern| File.fnmatch(pattern, e) }
     end
+
+    # Remove the filepath from the beginning of each file path
+    files.map { |f| f.gsub(filepath + "/", "") }
   end
 
   def contextual_files=(files)
@@ -67,7 +70,12 @@ class RoboJob < ApplicationRecord
   end
 
   def contextual_file_data
-    contextual_files.map { |f| { name: f, content: File.read(f) } }
+    contextual_files.map do |file|
+      {
+        name: file,
+        content: File.read(File.join(filepath, file))
+      }
+    end
   end
 
   private

@@ -33,6 +33,7 @@ class RoboJobStreamsController < ApplicationController
         )
       ]
     })
+
   ensure
     sse.close
   end
@@ -62,6 +63,7 @@ class RoboJobStreamsController < ApplicationController
         locals: { robo_job: robo_job, robo_request: robo_request, open_on_load: true }
       )
     })
+
   ensure
     sse.close
   end

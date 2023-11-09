@@ -28,7 +28,7 @@ class RoboChange < ApplicationRecord
   def fire!
     if action == "add_file"
       FileUtils.mkdir_p(File.dirname(file))
-      File.write(file, new_content)
+      File.write(full_filepath, new_content)
 
     elsif action == "update_file"
       text = File.read(file)
@@ -37,8 +37,8 @@ class RoboChange < ApplicationRecord
         raise "Original content not found in file"
       end
 
-      new_file_content = text.gsub(original_content, new_content)
-      File.open(file, "w") { |file| file.puts new_file_content }
+      new_file_content = text.gsub(original_content, new_content).gsub('[FILEPATH]', robo_job.project.filepath)
+      File.open(full_filepath, "w") { |file| file.puts new_file_content }
 
     else
       raise "Unknown action: #{action}"
@@ -50,6 +50,10 @@ class RoboChange < ApplicationRecord
   rescue => e
     # if something failed, set status and error
     update(status: "failed", error: e.message)
+  end
+
+  def full_filepath
+    File.join(robo_job.project.filepath, file)
   end
 end
 
