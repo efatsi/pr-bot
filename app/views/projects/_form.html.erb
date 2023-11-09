@@ -1,0 +1,12 @@
+<div class="font-semibold mb-4"><%= label %></div>
+
+<%= simple_form_for project do |f| %>
+  <div class="form-inputs">
+    <%= f.input :filepath, input_html: { class: "!w-96" } %>
+    <%= f.input :project_context %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, button_text %>
+  </div>
+<% end %>

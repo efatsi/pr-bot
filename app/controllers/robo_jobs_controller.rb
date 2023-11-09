@@ -46,6 +46,6 @@ class RoboJobsController < ApplicationController
   end
 
   def robo_job_params
-    params.require(:robo_job).permit(:filepath, :feature_request, :project_context)
+    params.require(:robo_job).permit(:feature_request, :project_id)
   end
 end

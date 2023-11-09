@@ -1,0 +1,18 @@
+<% Project.all.each do |project| %>
+  <div class="border p-3 mb-2 rounded-md">
+    <div class="mb-2">
+      <div class="float-right">
+        <%= link_to "Edit", edit_project_path(project), class: "btn-opaque" %>
+      </div>
+      <div class="inline-block font-medium mb-1 border-b border-opacity-10">Filepath:</div>
+      <br>
+      <%= project.filepath %>
+    </div>
+
+    <div class="mb-2">
+      <div class="inline-block font-medium mb-1 border-b border-opacity-10">Project Tools:</div>
+      <br>
+      <%= project.project_context %>
+    </div>
+  </div>
+<% end %>

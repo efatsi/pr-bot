@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root "robo_jobs#new"
 
+  resources :projects, only: [:index, :new, :create, :edit, :update]
+
   resources :robo_jobs, only: [:new, :create, :show, :edit, :update] do
     [
       :get_contextual_files,

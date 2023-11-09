@@ -2,7 +2,10 @@ class RoboJob < ApplicationRecord
   has_many :robo_requests, -> { by_id }, dependent: :destroy
   has_many :robo_changes, -> { by_id }, dependent: :destroy
 
-  validates :filepath, :project_context, :feature_request, presence: true
+  belongs_to :project
+  validates :feature_request, presence: true
+
+  delegate :filepath, :project_context, to: :project
 
   def prepare_request(type)
     robo_requests.new(request_type: type)
@@ -86,9 +89,16 @@ end
 #  id                     :bigint           not null, primary key
 #  contextual_files       :string           default([]), is an Array
 #  feature_request        :text             not null
-#  filepath               :string           not null
 #  generated_instructions :text
-#  project_context        :text
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  project_id             :bigint
+#
+# Indexes
+#
+#  index_robo_jobs_on_project_id  (project_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (project_id => projects.id)
 #
