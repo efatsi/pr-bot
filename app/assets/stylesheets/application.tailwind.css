@@ -12,7 +12,11 @@ body {
 }
 
 .btn-opaque {
-  @apply border rounded-md hover:bg-gray-50 hover:bg-opacity-10 p-0.5 px-2;
+  @apply border rounded-md hover:bg-gray-50 hover:bg-opacity-10 p-1.5 px-3;
+}
+
+.btn-slim {
+  @apply p-0.5 px-2
 }
 
 /* links with no class */
