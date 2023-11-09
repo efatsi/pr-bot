@@ -16,7 +16,7 @@
 
     <div class="mb-1">
       <div class="font-semibold mb-1">Feature Request:</div>
-      <span><%= robo_job.feature_request %></span>
+      <span><%== markdown_to_html(robo_job.feature_request) %></span>
     </div>
   <% end %>
 </div>
