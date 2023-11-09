@@ -54,7 +54,6 @@ class RoboRequest < ApplicationRecord
       ]
     when "instructions"
       [
-        "You are working on a project with these tools:",
         "[PROJECT_CONTEXT]",
         "",
         "How would you implement this feature request?",
@@ -127,7 +126,7 @@ class RoboRequest < ApplicationRecord
 
       # check "[PROJECT_CONTEXT]"
       if "[PROJECT_CONTEXT]".in?(p) && robo_job.project_context.present?
-        p.gsub!("[PROJECT_CONTEXT]", "Things to know about this project:\n" + robo_job.project_context)
+        p.gsub!("[PROJECT_CONTEXT]", "You are working on a project with these tools:\n" + robo_job.project_context)
       end
     end
   end
