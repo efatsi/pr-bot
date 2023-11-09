@@ -3,4 +3,16 @@ module ApplicationHelper
     options = [:hard_wrap, :autolink, :no_intra_emphasis, :fenced_code_blocks]
     Markdown.new(source_text.gsub("\n\n", "\n&nbsp;\n"), *options).to_html.html_safe
   end
+
+  def dropdown_label_bg_for(robo_change)
+    if robo_change.skipped?
+      nil
+    elsif robo_change.failed?
+      "bg-[#5f2424]"
+    elsif robo_change.action == "add_file"
+      "bg-[#263a23]"
+    else
+      "bg-[#523823]"
+    end
+  end
 end
