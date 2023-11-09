@@ -2,7 +2,10 @@
 
 <%= simple_form_for robo_job do |f| %>
   <div class="form-inputs">
-    <%= f.association :project, collection: Project.all, prompt: "Choose a project", input_html: { class: "!w-96" } %>
+    <div class="flex items-center gap-4">
+      <%= f.association :project, collection: Project.all, prompt: nil, input_html: { class: "!w-96" } %>
+      <%= link_to "+ Project", new_project_path, class: "btn-opaque" %>
+    </div>
     <%= f.input :feature_request, input_html: { rows: 15 }, hint: "optional: use markdown & ``` code blocks for nicer rendering" %>
   </div>
 
