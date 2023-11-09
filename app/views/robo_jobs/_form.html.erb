@@ -3,10 +3,10 @@
 <%= simple_form_for robo_job do |f| %>
   <div class="form-inputs">
     <div class="w-96">
-      <%= f.input :filepath, label: "Repository Filepath" %>
-      <%= f.input :project_context, label: "Project Context" %>
+      <%= f.input :filepath, label: "Repository Filepath", placeholder: "/absolute/path/to/project-dir" %>
+      <%= f.input :project_context, label: "Project Tools" %>
     </div>
-    <%= f.input :feature_request, input_html: { rows: 15 } %>
+    <%= f.input :feature_request, input_html: { rows: 15 }, hint: "optional: use markdown & ``` code blocks for nicer rendering" %>
   </div>
 
   <div class="form-actions">
