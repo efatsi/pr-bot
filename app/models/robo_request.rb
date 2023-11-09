@@ -9,7 +9,6 @@ class RoboRequest < ApplicationRecord
   belongs_to :robo_job
 
   validates :prompt, presence: true
-  validates :raw_response, presence: true
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
 
   def self.of_type(type)
@@ -21,14 +20,14 @@ class RoboRequest < ApplicationRecord
     self.prompt = generate_prompt
   end
 
-  def fire!
-    self.response = robot_api.ask_gpt4(prompt)
+  def fire!(sse_proc=nil)
+    self.response = robot_api.ask_gpt4(prompt, sse_proc)
 
   rescue RobotError
     # do nothing if fails
 
   ensure
-    self.raw_response = robot_api.response
+    self.raw_response = {}
     save!
   end
 

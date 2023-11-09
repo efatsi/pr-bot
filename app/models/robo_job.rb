@@ -17,8 +17,8 @@ class RoboJob < ApplicationRecord
     @parsed_instructions ||= JSON.parse(generated_instructions)
   end
 
-  def run_request(robo_request)
-    robo_request.fire!
+  def run_request(robo_request, sse_proc=nil)
+    robo_request.fire!(sse_proc)
 
     if robo_request.response
       case robo_request.request_type

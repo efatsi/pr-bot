@@ -7,9 +7,7 @@ GPT_4 = "gpt-4"
 GPT_4_TURBO = "gpt-4-1106-preview"
 
 class RobotApi
-  attr_reader :response
-
-  def ask_gpt4(prompt)
+  def ask_gpt4(prompt, sse_proc=nil)
     json_mode = prompt.include?(RoboRequest::RETURN_AS_JSON)
 
     # first check prompt length is less than PROMPT_MAX_LENGTH
@@ -25,26 +23,34 @@ class RobotApi
     puts "Requesting: #{prompt[0..300]}..."
     puts
 
-    @response = client.chat(
+    @response = ""
+
+    client.chat(
       parameters: {
         model: GPT_4_TURBO,
         messages: [{ role: "user", content: prompt }],
         response_format: { type: json_mode ? "json_object" : "text" },
         temperature: 0.2,
+        stream: stream_proc(sse_proc),
       }
     )
 
-    if response["error"]
-      raise RobotError("OpenAI API Error: #{response.dig("error", "message")}")
-    end
-
-    puts response
-    puts
-
-    response.dig("choices", 0, "message", "content")
+    @response
   end
 
   private
+
+  def stream_proc(sse_proc=nil)
+    proc do |chunk, _bytesize|
+      if new_content = chunk.dig("choices", 0, "delta", "content")
+        @response += new_content
+
+        if sse_proc
+          sse_proc.call(new_content)
+        end
+      end
+    end
+  end
 
   def client
     @client ||= OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])

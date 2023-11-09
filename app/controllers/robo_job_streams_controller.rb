@@ -17,7 +17,17 @@ class RoboJobStreamsController < ApplicationController
       )
     })
 
-    robo_job.run_request(robo_request)
+    # proc to write to see
+    sse_proc = proc do |new_chars|
+      sse.write({
+        turbo_stream: turbo_stream.append(
+          "ai-response",
+          plain: new_chars
+        )
+      })
+    end
+
+    robo_job.run_request(robo_request, sse_proc)
 
     sse.write({
       turbo_stream: [
