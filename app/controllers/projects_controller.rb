@@ -35,6 +35,6 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:filepath, :project_context)
+    params.require(:project).permit(:filepath, :project_context, :ignored_files)
   end
 end

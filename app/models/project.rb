@@ -3,13 +3,15 @@ class Project < ApplicationRecord
 
   validates :filepath, :project_context, presence: true
 
+  array_field :ignored_files, alphabetize: true
+
   def to_s
     filepath
   end
 
-  def fetch_directory_tree
+  def fetch_directory_tree(include_ignored_files: false)
     gitignore_path = File.join(filepath, '.gitignore')
-    ignore_patterns = ["./public/*", "./playground/*", "./db/migrate/*"]
+    ignore_patterns = include_ignored_files ? [] : ignored_files.dup
 
     # Read the .gitignore file and build ignore patterns, if it exists
     if File.exist?(gitignore_path)
@@ -30,7 +32,10 @@ class Project < ApplicationRecord
 
     # Find all files and reject directories and files matching ignore patterns
     files = Dir.glob("#{filepath}/**/*").reject do |e|
-      File.directory?(e) || ignore_patterns.any? { |pattern| File.fnmatch(pattern, e) }
+      File.directory?(e) || ignore_patterns.any? do |pattern|
+        full_pattern = File.join(filepath, pattern)
+        File.fnmatch(full_pattern, e)
+      end
     end
 
     # Remove the filepath from the beginning of each file path
@@ -44,6 +49,7 @@ end
 #
 #  id              :bigint           not null, primary key
 #  filepath        :string           not null
+#  ignored_files   :string           default([]), is an Array
 #  project_context :text             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

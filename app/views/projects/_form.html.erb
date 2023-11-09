@@ -4,6 +4,22 @@
   <div class="form-inputs">
     <%= f.input :filepath, input_html: { class: "!w-96" } %>
     <%= f.input :project_context %>
+
+    <%= render "shared/dropdown", label: "Full Directory Tree" do %>
+      <pre class="ml-2"><% project.fetch_directory_tree(include_ignored_files: true).map do |fp| %><%= fp %><br><% end %></pre>
+    <% end %>
+
+    <% if project.ignored_files.any? %>
+      <%= render "shared/dropdown", label: "Directory Tree w/o ignored_files" do %>
+        <pre class="ml-2"><% project.fetch_directory_tree.map do |fp| %><%= fp %><br><% end %></pre>
+      <% end %>
+    <% end %>
+
+    <%= f.input :ignored_files, as: :text, input_html: {
+        rows: [[project.ignored_files.length, 1].max + 1, 15].min,
+        value: project.ignored_files.join("\n")
+      }, hint: "files you do not want to send to AI, or even tell it they exist<br>one per line, globbing supported/**/*".html_safe
+    %>
   </div>
 
   <div class="form-actions">

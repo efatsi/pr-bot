@@ -111,7 +111,7 @@ class RoboRequest < ApplicationRecord
     prompt_structure.join("\n").tap do |p|
       # check "[DIRECTORY_TREE]",
       if "[DIRECTORY_TREE]".in?(p)
-        p.gsub!("[DIRECTORY_TREE]", robo_job.fetch_directory_tree.join("\n"))
+        p.gsub!("[DIRECTORY_TREE]", robo_job.project.fetch_directory_tree.join("\n"))
       end
 
       # check "[FILES_CONTENT]",

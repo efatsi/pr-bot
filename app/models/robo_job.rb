@@ -7,6 +7,8 @@ class RoboJob < ApplicationRecord
 
   delegate :filepath, :project_context, to: :project
 
+  array_field :contextual_files
+
   def prepare_request(type)
     robo_requests.new(request_type: type)
   end
@@ -28,14 +30,6 @@ class RoboJob < ApplicationRecord
       end
     else
       raise "Error: #{robo_request.raw_response}"
-    end
-  end
-
-  def contextual_files=(files)
-    if files.is_a?(String)
-      super(files.split("\n"))
-    else
-      super(files)
     end
   end
 
