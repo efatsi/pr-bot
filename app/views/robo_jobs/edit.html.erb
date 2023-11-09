@@ -1,17 +1,1 @@
-<div>
-  <div class="font-semibold mb-4">Edit Robo Job</div>
-
-  <%= simple_form_for robo_job do |f| %>
-    <div class="form-inputs">
-      <div class="w-96">
-        <%= f.input :filepath, label: "Repository Filepath" %>
-        <%= f.input :project_context, label: "Project Context" %>
-      </div>
-      <%= f.input :feature_request, input_html: { rows: 15 } %>
-    </div>
-
-    <div class="form-actions">
-      <%= f.button :submit, "Update" %>
-    </div>
-  <% end %>
-</div>
+<%= render "form", label: "Edit Robo Job", button_text: "Update" %>
