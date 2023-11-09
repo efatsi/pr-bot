@@ -56,6 +56,14 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def contextual_files=(files)
+    if files.is_a?(String)
+      super(files.split("\n"))
+    else
+      super(files)
+    end
+  end
+
   def contextual_file_data
     contextual_files.map { |f| { name: f, content: File.read(f) } }
   end

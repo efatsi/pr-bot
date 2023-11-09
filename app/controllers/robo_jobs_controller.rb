@@ -17,16 +17,25 @@ class RoboJobsController < ApplicationController
   end
 
   def edit
-    @robo_job = RoboJob.find(params[:id])
   end
 
   def update
-    @robo_job = RoboJob.find(params[:id])
-    if @robo_job.update(robo_job_params)
-      redirect_to robo_job_path(@robo_job), notice: 'RoboJob was successfully updated.'
+    if robo_job.update(robo_job_params)
+      redirect_to robo_job_path(robo_job), notice: 'RoboJob was successfully updated.'
     else
       render :edit
     end
+  end
+
+  def update_files
+    file_params = params.require(:robo_job).permit(:contextual_files)
+    robo_job.update(file_params)
+
+    render turbo_stream: turbo_stream.update(
+      "files-and-form",
+      partial: "robo_jobs/files/files_and_form",
+      locals: { robo_job: robo_job }
+    )
   end
 
   private

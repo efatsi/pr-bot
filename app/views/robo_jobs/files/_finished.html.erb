@@ -10,12 +10,8 @@
   <% end %>
 
   <div class="px-1">
-    <div class="inline-block font-medium mt-4 mb-2 border-b border-opacity-10">Files:</div>
-
-    <ul class="list-disc text-left pl-5">
-      <% robo_job.contextual_files.each do |filepath| %>
-        <li><%= filepath %></li>
-      <% end %>
-    </ul>
+    <div id="files-and-form">
+      <%= render "robo_jobs/files/files_and_form", robo_job: robo_job %>
+    </div>
   </div>
 <% end %>
