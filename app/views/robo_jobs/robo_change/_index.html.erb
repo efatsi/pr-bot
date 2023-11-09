@@ -3,20 +3,21 @@
 
 <div id="robo-change-<%= robo_change.id %>">
   <%= render "shared/dropdown", label: robo_change.summary, label_class: label_class, label_button: label_button do %>
-    <div class="mb-1.5">
-      <b>File:</b><br>
+    <div class="mb-4">
+      <div class="font-medium">File:</div>
       <%= robo_change.file %>
     </div>
+    <div class="flex mb-2">
     <% if robo_change.action == "update_file" %>
-      <div class="mb-1.5">
-        <b>OG Content:</b>
+      <div class="diff-og">
+        <div class="font-medium mb-2">OG Content:</div>
         <pre><%= robo_change.original_content %></pre>
       </div>
     <% end %>
-
-    <div class="mb-1.5">
-      <b>New Content:</b>
+    <div class="diff-new">
+      <div class="font-medium mb-2">New Content:</div>
       <pre><%= robo_change.new_content %></pre>
     </div>
+  </div>
   <% end %>
 </div>
