@@ -8,11 +8,11 @@ body {
 }
 
 .btn-primary {
-  @apply py-2 px-4 bg-blue-800 hover:bg-blue-700 rounded-md;
+  @apply py-1.5 px-3 bg-blue-800 hover:bg-blue-700 rounded-md border border-white border-opacity-60;
 }
 
 .btn-opaque {
-  @apply border rounded-md hover:bg-gray-50 hover:bg-opacity-10 p-1.5 px-3;
+  @apply p-1.5 px-3 hover:bg-gray-50 hover:bg-opacity-10 rounded-md border border-white border-opacity-60;
 }
 
 .btn-slim {
