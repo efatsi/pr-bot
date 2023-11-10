@@ -50,7 +50,7 @@ class RoboRequest < ApplicationRecord
         "[FEATURE_REQUEST]",
         "",
         "[PROJECT_CONTEXT]",
-        "Be very concise in your response, return exact file names for files that are definitely relevant.",
+        "Be very concise in your response, return exact file names for files that would provide helpful context.",
       ]
     when "instructions"
       [
