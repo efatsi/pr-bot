@@ -6,6 +6,8 @@ PROMPT_MAX_LENGTH = 10_000
 GPT_4 = "gpt-4"
 GPT_4_TURBO = "gpt-4-1106-preview"
 
+SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
+
 class RobotApi
   def ask_gpt4(prompt, sse_proc=nil)
     json_mode = prompt.include?(RoboRequest::RETURN_AS_JSON)
@@ -28,7 +30,10 @@ class RobotApi
     client.chat(
       parameters: {
         model: GPT_4_TURBO,
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "system", content: SYSTEM_SETUP },
+          { role: "user", content: prompt }
+        ],
         response_format: { type: json_mode ? "json_object" : "text" },
         temperature: 0.2,
         stream: stream_proc(sse_proc),
