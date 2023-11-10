@@ -5,8 +5,6 @@ class RoboJob < ApplicationRecord
   belongs_to :project
   validates :feature_request, presence: true
 
-  delegate :filepath, :project_context, to: :project
-
   array_field :contextual_files
 
   def prepare_request(type)

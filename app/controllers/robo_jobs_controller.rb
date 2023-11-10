@@ -45,6 +45,11 @@ class RoboJobsController < ApplicationController
     @robo_job ||= RoboJob.find(params[:id])
   end
 
+  helper_method :project
+  def project
+    @project ||= robo_job.project
+  end
+
   def robo_job_params
     params.require(:robo_job).permit(:feature_request, :project_id)
   end

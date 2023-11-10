@@ -7,6 +7,7 @@ class RoboRequest < ApplicationRecord
   ]
 
   belongs_to :robo_job
+  has_one :project, through: :robo_job
 
   validates :prompt, presence: true
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
@@ -49,7 +50,7 @@ class RoboRequest < ApplicationRecord
         "[FEATURE_REQUEST]",
         "",
         "[PROJECT_CONTEXT]",
-        "Be very concise in your response, only looking for files that are definitely relevant.",
+        "Be very concise in your response, return exact file names for files that are definitely relevant.",
       ]
     when "instructions"
       [
@@ -110,7 +111,7 @@ class RoboRequest < ApplicationRecord
     prompt_structure.join("\n").tap do |p|
       # check "[DIRECTORY_TREE]",
       if "[DIRECTORY_TREE]".in?(p)
-        p.gsub!("[DIRECTORY_TREE]", robo_job.project.fetch_directory_tree.join("\n"))
+        p.gsub!("[DIRECTORY_TREE]", project.fetch_directory_tree.join("\n"))
       end
 
       # check "[FILES_CONTENT]",
@@ -124,8 +125,8 @@ class RoboRequest < ApplicationRecord
       end
 
       # check "[PROJECT_CONTEXT]"
-      if "[PROJECT_CONTEXT]".in?(p) && robo_job.project_context.present?
-        p.gsub!("[PROJECT_CONTEXT]", "You are working on a project with these tools:\n" + robo_job.project_context)
+      if "[PROJECT_CONTEXT]".in?(p) && project.project_context.present?
+        p.gsub!("[PROJECT_CONTEXT]", "You are working on a project with these tools:\n" + project.project_context)
       end
     end
   end
