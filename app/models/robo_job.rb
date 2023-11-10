@@ -23,7 +23,15 @@ class RoboJob < ApplicationRecord
     if robo_request.response
       case robo_request.request_type
       when "contextual_files"
-        self.update(contextual_files: robo_request.response.scan(/[\w\-.\/]+/).select { |f| File.file?(f) })
+        contextual_files = robo_request.response.scan(/[\w\-.\/]+/).select do |f|
+          full_filepath = full_path(f)
+
+          # Is file, is directory, is not just a dot and/or slash
+          File.file?(full_filepath) || File.directory?(full_filepath) &&
+            f.gsub(/[\.\/]/, "").length > 0
+        end
+
+        self.update(contextual_files: unpack_paths(contextual_files))
       when "instructions"
         self.update(generated_instructions: robo_request.response)
         self.process_instructions_to_changes
@@ -37,7 +45,7 @@ class RoboJob < ApplicationRecord
     contextual_files.map do |file|
       {
         name: file,
-        content: File.read(File.join(filepath, file))
+        content: File.read(full_path(file))
       }
     end
   end
@@ -51,6 +59,26 @@ class RoboJob < ApplicationRecord
         raw_json: changeset
       )
     end
+  end
+
+  def unpack_paths(paths)
+    paths.map do |f|
+      full_filepath = full_path(f)
+
+      if File.file?(full_filepath)
+        f
+      elsif File.directory?(full_filepath)
+        glob_path = File.join(full_filepath, "*")
+        subpaths = Dir.glob(glob_path).map do |subpath|
+          subpath.gsub(project.filepath, "")
+        end
+        unpack_paths(subpaths)
+      end
+    end.flatten
+  end
+
+  def full_path(f)
+    File.join(project.filepath, f)
   end
 end
 
