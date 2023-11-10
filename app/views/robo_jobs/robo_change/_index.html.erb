@@ -3,6 +3,13 @@
 
 <div id="robo-change-<%= robo_change.id %>">
   <%= render "shared/dropdown", label: robo_change.summary, label_class: label_class, label_button: label_button do %>
+    <% if robo_change.error %>
+      <div class="mb-4">
+        <div class="font-medium">Error:</div>
+        <pre class="text-red-700"><%= robo_change.error %></pre>
+      </div>
+    <% end %>
+
     <div class="mb-4">
       <div class="font-medium">File:</div>
       <%= robo_change.file %>

@@ -51,6 +51,8 @@ class RoboJob < ApplicationRecord
   private
 
   def process_instructions_to_changes
+    robo_changes.destroy_all
+
     parsed_instructions["changes"].each do |changeset|
       robo_changes.create(
         **changeset,
