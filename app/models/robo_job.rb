@@ -54,6 +54,10 @@ class RoboJob < ApplicationRecord
     robo_changes.destroy_all
 
     parsed_instructions["changes"].each do |changeset|
+      if "[timestamp]".in? changeset["file"].downcase
+        changeset["file"] = changeset["file"].gsub(/\[timestamp\]/i, Time.now.strftime("%Y%m%d%H%M%S"))
+      end
+
       robo_changes.create(
         **changeset,
         raw_json: changeset
