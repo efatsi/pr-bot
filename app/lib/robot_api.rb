@@ -1,14 +1,14 @@
 class RobotError < StandardError; end
 
-# GPT_4_TURBO accepts up to 128k, keeping it at 10k for now (~70k = $1)
-PROMPT_MAX_LENGTH = 10_000
-
-GPT_4 = "gpt-4"
-GPT_4_TURBO = "gpt-4-1106-preview"
-
-SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
-
 class RobotApi
+  GPT_4 = "gpt-4"
+  GPT_4_TURBO = "gpt-4-1106-preview"
+
+  # GPT_4_TURBO accepts up to 128k, keeping it at 10k for now (~70k = $1)
+  PROMPT_MAX_LENGTH = 10_000
+
+  SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
+
   def ask_gpt4(prompt, sse_proc=nil)
     json_mode = prompt.include?(RoboRequest::RETURN_AS_JSON)
 
