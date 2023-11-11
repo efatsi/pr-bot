@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   root "projects#index"
 
-  resources :projects, only: [:index, :new, :create, :edit, :update]
+  resources :projects, except: :destroy
 
-  resources :robo_jobs, only: [:new, :create, :show, :edit, :update] do
+  resources :robo_jobs, except: :destroy do
     [
       :get_contextual_files,
       :get_instructions,

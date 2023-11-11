@@ -2,6 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
   scope :by_id, -> { order(id: :asc) }
+  scope :newest_first, -> { order(created_at: :desc) }
 
   def self.array_field(name, alphabetize: false)
     define_method("#{name}=") do |files|
