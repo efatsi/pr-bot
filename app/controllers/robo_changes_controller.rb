@@ -14,7 +14,7 @@ class RoboChangesController < ApplicationController
       sse.write({
         turbo_stream: turbo_stream.update(
           "robo-change-#{ robo_change.id }",
-          partial: "robo_jobs/robo_change/index",
+          partial: "robo_jobs/robo_change/show",
           locals: { robo_change: robo_change }
         )
       })
@@ -39,7 +39,7 @@ class RoboChangesController < ApplicationController
 
     render turbo_stream: turbo_stream.update(
       "robo-change-#{ robo_change.id }",
-      partial: "robo_jobs/robo_change/index",
+      partial: "robo_jobs/robo_change/show",
       locals: { robo_change: robo_change }
     )
   end
@@ -49,7 +49,7 @@ class RoboChangesController < ApplicationController
 
     render turbo_stream: turbo_stream.update(
       "robo-change-#{ robo_change.id }",
-      partial: "robo_jobs/robo_change/index",
+      partial: "robo_jobs/robo_change/show",
       locals: { robo_change: robo_change }
     )
   end

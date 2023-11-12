@@ -87,7 +87,6 @@ class RoboJobStreamsController < ApplicationController
         locals: {
           robo_job: robo_job.reload,
           robo_request: robo_request.reload,
-          open_on_load: true
         }
       )
     })

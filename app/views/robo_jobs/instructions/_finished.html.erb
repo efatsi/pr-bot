@@ -1,6 +1,4 @@
-<% open_on_load ||= true %>
-
-<%= render "shared/dropdown", label: "Build Instructions", open_on_load: open_on_load do %>
+<%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
     <%== robo_request.prompt.gsub("\n", "<br>") %>
   <% end %>
@@ -10,14 +8,14 @@
   <% end %>
 
   <div class="px-1">
-    <div class="mb-6">
+    <div class="mb-6 mt-4">
       <div class="inline-block font-medium border-b border-opacity-10 mb-2">Implementation Overview</div>
       <p><%= robo_job.parsed_instructions["implementation_overview"] %></p>
     </div>
 
     <div class="mb-6">
       <div class="flex justify-between mb-2">
-        <div class="inline-block font-medium border-b border-opacity-10 mb-2">Proposed Changes</div>
+        <div class="inline-block font-medium border-b border-opacity-10 mb-1.5">Proposed Changes</div>
 
         <% if robo_job.robo_changes.pending.any? %>
           <% stream_path = execute_all_robo_job_robo_changes_path(robo_job) %>
@@ -28,7 +26,7 @@
       </div>
 
         <% robo_job.robo_changes.each do |robo_change| %>
-          <%= render "robo_jobs/robo_change/index", robo_change: robo_change %>
+          <%= render "robo_jobs/robo_change/show", robo_change: robo_change %>
         <% end %>
       </div>
     </div>

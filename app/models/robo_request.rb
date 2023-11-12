@@ -13,7 +13,7 @@ class RoboRequest < ApplicationRecord
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
 
   def self.of_type(type)
-    where(request_type: type).by_id.last
+    where(request_type: type).by_id
   end
 
   def initialize(*args)

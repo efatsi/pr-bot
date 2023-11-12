@@ -1,10 +1,10 @@
 <%# Don't render this if haven't gotten to that step yet  %>
-<% contextual_files_request = robo_job.robo_requests.of_type("contextual_files") %>
+<% contextual_files_request = robo_job.robo_requests.of_type("contextual_files").last %>
 
 <% if contextual_files_request %>
   <div class="mb-8">
     <% if robo_job.generated_instructions %>
-      <%= render "robo_jobs/instructions/finished", robo_request: robo_job.robo_requests.of_type("instructions") %>
+      <%= render "robo_jobs/instructions/finished", robo_request: robo_job.robo_requests.of_type("instructions").last %>
 
     <% else %>
       <% stream_path = get_instructions_robo_job_path(robo_job) %>
