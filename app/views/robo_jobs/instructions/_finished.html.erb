@@ -10,16 +10,14 @@
   <% end %>
 
   <div class="px-1">
-    <div class="inline-block font-medium mt-4 mb-2 border-b border-opacity-10">Code Instructions:</div>
-
-    <div class="mb-4">
-      <div class="font-medium mb-1">Implementation Overview</div>
+    <div class="mb-6">
+      <div class="inline-block font-medium border-b border-opacity-10 mb-2">Implementation Overview</div>
       <p><%= robo_job.parsed_instructions["implementation_overview"] %></p>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-6">
       <div class="flex justify-between mb-2">
-        <div class="font-medium mb-2">Proposed Changes</div>
+        <div class="inline-block font-medium border-b border-opacity-10 mb-2">Proposed Changes</div>
 
         <% if robo_job.robo_changes.pending.any? %>
           <% stream_path = execute_all_robo_job_robo_changes_path(robo_job) %>
@@ -36,8 +34,8 @@
     </div>
 
     <% if robo_job.parsed_instructions["additional_notes"] %>
-      <div class="mb-4">
-        <div class="font-medium mb-1">Additional Notes</div>
+      <div class="mb-2">
+        <div class="inline-block font-medium border-b border-opacity-10 mb-2">Additional Notes</div>
         <p><%= robo_job.parsed_instructions["additional_notes"] %></p>
       </div>
     <% end %>
