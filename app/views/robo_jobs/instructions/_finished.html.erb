@@ -1,10 +1,19 @@
-<%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
-  <%= render "shared/dropdown", label: "Prompt" do %>
-    <%== robo_request.prompt.gsub("\n", "<br>") %>
-  <% end %>
+<% instruction_requests = robo_job.robo_requests.of_type("instructions") %>
+<% many_requests = instruction_requests.count > 1 %>
 
-  <%= render "shared/dropdown", label: "Response" do %>
-    <%= robo_request.response %>
+<%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
+  <% if many_requests %>
+    <%= render "robo_jobs/instructions/conversation", instruction_requests: instruction_requests %>
+  <% else %>
+    <% robo_request = instruction_requests.first %>
+
+    <%= render "shared/dropdown", label: "Prompt" do %>
+      <%== robo_request.prompt.gsub("\n", "<br>") %>
+    <% end %>
+
+    <%= render "shared/dropdown", label: "Response" do %>
+      <pre><%= robo_request.response %></pre>
+    <% end %>
   <% end %>
 
   <div class="px-1">

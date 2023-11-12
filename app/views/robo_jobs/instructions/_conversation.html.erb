@@ -1,0 +1,13 @@
+<%= render "shared/dropdown", label: "Conversation" do %>
+  <% instruction_requests.each_with_index do |robo_request, i| %>
+    <div class="mb-4">
+      <%= render "shared/dropdown", label: "Prompt ##{ i+1 }" do %>
+        <%== robo_request.prompt.gsub("\n", "<br>") %>
+      <% end %>
+
+      <%= render "shared/dropdown", label: "Response" do %>
+        <pre><%= robo_request.response %></pre>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

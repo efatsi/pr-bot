@@ -84,10 +84,7 @@ class RoboJobStreamsController < ApplicationController
       turbo_stream: turbo_stream.update(
         "get-instructions",
         partial: "robo_jobs/instructions/finished",
-        locals: {
-          robo_job: robo_job.reload,
-          robo_request: robo_request.reload,
-        }
+        locals: { robo_job: robo_job.reload }
       )
     })
 
