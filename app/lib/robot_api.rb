@@ -10,7 +10,7 @@ class RobotApi
   SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
 
   def ask_gpt4(prompt, sse_proc=nil)
-    json_mode = prompt.include?(RoboRequest::RETURN_AS_JSON)
+    json_mode = prompt.include?(PromptGenerator::RETURN_AS_JSON)
 
     # first check prompt length is less than PROMPT_MAX_LENGTH
     token_count = OpenAI.rough_token_count(prompt)

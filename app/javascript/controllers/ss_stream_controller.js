@@ -13,6 +13,10 @@ export default class SsStreamController extends Controller {
   }
 
   startConnection(e) {
+    if (e) {
+      e.preventDefault()
+    }
+
     console.log("Opening server-side event connection:", this.urlValue)
     const eventSource = new EventSource(this.urlValue)
 
