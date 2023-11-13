@@ -15,10 +15,10 @@
     <%= project.project_context %>
   </div>
 
-  <% if project.robo_jobs.any? %>
-    <%= render "shared/dropdown", label: "RoboJobs (#{project.robo_jobs.count})" do %>
+  <% if project.parent_jobs.any? %>
+    <%= render "shared/dropdown", label: "RoboJobs (#{project.parent_jobs.count})" do %>
       <ul>
-        <% project.robo_jobs.newest_first.each do |robo_job| %>
+        <% project.parent_jobs.newest_first.each do |robo_job| %>
           <li class="mb-2">
             <%= link_to robo_job_path(robo_job), class: "blue-link" do %>
               <%= "-> ##{robo_job.id}:" %>

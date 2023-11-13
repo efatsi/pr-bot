@@ -9,6 +9,10 @@ class Project < ApplicationRecord
     filepath
   end
 
+  def parent_jobs
+    robo_jobs.parent_jobs
+  end
+
   def fetch_directory_tree(include_ignored_files: false)
     gitignore_path = File.join(filepath, '.gitignore')
     ignore_patterns = []

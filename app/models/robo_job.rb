@@ -12,6 +12,8 @@ class RoboJob < ApplicationRecord
 
   array_field :contextual_files
 
+  scope :parent_jobs, -> { where(parent_job_id: nil) }
+
   def prepare_request(type)
     robo_requests.new(request_type: type)
   end
