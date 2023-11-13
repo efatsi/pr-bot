@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     [
       :get_contextual_files,
       :get_instructions,
+      :get_followup_instructions,
     ].each do |action|
       get action, on: :member, to: "robo_job_streams##{action}"
     end

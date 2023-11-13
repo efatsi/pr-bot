@@ -4,7 +4,7 @@ class FollowupJobsController < ApplicationController
 
     render turbo_stream: turbo_stream.append(
       "conversation",
-      partial: "robo_jobs/instructions/followup_form",
+      partial: "robo_jobs/followup/form",
       locals: { robo_job: robo_job, followup_job: followup_job }
     )
   end
@@ -12,12 +12,19 @@ class FollowupJobsController < ApplicationController
   def create
     followup_job = robo_job.followup_jobs.new(followup_job_params)
 
-    # TODO: do this up
-    # if followup_job.save
-    #   redirect_to robo_job_path(robo_job)
-    # else
-    #   render :new
-    # end
+    if followup_job.save!
+      render turbo_stream: turbo_stream.update(
+        "followup-job",
+        partial: "robo_jobs/followup/fire",
+        locals: { followup_job: followup_job }
+      )
+    else
+      render turbo_stream: turbo_stream.replace(
+        "followup-job",
+        partial: "robo_jobs/followup/form",
+        locals: { robo_job: robo_job, followup_job: followup_job }
+      )
+    end
   end
 
   private
@@ -33,6 +40,8 @@ class FollowupJobsController < ApplicationController
   end
 
   def followup_job_params
-    params.require(:followup_job).permit(:feature_request, :contextual_files)
+    params.require(:followup_job).permit(:feature_request, :contextual_files).merge(
+      project: project
+    )
   end
 end

@@ -4,11 +4,15 @@ import { Controller } from "@hotwired/stimulus"
 // render Turbo stream messages from server
 
 export default class SsStreamController extends Controller {
-  static values = { url: String }
+  static values = { url: String, autofire: Boolean }
+
+  connect() {
+    if (this.autofireValue) {
+      this.startConnection()
+    }
+  }
 
   startConnection(e) {
-    e.preventDefault()
-
     console.log("Opening server-side event connection:", this.urlValue)
     const eventSource = new EventSource(this.urlValue)
 
