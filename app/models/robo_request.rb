@@ -56,12 +56,11 @@ class RoboRequest < ApplicationRecord
       [
         "[PROJECT_CONTEXT]",
         "",
-        "How would you implement this feature request?",
-        "Feature request:",
-        "[FEATURE_REQUEST]",
-        "",
-        "To implement this feature request, you have these contextual project files to work with:",
+        "Given the following files to work with:",
         "[FILES_CONTENT]",
+        "",
+        "How would you implement this feature request?",
+        "[FEATURE_REQUEST]",
         "",
         "Prefer solutions that use the project tools over generic solutions.",
         "",
@@ -108,25 +107,25 @@ class RoboRequest < ApplicationRecord
   end
 
   def generate_prompt
-    prompt_structure.join("\n").tap do |p|
+    prompt_structure.join("\n").tap do |ps|
       # check "[DIRECTORY_TREE]",
-      if "[DIRECTORY_TREE]".in?(p)
-        p.gsub!("[DIRECTORY_TREE]", project.fetch_directory_tree.join("\n"))
-      end
-
-      # check "[FILES_CONTENT]",
-      if "[FILES_CONTENT]".in?(p)
-        p.gsub!("[FILES_CONTENT]", robo_job.contextual_file_data.to_json)
+      if "[DIRECTORY_TREE]".in?(ps)
+        ps.gsub!("[DIRECTORY_TREE]", project.fetch_directory_tree.join("\n"))
       end
 
       # check "[FEATURE_REQUEST]",
-      if "[FEATURE_REQUEST]".in?(p)
-        p.gsub!("[FEATURE_REQUEST]", robo_job.feature_request)
+      if "[FEATURE_REQUEST]".in?(ps)
+        ps.gsub!("[FEATURE_REQUEST]", robo_job.feature_request)
       end
 
       # check "[PROJECT_CONTEXT]"
-      if "[PROJECT_CONTEXT]".in?(p) && project.project_context.present?
-        p.gsub!("[PROJECT_CONTEXT]", "You are working on a project with these tools:\n" + project.project_context)
+      if "[PROJECT_CONTEXT]".in?(ps) && project.project_context.present?
+        ps.gsub!("[PROJECT_CONTEXT]", "You are working on a project with these tools:\n" + project.project_context)
+      end
+
+      # check "[FILES_CONTENT]" last, render in pre tag
+      if "[FILES_CONTENT]".in?(ps)
+        ps.gsub!("[FILES_CONTENT]", "#{JSON.pretty_generate(robo_job.contextual_file_data)}")
       end
     end
   end
