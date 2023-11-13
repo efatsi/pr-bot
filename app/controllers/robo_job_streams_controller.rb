@@ -27,26 +27,26 @@ class RoboJobStreamsController < ApplicationController
       })
     end
 
-    robo_job.run_request(robo_request, sse_proc)
+    # robo_job.run_request(robo_request, sse_proc)
 
-    sse.write({
-      turbo_stream: [
-        turbo_stream.update(
-          "get-files",
-          partial: "robo_jobs/files/finished",
-          locals: {
-            robo_job: robo_job.reload,
-            robo_request: robo_request.reload,
-            open_on_load: true
-          }
-        ),
-        turbo_stream.update(
-          "get-instructions",
-          partial: "robo_jobs/instructions/index",
-          locals: { robo_job: robo_job }
-        )
-      ]
-    })
+    # sse.write({
+    #   turbo_stream: [
+    #     turbo_stream.update(
+    #       "get-files",
+    #       partial: "robo_jobs/files/finished",
+    #       locals: {
+    #         robo_job: robo_job.reload,
+    #         robo_request: robo_request.reload,
+    #         open_on_load: true
+    #       }
+    #     ),
+    #     turbo_stream.update(
+    #       "get-instructions",
+    #       partial: "robo_jobs/instructions/index",
+    #       locals: { robo_job: robo_job }
+    #     )
+    #   ]
+    # })
 
   ensure
     sse.close
@@ -78,15 +78,15 @@ class RoboJobStreamsController < ApplicationController
       })
     end
 
-    robo_job.run_request(robo_request, sse_proc)
+    # robo_job.run_request(robo_request, sse_proc)
 
-    sse.write({
-      turbo_stream: turbo_stream.update(
-        "get-instructions",
-        partial: "robo_jobs/instructions/finished",
-        locals: { robo_job: robo_job.reload }
-      )
-    })
+    # sse.write({
+    #   turbo_stream: turbo_stream.update(
+    #     "get-instructions",
+    #     partial: "robo_jobs/instructions/finished",
+    #     locals: { robo_job: robo_job.reload }
+    #   )
+    # })
 
   ensure
     sse.close

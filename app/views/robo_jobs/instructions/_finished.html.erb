@@ -25,13 +25,17 @@
           <%= render "robo_jobs/robo_change/show", robo_change: robo_change %>
         <% end %>
       </div>
-    </div>
 
-    <% if robo_job.parsed_instructions["additional_notes"] %>
-      <div class="mb-2">
-        <div class="inline-block font-medium border-b border-opacity-10 mb-2">Additional Notes</div>
-        <p><%= robo_job.parsed_instructions["additional_notes"] %></p>
+      <% if robo_job.parsed_instructions["additional_notes"] %>
+        <div class="mb-6">
+          <div class="inline-block font-medium border-b border-opacity-10 mb-2">Additional Notes</div>
+          <p><%= robo_job.parsed_instructions["additional_notes"] %></p>
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= link_to "Continue the Conversation ->", new_robo_job_followup_job_path(robo_job), class: "btn-opaque" %>
       </div>
-    <% end %>
+    </div>
   </div>
 <% end %>

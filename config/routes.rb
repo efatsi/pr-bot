@@ -18,5 +18,7 @@ Rails.application.routes.draw do
       post :execute, on: :member
       post :skip, on: :member
     end
+
+    resources :followup_jobs, only: [:new, :create]
   end
 end
