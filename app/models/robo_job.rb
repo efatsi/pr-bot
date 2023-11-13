@@ -3,6 +3,11 @@ class RoboJob < ApplicationRecord
   has_many :robo_changes, -> { by_id }, dependent: :destroy
 
   belongs_to :project
+
+  # Can have many followup jobs, or be a parent job
+  has_many :followup_jobs, class_name: "RoboJob", foreign_key: :parent_job_id
+  belongs_to :parent_job, class_name: "RoboJob", optional: true
+
   validates :feature_request, presence: true
 
   array_field :contextual_files
@@ -96,13 +101,16 @@ end
 #  generated_instructions :text
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  parent_job_id          :bigint
 #  project_id             :bigint
 #
 # Indexes
 #
-#  index_robo_jobs_on_project_id  (project_id)
+#  index_robo_jobs_on_parent_job_id  (parent_job_id)
+#  index_robo_jobs_on_project_id     (project_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (parent_job_id => robo_jobs.id)
 #  fk_rails_...  (project_id => projects.id)
 #

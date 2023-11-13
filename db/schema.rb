@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_09_195453) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_13_173108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_195453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "project_id"
+    t.bigint "parent_job_id"
+    t.index ["parent_job_id"], name: "index_robo_jobs_on_parent_job_id"
     t.index ["project_id"], name: "index_robo_jobs_on_project_id"
   end
 
@@ -60,5 +62,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_195453) do
 
   add_foreign_key "robo_changes", "robo_jobs"
   add_foreign_key "robo_jobs", "projects"
+  add_foreign_key "robo_jobs", "robo_jobs", column: "parent_job_id"
   add_foreign_key "robo_requests", "robo_jobs"
 end
