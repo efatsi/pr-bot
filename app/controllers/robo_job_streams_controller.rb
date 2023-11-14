@@ -4,7 +4,7 @@ class RoboJobStreamsController < ApplicationController
   before_action :set_headers
 
   # Toggle this off to disable fetches to the AI API
-  ROBO_ENABLED = false
+  ROBO_ENABLED = true
 
   def get_contextual_files
     robo_request = robo_job.prepare_request("contextual_files")
