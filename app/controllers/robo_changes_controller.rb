@@ -7,8 +7,8 @@ class RoboChangesController < ApplicationController
 
     sse = SSE.new(response.stream, event: "message")
 
-    pending_count = robo_job.robo_changes.pending.count
-    robo_job.robo_changes.pending.each_with_index do |robo_change, i|
+    pending_count = robo_job.all_robo_changes.pending.count
+    robo_job.all_robo_changes.pending.each_with_index do |robo_change, i|
       robo_change.fire!
 
       sse.write({
@@ -25,7 +25,7 @@ class RoboChangesController < ApplicationController
       end
     end
   ensure
-    if robo_job.robo_changes.pending.none?
+    if robo_job.all_robo_changes.pending.none?
       sse.write({
         turbo_stream: turbo_stream.remove("fire-all")
       })
@@ -58,7 +58,7 @@ class RoboChangesController < ApplicationController
 
   helper_method :robo_change
   def robo_change
-    @robo_change ||= robo_job.robo_changes.find_by(id: params[:id])
+    @robo_change ||= robo_job.all_robo_changes.find_by(id: params[:id])
   end
 
   def robo_job
