@@ -2,7 +2,7 @@
 
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: open_on_load do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
-    <div class="whitespace-pre"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
+    <div class="whitespace-pre-wrap"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
   <% end %>
 
   <%= render "shared/dropdown", label: "Response" do %>

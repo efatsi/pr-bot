@@ -6,11 +6,11 @@
     <% instruction_requests.each_with_index do |robo_request, i| %>
       <div class="mb-4">
         <%= render "shared/dropdown", label: "Prompt ##{ i+1 }" do %>
-          <div class="whitespace-pre"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
+          <div class="whitespace-pre-wrap"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
         <% end %>
 
         <%= render "shared/dropdown", label: "Response" do %>
-          <pre><%= robo_request.response %></pre>
+          <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
         <% end %>
       </div>
     <% end %>
@@ -21,11 +21,11 @@
 
   <div class="mb-4">
     <%= render "shared/dropdown", label: "Prompt" do %>
-      <div class="whitespace-pre"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
+      <div class="whitespace-pre-wrap"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
     <% end %>
 
     <%= render "shared/dropdown", label: "Response" do %>
-      <pre><%= robo_request.response %></pre>
+      <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
     <% end %>
   </div>
 <% end %>
