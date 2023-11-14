@@ -86,11 +86,18 @@ class RoboJobStreamsController < ApplicationController
       robo_job.run_request(robo_request, sse_proc)
 
       sse.write({
-        turbo_stream: turbo_stream.update(
-          "get-instructions",
-          partial: "robo_jobs/instructions/finished",
-          locals: { robo_job: robo_job.reload }
-        )
+        turbo_stream: [
+          turbo_stream.update(
+            "conversation",
+            partial: "robo_jobs/instructions/conversation",
+            locals: { robo_job: robo_job.reload }
+          ),
+          turbo_stream.append(
+            "robo-changes",
+            partial: "robo_jobs/instructions/robo_changes",
+            locals: { robo_job: robo_job }
+          )
+        ]
       })
     else
       sse_proc.call("This is a test message")

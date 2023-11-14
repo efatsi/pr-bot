@@ -18,14 +18,6 @@ class RoboJob < ApplicationRecord
     robo_requests.new(request_type: type)
   end
 
-  def parsed_instructions
-    @parsed_instructions ||= JSON.parse(generated_instructions)
-  end
-
-  def is_parent_job?
-    parent_job_id.nil?
-  end
-
   def run_request(robo_request, sse_proc=nil)
     robo_request.fire!(sse_proc)
 
@@ -59,7 +51,23 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def parsed_instructions
+    @parsed_instructions ||= JSON.parse(generated_instructions)
+  end
+
+  def all_robo_changes
+    if is_parent_job?
+      RoboChange.where(robo_job_id: [id, *followup_job_ids])
+    else
+      robo_changes
+    end
+  end
+
   private
+
+  def is_parent_job?
+    parent_job_id.nil?
+  end
 
   def process_instructions_to_changes
     robo_changes.destroy_all

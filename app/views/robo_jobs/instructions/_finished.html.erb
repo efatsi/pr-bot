@@ -9,33 +9,21 @@
       <p><%= robo_job.parsed_instructions["implementation_overview"] %></p>
     </div>
 
+    <div class="mb-6" id="robo-changes">
+      <%= render "robo_jobs/instructions/robo_changes" %>
+    </div>
+
     <div class="mb-6">
-      <div class="flex justify-between mb-2">
-        <div class="inline-block font-medium border-b border-opacity-10 mb-1.5">Proposed Changes</div>
-
-        <% if robo_job.robo_changes.pending.any? %>
-          <% stream_path = execute_all_robo_job_robo_changes_path(robo_job) %>
-          <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="fire-all">
-            <%= link_to "Fire All!", stream_path, class: "btn-opaque mr-4", "data-action": "ss-stream#startConnection" %>
-          </div>
-        <% end %>
-      </div>
-
-        <% robo_job.robo_changes.each do |robo_change| %>
-          <%= render "robo_jobs/robo_change/show", robo_change: robo_change %>
-        <% end %>
-      </div>
-
       <% if robo_job.parsed_instructions["additional_notes"] %>
         <div class="mb-6">
           <div class="inline-block font-medium border-b border-opacity-10 mb-2">Additional Notes</div>
           <p><%= robo_job.parsed_instructions["additional_notes"] %></p>
         </div>
       <% end %>
+    </div>
 
-      <div class="mb-4">
-        <%= link_to "Continue the Conversation ->", new_robo_job_followup_job_path(robo_job), class: "btn-opaque" %>
-      </div>
+    <div class="mb-4">
+      <%= link_to "Continue the Conversation ->", new_robo_job_followup_job_path(robo_job), class: "btn-opaque" %>
     </div>
   </div>
 <% end %>
