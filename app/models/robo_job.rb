@@ -57,15 +57,7 @@ class RoboJob < ApplicationRecord
     if robo_request.response
       case robo_request.request_type
       when "contextual_files"
-        contextual_files = robo_request.response.scan(/[\w\-.\/]+/).select do |f|
-          full_filepath = full_path(f)
-
-          # Is file, is directory, is not just a dot and/or slash
-          File.file?(full_filepath) || File.directory?(full_filepath) &&
-            f.gsub(/[\.\/]/, "").length > 0
-        end
-
-        self.update(contextual_files: unpack_paths(contextual_files))
+        self.update(contextual_files: dig_out_contextual_files(robo_request))
       when "instructions"
         self.update(generated_instructions: robo_request.response)
         self.process_instructions_to_changes
@@ -92,6 +84,18 @@ class RoboJob < ApplicationRecord
 
   def is_parent_job?
     parent_job_id.nil?
+  end
+
+  def dig_out_contextual_files(robo_request)
+    contextual_files_from_request = robo_request.response.scan(/[\w\-.\/]+/).select do |f|
+      full_filepath = full_path(f)
+
+      # Is file, is directory, is not just a dot and/or slash
+      File.file?(full_filepath) || File.directory?(full_filepath) &&
+        f.gsub(/[\.\/]/, "").length > 0
+    end.uniq
+
+    unpack_paths(contextual_files_from_request)
   end
 
   def process_instructions_to_changes
@@ -122,7 +126,7 @@ class RoboJob < ApplicationRecord
         end
         unpack_paths(subpaths)
       end
-    end.flatten
+    end.flatten.uniq
   end
 
   def full_path(f)
