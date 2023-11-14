@@ -21,10 +21,10 @@ body {
 
 /* Diff styles for robo_change */
 .diff-og {
-  @apply bg-[#5d3737] text-white;
+  @apply bg-[#5d3737] text-white px-2 py-1;
 }
 .diff-new {
-  @apply bg-[#374f37] text-white;
+  @apply bg-[#374f37] text-white px-2 py-1;
 }
 
 a.blue-link {

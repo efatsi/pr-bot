@@ -112,7 +112,7 @@ end
 #  id                     :bigint           not null, primary key
 #  contextual_files       :string           default([]), is an Array
 #  feature_request        :text             not null
-#  generated_instructions :text
+#  generated_instructions :json
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  parent_job_id          :bigint

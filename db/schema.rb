@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_13_173108) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_14_011756) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,11 +40,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_13_173108) do
   create_table "robo_jobs", force: :cascade do |t|
     t.text "feature_request", null: false
     t.string "contextual_files", default: [], array: true
-    t.text "generated_instructions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "project_id"
     t.bigint "parent_job_id"
+    t.json "generated_instructions", default: {}
     t.index ["parent_job_id"], name: "index_robo_jobs_on_parent_job_id"
     t.index ["project_id"], name: "index_robo_jobs_on_project_id"
   end

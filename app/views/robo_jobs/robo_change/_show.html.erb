@@ -14,17 +14,17 @@
       <div class="font-medium">File:</div>
       <%= robo_change.file %>
     </div>
-    <div class="flex mb-2">
-    <% if robo_change.action == "update_file" %>
-      <div class="diff-og">
-        <div class="font-medium mb-2">OG Content:</div>
-        <pre><%= robo_change.original_content %></pre>
+    <div class="flex mb-2 gap-1">
+      <% if robo_change.action == "update_file" %>
+        <div class="diff-og">
+          <div class="font-medium mb-2">OG Content:</div>
+          <pre><%= robo_change.original_content %></pre>
+        </div>
+      <% end %>
+      <div class="diff-new">
+        <div class="font-medium mb-2">New Content:</div>
+        <pre><%= robo_change.new_content %></pre>
       </div>
-    <% end %>
-    <div class="diff-new">
-      <div class="font-medium mb-2">New Content:</div>
-      <pre><%= robo_change.new_content %></pre>
     </div>
-  </div>
   <% end %>
 </div>
