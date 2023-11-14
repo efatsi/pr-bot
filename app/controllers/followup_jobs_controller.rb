@@ -4,7 +4,7 @@ class FollowupJobsController < ApplicationController
 
     render turbo_stream: turbo_stream.append(
       "conversation",
-      partial: "robo_jobs/followup/form",
+      partial: "robo_jobs/followup/form_wrapper",
       locals: { robo_job: robo_job, followup_job: followup_job }
     )
   end
@@ -12,14 +12,14 @@ class FollowupJobsController < ApplicationController
   def create
     followup_job = robo_job.followup_jobs.new(followup_job_params)
 
-    if followup_job.save!
+    if followup_job.save
       render turbo_stream: turbo_stream.update(
         "followup-job",
         partial: "robo_jobs/followup/fire",
         locals: { followup_job: followup_job }
       )
     else
-      render turbo_stream: turbo_stream.replace(
+      render turbo_stream: turbo_stream.update(
         "followup-job",
         partial: "robo_jobs/followup/form",
         locals: { robo_job: robo_job, followup_job: followup_job }

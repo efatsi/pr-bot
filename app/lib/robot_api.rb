@@ -4,7 +4,7 @@ class RobotApi
   GPT_4 = "gpt-4"
   GPT_4_TURBO = "gpt-4-1106-preview"
 
-  # GPT_4_TURBO accepts up to 128k, keeping it at 10k for now (~70k = $1)
+  # ~70k = $1
   PROMPT_MAX_LENGTH = 10_000
 
   SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
@@ -15,10 +15,7 @@ class RobotApi
     # first check prompt length is less than PROMPT_MAX_LENGTH
     token_count = OpenAI.rough_token_count(prompt)
     if token_count > PROMPT_MAX_LENGTH
-      puts "Prompt length is #{token_count} tokens, which is greater than the maximum of #{PROMPT_MAX_LENGTH} tokens. Please shorten your prompt."
-      puts "Prompt start: #{prompt[0..100]}..."
-
-      raise RobotError.new("Prompt length is #{token_count} tokens, which is greater than the maximum of #{PROMPT_MAX_LENGTH} tokens. Please shorten your prompt.")
+      raise RobotError.new("Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}.")
     end
 
     puts "=========================="

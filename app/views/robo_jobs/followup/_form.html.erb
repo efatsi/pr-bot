@@ -1,27 +1,23 @@
-<%= render "shared/dropdown", label: "Continue...", open_on_load: true do %>
-  <div id="followup-job">
-    <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
-      <%= f.input :contextual_files, as: :text,
-        hint: "select a subset of files from the parent job, or add new ones",
-        input_html: {
-          rows: followup_job.contextual_files.length + 1,
-          value: followup_job.contextual_files.join("\n")
-        }
-      %>
+<%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
+  <%= f.input :contextual_files, as: :text,
+    hint: "select a subset of files from the parent job, or add new ones",
+    input_html: {
+      rows: followup_job.contextual_files.length + 1,
+      value: followup_job.contextual_files.join("\n")
+    }
+  %>
 
-      <%= f.label :feature_request, "And then...", required: false, class: "block text required text-sm font-medium text-gray-300" %>
-      <%= f.input :feature_request,
-        label: false,
-        input_html: {
-          rows: 6,
-          "data-controller": "autofocus"
-        },
-        hint: "eg: “you forgot to add the edit file, do that too!”"
-      %>
+  <%= f.label :feature_request, "And then...", required: false, class: "block text required text-sm font-medium text-gray-300" %>
+  <%= f.input :feature_request,
+    label: false,
+    input_html: {
+      rows: 6,
+      "data-controller": "autofocus"
+    },
+    hint: "eg: “you forgot to add the edit file, do that too!”"
+  %>
 
-      <div class="my-2 flex justify-end">
-        <%= f.submit "Submit", class: "btn-primary" %>
-      </div>
-    <% end %>
+  <div class="my-2 flex justify-end">
+    <%= f.submit "Submit", class: "btn-primary" %>
   </div>
 <% end %>
