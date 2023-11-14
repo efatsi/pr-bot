@@ -1,16 +1,14 @@
 <%# Don't render this if haven't gotten to that step yet  %>
 <% if robo_job.contextual_files.any? || robo_job.robo_requests.of_type("contextual_files").any? %>
-  <div class="mb-8">
-    <% if !robo_job.generated_instructions %>
-      <% stream_path = get_instructions_robo_job_path(robo_job) %>
+  <% if !robo_job.generated_instructions %>
+    <% stream_path = get_instructions_robo_job_path(robo_job) %>
 
-      <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="get-instructions">
-        <%= link_to "Step 2: Build Instructions", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
-      </div>
+    <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>">
+      <%= link_to "Step 2: Build Instructions", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
+    </div>
 
-    <% else %>
-      <%= render "robo_jobs/instructions/finished" %>
+  <% else %>
+    <%= render "robo_jobs/instructions/finished" %>
 
-    <% end %>
-  </div>
+  <% end %>
 <% end %>

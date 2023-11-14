@@ -19,11 +19,13 @@
 <% else %>
   <% robo_request = instruction_requests.first %>
 
-  <%= render "shared/dropdown", label: "Prompt" do %>
-    <div class="whitespace-pre"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
-  <% end %>
+  <div class="mb-4">
+    <%= render "shared/dropdown", label: "Prompt" do %>
+      <div class="whitespace-pre"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
+    <% end %>
 
-  <%= render "shared/dropdown", label: "Response" do %>
-    <pre><%= robo_request.response %></pre>
-  <% end %>
+    <%= render "shared/dropdown", label: "Response" do %>
+      <pre><%= robo_request.response %></pre>
+    <% end %>
+  </div>
 <% end %>
