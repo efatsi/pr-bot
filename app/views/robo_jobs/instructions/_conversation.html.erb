@@ -1,4 +1,4 @@
-<% instruction_requests = robo_job.robo_requests.of_type("instructions") %>
+<% instruction_requests = robo_job.all_robo_requests.of_type("instructions") %>
 <% many_requests = instruction_requests.count > 1 %>
 
 <% if many_requests %>

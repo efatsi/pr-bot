@@ -84,18 +84,19 @@ class RoboJobStreamsController < ApplicationController
 
     if ROBO_ENABLED
       robo_job.run_request(robo_request, sse_proc)
+      parent_job = robo_job.parent_job.reload
 
       sse.write({
         turbo_stream: [
           turbo_stream.update(
             "conversation",
             partial: "robo_jobs/instructions/conversation",
-            locals: { robo_job: robo_job.reload }
+            locals: { robo_job: parent_job }
           ),
-          turbo_stream.append(
+          turbo_stream.update(
             "robo-changes",
             partial: "robo_jobs/instructions/robo_changes",
-            locals: { robo_job: robo_job }
+            locals: { robo_job: parent_job }
           )
         ]
       })

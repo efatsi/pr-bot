@@ -14,6 +14,39 @@ class RoboJob < ApplicationRecord
 
   scope :parent_jobs, -> { where(parent_job_id: nil) }
 
+  def all_robo_requests
+    if is_parent_job?
+      RoboRequest.where(robo_job_id: [id, *followup_job_ids]).by_id
+    else
+      robo_requests
+    end
+  end
+
+  def all_robo_changes
+    if is_parent_job?
+      RoboChange.where(robo_job_id: [id, *followup_job_ids]).by_id
+    else
+      robo_changes
+    end
+  end
+
+  [
+    :implementation_overview,
+    :additional_notes
+  ].each do |field|
+    define_method(field) do
+      parsed_instructions[field.to_s]
+    end
+
+    define_method("all_#{field.to_s.pluralize}") do
+      if is_parent_job?
+        [send(field), *followup_jobs.map(&field)]
+      else
+        [send(field)]
+      end
+    end
+  end
+
   def prepare_request(type)
     robo_requests.new(request_type: type)
   end
@@ -53,14 +86,6 @@ class RoboJob < ApplicationRecord
 
   def parsed_instructions
     @parsed_instructions ||= JSON.parse(generated_instructions)
-  end
-
-  def all_robo_changes
-    if is_parent_job?
-      RoboChange.where(robo_job_id: [id, *followup_job_ids])
-    else
-      robo_changes
-    end
   end
 
   private
