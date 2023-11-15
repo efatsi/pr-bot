@@ -15,4 +15,18 @@ module ApplicationHelper
       "bg-[#523823]"
     end
   end
+
+  def strip_starting_phrases(text, phrases)
+    phrases.each do |phrase|
+      new_text = text.sub(/^\s*#{phrase}/, '')
+
+      # if new text is differetn and phrase ends with ', '
+      if new_text != text && phrase =~ /, $/
+        new_text[0] = new_text[0].upcase
+      end
+
+      text = new_text
+    end
+    text
+  end
 end

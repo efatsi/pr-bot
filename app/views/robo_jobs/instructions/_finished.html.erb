@@ -8,7 +8,7 @@
       <div class="inline-block font-medium border-b border-opacity-10 mb-2">Implementation Overview</div>
       <div class="flex flex-col gap-2">
         <% robo_job.all_implementation_overviews.each do |text| %>
-          <p><%= text %></p>
+          <p><%= strip_starting_phrases(text, ['To implement the feature, ', 'To implement the feature request, ']) %></p>
         <% end %>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <div class="inline-block font-medium border-b border-opacity-10 mb-2">Additional Notes</div>
       <div class="flex flex-col gap-2">
         <% robo_job.all_additional_notes.each do |text| %>
-          <p><%= text %></p>
+          <p><%= strip_starting_phrases(text, ['After implementing the changes, ']) %></p>
         <% end %>
       </div>
     </div>
