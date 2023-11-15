@@ -1,10 +1,19 @@
 <div class="mb-8">
   <% contextual_files_request = robo_job.robo_requests.of_type("contextual_files").last %>
 
-  <% if contextual_files_request %>
+  <% if contextual_files_request || robo_job.contextual_files? %>
     <%= render "robo_jobs/files/finished", robo_request: contextual_files_request %>
 
   <% else %>
-    <%= render "shared/stream_button", path: get_contextual_files_robo_job_path(robo_job), label: "Step 1: Gather Contextual Files" %>
+    <div data-controller="toggle">
+      <div data-toggle-target="content1" class="flex gap-2">
+        <%= render "shared/stream_button", path: get_contextual_files_robo_job_path(robo_job), label: "Step 1: Gather Contextual Files" %>
+        <%= link_to "Or, define files manually", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
+      </div>
+
+      <div data-toggle-target="content2" class="hidden">
+        <%= render "robo_jobs/files/form", robo_job: robo_job %>
+      </div>
+    </div>
   <% end %>
 </div>

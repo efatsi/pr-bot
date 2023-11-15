@@ -1,0 +1,13 @@
+<%= simple_form_for robo_job do |f| %>
+  <div class="max-w-[500px]">
+    <%= f.input :contextual_files, as: :text, label: "Contextual Files", input_html: {
+      rows: [robo_job.contextual_files.length + 1, 5].max,
+      value: robo_job.contextual_files.join("\n")
+    } %>
+
+    <div class="flex gap-2">
+      <%= f.submit "Save", class: "btn-primary" %>
+      <%= link_to "Cancel", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
+    </div>
+  </div>
+<% end %>

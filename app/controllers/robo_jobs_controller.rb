@@ -1,4 +1,6 @@
 class RoboJobsController < ApplicationController
+  after_action :clear_show_files, only: [:show]
+
   def new
     @robo_job = RoboJob.new
   end
@@ -21,6 +23,10 @@ class RoboJobsController < ApplicationController
 
   def update
     if robo_job.update(robo_job_params)
+      if robo_job_params[:contextual_files].present?
+        session[:show_files] = true
+      end
+
       redirect_to robo_job_path(robo_job), notice: 'RoboJob was successfully updated.'
     else
       render :edit
@@ -51,6 +57,10 @@ class RoboJobsController < ApplicationController
   end
 
   def robo_job_params
-    params.require(:robo_job).permit(:feature_request, :project_id)
+    params.require(:robo_job).permit(:feature_request, :project_id, :contextual_files)
+  end
+
+  def clear_show_files
+    session[:show_files] = nil
   end
 end

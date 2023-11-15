@@ -1,12 +1,16 @@
-<% open_on_load ||= false %>
+<% open_on_load ||= session[:show_files] %>
 
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: open_on_load do %>
-  <%= render "shared/dropdown", label: "Prompt" do %>
-    <div class="whitespace-pre-wrap"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
-  <% end %>
+  <% if robo_request %>
+    <%= render "shared/dropdown", label: "Prompt" do %>
+      <div class="whitespace-pre-wrap"><%== robo_request.prompt.gsub("\n", "<br>") %></div>
+    <% end %>
 
-  <%= render "shared/dropdown", label: "Response" do %>
-    <%== markdown_to_html(robo_request.response) %>
+    <%= render "shared/dropdown", label: "Response" do %>
+      <%== markdown_to_html(robo_request.response) %>
+    <% end %>
+  <% else %>
+    <p class="italic ml-2 text-sm">no robo_request, defined manually</p>
   <% end %>
 
   <div class="px-1">
