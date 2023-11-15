@@ -6,7 +6,48 @@ export default class FuzzyFileFinderController extends Controller {
   static targets = ['results', 'input']
 
   connect() {
-    this.renderFileList(this.fileDataValue);
+    this.selectedFiles = new Set();
+    this.renderFileList();
+
+    this.finalInput = document.getElementById('contextual-file-input');
+  }
+
+  toggleFileSelection(event) {
+    const fileName = event.target.textContent.trim();
+    event.preventDefault(); // Prevent the default event behavior
+
+    if (this.selectedFiles.has(fileName)) {
+      this.selectedFiles.delete(fileName);
+      this.removeFileFromInput(fileName);
+    } else {
+      this.selectedFiles.add(fileName);
+      this.addFileToInput(fileName);
+    }
+    this.renderFileList();
+  }
+
+  removeFileFromInput(fileName) {
+    this.finalInput.value = this.finalInput.value.split('\n').filter(file => file.trim() !== fileName).join('\n');
+  }
+
+  addFileToInput(fileName) {
+    if (!this.finalInput.value.includes(fileName)) {
+      this.finalInput.value += fileName + '\n';
+    }
+  }
+
+  renderFileList() {
+    let fileList = this.fileDataValue;
+
+    if (this.searchTerm && this.searchTerm.length > 0) {
+      const searchTerms = this.searchTerm.split(' ').filter(term => term.length > 0);
+      fileList = this.fileDataValue.filter(file => searchTerms.every(term => file.toLowerCase().includes(term.toLowerCase())));
+    }
+
+    this.resultsTarget.innerHTML = fileList.map(file => {
+      const selectedClass = this.selectedFiles.has(file) ? 'bg-green-500 text-white' : '';
+      return `<div class="cursor-pointer ${selectedClass}" data-action="click->fuzzy-file-finder#toggleFileSelection mouseover->fuzzy-file-finder#highlightFile mouseout->fuzzy-file-finder#unhighlightFile">${file}</div>`;
+    }).join('');
   }
 
   highlightFile(event) {
@@ -17,20 +58,8 @@ export default class FuzzyFileFinderController extends Controller {
     event.target.classList.remove('bg-blue-500', 'text-white');
   }
 
-  addFileToInput(event) {
-    const fileName = event.target.textContent;
-    const input = document.getElementById('contextual-file-form').querySelector('textarea');
-    input.value += fileName + '\n';
-  }
-
   inputValueChanged() {
-    const searchTerm = this.inputTarget.value.toLowerCase();
-    const searchTerms = searchTerm.split(' ').filter(term => term.length > 0);
-    const filteredFiles = this.fileDataValue.filter(file => searchTerms.every(term => file.toLowerCase().includes(term)));
-    this.renderFileList(filteredFiles);
-  }
-
-  renderFileList(fileList) {
-    this.resultsTarget.innerHTML = fileList.map(file => `<div class="hover:bg-blue-400 cursor-pointer" data-action="click->fuzzy-file-finder#addFileToInput mouseover->fuzzy-file-finder#highlightFile mouseout->fuzzy-file-finder#unhighlightFile">${file}</div>`).join('');
+    this.searchTerm = this.inputTarget.value.toLowerCase();
+    this.renderFileList();
   }
 }

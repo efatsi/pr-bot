@@ -8,14 +8,14 @@
 
       <div class="min-w-[400px]">
         <%= simple_form_for :fuzzy_search do |f| %>
-          <%= f.input :text, label: false, input_html: {
+          <%= f.input :text, as: :text, label: false, input_html: {
             autofocus: true,
-            "data-action": "fuzzy-file-finder#inputValueChanged",
+            "data-action": "input->fuzzy-file-finder#inputValueChanged",
             "data-fuzzy-file-finder-target": "input"
           } %>
         <% end %>
 
-        <div data-target="fuzzy-file-finder.results">
+        <div data-fuzzy-file-finder-target="results">
           <span class="italic text-sm">results...</span>
         </div>
       </div>

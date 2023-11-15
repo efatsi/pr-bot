@@ -1,6 +1,7 @@
 <%= simple_form_for robo_job do |f| %>
-  <div class="max-w-[500px]" id="contextual-file-form">
+  <div class="max-w-[500px]">
     <%= f.input :contextual_files, as: :text, label: "Contextual Files", input_html: {
+      id: "contextual-file-input",
       rows: [robo_job.contextual_files.length + 1, 5].max,
       value: robo_job.contextual_files.join("\n")
     } %>
