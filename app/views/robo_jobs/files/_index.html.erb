@@ -5,10 +5,6 @@
     <%= render "robo_jobs/files/finished", robo_request: contextual_files_request %>
 
   <% else %>
-    <% stream_path = get_contextual_files_robo_job_path(robo_job) %>
-
-    <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>">
-      <%= link_to "Step 1: Gather Contextual Files", stream_path, class: "btn-primary", "data-action": "ss-stream#startConnection" %>
-    </div>
+    <%= render "shared/stream_button", path: get_contextual_files_robo_job_path(robo_job), label: "Step 1: Gather Contextual Files" %>
   <% end %>
 </div>

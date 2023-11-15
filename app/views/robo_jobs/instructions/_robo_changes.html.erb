@@ -2,9 +2,12 @@
   <div class="inline-block font-medium border-b border-opacity-10 mb-1.5">Proposed Changes</div>
 
   <% if robo_job.all_robo_changes.pending.any? %>
-    <% stream_path = execute_all_robo_job_robo_changes_path(robo_job) %>
-    <div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" id="fire-all">
-      <%= link_to "Fire All!", stream_path, class: "btn-opaque mr-4", "data-action": "ss-stream#startConnection" %>
+    <div id="fire-all">
+      <%= render "shared/stream_button",
+        path: execute_all_robo_job_robo_changes_path(robo_job),
+        label: "Fire All!",
+        class_name: "btn-opaque mr-4"
+      %>
     </div>
   <% end %>
 </div>
