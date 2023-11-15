@@ -30,6 +30,9 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def fuzzy_file_finder
+  end
+
   private
 
   helper_method :project

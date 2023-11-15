@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root "projects#index"
 
-  resources :projects, except: :destroy
+  resources :projects, except: :destroy do
+    get :fuzzy_file_finder, on: :member
+  end
 
   resources :robo_jobs, except: :destroy do
     [

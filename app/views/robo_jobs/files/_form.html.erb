@@ -1,9 +1,13 @@
 <%= simple_form_for robo_job do |f| %>
-  <div class="max-w-[500px]">
+  <div class="max-w-[500px]" id="contextual-file-form">
     <%= f.input :contextual_files, as: :text, label: "Contextual Files", input_html: {
       rows: [robo_job.contextual_files.length + 1, 5].max,
       value: robo_job.contextual_files.join("\n")
     } %>
+
+    <div class="mb-2">
+      <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project), class: "btn-opaque", "data-turbo-frame": "modal" %>
+    </div>
 
     <div class="flex gap-2">
       <%= f.submit "Save", class: "btn-primary" %>

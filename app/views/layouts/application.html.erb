@@ -12,6 +12,9 @@
   </head>
 
   <body>
+    <%# placeholder for modal targets %>
+    <%= turbo_frame_tag "modal" %>
+
     <main class="mt-16 mb-8 w-[70%] min-w-[100%] px-3 md:min-w-[768px] mx-auto">
       <%= yield %>
     </main>
