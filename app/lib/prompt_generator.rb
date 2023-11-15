@@ -1,4 +1,6 @@
 class PromptGenerator
+  SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
+
   RETURN_AS_JSON = "Return the details of the implementation change as a JSON object with the following structure:"
 
   attr_reader :robo_request
@@ -50,8 +52,8 @@ class PromptGenerator
       "- changes: An array of all the file changes required, following this structure:",
       "  - summary: A brief description of the change",
       "  - action: one of `#{RoboChange::VALID_ACTIONS.join('`, `')}`",
-      "  - file: path to the file",
-      "  - original_content: the exact content of the file, only that which will be changed by the new_content",
+      "  - file: source file path",
+      "  - original_content: the exact text which needs to be replaced by the new_content. Do not summarize. Return full existing snippets of code from the source file.",
       "  - new_content: the new content required for the feature",
       "",
       "Example",

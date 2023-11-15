@@ -7,8 +7,6 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 10_000
 
-  SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
-
   def ask_gpt4(prompt, sse_proc=nil)
     json_mode = prompt.include?(PromptGenerator::RETURN_AS_JSON)
 
@@ -28,7 +26,7 @@ class RobotApi
       parameters: {
         model: GPT_4_TURBO,
         messages: [
-          { role: "system", content: SYSTEM_SETUP },
+          { role: "system", content: PromptGenerator::SYSTEM_SETUP },
           { role: "user", content: prompt }
         ],
         response_format: { type: json_mode ? "json_object" : "text" },
