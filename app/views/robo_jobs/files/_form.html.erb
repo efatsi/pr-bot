@@ -1,21 +1,27 @@
+<% input_id = "contextual-file-input-#{robo_job.id}" %>
+
 <%= simple_form_for robo_job do |f| %>
   <div class="max-w-[500px]">
-    <%= f.input :contextual_files, as: :text, label: "Contextual Files", input_html: {
-      id: "contextual-file-input",
-      rows: [robo_job.contextual_files.length + 1, 5].max,
-      value: robo_job.contextual_files.join("\n")
-    } %>
+    <div>
+      <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="contextual-file-input-">Contextual files</label>
 
-    <div class="mb-2">
+      <div class="flex gap-2 items-start">
+        <%= f.input :contextual_files, as: :text, label: false,
+          hint: "select a subset of files from the parent job, or add new ones",
+          input_html: {
+            id: input_id,
+            class: "w-[500px]",
+            rows: [robo_job.contextual_files.length + 1, 5].max,
+            value: robo_job.contextual_files.join("\n")
+          }
+        %>
+        <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque whitespace-nowrap", "data-turbo-frame": "modal" %>
+      </div>
     </div>
 
-    <div class="flex justify-between">
-      <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project), class: "btn-opaque", "data-turbo-frame": "modal" %>
-
-      <div class="flex gap-2">
-        <%= link_to "Cancel", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
-        <%= f.submit "Save", class: "btn-primary" %>
-      </div>
+    <div class="flex gap-2 justify-end self-end">
+      <%= link_to "Cancel", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
+      <%= f.submit "Save", class: "btn-primary" %>
     </div>
   </div>
 <% end %>

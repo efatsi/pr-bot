@@ -1,13 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class FuzzyFileFinderController extends Controller {
-  static values = { fileData: Array }
-
+  static values = { fileData: Array, inputId: String }
   static targets = ['results', 'input']
 
   connect() {
     this.selectedFiles = new Set();
-    this.finalInput = document.getElementById('contextual-file-input');
+    this.finalInput = document.getElementById(this.inputIdValue);
 
     this.loadSelectedFiles();
     this.renderFileList();
@@ -25,7 +24,10 @@ export default class FuzzyFileFinderController extends Controller {
       this.addFileToInput(fileName);
     }
     this.renderFileList();
-    this.inputTarget.focus();
+
+    if (this.inputTarget.value.length > 0) {
+      this.inputTarget.focus();
+    }
   }
 
   removeFileFromInput(fileName) {
@@ -34,7 +36,11 @@ export default class FuzzyFileFinderController extends Controller {
 
   addFileToInput(fileName) {
     if (!this.finalInput.value.includes(fileName)) {
-      this.finalInput.value += '\n' + fileName;
+      if (this.finalInput.value.length > 0) {
+        this.finalInput.value += '\n';
+      }
+
+      this.finalInput.value += fileName;
     }
   }
 
@@ -46,8 +52,9 @@ export default class FuzzyFileFinderController extends Controller {
       fileList = this.fileDataValue.filter(file => searchTerms.every(term => file.toLowerCase().includes(term.toLowerCase())));
     }
 
+    const fileClass = "cursor-pointer px-1 my-0.5 rounded-sm hover:bg-blue-700"
+
     this.resultsTarget.innerHTML = fileList.map(file => {
-      const fileClass = "cursor-pointer px-1 rounded-sm hover:bg-blue-700"
       const selectedClass = this.selectedFiles.has(file) ? '!bg-green-700' : '';
       return `<div class="${fileClass} ${selectedClass}" data-action="click->fuzzy-file-finder#toggleFileSelection">${file}</div>`;
     }).join('');
