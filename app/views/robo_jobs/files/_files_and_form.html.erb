@@ -1,13 +1,8 @@
-<%= simple_form_for robo_job, url: update_files_robo_job_path(robo_job) do |f| %>
-  <div data-controller="inline-edit">
-    <div class="flex justify-between items-center">
+<div data-controller="toggle">
+  <div data-toggle-target="content1">
+    <div class="flex justify-between items-start">
       <div class="inline-block font-medium mt-4 mb-2 border-b border-opacity-10">Files:</div>
-      <div class="flex flex-end gap-2">
-        <%= link_to "Edit", "#", class: "btn-opaque my-2", "data-action": "click->inline-edit#toggleForm", "data-inline-edit-target": "toggle" %>
-        <div class="form-actions hidden" data-inline-edit-target="form">
-          <%= f.button :submit, "Save", class: "btn-primary my-2" %>
-        </div>
-      </div>
+      <%= link_to "Edit", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
     </div>
 
     <ul class="list-disc text-left pl-5" data-inline-edit-target="content">
@@ -15,14 +10,9 @@
         <li><%= filepath %></li>
       <% end %>
     </ul>
-
-    <div data-inline-edit-target="form" class="hidden">
-      <div class="form-inputs">
-        <%= f.input :contextual_files, as: :text, label: false, input_html: {
-          rows: robo_job.contextual_files.length + 1,
-          value: robo_job.contextual_files.join("\n")
-        } %>
-      </div>
-    </div>
   </div>
-<% end %>
+
+  <div data-toggle-target="content2" class="hidden">
+    <%= render "robo_jobs/files/form", robo_job: robo_job %>
+  </div>
+</div>

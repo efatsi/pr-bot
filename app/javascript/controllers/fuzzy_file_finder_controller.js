@@ -7,9 +7,10 @@ export default class FuzzyFileFinderController extends Controller {
 
   connect() {
     this.selectedFiles = new Set();
-    this.renderFileList();
-
     this.finalInput = document.getElementById('contextual-file-input');
+
+    this.loadSelectedFiles();
+    this.renderFileList();
   }
 
   toggleFileSelection(event) {
@@ -33,7 +34,7 @@ export default class FuzzyFileFinderController extends Controller {
 
   addFileToInput(fileName) {
     if (!this.finalInput.value.includes(fileName)) {
-      this.finalInput.value += fileName + '\n';
+      this.finalInput.value += '\n' + fileName;
     }
   }
 
@@ -55,5 +56,10 @@ export default class FuzzyFileFinderController extends Controller {
   inputValueChanged() {
     this.searchTerm = this.inputTarget.value.toLowerCase();
     this.renderFileList();
+  }
+
+  loadSelectedFiles() {
+    const selectedFiles = this.finalInput.value.split('\n').filter(file => file.trim().length > 0);
+    selectedFiles.forEach(file => this.selectedFiles.add(file));
   }
 }
