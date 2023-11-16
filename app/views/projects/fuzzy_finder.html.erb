@@ -1,0 +1,46 @@
+<%= render "shared/modal" do %>
+  <div class="min-h-[500px] px-4">
+    <div
+      class="flex w-[600px] transition-transform"
+      data-controller="fuzzy-finder"
+      data-fuzzy-finder-file-data-value="<%= project.fetch_directory_tree.to_json %>"
+      data-fuzzy-finder-input-id-value="<%= params[:input_id] %>"
+      data-fuzzy-finder-file-preview-url-value="<%= file_preview_project_path(project) %>"
+    >
+      <%# Make this the main fuzzy-finder target %>
+      <div class="min-w-full" data-fuzzy-finder-target="fileSearch">
+        <div class="text-lg font-bold mb-3 text-center">File Search</div>
+
+        <%= simple_form_for :fuzzy_search do |f| %>
+          <%= f.input :text,
+            as: :string,
+            label: false,
+            input_html: {
+              class: "max-w-[75%]",
+              autofocus: true,
+              autocomplete: "off",
+              "data-action": "input->fuzzy-finder#inputValueChanged",
+              "data-fuzzy-finder-target": "input"
+            }
+          %>
+        <% end %>
+
+        <div data-fuzzy-finder-target="results">
+          <span class="italic text-sm">results...</span>
+        </div>
+      </div>
+
+      <%# Add one that can slide in from right to show file contents %>
+      <div class="min-w-full shrink-0 transition-transform max-h-0 overflow-y-scroll" data-fuzzy-finder-target="previewSection">
+        <div class="mb-4">
+          <%= link_to "<- Back", "#", "data-action": "fuzzy-finder#backToSearch", class: "btn-opaque" %>
+          <%= link_to "+ Add", "#", "data-action": "fuzzy-finder#toggleFileSelection", class: "btn-opaque ml-2", "data-fuzzy-finder-target": "previewToggle" %>
+        </div>
+
+
+        <div data-fuzzy-finder-target="previewFile" class="mb-4 font-semibold text-center max-w-[650px]"></div>
+        <div data-fuzzy-finder-target="previewContent" class="whitespace-pre"></div>
+      </div>
+    </div>
+  </div>
+<% end %>

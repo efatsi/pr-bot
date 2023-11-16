@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "projects#index"
 
   resources :projects, except: :destroy do
-    get :fuzzy_file_finder, on: :member
+    get :fuzzy_finder, on: :member
     get :file_preview, on: :member
   end
 

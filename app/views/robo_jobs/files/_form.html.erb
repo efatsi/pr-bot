@@ -10,12 +10,12 @@
           hint: "select a subset of files from the parent job, or add new ones",
           input_html: {
             id: input_id,
-            class: "w-[500px]",
+            class: "min-w-[500px]",
             rows: [robo_job.contextual_files.length + 1, 5].max,
             value: robo_job.contextual_files.join("\n")
           }
         %>
-        <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque whitespace-nowrap", "data-turbo-frame": "modal" %>
+        <%= link_to "+ File", fuzzy_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque whitespace-nowrap", "data-turbo-frame": "modal" %>
       </div>
     </div>
 

@@ -13,7 +13,7 @@
         value: followup_job.contextual_files.join("\n")
       }
     %>
-    <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque", "data-turbo-frame": "modal" %>
+    <%= link_to "+ File", fuzzy_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque", "data-turbo-frame": "modal" %>
   </div>
 
 

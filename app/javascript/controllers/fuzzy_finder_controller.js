@@ -1,20 +1,38 @@
 import { Controller } from "@hotwired/stimulus"
 
-export default class FuzzyFileFinderController extends Controller {
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+export default class FuzzyFinderController extends Controller {
   static values = { fileData: Array, inputId: String, filePreviewUrl: String }
-  static targets = ['results', 'input']
+  static targets = ['results', 'input', 'fileSearch', 'previewSection', 'previewFile', 'previewContent', 'previewToggle']
 
   connect() {
     this.selectedFiles = new Set();
     this.finalInput = document.getElementById(this.inputIdValue);
+    this.previewedFile = null;
 
     this.loadSelectedFiles();
     this.renderFileList();
   }
 
   toggleFileSelection(event) {
-    const fileName = event.target.textContent.trim();
-    event.preventDefault(); // Prevent the default event behavior
+    // Prevent the default event behavior
+    event.preventDefault();
+
+    // Find filename, either based on previewing file or direct click
+    let fileName;
+    if (this.previewedFile) {
+      fileName = this.previewedFile;
+    } else {
+      fileName = event.target.textContent.trim();
+    }
 
     if (this.selectedFiles.has(fileName)) {
       this.selectedFiles.delete(fileName);
@@ -24,6 +42,10 @@ export default class FuzzyFileFinderController extends Controller {
       this.addFileToInput(fileName);
     }
     this.renderFileList();
+
+    if (this.previewedFile) {
+      this.setPreviewToggleText()
+    }
 
     if (this.inputTarget.value.length > 0) {
       this.inputTarget.focus();
@@ -60,11 +82,11 @@ export default class FuzzyFileFinderController extends Controller {
   renderFile(file) {
     const fileClass = "cursor-pointer pl-2 my-0.5 rounded hover:bg-blue-700 group flex items-center justify-between"
     const selectedClass = this.selectedFiles.has(file) ? '!bg-green-700' : '';
-    const linkClass = `px-2 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
-    const linkAction = `data-action="click->fuzzy-file-finder#openFile" data-fuzzy-file-finder-file-param="${file}"`
+    const linkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
+    const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file}"`
 
     return (
-      `<div class="${fileClass} ${selectedClass}" data-action="click->fuzzy-file-finder#toggleFileSelection">
+      `<div class="${fileClass} ${selectedClass}" data-action="click->fuzzy-finder#toggleFileSelection">
         <span>${file}</span>
         <a href="#" class="${linkClass}" ${linkAction}>${this.eyeSvg()}</a>
       </div>`
@@ -84,16 +106,38 @@ export default class FuzzyFileFinderController extends Controller {
   openFile(e) {
     e.preventDefault();
     const file = e.params.file
-    console.log("filePreviewUrl", this.filePreviewUrlValue)
-    console.log(`Opening file: ${file}`);
 
-    // fetch file preview from server
     fetch(`${this.filePreviewUrlValue}?file=${file}`)
       .then(response => response.text())
       .then(data => {
-        console.log(data);
-      });
+        this.previewedFile = file;
+        this.setPreviewToggleText()
 
+        this.previewFileTarget.innerHTML = file;
+        this.previewContentTarget.innerHTML = escapeHtml(data);
+
+        this.fileSearchTarget.classList.add('max-h-0', 'overflow-y-scroll');
+        this.previewSectionTarget.classList.remove('max-h-0', 'overflow-y-scroll');
+        this.element.classList.add("-translate-x-full");
+      });
+  }
+
+  backToSearch(e) {
+    e.preventDefault();
+
+    this.previewedFile = null;
+
+    this.fileSearchTarget.classList.remove('max-h-0', 'overflow-y-scroll');
+    this.previewSectionTarget.classList.add('max-h-0', 'overflow-y-scroll');
+    this.element.classList.remove("-translate-x-full");
+  }
+
+  setPreviewToggleText() {
+    if (this.selectedFiles.has(this.previewedFile)) {
+      this.previewToggleTarget.textContent = "- Remove";
+    } else {
+      this.previewToggleTarget.textContent = "+ Add";
+    }
   }
 
   eyeSvg() {
