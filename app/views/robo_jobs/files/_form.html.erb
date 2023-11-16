@@ -7,12 +7,15 @@
     } %>
 
     <div class="mb-2">
-      <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project), class: "btn-opaque", "data-turbo-frame": "modal" %>
     </div>
 
-    <div class="flex gap-2">
-      <%= f.submit "Save", class: "btn-primary" %>
-      <%= link_to "Cancel", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
+    <div class="flex justify-between">
+      <%= link_to "+ File", fuzzy_file_finder_project_path(robo_job.project), class: "btn-opaque", "data-turbo-frame": "modal" %>
+
+      <div class="flex gap-2">
+        <%= link_to "Cancel", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
+        <%= f.submit "Save", class: "btn-primary" %>
+      </div>
     </div>
   </div>
 <% end %>

@@ -24,6 +24,7 @@ export default class FuzzyFileFinderController extends Controller {
       this.addFileToInput(fileName);
     }
     this.renderFileList();
+    this.inputTarget.focus();
   }
 
   removeFileFromInput(fileName) {
@@ -45,17 +46,10 @@ export default class FuzzyFileFinderController extends Controller {
     }
 
     this.resultsTarget.innerHTML = fileList.map(file => {
-      const selectedClass = this.selectedFiles.has(file) ? 'bg-green-500 text-white' : '';
-      return `<div class="cursor-pointer ${selectedClass}" data-action="click->fuzzy-file-finder#toggleFileSelection mouseover->fuzzy-file-finder#highlightFile mouseout->fuzzy-file-finder#unhighlightFile">${file}</div>`;
+      const fileClass = "cursor-pointer px-1 rounded-sm hover:bg-blue-700"
+      const selectedClass = this.selectedFiles.has(file) ? '!bg-green-700' : '';
+      return `<div class="${fileClass} ${selectedClass}" data-action="click->fuzzy-file-finder#toggleFileSelection">${file}</div>`;
     }).join('');
-  }
-
-  highlightFile(event) {
-    event.target.classList.add('bg-blue-500', 'text-white');
-  }
-
-  unhighlightFile(event) {
-    event.target.classList.remove('bg-blue-500', 'text-white');
   }
 
   inputValueChanged() {
