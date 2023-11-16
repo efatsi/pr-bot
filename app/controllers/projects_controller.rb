@@ -33,6 +33,12 @@ class ProjectsController < ApplicationController
   def fuzzy_file_finder
   end
 
+  def file_preview
+    full_path = File.join(project.filepath, params[:file])
+    file_contents = File.read(full_path)
+    render plain: file_contents
+  end
+
   private
 
   helper_method :project
