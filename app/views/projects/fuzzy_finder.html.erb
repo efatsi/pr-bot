@@ -1,7 +1,7 @@
 <%= render "shared/modal" do %>
   <div class="min-h-[500px] px-4">
     <div
-      class="flex w-[600px] transition-transform"
+      class="flex max-w-[800px] transition-transform"
       data-controller="fuzzy-finder"
       data-fuzzy-finder-file-data-value="<%= project.fetch_directory_tree.to_json %>"
       data-fuzzy-finder-input-id-value="<%= params[:input_id] %>"
@@ -16,7 +16,7 @@
             as: :string,
             label: false,
             input_html: {
-              class: "max-w-[75%]",
+              class: "max-w-[500px]",
               autofocus: true,
               autocomplete: "off",
               "data-action": "input->fuzzy-finder#inputValueChanged",
@@ -25,7 +25,7 @@
           %>
         <% end %>
 
-        <div data-fuzzy-finder-target="results">
+        <div data-fuzzy-finder-target="results" class="min-w-[500px] inline-block">
           <span class="italic text-sm">results...</span>
         </div>
       </div>
@@ -37,9 +37,11 @@
           <%= link_to "+ Add", "#", "data-action": "fuzzy-finder#toggleFileSelection", class: "btn-opaque ml-2", "data-fuzzy-finder-target": "previewToggle" %>
         </div>
 
+        <%# this div for placing filename %>
+        <div data-fuzzy-finder-target="previewFile" class="mb-4 font-semibold text-center max-w-[800px]"></div>
 
-        <div data-fuzzy-finder-target="previewFile" class="mb-4 font-semibold text-center max-w-[650px]"></div>
-        <div data-fuzzy-finder-target="previewContent" class="whitespace-pre"></div>
+        <%# this div for placing file contents %>
+        <pre data-fuzzy-finder-target="previewContent"></pre>
       </div>
     </div>
   </div>

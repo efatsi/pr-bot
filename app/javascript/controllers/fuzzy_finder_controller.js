@@ -114,7 +114,11 @@ export default class FuzzyFinderController extends Controller {
         this.setPreviewToggleText()
 
         this.previewFileTarget.innerHTML = file;
-        this.previewContentTarget.innerHTML = escapeHtml(data);
+        this.previewContentTarget.innerHTML = `<code>${escapeHtml(data)}</code>`;
+        // remove any existing classes
+        this.previewContentTarget.classList.remove(...this.previewContentTarget.classList);
+        this.previewContentTarget.classList.add("line-numbers", `language-${file.split('.').pop()}`);
+        Prism.highlightAll()
 
         this.fileSearchTarget.classList.add('max-h-0', 'overflow-y-scroll');
         this.previewSectionTarget.classList.remove('max-h-0', 'overflow-y-scroll');
