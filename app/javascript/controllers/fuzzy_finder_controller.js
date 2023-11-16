@@ -80,7 +80,7 @@ export default class FuzzyFinderController extends Controller {
   }
 
   renderFile(file) {
-    const fileClass = "cursor-pointer pl-2 my-0.5 rounded hover:bg-blue-700 group flex items-center justify-between"
+    const fileClass = "cursor-pointer pl-2 py-0.5 rounded hover:bg-blue-700 group flex items-center justify-between"
     const selectedClass = this.selectedFiles.has(file) ? '!bg-green-700' : '';
     const linkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
     const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file}"`
