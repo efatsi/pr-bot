@@ -1,16 +1,19 @@
 <% input_id = "contextual-file-input-#{robo_job.id}" %>
 
 <%= simple_form_for robo_job do |f| %>
-  <div class="max-w-[500px]">
+  <div class="w-[700px] max-w-full">
     <div>
       <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="contextual-file-input-">Contextual files</label>
 
       <div class="flex gap-2 items-start">
         <%= f.input :contextual_files, as: :text, label: false,
           hint: "select a subset of files from the parent job, or add new ones",
+          wrapper_html: {
+            class: "max-w-[90%]"
+          },
           input_html: {
             id: input_id,
-            class: "min-w-[500px]",
+            class: "w-[700px] max-w-full",
             rows: [robo_job.contextual_files.length + 1, 5].max,
             value: robo_job.contextual_files.join("\n")
           }
