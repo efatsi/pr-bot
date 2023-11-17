@@ -5,7 +5,7 @@ class RoboJob < ApplicationRecord
   belongs_to :project
 
   # Can have many followup jobs, or be a parent job
-  has_many :followup_jobs, class_name: "RoboJob", foreign_key: :parent_job_id
+  has_many :followup_jobs, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
   belongs_to :parent_job, class_name: "RoboJob", optional: true
 
   validates :feature_request, presence: true
