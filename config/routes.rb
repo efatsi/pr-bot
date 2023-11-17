@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get :execute_all, on: :collection
       post :execute, on: :member
       post :skip, on: :member
+      post :unexecute, on: :member
     end
 
     resources :followup_jobs, only: [:new, :create]

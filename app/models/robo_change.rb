@@ -52,6 +52,28 @@ class RoboChange < ApplicationRecord
     update(status: "failed", error: e.message)
   end
 
+  def unfire!
+    raise 'Only executed changes can be rolled back' unless executed?
+
+    if action == "add_file"
+      File.delete(full_filepath) if File.exist?(full_filepath)
+    elsif action == "update_file"
+      text = File.read(full_filepath)
+      if text.include?(new_content)
+        reverted_content = text.gsub(new_content, original_content)
+        File.open(full_filepath, "w") { |f| f.puts reverted_content }
+      else
+        raise 'New content not found in file during rollback'
+      end
+    else
+      raise "Unknown action: #{action}"
+    end
+
+    update(status: "pending")
+  rescue => e
+    update(status: "failed", error: e.message)
+  end
+
   def full_filepath
     File.join(robo_job.project.filepath, file)
   end

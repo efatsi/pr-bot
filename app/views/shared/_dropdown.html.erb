@@ -3,7 +3,7 @@
 <% label_action ||= nil %>
 
 <div data-controller="dropdown" class="mb-2 border border-gray-600 rounded-md">
-  <div class="flex justify-between p-2 pr-4 cursor-pointer rounded-md <%= label_class %>" data-action="click->dropdown#toggle">
+  <div class="flex justify-between p-2 pr-4 cursor-pointer rounded-md <%= label_class %> group/dropdown" data-action="click->dropdown#toggle">
     <span><%= label %></span>
 
     <div class="flex items-center gap-2">

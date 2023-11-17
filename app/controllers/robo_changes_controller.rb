@@ -54,6 +54,26 @@ class RoboChangesController < ApplicationController
     )
   end
 
+  def unexecute
+    robo_change.unfire!
+
+    render turbo_stream: turbo_stream.update(
+      "robo-change-#{ robo_change.id }",
+      partial: "robo_jobs/robo_change/show",
+      locals: { robo_change: robo_change }
+    )
+  end
+
+  def unexecute
+    robo_change.unfire!
+
+    render turbo_stream: turbo_stream.update(
+      "robo-change-#{ robo_change.id }",
+      partial: "robo_jobs/robo_change/show",
+      locals: { robo_change: robo_change }
+    )
+  end
+
   private
 
   helper_method :robo_change
