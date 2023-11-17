@@ -64,8 +64,8 @@ class RoboChangesController < ApplicationController
     )
   end
 
-  def unexecute
-    robo_change.unfire!
+  def unskip
+    robo_change.update(status: 'pending')
 
     render turbo_stream: turbo_stream.update(
       "robo-change-#{ robo_change.id }",

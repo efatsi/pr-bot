@@ -14,7 +14,6 @@ class RoboChange < ApplicationRecord
   belongs_to :robo_job
 
   validates :raw_json, :file, :new_content, presence: true
-  validates :original_content, presence: true, if: -> { action == "update_file" }
   validates :status, inclusion: { in: STATUSES }
 
   STATUSES.each do |status|
@@ -50,6 +49,14 @@ class RoboChange < ApplicationRecord
   rescue => e
     # if something failed, set status and error
     update(status: "failed", error: e.message)
+  end
+
+  def unskip!
+    raise 'Only skipped changes can be un-skipped' unless skipped?
+
+    update(status: 'pending')
+  rescue => e
+    update(status: 'failed', error: e.message)
   end
 
   def unfire!

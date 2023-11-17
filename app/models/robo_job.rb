@@ -110,7 +110,7 @@ class RoboJob < ApplicationRecord
         changeset["file"] = changeset["file"].gsub(/\[?timestamp\]?/i, Time.now.strftime("%Y%m%d%H%M%S"))
       end
 
-      robo_changes.create(
+      robo_changes.create!(
         **changeset,
         raw_json: changeset
       )
