@@ -1,4 +1,6 @@
 class RoboRequest < ApplicationRecord
+  after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
+
   REQUEST_TYPES = [
     "contextual_files",
     "instructions",
@@ -30,6 +32,14 @@ class RoboRequest < ApplicationRecord
     save!
   end
 
+  def calculate_token_usage_and_cost
+    encoder = Tiktoken.encoding_for_model('gpt-4')
+    self.prompt_token_count = encoder.encode(prompt).length
+    self.response_token_count = encoder.encode(response).length if response.present?
+    self.cost = (prompt_token_count + response_token_count.to_i) / 70000.0
+    save!
+  end
+
   private
 
   def robot_api
@@ -41,14 +51,17 @@ end
 #
 # Table name: robo_requests
 #
-#  id           :bigint           not null, primary key
-#  prompt       :text             not null
-#  raw_response :json             not null
-#  request_type :string           not null
-#  response     :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  robo_job_id  :bigint           not null
+#  id                   :bigint           not null, primary key
+#  cost                 :decimal(8, 2)
+#  prompt               :text             not null
+#  prompt_token_count   :integer
+#  raw_response         :json             not null
+#  request_type         :string           not null
+#  response             :text
+#  response_token_count :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  robo_job_id          :bigint           not null
 #
 # Indexes
 #

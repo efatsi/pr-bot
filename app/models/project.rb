@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   has_many :robo_jobs, dependent: :destroy
+  has_many :robo_requests, through: :robo_jobs
 
   validates :filepath, :project_context, presence: true
 

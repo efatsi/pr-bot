@@ -18,6 +18,7 @@ gem "awesome_print"
 gem "ruby-openai"
 gem "simple_form"
 gem "simple_form-tailwind"
+gem 'tiktoken_ruby'
 gem "redcarpet"
 
 group :development, :test do

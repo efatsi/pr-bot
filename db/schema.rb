@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_14_011756) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_17_123452) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,6 +57,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_14_011756) do
     t.json "raw_response", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "prompt_token_count"
+    t.integer "response_token_count"
+    t.decimal "cost", precision: 8, scale: 2
     t.index ["robo_job_id"], name: "index_robo_requests_on_robo_job_id"
   end
 

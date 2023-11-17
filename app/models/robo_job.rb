@@ -80,6 +80,10 @@ class RoboJob < ApplicationRecord
     @parsed_instructions ||= JSON.parse(generated_instructions)
   end
 
+  def total_cost
+    robo_requests.sum(:cost)
+  end
+
   private
 
   def is_parent_job?
