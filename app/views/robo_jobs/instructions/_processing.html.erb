@@ -1,6 +1,6 @@
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
-    <div class="whitespace-pre-wrap"><%= robo_request.prompt.gsub("\n", "<br>") %></div>
+    <div class="whitespace-pre-wrap"><%= robo_request.prompt %></div>
   <% end %>
 
   <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
