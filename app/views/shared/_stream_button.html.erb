@@ -1,5 +1,8 @@
 <% class_name ||= "btn-primary" %>
 
-<div data-controller="ss-stream" data-ss-stream-url-value="<%= path %>">
-  <%= link_to label, path, class: class_name, "data-action": "ss-stream#startConnection" %>
+<div
+  data-controller="ss-stream"
+  data-ss-stream-url-value="<%= path %>"
+>
+  <%= link_to label, path, class: "#{class_name} inline-block", "data-action": "ss-stream#startConnection" %>
 </div>

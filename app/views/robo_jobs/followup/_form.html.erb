@@ -3,23 +3,29 @@
 <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
   <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="contextual-file-input-">Contextual files</label>
 
-  <div class="flex gap-2 items-start">
+  <div class="flex gap-2 items-start w-full">
     <%= f.input :contextual_files, as: :text, label: false,
       hint: "select a subset of files from the parent job, or add new ones",
+      wrapper_html: {
+        class: "max-w-[90%] w-[700px]"
+      },
       input_html: {
         id: input_id,
-        class: "w-[500px]",
-        rows: followup_job.contextual_files.length + 1,
+        class: "w-[700px]",
+        rows: [followup_job.contextual_files.length + 1, 5].max,
         value: followup_job.contextual_files.join("\n")
       }
     %>
-    <%= link_to "+ File", fuzzy_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque", "data-turbo-frame": "modal" %>
+    <%= link_to "+ File", fuzzy_finder_project_path(robo_job.project, input_id: input_id), class: "btn-opaque whitespace-nowrap", "data-turbo-frame": "modal" %>
   </div>
 
 
   <%= f.label :feature_request, "And then...", required: false, class: "block text required text-sm font-medium text-gray-300 mb-1" %>
   <%= f.input :feature_request,
     label: false,
+    wrapper_html: {
+      class: "max-w-[90%] w-[700px]"
+    },
     input_html: {
       rows: 6,
       "data-controller": "autofocus"
@@ -27,7 +33,8 @@
     hint: "eg: “you forgot to add the edit file, do that too!”"
   %>
 
-  <div class="mb-2 flex justify-end">
+  <div class="mb-2 flex justify-end gap-2">
+    <%= link_to "Cancel", "#", "data-action": "followup#remove", class: "btn-opaque" %>
     <%= f.submit "Submit", class: "btn-primary" %>
   </div>
 <% end %>

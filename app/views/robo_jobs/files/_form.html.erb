@@ -5,11 +5,11 @@
     <div>
       <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="contextual-file-input-">Contextual files</label>
 
-      <div class="flex gap-2 items-start">
+      <div class="flex gap-2 items-start w-full">
         <%= f.input :contextual_files, as: :text, label: false,
           hint: "select a subset of files from the parent job, or add new ones",
           wrapper_html: {
-            class: "max-w-[90%]"
+            class: "max-w-[90%] w-[700px]"
           },
           input_html: {
             id: input_id,
