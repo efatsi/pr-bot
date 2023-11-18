@@ -10,18 +10,16 @@
   </div>
 
   <div class="mb-4">
-    <div class="inline-block font-medium mb-1">Project Tools:</div>
-    <br>
+    <div class="block font-medium">Project Tools:</div>
     <%= project.project_context %>
   </div>
 
-  <div class="mb-4">
-    <div class="inline-block font-medium mb-1">Project Cost:</div>
-    <br>
+  <div class="mb-4 hidden" data-project-index-target="money">
+    <div class="block font-medium">Project Cost:</div>
     <%= number_to_currency(project.robo_requests.sum(:cost)) %>
   </div>
 
-<% if project.parent_jobs.any? %>
+  <% if project.parent_jobs.any? %>
     <%= render "shared/dropdown", label: "RoboJobs (#{project.parent_jobs.count})" do %>
       <ul>
         <% project.parent_jobs.newest_first.each do |robo_job| %>
@@ -32,7 +30,7 @@
               <% end %>
               <%= robo_job.feature_request.truncate(70) %>
             </div>
-            <span><%= number_to_currency(robo_job.total_cost) %></span>
+            <span class="hidden" data-project-index-target="money"><%= number_to_currency(robo_job.total_cost) %></span>
           </li>
         <% end %>
       </ul>
