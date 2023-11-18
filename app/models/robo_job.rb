@@ -35,12 +35,14 @@ class RoboJob < ApplicationRecord
     :additional_notes
   ].each do |field|
     define_method(field) do
-      parsed_instructions[field.to_s]
+      if generated_instructions?
+        parsed_instructions[field.to_s]
+      end
     end
 
     define_method("all_#{field.to_s.pluralize}") do
       if is_parent_job?
-        [send(field), *followup_jobs.map(&field)]
+        [send(field), *followup_jobs.map(&field)].compact
       else
         [send(field)]
       end
