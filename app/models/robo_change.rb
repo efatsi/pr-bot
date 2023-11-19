@@ -26,6 +26,7 @@ class RoboChange < ApplicationRecord
 
   def fire!
     if action == "add_file"
+      save_filename
       FileUtils.mkdir_p(File.dirname(full_filepath))
       File.write(full_filepath, new_content)
 
@@ -51,14 +52,6 @@ class RoboChange < ApplicationRecord
     update(status: "failed", error: e.message)
   end
 
-  def unskip!
-    raise 'Only skipped changes can be un-skipped' unless skipped?
-
-    update(status: 'pending')
-  rescue => e
-    update(status: 'failed', error: e.message)
-  end
-
   def unfire!
     raise 'Only executed changes can be rolled back' unless executed?
 
@@ -81,8 +74,29 @@ class RoboChange < ApplicationRecord
     update(status: "failed", error: e.message)
   end
 
+  def unskip!
+    raise 'Only skipped changes can be un-skipped' unless skipped?
+
+    update(status: 'pending')
+  rescue => e
+    update(status: 'failed', error: e.message)
+  end
+
   def full_filepath
     File.join(robo_job.project.filepath, file)
+  end
+
+  def file
+    file_from_ai = self[:file]
+
+    if "/[timestamp]_".in?(file_from_ai.downcase) || "/timestamp_".in?(file_from_ai.downcase)
+      file_from_ai.gsub(/\[?timestamp\]?/i, Time.now.strftime("%Y%m%d%H%M%S"))
+    end
+  end
+
+  def save_filename
+    # in case timestampe is being swapped out
+    update(file: file) if file != self[:file]
   end
 end
 
