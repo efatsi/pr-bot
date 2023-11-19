@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :projects, except: :destroy do
     get :fuzzy_finder, on: :member
     get :file_preview, on: :member
+
+    resources :git_commits, only: [:new, :create]
   end
 
   resources :robo_jobs, except: :destroy do

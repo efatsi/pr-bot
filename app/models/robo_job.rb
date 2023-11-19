@@ -1,12 +1,13 @@
 class RoboJob < ApplicationRecord
+  belongs_to :project
+
   has_many :robo_requests, -> { by_id }, dependent: :destroy
   has_many :robo_changes, -> { by_id }, dependent: :destroy
 
-  belongs_to :project
-
-  # Can have many followup jobs, or be a parent job
   has_many :followup_jobs, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
   belongs_to :parent_job, class_name: "RoboJob", optional: true
+
+  has_many :git_commits, dependent: :destroy
 
   validates :feature_request, presence: true
 

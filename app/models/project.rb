@@ -2,6 +2,8 @@ class Project < ApplicationRecord
   has_many :robo_jobs, dependent: :destroy
   has_many :robo_requests, through: :robo_jobs
 
+  has_many :git_commits, dependent: :destroy
+
   validates :filepath, :project_context, presence: true
 
   array_field :ignored_files, alphabetize: true

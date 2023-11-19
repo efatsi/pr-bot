@@ -4,9 +4,14 @@
       <%= link_to "Edit", edit_project_path(project), class: "btn-opaque mr-2" %>
       <%= link_to '+ RoboJob', new_robo_job_path(project_id: project.id), class: 'btn-primary' %>
     </div>
+
     <div class="inline-block font-medium mb-1">Filepath:</div>
     <br>
-    <%= project.filepath %>
+    <% if request.path == project_path(project) %>
+      <%= project.filepath %>
+    <% else %>
+      <%= link_to project.filepath, project_path(project) %>
+    <% end %>
   </div>
 
   <div class="mb-4">

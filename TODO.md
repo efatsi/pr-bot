@@ -7,13 +7,32 @@
   - instead of loading all files into the DOM `data-fuzzy-finder-file-data-value`
     - pass in 2 new API paths that can be used based on what mode is switched
 
-- commit button
-  - "looks good", hint to commit whenever stuff works
-  - open modals
-    - offer AI suggestion based on diff (and feature)
+- commit form
+  - RoboRequest to offer AI suggestion based on diff (and feature)
     - long version / short version
-    - button to fire git commit
-    - input for branch (defaults to current branch, if type new branch, checkout before committing)
+  - select input for branch
+    - defaults to current branch
+    - options for other existing git branches
+    - option for "+ new branch"
+      - if selected, replace select w/ string input
+      - if type new branch, checkout before committing
+  - button from RoboJob to + commit
+    - robo_job_id in params
+    - modal=true in params as well + turbo-frame=modal
+
+- Step 3: cleanup
+  - maybe: get rid of steps, sit this button next to Step 2
+  - stream button, similar to "continue"
+    - new followup job
+    - optional message?
+  - LLM call w/
+    - git diff
+    - copy of full files
+    - prompt asking to check for syntax errors, logic bugs, whitespace
+    - example shows a couple things i want it to hit
+  - generate new RoboChanges
+    - render w/ light blue
+    - maybe icon everything up (plus / pencil / broom)
 
 - full-blown customizable action templates
   - on all projects: git push origin [branch]
@@ -35,10 +54,10 @@
 
 - export sharable RoboJob
 
+- cost toggle on RoboJob to show per-request cost
+  - show request cost on the Response dropdown
 
 ## v2
-
-- API call w/ changed files / diff back to check for syntax issues / logic bugs
 
 - Better contextual file finding
   - Data compression

@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_17_123452) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_19_150644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "git_commits", force: :cascade do |t|
+    t.string "commit_hash"
+    t.text "message"
+    t.bigint "project_id", null: false
+    t.bigint "robo_job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commit_hash"], name: "index_git_commits_on_commit_hash", unique: true
+    t.index ["project_id"], name: "index_git_commits_on_project_id"
+    t.index ["robo_job_id"], name: "index_git_commits_on_robo_job_id"
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "filepath", null: false
@@ -63,6 +75,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_123452) do
     t.index ["robo_job_id"], name: "index_robo_requests_on_robo_job_id"
   end
 
+  add_foreign_key "git_commits", "projects"
+  add_foreign_key "git_commits", "robo_jobs"
   add_foreign_key "robo_changes", "robo_jobs"
   add_foreign_key "robo_jobs", "projects"
   add_foreign_key "robo_jobs", "robo_jobs", column: "parent_job_id"
