@@ -4,11 +4,15 @@
       <%= link_to '+ Commit', new_project_git_commit_path(project), class: 'btn-primary' %>
     </div>
 
-    <div class="inline-block font-medium mb-1">Commits:</div>
+    <div class="inline-block font-medium mb-2">Commits:</div>
     <br>
 
-    <% project.git_commits.each do |gc| %>
-      <%= gc.message %>
-    <% end %>
+    <div>
+      <% project.git_commits.newest_first.each do |gc| %>
+        <div class="ml-2 mb-1">
+          • <span class="ml-2"><%= gc.message %></span>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
