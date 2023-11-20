@@ -7,7 +7,8 @@ class RoboJobStreamsController < ApplicationController
   ROBO_ENABLED = true
 
   def get_contextual_files
-    robo_request = robo_job.prepare_request("contextual_files")
+    robo_manager = RoboManager.new(robo_job)
+    robo_request = robo_manager.prepare_request("contextual_files")
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -18,7 +19,7 @@ class RoboJobStreamsController < ApplicationController
     })
 
     if ROBO_ENABLED
-      robo_job.run_request(robo_request, sse_proc)
+      robo_manager.run_request(robo_request, sse_proc)
 
       sse.write({
         turbo_stream: [
@@ -45,7 +46,7 @@ class RoboJobStreamsController < ApplicationController
   end
 
   def get_instructions
-    robo_request = robo_job.prepare_request("instructions")
+    robo_request = RoboManager.prepare_request("instructions")
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -56,7 +57,7 @@ class RoboJobStreamsController < ApplicationController
     })
 
     if ROBO_ENABLED
-      robo_job.run_request(robo_request, sse_proc)
+      RoboManager.run_request(robo_request, sse_proc)
 
       sse.write({
         turbo_stream: turbo_stream.update(
@@ -72,7 +73,7 @@ class RoboJobStreamsController < ApplicationController
   end
 
   def get_followup_instructions
-    robo_request = robo_job.prepare_request("instructions")
+    robo_request = RoboManager.prepare_request("instructions")
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -83,7 +84,7 @@ class RoboJobStreamsController < ApplicationController
     })
 
     if ROBO_ENABLED
-      robo_job.run_request(robo_request, sse_proc)
+      RoboManager.run_request(robo_request, sse_proc)
       parent_job = robo_job.parent_job.reload
 
       sse.write({

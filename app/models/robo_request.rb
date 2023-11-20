@@ -4,10 +4,10 @@ class RoboRequest < ApplicationRecord
   REQUEST_TYPES = [
     "contextual_files",
     "instructions",
+    "commit_message",
   ]
 
-  belongs_to :robo_job
-  has_one :project, through: :robo_job
+  belongs_to :parent, polymorphic: true
 
   validates :prompt, presence: true
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
@@ -19,6 +19,14 @@ class RoboRequest < ApplicationRecord
   def initialize(*args)
     super(*args)
     self.prompt = PromptGenerator.new(self).generate_prompt
+  end
+
+  def project
+    if parent.is_a?(Project)
+      parent
+    else
+      parent.project
+    end
   end
 
   def fire!(sse_proc=nil)
@@ -53,6 +61,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  cost                 :decimal(8, 2)
+#  parent_type          :string           not null
 #  prompt               :text             not null
 #  prompt_token_count   :integer
 #  raw_response         :json             not null
@@ -61,13 +70,9 @@ end
 #  response_token_count :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  robo_job_id          :bigint           not null
+#  parent_id            :bigint           not null
 #
 # Indexes
 #
-#  index_robo_requests_on_robo_job_id  (robo_job_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (robo_job_id => robo_jobs.id)
+#  index_robo_requests_on_parent  (parent_type,parent_id)
 #

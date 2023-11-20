@@ -50,26 +50,6 @@ class RoboJob < ApplicationRecord
     end
   end
 
-  def prepare_request(type)
-    robo_requests.new(request_type: type)
-  end
-
-  def run_request(robo_request, sse_proc=nil)
-    robo_request.fire!(sse_proc)
-
-    if robo_request.response
-      case robo_request.request_type
-      when "contextual_files"
-        self.update(contextual_files: dig_out_contextual_files(robo_request))
-      when "instructions"
-        self.update(generated_instructions: robo_request.response)
-        self.process_instructions_to_changes
-      end
-    else
-      raise "Error: #{robo_request.raw_response}"
-    end
-  end
-
   def contextual_file_data
     contextual_files.map do |file|
       {
@@ -85,6 +65,17 @@ class RoboJob < ApplicationRecord
 
   def total_cost
     robo_requests.sum(:cost)
+  end
+
+  def process_instructions_to_changes
+    robo_changes.destroy_all
+
+    parsed_instructions["changes"].each do |changeset|
+      robo_changes.create!(
+        **changeset,
+        raw_json: changeset
+      )
+    end
   end
 
   private
@@ -103,17 +94,6 @@ class RoboJob < ApplicationRecord
     end.uniq
 
     unpack_paths(contextual_files_from_request)
-  end
-
-  def process_instructions_to_changes
-    robo_changes.destroy_all
-
-    parsed_instructions["changes"].each do |changeset|
-      robo_changes.create!(
-        **changeset,
-        raw_json: changeset
-      )
-    end
   end
 
   def unpack_paths(paths)
