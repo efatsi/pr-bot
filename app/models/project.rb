@@ -66,6 +66,10 @@ class Project < ApplicationRecord
       nil
     end
   end
+
+  def scrub_pending_commits
+    git_commits.pending.destroy_all
+  end
 end
 
 # == Schema Information

@@ -1,7 +1,5 @@
 # TODO
 - commit form
-  - RoboRequest to offer AI suggestion based on diff (and feature)
-    - long version / short version
   - select input for branch
     - defaults to current branch
     - options for other existing git branches
@@ -54,8 +52,11 @@
 
 - export sharable RoboJob
 
-- cost toggle on RoboJob to show per-request cost
-  - show request cost on the Response dropdown
+- cost updates
+  - toggle on RoboJob to show per-request cost
+    - show request cost on the Response dropdown
+  - project cost dips down through RoboJob requests and job-less Commit requests
+  - RoboJob cost dips down through self's requests, followup requests, and commit requests
 
 ## v2
 

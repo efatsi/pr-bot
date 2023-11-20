@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    project.scrub_pending_commits
   end
 
   def new

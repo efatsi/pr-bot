@@ -10,6 +10,14 @@ class GitCommit < ApplicationRecord
 
   has_many :robo_requests, as: :parent, dependent: :destroy
 
+  STATUSES.each do |status|
+    scope status, -> { where(status: status) }
+
+    define_method("#{status}?") do
+      self.status == status
+    end
+  end
+
   def fire!
     Dir.chdir(project.filepath) do
       commit_output, status = Open3.capture2e("git add -A; git commit -m \"#{message}\"")
