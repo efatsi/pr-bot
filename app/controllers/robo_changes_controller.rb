@@ -32,11 +32,19 @@ class RoboChangesController < SseApplicationController
   def execute
     robo_change.fire!
 
-    render turbo_stream: turbo_stream.update(
-      "robo-change-#{ robo_change.id }",
-      partial: "robo_jobs/robo_change/show",
-      locals: { robo_change: robo_change }
-    )
+    stream_updates = [
+      turbo_stream.update(
+        "robo-change-#{ robo_change.id }",
+        partial: "robo_jobs/robo_change/show",
+        locals: { robo_change: robo_change }
+      )
+    ]
+    # TODO: move this to a method, call it from execute/skip
+    if robo_job.all_robo_changes.pending.none?
+      stream_updates << turbo_stream.remove("fire-all")
+    end
+
+    render turbo_stream: stream_updates
   end
 
   def skip
