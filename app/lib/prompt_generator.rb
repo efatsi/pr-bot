@@ -53,6 +53,7 @@ class PromptGenerator
       "  - summary: A brief description of the change",
       "  - action: one of `#{RoboChange::VALID_ACTIONS.join('`, `')}`",
       "  - file: source file path",
+      "  - new_file: destination file path (only required for `rename_file` action)",
       "  - original_content: the exact text which needs to be replaced by the new_content. Do not summarize. Return full existing snippets of code from the source file.",
       "  - new_content: the new content required for the feature",
       "",

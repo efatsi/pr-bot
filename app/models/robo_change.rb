@@ -1,7 +1,8 @@
 class RoboChange < ApplicationRecord
   VALID_ACTIONS = [
     "add_file",
-    "update_file"
+    "update_file",
+    "rename_file"
   ]
 
   STATUSES = [
@@ -40,6 +41,15 @@ class RoboChange < ApplicationRecord
       new_file_content = text.gsub(original_content, new_content)
       File.open(full_filepath, "w") { |f| f.puts new_file_content }
 
+    elsif action == "rename_file"
+      save_filename
+      new_full_filepath = File.join(robo_job.project.filepath, new_file)
+
+      if File.exist?(full_filepath) || Dir.exist?(full_filepath)
+        FileUtils.mv(full_filepath, new_full_filepath)
+      else
+        raise 'File or directory to be renamed does not exist'
+      end
     else
       raise "Unknown action: #{action}"
     end

@@ -1,12 +1,4 @@
 # TODO
-- add "content search" mode. move the search filtering logic from the frontend to the backend
-  - add 2 API calls nested under project:
-    - file_name_search (pulling logic from `renderFileList`)
-    - file_content_search (new action to grep for search terms within project files and return list with matches)
-  - add toggle to fuzzy_finder form to switch between file_name and file_content mode
-  - instead of loading all files into the DOM `data-fuzzy-finder-file-data-value`
-    - pass in 2 new API paths that can be used based on what mode is switched
-
 - commit form
   - RoboRequest to offer AI suggestion based on diff (and feature)
     - long version / short version
@@ -19,6 +11,14 @@
   - button from RoboJob to + commit
     - robo_job_id in params
     - modal=true in params as well + turbo-frame=modal
+
+- add "content search" mode. move the search filtering logic from the frontend to the backend
+  - add 2 API calls nested under project:
+    - file_name_search (pulling logic from `renderFileList`)
+    - file_content_search (new action to grep for search terms within project files and return list with matches)
+  - add toggle to fuzzy_finder form to switch between file_name and file_content mode
+  - instead of loading all files into the DOM `data-fuzzy-finder-file-data-value`
+    - pass in 2 new API paths that can be used based on what mode is switched
 
 - Step 3: cleanup
   - maybe: get rid of steps, sit this button next to Step 2
