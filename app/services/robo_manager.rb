@@ -7,26 +7,28 @@ class RoboManager
     @robo_request = parent.robo_requests.new(request_type: request_type)
   end
 
-  def run_request(sse_proc=print_proc)
-    robo_request.fire!(sse_proc)
+  def run_request(sse_proc=nil)
+    response = robot_api.ask_gpt4(robo_request.prompt, sse_proc)
 
-    if robo_request.response
-      case robo_request.request_type
-      when "contextual_files"
-        parent.update(contextual_files: dig_out_contextual_files(robo_request))
-      when "instructions"
-        parent.update(generated_instructions: robo_request.response)
-        parent.process_instructions_to_changes
-      when "commit_suggestions"
-        parent.update(message_options: JSON.parse(robo_request.response))
-      end
-    else
-      raise "Error: #{robo_request.raw_response}"
+    robo_request.update(response: response)
+
+    case robo_request.request_type
+    when "contextual_files"
+      parent.update(contextual_files: parent.dig_out_contextual_files(robo_request))
+    when "instructions"
+      parent.update(generated_instructions: robo_request.response)
+      parent.process_instructions_to_changes
+    when "commit_suggestions"
+      parent.update(message_options: JSON.parse(robo_request.response))
     end
+  rescue StandardError => e
+    puts "RoboApi Error: #{e.message}"
+    robo_request.update(response: "Error: #{e.message}")
   end
 
-  # have this here as a default for testing
-  def print_proc
-    proc { |msg| print msg }
+  private
+
+  def robot_api
+    @robot_api ||= RobotApi.new
   end
 end

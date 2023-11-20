@@ -30,7 +30,6 @@ class GitCommitsController < SseApplicationController
     })
 
     robo_manager.run_request(sse_proc)
-    parent_job = followup_job.parent_job.reload
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -39,7 +38,6 @@ class GitCommitsController < SseApplicationController
         locals: { robo_request: robo_manager.robo_request, git_commit: git_commit }
       )
     })
-
   ensure
     sse.close
   end

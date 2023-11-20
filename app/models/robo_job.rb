@@ -86,12 +86,6 @@ class RoboJob < ApplicationRecord
     end
   end
 
-  private
-
-  def is_parent_job?
-    parent_job_id.nil?
-  end
-
   def dig_out_contextual_files(robo_request)
     contextual_files_from_request = robo_request.response.scan(/[\w\-.\/]+/).select do |f|
       full_filepath = full_path(f)
@@ -102,6 +96,12 @@ class RoboJob < ApplicationRecord
     end.uniq
 
     unpack_paths(contextual_files_from_request)
+  end
+
+  private
+
+  def is_parent_job?
+    parent_job_id.nil?
   end
 
   def unpack_paths(paths)

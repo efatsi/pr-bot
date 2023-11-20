@@ -40,7 +40,7 @@ class RobotApi
 
   private
 
-  def stream_proc(sse_proc=nil)
+  def stream_proc(sse_proc=print_proc)
     proc do |chunk, _bytesize|
       if new_content = chunk.dig("choices", 0, "delta", "content")
         @response += new_content
@@ -50,6 +50,11 @@ class RobotApi
         end
       end
     end
+  end
+
+  # have this here as a default for testing
+  def print_proc
+    proc { |msg| print msg }
   end
 
   def client
