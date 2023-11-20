@@ -10,9 +10,11 @@ module ApplicationHelper
     elsif robo_change.failed?
       "bg-[#5f2424]"
     elsif robo_change.action == "add_file"
-      "bg-[#263a23]"
-    else
+      "bg-[#2b4a35]"
+    elsif robo_change.action == "update_file"
       "bg-[#523823]"
+    else
+      "bg-[#65533e]"
     end
   end
 

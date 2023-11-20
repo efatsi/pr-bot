@@ -10,9 +10,18 @@
       </div>
     <% end %>
 
-    <div class="mb-4">
-      <div class="font-medium">File:</div>
-      <%= robo_change.file %>
+    <div class="flex gap-8">
+      <div class="mb-4">
+        <div class="font-medium">File:</div>
+        <%= robo_change.file %>
+      </div>
+
+      <% if robo_change.action == "rename_file" %>
+        <div class="mb-4">
+          <div class="font-medium">New File:</div>
+          <%= robo_change.new_file %>
+        </div>
+      <% end %>
     </div>
     <div class="flex mb-2 gap-1">
       <% if robo_change.action == "update_file" %>
@@ -21,10 +30,12 @@
           <pre><%= robo_change.original_content %></pre>
         </div>
       <% end %>
-      <div class="diff-new">
-        <div class="font-medium mb-2">New Content:</div>
-        <pre><%= robo_change.new_content %></pre>
-      </div>
+      <% if robo_change.action.in? ["add_file", "update_file"] %>
+        <div class="diff-new">
+          <div class="font-medium mb-2">New Content:</div>
+          <pre><%= robo_change.new_content %></pre>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

@@ -14,7 +14,7 @@ class RoboChange < ApplicationRecord
 
   belongs_to :robo_job
 
-  validates :raw_json, :file, :new_content, presence: true
+  validates :raw_json, :file, presence: true
   validates :status, inclusion: { in: STATUSES }
 
   STATUSES.each do |status|
@@ -75,6 +75,13 @@ class RoboChange < ApplicationRecord
       else
         raise 'New content not found in file during rollback'
       end
+    elsif action == "rename_file"
+      new_full_filepath = File.join(robo_job.project.filepath, new_file)
+      if File.exist?(new_full_filepath) || Dir.exist?(new_full_filepath)
+        FileUtils.mv(new_full_filepath, full_filepath)
+      else
+        raise 'File or directory to be renamed does not exist'
+      end
     else
       raise "Unknown action: #{action}"
     end
@@ -118,7 +125,8 @@ end
 #  action           :string           not null
 #  error            :string
 #  file             :string           not null
-#  new_content      :text             not null
+#  new_content      :text
+#  new_file         :string
 #  original_content :text
 #  raw_json         :json             not null
 #  status           :string           default("pending"), not null
