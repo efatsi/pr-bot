@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     get :fuzzy_finder, on: :member
     get :file_preview, on: :member
 
-    resources :git_commits, only: [:new, :create]
+    resources :git_commits, only: [:new, :edit, :update] do
+      get :generate_options, on: :member
+    end
   end
 
   resources :robo_jobs, except: :destroy do

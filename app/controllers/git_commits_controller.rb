@@ -1,19 +1,39 @@
-class GitCommitsController < ApplicationController
+class GitCommitsController < SseApplicationController
+  before_action :set_sse_headers, only: :generate_options
+
+
   def new
-    @git_commit = GitCommit.new
+    @git_commit = project.git_commits.create
+    redirect_to edit_project_git_commit_path(project, @git_commit)
   end
 
-  def create
-    @git_commit = GitCommit.new(git_commit_params)
+  def edit
+  end
 
-    if @git_commit.save
-      redirect_to robo_job || project, notice: 'Git commit was successfully created.'
+  def update
+    if git_commit.update(git_commit_params)
+      redirect_to robo_job || project, notice: 'Git commit saved'
     else
       render :new
     end
   end
 
+  def generate_options
+    manager = RoboManager.new(project)
+    robo_request = manager.prepare_request("commit_message")
+
+    # sse.write({
+    #   turbo_stream: turbo_stream.update(
+    #     ...
+  ensure
+    sse.close
+  end
+
   private
+
+  def git_commit
+    @git_commit ||= project.git_commits.find_by!(id: params[:id])
+  end
 
   def git_commit_params
     gc_params = params.require(:git_commit).permit(:commit_hash, :message).merge(project_id: project.id)

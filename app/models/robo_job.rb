@@ -1,7 +1,7 @@
 class RoboJob < ApplicationRecord
   belongs_to :project
 
-  has_many :robo_requests, -> { by_id }, dependent: :destroy
+  has_many :robo_requests, -> { by_id }, as: :parent, dependent: :destroy
   has_many :robo_changes, -> { by_id }, dependent: :destroy
 
   has_many :followup_jobs, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy

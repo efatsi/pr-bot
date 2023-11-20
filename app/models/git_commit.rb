@@ -1,7 +1,8 @@
 class GitCommit < ApplicationRecord
+  belongs_to :project
   belongs_to :robo_job, optional: true
 
-  has_many :robo_requests, dependent: :destroy
+  has_many :robo_requests, as: :parent, dependent: :destroy
 end
 
 # == Schema Information

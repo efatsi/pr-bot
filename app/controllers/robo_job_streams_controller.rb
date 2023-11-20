@@ -1,14 +1,11 @@
-class RoboJobStreamsController < ApplicationController
-  include ActionController::Live
-
-  before_action :set_headers
-
+class RoboJobStreamsController < SseApplicationController
   # Toggle this off to disable fetches to the AI API
   ROBO_ENABLED = true
 
+  before_action :set_sse_headers
+
   def get_contextual_files
-    robo_manager = RoboManager.new(robo_job)
-    robo_request = robo_manager.prepare_request("contextual_files")
+    robo_manager = RoboManager.new(robo_job, "contextual_files")
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -19,7 +16,7 @@ class RoboJobStreamsController < ApplicationController
     })
 
     if ROBO_ENABLED
-      robo_manager.run_request(robo_request, sse_proc)
+      robo_manager.run_request(sse_proc)
 
       sse.write({
         turbo_stream: [
@@ -46,7 +43,7 @@ class RoboJobStreamsController < ApplicationController
   end
 
   def get_instructions
-    robo_request = RoboManager.prepare_request("instructions")
+    robo_manager = RoboManager.new(robo_job, "instructions")
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -57,7 +54,7 @@ class RoboJobStreamsController < ApplicationController
     })
 
     if ROBO_ENABLED
-      RoboManager.run_request(robo_request, sse_proc)
+      robo_manager.run_request(sse_proc)
 
       sse.write({
         turbo_stream: turbo_stream.update(
@@ -73,7 +70,7 @@ class RoboJobStreamsController < ApplicationController
   end
 
   def get_followup_instructions
-    robo_request = RoboManager.prepare_request("instructions")
+    robo_manager = RoboManager.new("instructions")
 
     sse.write({
       turbo_stream: turbo_stream.update(
@@ -84,7 +81,7 @@ class RoboJobStreamsController < ApplicationController
     })
 
     if ROBO_ENABLED
-      RoboManager.run_request(robo_request, sse_proc)
+      robo_manager.run_request(sse_proc)
       parent_job = robo_job.parent_job.reload
 
       sse.write({
@@ -109,28 +106,6 @@ class RoboJobStreamsController < ApplicationController
   end
 
   private
-
-  attr_reader :sse
-
-  def set_headers
-    response.headers['Content-Type'] = 'text/event-stream'
-    response.headers['Last-Modified'] = Time.now.httpdate
-  end
-
-  def sse
-    @sse ||= SSE.new(response.stream, event: "message")
-  end
-
-  def sse_proc
-    return proc do |new_chars|
-      sse.write({
-        turbo_stream: turbo_stream.append(
-          "ai-response",
-          plain: new_chars
-        )
-      })
-    end
-  end
 
   helper_method :robo_job
   def robo_job

@@ -9,6 +9,8 @@ class RoboRequest < ApplicationRecord
 
   belongs_to :parent, polymorphic: true
 
+  delegate :project, to: :parent
+
   validates :prompt, presence: true
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
 
@@ -19,14 +21,6 @@ class RoboRequest < ApplicationRecord
   def initialize(*args)
     super(*args)
     self.prompt = PromptGenerator.new(self).generate_prompt
-  end
-
-  def project
-    if parent.is_a?(Project)
-      parent
-    else
-      parent.project
-    end
   end
 
   def fire!(sse_proc=nil)

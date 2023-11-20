@@ -1,14 +1,13 @@
 class RoboManager
-  attr_reader :parent
-  def initialize(parent)
+  attr_reader :parent, :request_type, :robo_request
+
+  def initialize(parent, request_type)
     @parent = parent
+    @request_type = request_type
+    @robo_request = parent.robo_requests.new(request_type: request_type)
   end
 
-  def prepare_request(type)
-    parent.robo_requests.new(request_type: type)
-  end
-
-  def run_request(robo_request, sse_proc=nil)
+  def run_request(sse_proc=print_proc)
     robo_request.fire!(sse_proc)
 
     if robo_request.response
@@ -24,5 +23,10 @@ class RoboManager
     else
       raise "Error: #{robo_request.raw_response}"
     end
+  end
+
+  # have this here as a default for testing
+  def print_proc
+    proc { |msg| puts msg }
   end
 end

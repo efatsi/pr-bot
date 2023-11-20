@@ -1,12 +1,7 @@
-class RoboChangesController < ApplicationController
-  include ActionController::Live
+class RoboChangesController < SseApplicationController
+  before_action :set_sse_headers, only: :execute_all
 
   def execute_all
-    response.headers['Content-Type'] = 'text/event-stream'
-    response.headers['Last-Modified'] = Time.now.httpdate
-
-    sse = SSE.new(response.stream, event: "message")
-
     pending_count = robo_job.all_robo_changes.pending.count
     robo_job.all_robo_changes.pending.each_with_index do |robo_change, i|
       robo_change.fire!
