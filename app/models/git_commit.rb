@@ -1,4 +1,10 @@
 class GitCommit < ApplicationRecord
+  STATUSES = [
+    "pending",
+    "executed",
+    "failed"
+  ]
+
   belongs_to :project
   belongs_to :robo_job, optional: true
 
@@ -6,7 +12,15 @@ class GitCommit < ApplicationRecord
 
   def fire!
     Dir.chdir(project.filepath) do
-      Open3.capture2e("git add -A; git commit -m \"#{message}\"")
+      commit_output, status = Open3.capture2e("git add -A; git commit -m \"#{message}\"")
+      if status.success?
+        update(
+          status: "executed",
+          commit_hash: commit_output.match(/\[commits ([a-z0-9]+)\]/)[1]
+        )
+      else
+        update(status: "failed", error: commit_output)
+      end
     end
   end
 end
@@ -17,8 +31,10 @@ end
 #
 #  id              :bigint           not null, primary key
 #  commit_hash     :string
+#  error           :string
 #  message         :text
 #  message_options :json
+#  status          :string           default("pending")
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  project_id      :bigint           not null
