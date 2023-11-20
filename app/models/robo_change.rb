@@ -86,17 +86,17 @@ class RoboChange < ApplicationRecord
     File.join(robo_job.project.filepath, file)
   end
 
-  def file
-    file_from_ai = self[:file]
-
-    if "/[timestamp]_".in?(file_from_ai.downcase) || "/timestamp_".in?(file_from_ai.downcase)
-      file_from_ai.gsub(/\[?timestamp\]?/i, Time.now.strftime("%Y%m%d%H%M%S"))
+  def timestamped_file
+    if "/[timestamp]_".in?(file.downcase) || "/timestamp_".in?(file.downcase)
+      file.gsub(/\[?timestamp\]?/i, Time.now.strftime("%Y%m%d%H%M%S"))
+    else
+      file
     end
   end
 
   def save_filename
     # in case timestampe is being swapped out
-    update(file: file) if file != self[:file]
+    update(file: timestamped_file) if timestamped_file != file
   end
 end
 
