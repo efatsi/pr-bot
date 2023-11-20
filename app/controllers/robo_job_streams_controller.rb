@@ -25,7 +25,7 @@ class RoboJobStreamsController < SseApplicationController
             partial: "robo_jobs/files/finished",
             locals: {
               robo_job: robo_job.reload,
-              robo_request: robo_request.reload,
+              robo_request: robo_manager.robo_request,
               open_on_load: true
             }
           ),
