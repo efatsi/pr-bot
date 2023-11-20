@@ -19,12 +19,27 @@ class GitCommitsController < SseApplicationController
   end
 
   def generate_options
-    manager = RoboManager.new(project)
-    robo_request = manager.prepare_request("commit_message")
+    robo_manager = RoboManager.new(git_commit, "commit_suggestions")
 
-    # sse.write({
-    #   turbo_stream: turbo_stream.update(
-    #     ...
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "commit-suggestions",
+        partial: "git_commits/suggestions/processing",
+        locals: { robo_request: robo_manager.robo_request }
+      )
+    })
+
+    robo_manager.run_request(sse_proc)
+    parent_job = followup_job.parent_job.reload
+
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "commit-suggestions",
+        partial: "git_commits/suggestions/finished",
+        locals: { robo_request: robo_manager.robo_request, git_commit: git_commit }
+      )
+    })
+
   ensure
     sse.close
   end
@@ -34,6 +49,7 @@ class GitCommitsController < SseApplicationController
   def git_commit
     @git_commit ||= project.git_commits.find_by!(id: params[:id])
   end
+  helper_method :git_commit
 
   def git_commit_params
     gc_params = params.require(:git_commit).permit(:commit_hash, :message).merge(project_id: project.id)

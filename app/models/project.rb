@@ -52,6 +52,21 @@ class Project < ApplicationRecord
     # Remove the filepath from the beginning of each file path
     files.map { |f| f.gsub(filepath + "/", "") }
   end
+
+  require 'open3'
+
+  def current_diff
+    Dir.chdir(filepath) do
+      git_diff_output, status = Open3.capture2e('git diff')
+      raise 'Failed to fetch git diff' unless status.success?
+
+      git_diff_output
+    rescue => e
+      Rails.logger.error("Project#current_diff error: \
+"){ e.message }
+      nil
+    end
+  end
 end
 
 # == Schema Information

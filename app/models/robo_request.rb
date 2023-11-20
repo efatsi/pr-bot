@@ -4,7 +4,7 @@ class RoboRequest < ApplicationRecord
   REQUEST_TYPES = [
     "contextual_files",
     "instructions",
-    "commit_message",
+    "commit_suggestions",
   ]
 
   belongs_to :parent, polymorphic: true

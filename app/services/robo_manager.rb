@@ -17,8 +17,8 @@ class RoboManager
       when "instructions"
         parent.update(generated_instructions: robo_request.response)
         parent.process_instructions_to_changes
-      when "commit_message"
-        parent.update(message_options: robo_request.response)
+      when "commit_suggestions"
+        parent.update(message_options: JSON.parse(robo_request.response))
       end
     else
       raise "Error: #{robo_request.raw_response}"

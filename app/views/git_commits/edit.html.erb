@@ -1,0 +1,14 @@
+<h1>New Git Commit</h1>
+
+<%= simple_form_for([project, git_commit]) do |f| %>
+  <div class="max-w-[80%]">
+    <%= f.input :message %>
+  </div>
+
+  <div id="commit-suggestions" class="mb-8">
+    <%= render "shared/stream_button", path: generate_options_project_git_commit_path(project, git_commit), label: "Fetch suggestions" %>
+  </div>
+
+  <%= f.submit "Save", class: "btn-primary" %>
+  <%= link_to "Back", robo_job ? robo_job_path(robo_job) : project_path(project), class: "btn-opaque leading-6 inline-block" %>
+<% end %>

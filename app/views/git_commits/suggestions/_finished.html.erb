@@ -1,0 +1,13 @@
+<%= render "shared/dropdown", label: "Commit Suggestions", open_on_load: true do %>
+  <%= render "shared/dropdown", label: "Prompt" do %>
+    <div class="whitespace-pre-wrap"><%= robo_request.prompt %></div>
+  <% end %>
+
+  <%= render "shared/dropdown", label: "Response" do %>
+    <div class="whitespace-pre-wrap"><%= robo_request.response %></div>
+  <% end %>
+
+  <div class="px-1">
+    <%= git_commit.message_options %>
+  </div>
+<% end %>
