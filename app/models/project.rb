@@ -62,8 +62,7 @@ class Project < ApplicationRecord
 
       git_diff_output
     rescue => e
-      Rails.logger.error("Project#current_diff error: \
-"){ e.message }
+      puts e.message
       nil
     end
   end

@@ -3,6 +3,12 @@ class GitCommit < ApplicationRecord
   belongs_to :robo_job, optional: true
 
   has_many :robo_requests, as: :parent, dependent: :destroy
+
+  def fire!
+    Dir.chdir(project.filepath) do
+      Open3.capture2e("git add -A; git commit -m \"#{message}\"")
+    end
+  end
 end
 
 # == Schema Information

@@ -12,6 +12,7 @@ class GitCommitsController < SseApplicationController
 
   def update
     if git_commit.update(git_commit_params)
+      git_commit.fire!
       redirect_to robo_job || project, notice: 'Git commit saved'
     else
       render :new

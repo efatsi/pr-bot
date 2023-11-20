@@ -1,18 +1,19 @@
 <h1>New Git Commit</h1>
 
-<%= simple_form_for([project, git_commit]) do |f| %>
+<%= simple_form_for([project, git_commit], html: { "data-controller": "commit-copy" }) do |f| %>
   <div class="max-w-[80%]">
-    <%= f.input :message %>
+    <%= f.input :message, input_html: { "data-commit-copy-target": "source" } %>
   </div>
 
-  <% if robo_request = git_commit.robo_requests.last %>
-    <%= render "git_commits/suggestions/finished", robo_request: robo_request %>
-  <% else %>
-    <div id="commit-suggestions" class="mb-8">
-      <%= render "shared/stream_button", path: generate_options_project_git_commit_path(project, git_commit), label: "Fetch suggestions" %>
-    </div>
-  <% end %>
 
-  <%= f.submit "Save", class: "btn-primary" %>
+  <div id="commit-suggestions" class="mb-8">
+    <% if robo_request = git_commit.robo_requests.last %>
+      <%= render "git_commits/suggestions/finished", robo_request: robo_request %>
+    <% else %>
+      <%= render "shared/stream_button", path: generate_options_project_git_commit_path(project, git_commit), label: "Fetch suggestions" %>
+    <% end %>
+  </div>
+
+  <%= f.submit "Commit", class: "btn-primary" %>
   <%= link_to "Back", robo_job ? robo_job_path(robo_job) : project_path(project), class: "btn-opaque leading-6 inline-block" %>
 <% end %>
