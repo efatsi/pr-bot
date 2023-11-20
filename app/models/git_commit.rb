@@ -1,18 +1,21 @@
 class GitCommit < ApplicationRecord
   belongs_to :robo_job, optional: true
+
+  has_many :robo_requests, dependent: :destroy
 end
 
 # == Schema Information
 #
 # Table name: git_commits
 #
-#  id          :bigint           not null, primary key
-#  commit_hash :string
-#  message     :text
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  project_id  :bigint           not null
-#  robo_job_id :bigint
+#  id              :bigint           not null, primary key
+#  commit_hash     :string
+#  message         :text
+#  message_options :json
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  project_id      :bigint           not null
+#  robo_job_id     :bigint
 #
 # Indexes
 #

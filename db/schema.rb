@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_20_192919) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_20_193955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_192919) do
     t.bigint "robo_job_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "message_options", default: {}
     t.index ["commit_hash"], name: "index_git_commits_on_commit_hash", unique: true
     t.index ["project_id"], name: "index_git_commits_on_project_id"
     t.index ["robo_job_id"], name: "index_git_commits_on_robo_job_id"

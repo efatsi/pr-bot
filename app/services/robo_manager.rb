@@ -19,7 +19,7 @@ class RoboManager
         parent.update(generated_instructions: robo_request.response)
         parent.process_instructions_to_changes
       when "commit_message"
-        # noop - request is read itself
+        parent.update(message_options: robo_request.response)
       end
     else
       raise "Error: #{robo_request.raw_response}"
