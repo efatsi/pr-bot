@@ -15,9 +15,17 @@ class RoboJob < ApplicationRecord
 
   scope :parent_jobs, -> { where(parent_job_id: nil) }
 
+  def all_feature_requests
+    if is_parent_job?
+      [feature_request, *followup_jobs.map(&:feature_request)].compact
+    else
+      [feature_request]
+    end
+  end
+
   def all_robo_requests
     if is_parent_job?
-      RoboRequest.where(robo_job_id: [id, *followup_job_ids]).by_id
+      RoboRequest.where(parent_type: "RoboJob", parent_id: [id, *followup_job_ids]).by_id
     else
       robo_requests
     end

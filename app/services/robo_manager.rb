@@ -27,6 +27,6 @@ class RoboManager
 
   # have this here as a default for testing
   def print_proc
-    proc { |msg| puts msg }
+    proc { |msg| print msg }
   end
 end

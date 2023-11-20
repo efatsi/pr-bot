@@ -11,7 +11,7 @@ class RoboJobStreamsController < SseApplicationController
       turbo_stream: turbo_stream.update(
         "get-files",
         partial: "robo_jobs/files/processing",
-        locals: { robo_request: robo_request }
+        locals: { robo_request: robo_manager.robo_request }
       )
     })
 
@@ -49,7 +49,7 @@ class RoboJobStreamsController < SseApplicationController
       turbo_stream: turbo_stream.update(
         "get-instructions",
         partial: "robo_jobs/instructions/processing",
-        locals: { robo_request: robo_request }
+        locals: { robo_request: robo_manager.robo_request }
       )
     })
 
@@ -70,19 +70,22 @@ class RoboJobStreamsController < SseApplicationController
   end
 
   def get_followup_instructions
-    robo_manager = RoboManager.new("instructions")
+    # just to avoid confusion
+    followup_job = robo_job
+
+    robo_manager = RoboManager.new(followup_job, "instructions")
 
     sse.write({
       turbo_stream: turbo_stream.update(
         "followup-job",
         partial: "robo_jobs/followup/processing",
-        locals: { robo_request: robo_request }
+        locals: { robo_request: robo_manager.robo_request }
       )
     })
 
     if ROBO_ENABLED
       robo_manager.run_request(sse_proc)
-      parent_job = robo_job.parent_job.reload
+      parent_job = followup_job.parent_job.reload
 
       sse.write({
         turbo_stream: [
