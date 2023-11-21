@@ -52,6 +52,12 @@ export default class FuzzyFinderController extends Controller {
             this.openFile(event);
           }
           break;
+        case 'ArrowLeft':
+          event.preventDefault();
+          if (this.previewedFile) {
+            this.backToSearch(event);
+          }
+          break;
       }
     }
   }

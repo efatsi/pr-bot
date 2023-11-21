@@ -1,6 +1,4 @@
 # TODO
-- keyboard up/down/enter bindings when in fuzzy search finder
-
 - commit form
   - handle branch funniness
     - If new_branch is an existing brnach, switch to it instead of creating a new one
