@@ -10,6 +10,15 @@
     - robo_job_id in params
     - modal=true in params as well + turbo-frame=modal
 
+- add flash messages
+
+- contextual files fix
+  db/schema.rb
+  /db/schema.rb
+  run unpack_files and "remove_starting_slash" on save
+  alphabetize contextual_files on save
+  pull files out of request
+
 - add "content search" mode. move the search filtering logic from the frontend to the backend
   - add 2 API calls nested under project:
     - file_name_search (pulling logic from `renderFileList`)
@@ -36,13 +45,6 @@
   - on all projects: git push origin [branch]
   - can add new action templates to projects
   - can create actions from templates in RoboJob
-
-- contextual files fix
-  db/schema.rb
-  /db/schema.rb
-  run unpack_files and "remove_starting_slash" on save
-  alphabetize contextual_files on save
-  pull files out of request
 
 - continue prompt:
   - render new ones w/ flair

@@ -10,11 +10,10 @@ class GitCommitsController < SseApplicationController
   end
 
   def update
-    if git_commit.update(git_commit_params)
-      git_commit.fire!
+    if git_commit.update(git_commit_params) && git_commit.fire!
       redirect_to robo_job || project, notice: 'Git commit saved'
     else
-      render :new
+      render :edit, status: :unprocessable_entity, alert: "Git commit failed: #{git_commit.error}"
     end
   end
 
