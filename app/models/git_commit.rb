@@ -22,6 +22,13 @@ class GitCommit < ApplicationRecord
 
   def fire!
     Dir.chdir(project.filepath) do
+      if new_branch.present?
+        `git branch -D #{new_branch}; git checkout -b #{new_branch}`
+        update(branch: new_branch)
+      else
+        `git checkout #{branch}`
+      end
+
       commit_output, status = Open3.capture2e("git add -A; git commit -m \"#{message}\"")
       if status.success?
         update(
