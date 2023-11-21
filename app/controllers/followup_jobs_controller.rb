@@ -1,6 +1,6 @@
 class FollowupJobsController < ApplicationController
   def new
-    followup_job = robo_job.followup_jobs.new(contextual_files: robo_job.contextual_files)
+    followup_job = robo_job.followup_jobs.new(contextual_files: robo_job.last_contextual_files)
 
     render turbo_stream: turbo_stream.append(
       "conversation",

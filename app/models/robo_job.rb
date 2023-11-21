@@ -58,6 +58,14 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def last_contextual_files
+    if is_parent_job?
+      followup_jobs.last&.contextual_files || contextual_files
+    else
+      contextual_files
+    end
+  end
+
   def contextual_file_data
     contextual_files.map do |file|
       {
