@@ -10,6 +10,8 @@ class GitCommit < ApplicationRecord
 
   has_many :robo_requests, as: :parent, dependent: :destroy
 
+  attr_accessor :new_branch
+
   STATUSES.each do |status|
     scope status, -> { where(status: status) }
 
@@ -38,6 +40,7 @@ end
 # Table name: git_commits
 #
 #  id              :bigint           not null, primary key
+#  branch          :string
 #  commit_hash     :string
 #  error           :string
 #  message         :text

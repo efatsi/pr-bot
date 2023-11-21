@@ -16,6 +16,20 @@ class Project < ApplicationRecord
     robo_jobs.parent_jobs
   end
 
+  def all_branches
+    Dir.chdir(filepath) do
+      branches_output = `git branch`
+      branches_output.split("\n").map { |b| b.strip.delete_prefix('* ') }
+    end
+  end
+
+  def current_branch
+    Dir.chdir(filepath) do
+      branches_output = `git branch`
+      branches_output.match(/\* (.+)/)[1]
+    end
+  end
+
   def fetch_directory_tree(include_ignored_files: false)
     gitignore_path = File.join(filepath, '.gitignore')
     ignore_patterns = []

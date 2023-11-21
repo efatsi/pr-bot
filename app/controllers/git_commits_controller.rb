@@ -1,7 +1,6 @@
 class GitCommitsController < SseApplicationController
   before_action :set_sse_headers, only: :generate_options
 
-
   def new
     @git_commit = project.git_commits.create
     redirect_to edit_project_git_commit_path(project, @git_commit)
@@ -51,7 +50,7 @@ class GitCommitsController < SseApplicationController
   helper_method :git_commit
 
   def git_commit_params
-    gc_params = params.require(:git_commit).permit(:commit_hash, :message).merge(project_id: project.id)
+    gc_params = params.require(:git_commit).permit(:message, :branch).merge(project_id: project.id)
 
     if robo_job.present?
       gc_params.merge(robo_job_id: robo_job.id)

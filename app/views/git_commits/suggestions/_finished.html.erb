@@ -13,7 +13,7 @@
     </div>
 
     <div class="flex flex-col gap-4 font-mono">
-      <% git_commit.message_options['commits'].each do |option| %>
+      <% git_commit.message_options.fetch("commits", []).each do |option| %>
         <div class="flex items-center mb-2 gap-2">
           <button data-action="commit-copy#useMessage" data-message="<%= option['message'] %>" data-description="<%= option['description'] %>" class="btn-opaque mr-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -23,7 +23,7 @@
           <div>
             <div><%= option['message'] %></div>
             <% if option['description'].present? %>
-              <div class="ml-3 mt-0.5 text-sm"><%= option['description'] %></div>
+              <div class="ml-3 mt-0.5 text-sm whitespace-pre-wrap"><%= option['description'] %></div>
             <% end %>
           </div>
         </div>
