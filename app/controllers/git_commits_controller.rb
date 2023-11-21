@@ -2,11 +2,22 @@ class GitCommitsController < SseApplicationController
   before_action :set_sse_headers, only: :generate_options
 
   def new
-    @git_commit = project.git_commits.create
-    redirect_to edit_project_git_commit_path(project, @git_commit)
+    if params[:robo_job_id]
+      @git_commit = (
+        project.git_commits.pending.find_by(robo_job_id: params[:robo_job_id]) ||
+        project.git_commits.create(robo_job_id: params[:robo_job_id])
+      )
+    else
+      @git_commit = project.git_commits.create
+    end
+
+    redirect_to edit_project_git_commit_path(project, @git_commit, modal: params[:modal])
   end
 
   def edit
+    if params[:modal]
+      render layout: "modal_wrapper"
+    end
   end
 
   def update

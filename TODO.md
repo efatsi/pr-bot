@@ -1,11 +1,5 @@
 # TODO
 - commit form
-  - handle branch funniness
-    - If new_branch is an existing brnach, switch to it instead of creating a new one
-    - bash_runner
-      - takes array of commands and runs them all
-      - tracks status
-      - outputs all data in a json blob to be saved on records
   - button from RoboJob to + commit
     - robo_job_id in params
     - modal=true in params as well + turbo-frame=modal
@@ -21,6 +15,8 @@
   run unpack_files and "remove_starting_slash" on save
   alphabetize contextual_files on save
   pull files out of request
+
+- consolidate Fire All add/remove turbo_stream code
 
 - add "content search" mode. move the search filtering logic from the frontend to the backend
   - add 2 API calls nested under project:
@@ -81,6 +77,14 @@
     - user can define known context files to include, passes files to robo step to help find other files
   - git history
     - there's soooo much to dig through here, but it's some of the more valuable stuff (eg: fix this bug over here just like when it was fixed by shaaaaa)
+
+- commit polish
+  - handle branch funniness
+    - If new_branch is an existing brnach, switch to it instead of creating a new one
+    - bash_runner
+      - takes array of commands and runs them all
+      - tracks status
+      - outputs all data in a json blob to be saved on records
 
 ## v3 / gettin fancy:
 

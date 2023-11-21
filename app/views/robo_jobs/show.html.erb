@@ -28,3 +28,9 @@
 <div id="get-instructions" class="mb-8">
   <%= render "robo_jobs/instructions/index" %>
 </div>
+<% if robo_job.robo_changes.executed.exists? %>
+  <%= link_to 'Create Git Commit', new_project_git_commit_path(project, robo_job_id: robo_job.id, modal: true),
+    class: "btn-primary",
+    "data-turbo-frame": "modal"
+  %>
+<% end %>
