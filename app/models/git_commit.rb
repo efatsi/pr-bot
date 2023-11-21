@@ -33,10 +33,13 @@ class GitCommit < ApplicationRecord
       if status.success?
         update(
           status: "executed",
-          commit_hash: commit_output.match(/\[commits ([a-z0-9]+)\]/)[1]
+          response: commit_output,
+          commit_hash: commit_output.match(/\[#{branch} ([a-z0-9]+)\]/)[1]
         )
+        true
       else
-        update(status: "failed", error: commit_output)
+        update(status: "failed", response: commit_output)
+        false
       end
     end
   end
@@ -52,6 +55,7 @@ end
 #  error           :string
 #  message         :text
 #  message_options :json
+#  response        :text
 #  status          :string           default("pending")
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

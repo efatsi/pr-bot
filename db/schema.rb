@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_21_010657) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_21_012310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_21_010657) do
     t.string "status", default: "pending"
     t.string "error"
     t.string "branch"
+    t.text "response"
     t.index ["commit_hash"], name: "index_git_commits_on_commit_hash", unique: true
     t.index ["project_id"], name: "index_git_commits_on_project_id"
     t.index ["robo_job_id"], name: "index_git_commits_on_robo_job_id"
