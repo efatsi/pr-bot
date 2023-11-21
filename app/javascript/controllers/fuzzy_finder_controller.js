@@ -20,7 +20,57 @@ export default class FuzzyFinderController extends Controller {
 
     this.loadSelectedFiles();
     this.renderFileList();
+    this.element.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
+
+  handleKeyDown(event) {
+    if (event.target === this.inputTarget || event.target.classList.contains('file-item')) {
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault();
+          this.focusNextFile();
+          break;
+        case 'ArrowUp':
+          event.preventDefault();
+          this.focusPreviousFile();
+          break;
+        case 'Enter':
+        case ' ':
+          event.preventDefault();
+          this.toggleFileSelection(event);
+
+          // maintain focus on selected file
+          const selectedFile = event.target.innerText.replace(/\s+/g, '')
+          const files = Array.from(this.resultsTarget.querySelectorAll('.file-item'));
+          const selectedFileIndex = files.findIndex(file => file.innerText.replace(/\s+/g, '') === selectedFile);
+          files[selectedFileIndex].focus();
+          break;
+      }
+    }
+  }
+
+  focusNextFile() {
+    const currentFocus = document.activeElement;
+    const files = Array.from(this.resultsTarget.querySelectorAll('.file-item'));
+    const currentIndex = files.indexOf(currentFocus);
+    if (currentIndex === -1 || currentIndex + 1 >= files.length) {
+      files[0].focus();
+    } else {
+      files[currentIndex + 1].focus();
+    }
+  }
+
+  focusPreviousFile() {
+    const currentFocus = document.activeElement;
+    const files = Array.from(this.resultsTarget.querySelectorAll('.file-item'));
+    const currentIndex = files.indexOf(currentFocus);
+    if (currentIndex <= 0) {
+      this.inputTarget.focus();
+    } else {
+      files[currentIndex - 1].focus();
+    }
+  }
+
 
   toggleFileSelection(event) {
     // Prevent the default event behavior
@@ -46,6 +96,7 @@ export default class FuzzyFinderController extends Controller {
     if (this.previewedFile) {
       this.setPreviewToggleText()
     }
+    debugger
 
     if (this.inputTarget.value.length > 0) {
       this.inputTarget.focus();
@@ -86,9 +137,9 @@ export default class FuzzyFinderController extends Controller {
     const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file}"`
 
     return (
-      `<div class="${fileClass} ${selectedClass}" data-action="click->fuzzy-finder#toggleFileSelection">
+      `<div class="${fileClass} ${selectedClass} file-item" tabindex="0" data-action="click->fuzzy-finder#toggleFileSelection">
         <span>${file}</span>
-        <a href="#" class="${linkClass}" ${linkAction}>${this.eyeSvg()}</a>
+        <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
       </div>`
     )
   }
