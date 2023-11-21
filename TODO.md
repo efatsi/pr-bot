@@ -1,16 +1,21 @@
 # TODO
+- keyboard up/down/enter bindings when in fuzzy search finder
+
 - commit form
-  - select input for branch
-    - defaults to current branch
-    - options for other existing git branches
-    - option for "+ new branch"
-      - if selected, replace select w/ string input
-      - if type new branch, checkout before committing
+  - handle branch funniness
+    - If new_branch is an existing brnach, switch to it instead of creating a new one
+    - bash_runner
+      - takes array of commands and runs them all
+      - tracks status
+      - outputs all data in a json blob to be saved on records
   - button from RoboJob to + commit
     - robo_job_id in params
     - modal=true in params as well + turbo-frame=modal
+      - changes response to render in modal_wrapper layout
 
 - add flash messages
+  - test w/ commit success
+  - test w/ commit failure
 
 - contextual files fix
   db/schema.rb
