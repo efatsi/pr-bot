@@ -39,11 +39,18 @@ export default class FuzzyFinderController extends Controller {
           event.preventDefault();
           this.toggleFileSelection(event);
 
-          // maintain focus on selected file
-          const selectedFile = event.target.innerText.replace(/\s+/g, '')
-          const files = Array.from(this.resultsTarget.querySelectorAll('.file-item'));
-          const selectedFileIndex = files.findIndex(file => file.innerText.replace(/\s+/g, '') === selectedFile);
+          // maintain focus on selected file, all files were just rerendered
+          const selectedFile = event.target.textContent.trim();
+          const newFiles = Array.from(this.resultsTarget.querySelectorAll('.file-item'));
+          const selectedFileIndex = newFiles.findIndex(file => file.textContent.trim() === selectedFile);
           files[selectedFileIndex].focus();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          if (event.target.classList.contains('file-item')) {
+            event.params = { file: event.target.textContent.trim() };
+            this.openFile(event);
+          }
           break;
       }
     }
@@ -96,7 +103,6 @@ export default class FuzzyFinderController extends Controller {
     if (this.previewedFile) {
       this.setPreviewToggleText()
     }
-    debugger
 
     if (this.inputTarget.value.length > 0) {
       this.inputTarget.focus();
