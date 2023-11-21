@@ -80,10 +80,10 @@ class PromptGenerator
       "",
     ]
 
-    if robo_request.parent.is_a?(RoboJob)
+    if parent_job = robo_request.parent.robo_job
       to_return += [
         "You are helping to implement these feature request(s):",
-        **robo_job.all_feature_requests,
+        *parent_job.all_feature_requests,
       ]
     end
 
@@ -91,7 +91,7 @@ class PromptGenerator
       "suggest 2-3 different commit messages based on the following diff:",
       project.current_diff,
       "",
-      "The first 2 options should be short (under 72 characters). If the diff is sufficiently complex, include a third option that has an additional description, with multiple lines if necessary 50 characters per line.",
+      "The first 2 options should be short (under 72 characters). If the diff is sufficiently complex, include a third option that has an additional description, with max 70 characters per line.",
       "",
       RETURN_COMMITS_AS_JSON,
       "- commits: An array of commit messages to suggest, following this structure:",
