@@ -1,4 +1,4 @@
-<div class="flex flex-col items-end">
+<div class="flex justify-center">
   <div class="mb-1">
     <%= link_to info_robo_job_path(robo_job, feature: true), "data-turbo-frame": "modal" do %>
       <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
@@ -10,7 +10,14 @@
     <%= link_to info_robo_job_path(robo_job, conversation: true), "data-turbo-frame": "modal" do %>
       <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
         <%= heroicon "chat-bubble-left-right", variant: :outline, options: { class: "w-4 h-4" } %>
-        <span>conversation</span>
+        <span>convo</span>
+      </div>
+    <% end %>
+
+    <%= link_to info_robo_job_path(robo_job, notes: true), "data-turbo-frame": "modal" do %>
+      <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+        <%= heroicon "clipboard-document-list", variant: :outline, options: { class: "w-4 h-4" } %>
+        <span>notes</span>
       </div>
     <% end %>
   </div>
