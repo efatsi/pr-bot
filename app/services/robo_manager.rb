@@ -16,7 +16,7 @@ class RoboManager
     when "contextual_files"
       parent.update(contextual_files: parent.dig_out_contextual_files(robo_request))
     when "instructions"
-      parent.update(generated_instructions: robo_request.response)
+      parent.update(generated_instructions: JSON.parse(robo_request.response))
       parent.process_instructions_to_changes
     when "commit_suggestions"
       parent.update(message_options: JSON.parse(robo_request.response))

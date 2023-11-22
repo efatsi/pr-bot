@@ -29,7 +29,7 @@ class RoboJob < ApplicationRecord
   ].each do |field|
     define_method(field) do
       if generated_instructions?
-        parsed_instructions[field.to_s]
+        generated_instructions[field.to_s]
       end
     end
   end
@@ -51,10 +51,6 @@ class RoboJob < ApplicationRecord
     end
   end
 
-  def parsed_instructions
-    @parsed_instructions ||= JSON.parse(generated_instructions)
-  end
-
   def total_cost
     robo_requests.sum(:cost)
   end
@@ -62,7 +58,7 @@ class RoboJob < ApplicationRecord
   def process_instructions_to_changes
     robo_changes.destroy_all
 
-    parsed_instructions["changes"].each do |changeset|
+    generated_instructions["changes"].each do |changeset|
       robo_changes.create!(
         **changeset,
         raw_json: changeset
