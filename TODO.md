@@ -1,7 +1,8 @@
 # TODO
 - commit form
-  - fix new_branch submission
   - fix modal rendering on some widths
+
+- add herosvg gem, replace svg elements in html.erb w/ calls to herosvg
 
 - add flash messages
   - test w/ commit success
@@ -12,7 +13,7 @@
   /db/schema.rb
   run unpack_files and "remove_starting_slash" on save
   alphabetize contextual_files on save
-  pull files out of request
+  have AI return json
 
 - consolidate Fire All add/remove turbo_stream code
 

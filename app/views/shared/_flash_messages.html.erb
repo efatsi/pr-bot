@@ -1,0 +1,22 @@
+<% flash.each do |type, message| %>
+  <% alert_classes = type == "notice" ? "bg-green-100 border-green-500 text-green-900" : "bg-red-100 border-red-500 text-red-900" %>
+
+  <div
+    data-controller="flash"
+    class="alert <%= alert_classes %> border-l-4 p-4 mb-4"
+    role="alert"
+    data-transition-enter="ease-out duration-300"
+    data-transition-enter-start="opacity-100"
+    data-transition-enter-end="opacity-100"
+    data-transition-leave="ease-in duration-200"
+    data-transition-leave-start="opacity-100"
+    data-transition-leave-end="opacity-0"
+  >
+    <p class="font-bold"><%= message %></p>
+    <button type="button" data-action="flash#close" class="close">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+<% end %>
