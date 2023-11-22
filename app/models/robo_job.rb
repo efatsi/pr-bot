@@ -23,15 +23,6 @@ class RoboJob < ApplicationRecord
     end
   end
 
-  def all_robo_changes
-    if is_parent_job?
-      RoboChange.where(robo_job_id: [id, *followup_job_ids]).by_id
-    else
-      robo_changes
-    end
-  end
-
-
   [
     :implementation_overview,
     :additional_notes

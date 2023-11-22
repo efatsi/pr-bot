@@ -80,6 +80,7 @@ class PromptGenerator
       "",
     ]
 
+    # parent is always a GitCommit, which is optionally tied to a RoboJob
     if parent_job = robo_request.parent.robo_job
       to_return += [
         "You are helping to implement these feature request(s):",

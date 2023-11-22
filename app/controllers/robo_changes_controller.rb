@@ -2,8 +2,8 @@ class RoboChangesController < SseApplicationController
   before_action :set_sse_headers, only: :execute_all
 
   def execute_all
-    pending_count = robo_job.all_robo_changes.pending.count
-    robo_job.all_robo_changes.pending.each_with_index do |robo_change, i|
+    pending_count = robo_job.robo_changes.pending.count
+    robo_job.robo_changes.pending.each_with_index do |robo_change, i|
       robo_change.fire!
 
       sse.write({
@@ -20,9 +20,9 @@ class RoboChangesController < SseApplicationController
       end
     end
   ensure
-    if robo_job.all_robo_changes.pending.none?
+    if robo_job.robo_changes.pending.none?
       sse.write({
-        turbo_stream: turbo_stream.remove("fire-all")
+        turbo_stream: turbo_stream.remove("fire-all-#{robo_job.id}")
       })
     end
 
@@ -40,8 +40,8 @@ class RoboChangesController < SseApplicationController
       )
     ]
     # TODO: move this to a method, call it from execute/skip
-    if robo_job.all_robo_changes.pending.none?
-      stream_updates << turbo_stream.remove("fire-all")
+    if robo_job.robo_changes.pending.none?
+      stream_updates << turbo_stream.remove("fire-all-#{robo_job.id}")
     end
 
     render turbo_stream: stream_updates
@@ -81,7 +81,7 @@ class RoboChangesController < SseApplicationController
 
   helper_method :robo_change
   def robo_change
-    @robo_change ||= robo_job.all_robo_changes.find_by(id: params[:id])
+    @robo_change ||= robo_job.robo_changes.find_by(id: params[:id])
   end
 
   def robo_job

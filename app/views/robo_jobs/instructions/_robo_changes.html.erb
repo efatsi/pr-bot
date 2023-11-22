@@ -1,19 +1,31 @@
-<div class="mb-1">
-  <%= link_to info_robo_job_path(robo_job, feature: true), "data-turbo-frame": "modal" do %>
-    <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-      <%= heroicon "light-bulb", variant: :outline, options: { class: "w-4 h-4" } %>
-      <span>feature</span>
-    </div>
-  <% end %>
+<div class="flex flex-col items-end">
+  <div class="mb-1">
+    <%= link_to info_robo_job_path(robo_job, feature: true), "data-turbo-frame": "modal" do %>
+      <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+        <%= heroicon "light-bulb", variant: :outline, options: { class: "w-4 h-4" } %>
+        <span>feature</span>
+      </div>
+    <% end %>
 
-  <%= link_to info_robo_job_path(robo_job, conversation: true), "data-turbo-frame": "modal" do %>
-    <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-      <%= heroicon "chat-bubble-left-right", variant: :outline, options: { class: "w-4 h-4" } %>
-      <span>conversation</span>
-    </div>
-  <% end %>
+    <%= link_to info_robo_job_path(robo_job, conversation: true), "data-turbo-frame": "modal" do %>
+      <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+        <%= heroicon "chat-bubble-left-right", variant: :outline, options: { class: "w-4 h-4" } %>
+        <span>conversation</span>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <% robo_job.robo_changes.each do |robo_change| %>
   <%= render "robo_jobs/robo_change/show", robo_change: robo_change %>
 <% end %>
+
+<div class="flex flex-col items-end" id="fire-all-<%= robo_job.id %>" class="mb-1">
+  <% if robo_job.robo_changes.pending.count > 1 %>
+    <%= render "shared/stream_button",
+      path: execute_all_robo_job_robo_changes_path(robo_job),
+      label: "Fire All!",
+      class_name: "btn-opaque"
+    %>
+  <% end %>
+</div>

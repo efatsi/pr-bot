@@ -8,10 +8,10 @@
     <% end %>
   </div>
 
-  <%= render "shared/dropdown", label: "Conversation", open_on_load: params[:conversation] do %>
+  <%= render "shared/dropdown", label: "Conversation", open_on_load: true do %>
     <% robo_request = robo_job.robo_requests.of_type("instructions").last %>
     <div class="mb-2">
-      <%= render "shared/dropdown", label: "Prompt" do %>
+      <%= render "shared/dropdown", label: "Prompt", open_on_load: params[:conversation] do %>
         <div class="whitespace-pre-wrap"><%= robo_request.prompt %></div>
       <% end %>
 

@@ -1,21 +1,15 @@
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <div class="px-1">
     <div class="mb-6" id="robo-changes">
-      <div class="flex justify-between items-start mb-4">
-        <div class="inline-block font-medium border-b border-opacity-10 mb-1.5">Proposed Changes</div>
+      <div class="inline-block font-medium border-b border-opacity-10 mb-4">Proposed Changes</div>
 
-        <% if !robo_job.all_robo_changes.pending.any? %>
-          <div id="fire-all">
-            <%= render "shared/stream_button",
-              path: execute_all_robo_job_robo_changes_path(robo_job),
-              label: "Fire All!",
-              class_name: "btn-opaque mr-4"
-            %>
+      <% [robo_job, *robo_job.followup_jobs].each do |job| %>
+        <% if job.robo_changes.any? %>
+          <div class="mb-4">
+            <%= render "robo_jobs/instructions/robo_changes", robo_job: job %>
           </div>
         <% end %>
-      </div>
-
-      <%= render "robo_jobs/instructions/robo_changes" %>
+      <% end %>
     </div>
 
     <div class="flex justify-between mt-8 mb-4">
