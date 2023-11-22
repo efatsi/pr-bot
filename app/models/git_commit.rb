@@ -31,10 +31,12 @@ class GitCommit < ApplicationRecord
 
       commit_output, status = Open3.capture2e("git add -A; git commit -m \"#{message}\"")
       if status.success?
+        commit_hash = commit_output.match(/\[\S+ ([a-z0-9]+)\]/)[1]
+
         update(
           status: "executed",
           response: commit_output,
-          commit_hash: commit_output.match(/\[#{branch} ([a-z0-9]+)\]/)[1]
+          commit_hash: commit_hash
         )
         true
       else

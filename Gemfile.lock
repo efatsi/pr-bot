@@ -71,6 +71,7 @@ GEM
       rake (>= 10.4, < 14.0)
     awesome_print (1.9.2)
     base64 (0.1.1)
+    bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -212,6 +213,11 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    web-console (4.2.1)
+      actionview (>= 6.0.0)
+      activemodel (>= 6.0.0)
+      bindex (>= 0.4.0)
+      railties (>= 6.0.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -240,6 +246,7 @@ DEPENDENCIES
   tailwindcss-rails
   tiktoken_ruby
   turbo-rails
+  web-console
 
 RUBY VERSION
    ruby 3.2.2p53

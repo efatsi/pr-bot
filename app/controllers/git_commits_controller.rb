@@ -60,7 +60,7 @@ class GitCommitsController < SseApplicationController
   helper_method :git_commit
 
   def git_commit_params
-    gc_params = params.require(:git_commit).permit(:message, :branch).merge(project_id: project.id)
+    gc_params = params.require(:git_commit).permit(:message, :branch, :new_branch).merge(project_id: project.id)
 
     if robo_job.present?
       gc_params.merge(robo_job_id: robo_job.id)

@@ -1,9 +1,7 @@
 # TODO
 - commit form
-  - button from RoboJob to + commit
-    - robo_job_id in params
-    - modal=true in params as well + turbo-frame=modal
-      - changes response to render in modal_wrapper layout
+  - fix new_branch submission
+  - fix modal rendering on some widths
 
 - add flash messages
   - test w/ commit success
@@ -87,6 +85,8 @@
       - outputs all data in a json blob to be saved on records
 
 ## v3 / gettin fancy:
+
+- wrap in Electron app
 
 - handle photo uploads
 

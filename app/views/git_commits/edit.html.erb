@@ -7,14 +7,15 @@
       label: false,
       collection: project.all_branches + ["+ new branch"],
       selected: project.current_branch,
-      wrapper_html: { "data-branch-select-target": "selectWrapper" },
-      input_html: { "data-action": "change->branch-select#checkInputs", class: "w-[200px]" }
+      wrapper_html: { "data-branch-select-target": "selectWrapper", class: "w-[200px]" },
+      input_html: { "data-action": "change->branch-select#checkInputs" }
     %>
 
     <div data-branch-select-target="newBranchWrapper" class="flex w-full items-start gap-3 hidden">
       <%= f.input :new_branch,
         label: false,
         as: :string,
+        hint: "this will overwrite existing branches with the same name",
         placeholder: "new branch name...",
         input_html: { class: "w-[200px]" }
       %>
