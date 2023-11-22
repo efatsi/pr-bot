@@ -1,17 +1,19 @@
-<div class="flex justify-between mb-2">
-  <div class="inline-block font-medium border-b border-opacity-10 mb-1.5">Proposed Changes</div>
+<div class="mb-1">
+  <%= link_to info_robo_job_path(robo_job, feature: true), "data-turbo-frame": "modal" do %>
+    <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+      <%= heroicon "light-bulb", variant: :outline, options: { class: "w-4 h-4" } %>
+      <span>feature</span>
+    </div>
+  <% end %>
 
-  <% if robo_job.all_robo_changes.pending.any? %>
-    <div id="fire-all">
-      <%= render "shared/stream_button",
-        path: execute_all_robo_job_robo_changes_path(robo_job),
-        label: "Fire All!",
-        class_name: "btn-opaque mr-4"
-      %>
+  <%= link_to info_robo_job_path(robo_job, conversation: true), "data-turbo-frame": "modal" do %>
+    <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+      <%= heroicon "chat-bubble-left-right", variant: :outline, options: { class: "w-4 h-4" } %>
+      <span>conversation</span>
     </div>
   <% end %>
 </div>
 
-<% robo_job.all_robo_changes.each do |robo_change| %>
+<% robo_job.robo_changes.each do |robo_change| %>
   <%= render "robo_jobs/robo_change/show", robo_change: robo_change %>
 <% end %>

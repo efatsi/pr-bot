@@ -1,0 +1,23 @@
+<%= render "shared/modal" do %>
+  <div class="font-semibold mb-4">RoboJob info</div>
+  <div class="mb-4">
+    <%= render "shared/dropdown", label: "Feature Request", open_on_load: params[:feature] do %>
+      <div class="mb-2">
+        <div class="whitespace-pre-wrap"><%= robo_job.feature_request %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render "shared/dropdown", label: "Conversation", open_on_load: params[:conversation] do %>
+    <% robo_request = robo_job.robo_requests.of_type("instructions").last %>
+    <div class="mb-2">
+      <%= render "shared/dropdown", label: "Prompt" do %>
+        <div class="whitespace-pre-wrap"><%= robo_request.prompt %></div>
+      <% end %>
+
+      <%= render "shared/dropdown", label: "Response" do %>
+        <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

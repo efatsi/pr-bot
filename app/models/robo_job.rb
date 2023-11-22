@@ -23,14 +23,6 @@ class RoboJob < ApplicationRecord
     end
   end
 
-  def all_robo_requests
-    if is_parent_job?
-      RoboRequest.where(parent_type: "RoboJob", parent_id: [id, *followup_job_ids]).by_id
-    else
-      robo_requests
-    end
-  end
-
   def all_robo_changes
     if is_parent_job?
       RoboChange.where(robo_job_id: [id, *followup_job_ids]).by_id
@@ -39,6 +31,7 @@ class RoboJob < ApplicationRecord
     end
   end
 
+
   [
     :implementation_overview,
     :additional_notes
@@ -46,14 +39,6 @@ class RoboJob < ApplicationRecord
     define_method(field) do
       if generated_instructions?
         parsed_instructions[field.to_s]
-      end
-    end
-
-    define_method("all_#{field.to_s.pluralize}") do
-      if is_parent_job?
-        [send(field), *followup_jobs.map(&field)].compact
-      else
-        [send(field)]
       end
     end
   end

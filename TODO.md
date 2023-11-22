@@ -54,6 +54,7 @@
 ## v2
 
 - Better contextual file finding
+  - files mentioned in the feature request have content sent in this request to help ask what should be looked at
   - Data compression
     - https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/
     - recognize filepath root and pull that out of contextual_file check

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       get action, on: :member, to: "robo_job_streams##{action}"
     end
 
+    get :info, on: :member
     patch :update_files, on: :member
 
     resources :robo_changes, only: [] do

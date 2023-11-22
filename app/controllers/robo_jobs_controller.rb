@@ -33,6 +33,10 @@ class RoboJobsController < ApplicationController
     end
   end
 
+  # a path that can be hit to load data into a modal about the job
+  def info
+  end
+
   def update_files
     file_params = params.require(:robo_job).permit(:contextual_files)
     robo_job.update(file_params)
