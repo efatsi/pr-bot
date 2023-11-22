@@ -20,11 +20,7 @@ class RoboChangesController < SseApplicationController
       end
     end
   ensure
-    if robo_job.robo_changes.pending.none?
-      sse.write({
-        turbo_stream: turbo_stream.remove("fire-all-#{robo_job.id}")
-      })
-    end
+    sse.write({ turbo_stream: turbo_update_fire_all })
 
     sse.close
   end
@@ -37,12 +33,9 @@ class RoboChangesController < SseApplicationController
         "robo-change-#{ robo_change.id }",
         partial: "robo_jobs/robo_change/show",
         locals: { robo_change: robo_change }
-      )
+      ),
+      turbo_update_fire_all
     ]
-    # TODO: move this to a method, call it from execute/skip
-    if robo_job.robo_changes.pending.none?
-      stream_updates << turbo_stream.remove("fire-all-#{robo_job.id}")
-    end
 
     render turbo_stream: stream_updates
   end
@@ -50,31 +43,40 @@ class RoboChangesController < SseApplicationController
   def skip
     robo_change.update(status: 'skipped')
 
-    render turbo_stream: turbo_stream.update(
-      "robo-change-#{ robo_change.id }",
-      partial: "robo_jobs/robo_change/show",
-      locals: { robo_change: robo_change }
-    )
+    render turbo_stream: [
+      turbo_stream.update(
+        "robo-change-#{ robo_change.id }",
+        partial: "robo_jobs/robo_change/show",
+        locals: { robo_change: robo_change }
+      ),
+      turbo_update_fire_all
+    ]
   end
 
   def unexecute
     robo_change.unfire!
 
-    render turbo_stream: turbo_stream.update(
-      "robo-change-#{ robo_change.id }",
-      partial: "robo_jobs/robo_change/show",
-      locals: { robo_change: robo_change }
-    )
+    render turbo_stream: [
+      turbo_stream.update(
+        "robo-change-#{ robo_change.id }",
+        partial: "robo_jobs/robo_change/show",
+        locals: { robo_change: robo_change }
+      ),
+      turbo_update_fire_all
+    ]
   end
 
   def unskip
     robo_change.update(status: 'pending')
 
-    render turbo_stream: turbo_stream.update(
-      "robo-change-#{ robo_change.id }",
-      partial: "robo_jobs/robo_change/show",
-      locals: { robo_change: robo_change }
-    )
+    render turbo_stream: [
+      turbo_stream.update(
+        "robo-change-#{ robo_change.id }",
+        partial: "robo_jobs/robo_change/show",
+        locals: { robo_change: robo_change }
+      ),
+      turbo_update_fire_all
+    ]
   end
 
   private
@@ -86,5 +88,13 @@ class RoboChangesController < SseApplicationController
 
   def robo_job
     @robo_job ||= RoboJob.find_by(id: params[:robo_job_id])
+  end
+
+  def turbo_update_fire_all
+    turbo_stream.update(
+        "fire-all-#{robo_job.id}",
+        partial: "robo_jobs/instructions/fire_all",
+        locals: { robo_job: robo_job }
+      )
   end
 end

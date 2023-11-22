@@ -28,11 +28,5 @@
 <% end %>
 
 <div class="flex flex-col items-end" id="fire-all-<%= robo_job.id %>" class="mb-1">
-  <% if robo_job.robo_changes.pending.count > 1 %>
-    <%= render "shared/stream_button",
-      path: execute_all_robo_job_robo_changes_path(robo_job),
-      label: "Fire All!",
-      class_name: "btn-opaque"
-    %>
-  <% end %>
+  <%= render "robo_jobs/instructions/fire_all", robo_job: robo_job %>
 </div>
