@@ -1,9 +1,5 @@
 # TODO
-- commit form
-  - fix modal rendering on some widths
-
 - add herosvg gem, replace svg elements in html.erb w/ calls to herosvg
-- make flash floating absolutely on page
 
 - contextual files fix
   db/schema.rb
@@ -12,7 +8,12 @@
   alphabetize contextual_files on save
   have AI return json
 
-- consolidate Fire All add/remove turbo_stream code
+- redesign long running RoboJobs
+  - primary element will be list of changes
+  - feature_request / conversation / extra notes available on click
+  - jobs + followup jobs rendered one at a time, w/ robo_changes in batches under them
+  - a "ding" when it's done
+  - consolidate Fire All add/remove turbo_stream code
 
 - add "content search" mode. move the search filtering logic from the frontend to the backend
   - add 2 API calls nested under project:
@@ -23,7 +24,6 @@
     - pass in 2 new API paths that can be used based on what mode is switched
 
 - Step 3: cleanup
-  - maybe: get rid of steps, sit this button next to Step 2
   - stream button, similar to "continue"
     - new followup job
     - optional message?
@@ -40,10 +40,6 @@
   - on all projects: git push origin [branch]
   - can add new action templates to projects
   - can create actions from templates in RoboJob
-
-- continue prompt:
-  - render new ones w/ flair
-  - a "ding" when it's done
 
 - all files make click-to-copy (or open in vscode...)
 
