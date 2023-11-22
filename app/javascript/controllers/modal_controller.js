@@ -7,6 +7,8 @@ export default class extends Controller {
   connect() {
     enter(this.wrapperTarget)
     enter(this.bodyTarget)
+
+    this.element["modalController"] = this
   }
 
   close(e) {

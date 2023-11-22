@@ -1,6 +1,9 @@
 <h1>New Git Commit</h1>
 
-<%= simple_form_for([project, git_commit], html: { "data-controller": "commit-copy branch-select" }) do |f| %>
+<% form_url = project_git_commit_path(project, git_commit) %>
+<% form_url += "?robo_job_id=#{robo_job.id}" if robo_job %>
+
+<%= simple_form_for([project, git_commit], url: form_url, html: { "data-controller": "commit-copy branch-select" }) do |f| %>
   <div class="mb-4">
     <%= f.label :branch %>
     <%= f.input :branch,
@@ -37,5 +40,11 @@
   </div>
 
   <%= f.submit "Commit", class: "btn-primary" %>
-  <%= link_to "Back", robo_job ? robo_job_path(robo_job) : project_path(project), class: "btn-opaque leading-6 inline-block" %>
+
+  <% if robo_job %>
+    <%= link_to "Cancel", "#", class: "btn-opaque leading-6 inline-block", "data-action": "modal#close" %>
+  <% else %>
+    <%= link_to "Back", project_path(project), class: "btn-opaque leading-6 inline-block" %>
+  <% end %>
+
 <% end %>

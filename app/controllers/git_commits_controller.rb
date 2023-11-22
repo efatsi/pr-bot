@@ -8,10 +8,10 @@ class GitCommitsController < SseApplicationController
         project.git_commits.create(robo_job_id: params[:robo_job_id])
       )
     else
-      @git_commit = project.git_commits.create
+      @git_commit = project.git_commits.pending.last || project.git_commits.create
     end
 
-    redirect_to edit_project_git_commit_path(project, @git_commit, modal: params[:modal])
+    redirect_to edit_project_git_commit_path(project, @git_commit, modal: params[:modal], robo_job_id: params[:robo_job_id])
   end
 
   def edit
@@ -22,7 +22,16 @@ class GitCommitsController < SseApplicationController
 
   def update
     if git_commit.update(git_commit_params) && git_commit.fire!
-      redirect_to robo_job || project, notice: 'Git commit saved'
+      if robo_job
+        flash[:notice] = "Git commit saved"
+
+        render turbo_stream: [
+          turbo_stream.update("turbo_scripts", partial: "shared/close_modal"),
+          turbo_stream.update("flash", partial: "shared/flash", locals: { flash: flash })
+        ]
+      else
+        redirect_to project, notice: 'Git commit saved'
+      end
     else
       render :edit, status: :unprocessable_entity, alert: "Git commit failed: #{git_commit.error}"
     end

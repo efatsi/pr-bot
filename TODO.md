@@ -3,10 +3,7 @@
   - fix modal rendering on some widths
 
 - add herosvg gem, replace svg elements in html.erb w/ calls to herosvg
-
-- add flash messages
-  - test w/ commit success
-  - test w/ commit failure
+- make flash floating absolutely on page
 
 - contextual files fix
   db/schema.rb
