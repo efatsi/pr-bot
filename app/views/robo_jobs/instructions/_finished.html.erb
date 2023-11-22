@@ -29,5 +29,14 @@
     <div class="mb-4">
       <%= link_to "Continue the Conversation ->", new_robo_job_followup_job_path(robo_job), class: "btn-opaque" %>
     </div>
+
+    <% if robo_job.robo_changes.executed.exists? %>
+      <div class="mb-4">
+        <%= link_to 'Create Git Commit', new_project_git_commit_path(project, robo_job_id: robo_job.id, modal: true),
+          class: "btn-primary",
+          "data-turbo-frame": "modal"
+        %>
+      </div>
+    <% end %>
   </div>
 <% end %>
