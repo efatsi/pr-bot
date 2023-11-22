@@ -27,7 +27,7 @@ class RoboJobsController < ApplicationController
         session[:show_files] = true
       end
 
-      redirect_to robo_job_path(robo_job), notice: 'RoboJob was successfully updated.'
+      redirect_to robo_job_path(robo_job)
     else
       render :edit
     end

@@ -16,9 +16,7 @@
       <% git_commit.message_options.fetch("commits", []).each do |option| %>
         <div class="flex items-center mb-2 gap-2">
           <button data-action="commit-copy#useMessage" data-message="<%= option['message'] %>" data-description="<%= option['description'] %>" class="btn-opaque mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m0-3l-3-3m0 0l-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25h-7.5a2.25 2.25 0 01-2.25-2.25v-.75" />
-            </svg>
+            <%= heroicon "arrow-up-on-square-stack", variant: :outline, options: { class: "w-4 h-4" } %>
           </button>
           <div>
             <div><%= option['message'] %></div>
