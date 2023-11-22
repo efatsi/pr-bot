@@ -1,19 +1,10 @@
 # TODO
-- add herosvg gem, replace svg elements in html.erb w/ calls to herosvg
-
 - contextual files fix
   db/schema.rb
   /db/schema.rb
   run unpack_files and "remove_starting_slash" on save
   alphabetize contextual_files on save
   have AI return json
-
-- redesign long running RoboJobs
-  - primary element will be list of changes
-  - feature_request / conversation / extra notes available on click
-  - jobs + followup jobs rendered one at a time, w/ robo_changes in batches under them
-  - a "ding" when it's done
-  - consolidate Fire All add/remove turbo_stream code
 
 - add "content search" mode. move the search filtering logic from the frontend to the backend
   - add 2 API calls nested under project:
@@ -42,6 +33,7 @@
   - can create actions from templates in RoboJob
 
 - all files make click-to-copy (or open in vscode...)
+- a "ding" when it's done
 
 - export sharable RoboJob
 
