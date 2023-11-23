@@ -1,12 +1,7 @@
 # TODO
 - contextual files fix
   - files mentioned in feature request have content sent in contextual_files search
-  - have AI return json
-  - on save
-    - rm first slash `db/schema.rb` `/db/schema.rb`'
-    - uniq
-    - run nested unpack_files
-    - alphabetize contextual_files
+  - per file line, show "rationale" from robo_request
 
 - add "content search" mode. move the search filtering logic from the frontend to the backend
   - add 2 API calls nested under project:

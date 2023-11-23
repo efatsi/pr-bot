@@ -67,22 +67,14 @@ class RoboJob < ApplicationRecord
   end
 
   def dig_out_contextual_files(robo_request)
-    contextual_files_from_request = robo_request.response.scan(/[\w\-.\/]+/).select do |f|
-      full_filepath = full_path(f)
+    filepaths = JSON.parse(robo_request.response)["files"].map do |f|
+      f["filepath"]
+    end
 
-      # Is file, is directory, is not just a dot and/or slash
-      File.file?(full_filepath) || File.directory?(full_filepath) &&
-        f.gsub(/[\.\/]/, "").length > 0
-    end.uniq
-
-    unpack_paths(contextual_files_from_request)
+    unpack_paths(filepaths)
   end
 
   private
-
-  def is_parent_job?
-    parent_job_id.nil?
-  end
 
   def unpack_paths(paths)
     paths.map do |f|
@@ -98,6 +90,10 @@ class RoboJob < ApplicationRecord
         unpack_paths(subpaths)
       end
     end.flatten.uniq
+  end
+
+  def is_parent_job?
+    parent_job_id.nil?
   end
 
   def full_path(f)

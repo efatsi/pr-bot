@@ -6,7 +6,7 @@ class Project < ApplicationRecord
 
   validates :filepath, :project_context, presence: true
 
-  array_field :ignored_files, alphabetize: true
+  array_field :ignored_files
 
   def to_s
     filepath

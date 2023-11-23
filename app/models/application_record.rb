@@ -4,16 +4,12 @@ class ApplicationRecord < ActiveRecord::Base
   scope :by_id, -> { order(id: :asc) }
   scope :newest_first, -> { order(created_at: :desc) }
 
-  def self.array_field(name, alphabetize: false)
+  def self.array_field(name)
     define_method("#{name}=") do |files|
       if files.is_a?(String)
-        if alphabetize
-          super(files.split("\n").sort)
-        else
-          super(files.split("\n"))
-        end
+        super(files.split("\n").sort)
       else
-        super(files)
+        super(files.sort)
       end
     end
   end

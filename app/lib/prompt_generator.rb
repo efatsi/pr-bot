@@ -3,10 +3,12 @@ class PromptGenerator
 
   RETURN_IMPLEMENTATION_AS_JSON = "Return the details of the implementation change as a JSON object with the following structure:"
   RETURN_COMMITS_AS_JSON = "Return the options as a JSON object with the following structure:"
+  RETURN_CONTEXT_FILES_AS_JSON = "Return the files as a JSON object with the following structure:"
 
   JSON_RETURNS = [
     RETURN_IMPLEMENTATION_AS_JSON,
     RETURN_COMMITS_AS_JSON,
+    RETURN_CONTEXT_FILES_AS_JSON,
   ]
 
   attr_reader :robo_request
@@ -32,6 +34,8 @@ class PromptGenerator
     robo_job = robo_request.parent
 
     [
+      "You are working on a project with these tools:\n" + project.project_context,
+      "",
       "What files from the Directory Tree should I review to implement the following feature request in this project?",
       "Directory Tree:",
       project.fetch_directory_tree.join("\n"),
@@ -39,8 +43,11 @@ class PromptGenerator
       "Feature request:",
       robo_job.feature_request,
       "",
-      "You are working on a project with these tools:\n" + project.project_context,
-      "Be very concise in your response, return exact file names for files that would provide helpful context.",
+      "Return paths for files or entire directories that would provide helpful context.",
+      RETURN_CONTEXT_FILES_AS_JSON,
+      "- files: An array of files/directories worth investigating:",
+      "  - filpath: exact path of file or directory",
+      "  - why: explain why this is relevant to the feature request",
     ].join("\n")
   end
 
