@@ -9,7 +9,7 @@ class RoboChangesController < SseApplicationController
       sse.write({
         turbo_stream: turbo_stream.update(
           "robo-change-#{ robo_change.id }",
-          partial: "robo_jobs/robo_change/show",
+          partial: "robo_jobs/robo_changes/show",
           locals: { robo_change: robo_change }
         )
       })
@@ -31,7 +31,7 @@ class RoboChangesController < SseApplicationController
     stream_updates = [
       turbo_stream.update(
         "robo-change-#{ robo_change.id }",
-        partial: "robo_jobs/robo_change/show",
+        partial: "robo_jobs/robo_changes/show",
         locals: { robo_change: robo_change }
       ),
       turbo_update_fire_all
@@ -46,7 +46,7 @@ class RoboChangesController < SseApplicationController
     render turbo_stream: [
       turbo_stream.update(
         "robo-change-#{ robo_change.id }",
-        partial: "robo_jobs/robo_change/show",
+        partial: "robo_jobs/robo_changes/show",
         locals: { robo_change: robo_change }
       ),
       turbo_update_fire_all
@@ -59,7 +59,7 @@ class RoboChangesController < SseApplicationController
     render turbo_stream: [
       turbo_stream.update(
         "robo-change-#{ robo_change.id }",
-        partial: "robo_jobs/robo_change/show",
+        partial: "robo_jobs/robo_changes/show",
         locals: { robo_change: robo_change }
       ),
       turbo_update_fire_all
@@ -72,7 +72,7 @@ class RoboChangesController < SseApplicationController
     render turbo_stream: [
       turbo_stream.update(
         "robo-change-#{ robo_change.id }",
-        partial: "robo_jobs/robo_change/show",
+        partial: "robo_jobs/robo_changes/show",
         locals: { robo_change: robo_change }
       ),
       turbo_update_fire_all

@@ -1,20 +1,18 @@
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <div class="px-1">
     <div class="mb-6" id="robo-changes">
-      <div class="inline-block font-medium border-b border-opacity-10 mb-4">Proposed Changes</div>
-
-      <% [robo_job, *robo_job.followup_jobs].each do |job| %>
-        <% if job.robo_changes.any? %>
-          <div class="mb-4">
-            <%= render "robo_jobs/instructions/robo_changes", robo_job: job %>
-          </div>
-        <% end %>
-      <% end %>
+      <%= render "robo_jobs/instructions/robo_changes", robo_job: robo_job %>
     </div>
 
-    <div class="flex justify-between mt-8 mb-4">
+    <%= turbo_frame_tag "continue-conversation" %>
+
+    <div class="flex flex-col gap-4 mt-8 mb-4">
       <div>
-        <%= link_to "Continue ->", new_robo_job_followup_job_path(robo_job), class: "btn-opaque" %>
+        <%= link_to "Continue the Conversation ->",
+          new_robo_job_followup_job_path(robo_job),
+          class: "btn-opaque",
+          "data-turbo-frame": "continue-conversation"
+        %>
       </div>
 
       <% if robo_job.robo_changes.executed.exists? %>

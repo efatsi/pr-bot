@@ -77,7 +77,7 @@ class RoboJobStreamsController < SseApplicationController
 
     sse.write({
       turbo_stream: turbo_stream.update(
-        "followup-job",
+        "continue-conversation",
         partial: "robo_jobs/followup/processing",
         locals: { robo_request: robo_manager.robo_request }
       )
@@ -90,14 +90,13 @@ class RoboJobStreamsController < SseApplicationController
       sse.write({
         turbo_stream: [
           turbo_stream.update(
-            "conversation",
-            partial: "robo_jobs/instructions/conversation",
-            locals: { robo_job: parent_job }
-          ),
-          turbo_stream.update(
             "robo-changes",
             partial: "robo_jobs/instructions/robo_changes",
             locals: { robo_job: parent_job }
+          ),
+          turbo_stream.update(
+            "continue-conversation",
+            plain: ""
           )
         ]
       })

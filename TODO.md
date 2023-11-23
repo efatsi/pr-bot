@@ -1,10 +1,12 @@
 # TODO
 - contextual files fix
-  db/schema.rb
-  /db/schema.rb
-  run unpack_files and "remove_starting_slash" on save
-  alphabetize contextual_files on save
-  have AI return json
+  - files mentioned in feature request have content sent in contextual_files search
+  - have AI return json
+  - on save
+    - rm first slash `db/schema.rb` `/db/schema.rb`'
+    - uniq
+    - run nested unpack_files
+    - alphabetize contextual_files
 
 - add "content search" mode. move the search filtering logic from the frontend to the backend
   - add 2 API calls nested under project:
@@ -46,7 +48,6 @@
 ## v2
 
 - Better contextual file finding
-  - files mentioned in the feature request have content sent in this request to help ask what should be looked at
   - Data compression
     - https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/
     - recognize filepath root and pull that out of contextual_file check
@@ -58,8 +59,6 @@
       - then a second pass pulls additional files based on context learned from the first
       - until satisfied
       - collecting pieces of the files that matter
-  - human seed:
-    - user can define known context files to include, passes files to robo step to help find other files
   - git history
     - there's soooo much to dig through here, but it's some of the more valuable stuff (eg: fix this bug over here just like when it was fixed by shaaaaa)
 

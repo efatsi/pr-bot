@@ -1,5 +1,5 @@
 <% label_class = dropdown_label_bg_for(robo_change) %>
-<% label_action = render("robo_jobs/robo_change/actions/#{robo_change.status}", robo_change: robo_change) %>
+<% label_action = render("robo_jobs/robo_changes/actions/#{robo_change.status}", robo_change: robo_change) %>
 
 <div id="robo-change-<%= robo_change.id %>">
   <%= render "shared/dropdown", label: robo_change.summary, label_class: label_class, label_action: label_action do %>

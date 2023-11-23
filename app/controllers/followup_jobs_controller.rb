@@ -1,12 +1,12 @@
 class FollowupJobsController < ApplicationController
   def new
-    followup_job = robo_job.followup_jobs.new(contextual_files: robo_job.last_contextual_files)
-
-    render turbo_stream: turbo_stream.update(
-      "continue-conversation",
-      partial: "robo_jobs/followup/form_wrapper",
-      locals: { robo_job: robo_job, followup_job: followup_job }
+    followup_job = robo_job.followup_jobs.new(
+      contextual_files: robo_job.last_contextual_files
     )
+
+    render partial: "robo_jobs/followup/form_wrapper", locals: {
+      robo_job: robo_job, followup_job: followup_job
+    }
   end
 
   def create
@@ -14,13 +14,13 @@ class FollowupJobsController < ApplicationController
 
     if followup_job.save
       render turbo_stream: turbo_stream.update(
-        "followup-job",
+        "continue-conversation",
         partial: "robo_jobs/followup/fire",
         locals: { followup_job: followup_job }
       )
     else
       render turbo_stream: turbo_stream.update(
-        "followup-job",
+        "continue-conversation",
         partial: "robo_jobs/followup/form",
         locals: { robo_job: robo_job, followup_job: followup_job }
       )
