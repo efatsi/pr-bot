@@ -16,6 +16,9 @@ class RoboJobsController < ApplicationController
   end
 
   def show
+    if robo_job.parent_job
+      redirect_to robo_job_path(robo_job.parent_job)
+    end
   end
 
   def edit
