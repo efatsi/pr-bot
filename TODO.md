@@ -1,15 +1,33 @@
 # TODO
+- prompt stuff
+  - for instrsuctions: do rewrite entire methods. do not rewrite just the smallest portion necessary
+
 - contextual files fix
   - files mentioned in feature request have content sent in contextual_files search
   - per file line, show "rationale" from robo_request
 
-- add "content search" mode. move the search filtering logic from the frontend to the backend
-  - add 2 API calls nested under project:
-    - file_name_search (pulling logic from `renderFileList`)
-    - file_content_search (new action to grep for search terms within project files and return list with matches)
-  - add toggle to fuzzy_finder form to switch between file_name and file_content mode
-  - instead of loading all files into the DOM `data-fuzzy-finder-file-data-value`
-    - pass in 2 new API paths that can be used based on what mode is switched
+- Contextual Files batch
+  - "content search"
+    - bring back renderFileList after click
+    - split on spaces
+    - highlight search matches when found
+    - regex search
+  - fuzzy-file finder
+    - let you access it from show view
+      - allow form still, but can add / remove w/o it
+
+
+  move this to the backend for all search methods
+  ```js
+  renderFileList() {
+    let fileList = this.fileDataValue;
+
+    if (this.searchTerm && this.searchTerm.length > 0) {
+      const searchTerms = this.searchTerm.split(' ').filter(term => term.length > 0);
+      fileList = this.fileDataValue.filter(file => searchTerms.every(term => file.toLowerCase().includes(term.toLowerCase())));
+    }
+  }
+  ```
 
 - Step 3: cleanup
   - stream button, similar to "continue"

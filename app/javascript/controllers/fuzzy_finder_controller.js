@@ -10,8 +10,23 @@ function escapeHtml(unsafe) {
 }
 
 export default class FuzzyFinderController extends Controller {
-  static values = { fileData: Array, inputId: String, filePreviewUrl: String }
-  static targets = ['results', 'input', 'fileSearch', 'previewSection', 'previewFile', 'previewContent', 'previewToggle']
+  static values = {
+    fileData: Array,
+    inputId: String,
+    filePreviewUrl: String,
+    fileNameSearchUrl: String,
+    fileContentSearchUrl: String,
+  }
+
+  static targets = [
+    'results',
+    'input',
+    'fileSearch',
+    'previewSection',
+    'previewFile',
+    'previewContent',
+    'previewToggle'
+  ]
 
   connect() {
     this.selectedFiles = new Set();
@@ -19,7 +34,6 @@ export default class FuzzyFinderController extends Controller {
     this.previewedFile = null;
 
     this.loadSelectedFiles();
-    this.renderFileList();
     this.element.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
@@ -106,7 +120,8 @@ export default class FuzzyFinderController extends Controller {
       this.selectedFiles.add(fileName);
       this.addFileToInput(fileName);
     }
-    this.renderFileList();
+    // TODO: bring this back... cache displayedFiles to align w/ selectedFiles
+    // this.renderFileList();
 
     if (this.previewedFile) {
       this.setPreviewToggleText()
@@ -131,17 +146,16 @@ export default class FuzzyFinderController extends Controller {
     }
   }
 
-  renderFileList() {
-    let fileList = this.fileDataValue;
+  inputValueChanged() {
+    const searchMode = this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
+    const query = this.inputTarget.value;
+    const url = searchMode === 'file_name' ? `${this.fileNameSearchUrlValue}?query=${query}` : `${this.fileContentSearchUrlValue}?query=${query}`;
 
-    if (this.searchTerm && this.searchTerm.length > 0) {
-      const searchTerms = this.searchTerm.split(' ').filter(term => term.length > 0);
-      fileList = this.fileDataValue.filter(file => searchTerms.every(term => file.toLowerCase().includes(term.toLowerCase())));
-    }
-
-    this.resultsTarget.innerHTML = fileList.map(file => {
-      return this.renderFile(file);
-    }).join('');
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        this.resultsTarget.innerHTML = data.map(f => this.renderFile(f)).join('');
+      });
   }
 
   renderFile(file) {
@@ -156,11 +170,6 @@ export default class FuzzyFinderController extends Controller {
         <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
       </div>`
     )
-  }
-
-  inputValueChanged() {
-    this.searchTerm = this.inputTarget.value.toLowerCase();
-    this.renderFileList();
   }
 
   loadSelectedFiles() {

@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   resources :projects, except: :destroy do
     get :fuzzy_finder, on: :member
+    get :file_name_search, on: :member
+    get :file_content_search, on: :member
     get :file_preview, on: :member
 
     resources :git_commits, only: [:new, :edit, :update] do

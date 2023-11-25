@@ -34,6 +34,36 @@ class ProjectsController < ApplicationController
   def fuzzy_finder
   end
 
+  def file_name_search
+    file_list = project.fetch_directory_tree
+    search_terms = params[:query].split(/\/|\s/).map(&:downcase).reject(&:empty?)
+
+    matching_files = file_list.select do |file|
+      last_index = -1
+      sequence_found = search_terms.all? do |term|
+        current_index = file.downcase.index(term, last_index + 1)
+        if current_index.nil? || (last_index != -1 && current_index <= last_index)
+          false
+        else
+          last_index = current_index
+          true
+        end
+      end
+      sequence_found
+    end
+
+    render json: matching_files
+  end
+
+  def file_content_search
+    file_list = project.fetch_directory_tree
+    matching_files = file_list.select do |file|
+      file_path = File.join(project.filepath, file)
+      File.read(file_path).downcase.include?(params[:query].downcase)
+    end
+    render json: matching_files
+  end
+
   def file_preview
     full_path = File.join(project.filepath, params[:file])
     file_contents = File.read(full_path)
