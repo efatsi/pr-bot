@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { useDebounce } from "stimulus-use"
 
 function escapeHtml(unsafe) {
   return unsafe
@@ -28,17 +29,38 @@ export default class FuzzyFinderController extends Controller {
     'previewToggle'
   ]
 
+  static debounces = [
+    {
+      name: "slowHandleFormChange",
+      wait: 250,
+    },
+  ];
+
   connect() {
+    useDebounce(this);
+
     this.selectedFiles = new Set();
     this.finalInput = document.getElementById(this.inputIdValue);
     this.previewedFile = null;
+    this.lastUrl = null;
 
     this.loadSelectedFiles();
     this.element.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
   handleKeyDown(event) {
-    if (event.target === this.inputTarget || event.target.classList.contains('file-item')) {
+    // If in input, only handle down arrow differently
+    if (event.target === this.inputTarget) {
+      if (event.key == 'ArrowDown') {
+        event.preventDefault();
+        this.focusNextFile();
+      }
+
+      return
+    }
+
+    // If in file list, handle all keys
+    if (event.target.classList.contains('file-item')) {
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
@@ -146,10 +168,21 @@ export default class FuzzyFinderController extends Controller {
     }
   }
 
-  inputValueChanged() {
+  slowHandleFormChange() {
+    this.handleFormChange();
+  }
+
+  handleFormChange() {
     const searchMode = this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
     const query = this.inputTarget.value;
     const url = searchMode === 'file_name' ? `${this.fileNameSearchUrlValue}?query=${query}` : `${this.fileContentSearchUrlValue}?query=${query}`;
+
+    // check if query changed
+    if (this.lastUrl === url) {
+      return;
+    } else {
+      this.lastUrl = url;
+    }
 
     fetch(url)
       .then(response => response.json())

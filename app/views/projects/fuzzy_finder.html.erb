@@ -12,7 +12,14 @@
       <div class="min-w-full" data-fuzzy-finder-target="fileSearch">
         <div class="text-lg font-bold mb-3 text-center">File Search</div>
 
-        <%= simple_form_for :fuzzy_search, url: "#", method: :get, remote: true, html: { "data-type": "json" } do |f| %>
+        <%= simple_form_for :fuzzy_search, url: "#",
+          method: :get,
+          remote: true,
+          html: {
+            "data-type": "json",
+            "data-action": "change->fuzzy-finder#handleFormChange"
+          } do |f|
+        %>
           <div class="flex items-center mb-4">
             <%= f.radio_button :mode, "file_name", checked: true, class: "mr-2" %>
             <%= f.label :mode_file_name, "File Name", class: "mr-4" %>
@@ -20,6 +27,7 @@
             <%= f.radio_button :mode, "file_content", class: "mr-2" %>
             <%= f.label :mode_file_content, "File Content" %>
           </div>
+
           <%= f.input :text,
             as: :string,
             label: false,
@@ -27,7 +35,7 @@
               class: "max-w-[500px]",
               autofocus: true,
               autocomplete: "off",
-              "data-action": "input->fuzzy-finder#inputValueChanged keyup->fuzzy-finder#inputValueChanged",
+              "data-action": "keyup->fuzzy-finder#slowHandleFormChange",
               "data-fuzzy-finder-target": "input"
             }
           %>
