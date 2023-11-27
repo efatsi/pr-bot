@@ -1,33 +1,18 @@
 # TODO
-- prompt stuff
-  - for instrsuctions: do rewrite entire methods. do not rewrite just the smallest portion necessary
+- Contextual Files batch
+  - bring back renderFileList after click
+  - show found search matches below file
+  - regex search
+  - let you access it from show view
+    - allow form still, but can add / remove w/o it
 
 - contextual files fix
   - files mentioned in feature request have content sent in contextual_files search
-  - per file line, show "rationale" from robo_request
+  - files mentioned in feature request are auto added to contextual_files
+  - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
 
-- Contextual Files batch
-  - "content search"
-    - bring back renderFileList after click
-    - split on spaces
-    - highlight search matches when found
-    - regex search
-  - fuzzy-file finder
-    - let you access it from show view
-      - allow form still, but can add / remove w/o it
-
-
-  move this to the backend for all search methods
-  ```js
-  renderFileList() {
-    let fileList = this.fileDataValue;
-
-    if (this.searchTerm && this.searchTerm.length > 0) {
-      const searchTerms = this.searchTerm.split(' ').filter(term => term.length > 0);
-      fileList = this.fileDataValue.filter(file => searchTerms.every(term => file.toLowerCase().includes(term.toLowerCase())));
-    }
-  }
-  ```
+- prompt stuff
+  - for instrsuctions: do rewrite entire methods. do not rewrite just the smallest portion necessary
 
 - Step 3: cleanup
   - stream button, similar to "continue"
