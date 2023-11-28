@@ -5,7 +5,7 @@ class RobotApi
   GPT_4_TURBO = "gpt-4-1106-preview"
 
   # ~70k = $1
-  PROMPT_MAX_LENGTH = 10_000
+  PROMPT_MAX_LENGTH = 30_000
 
   def ask_gpt4(prompt, sse_proc=nil)
     json_mode = PromptGenerator::JSON_RETURNS.any? {|p| prompt.include?(p) }

@@ -31,6 +31,9 @@
 - export sharable RoboJob
 
 - cost updates
+  - show on project
+    - http://localhost:3000/robo_jobs/79
+    - demo mode?
   - check pricing ... http://localhost:3000/robo_jobs/124 is 0.05 but has loooots of requests
   - toggle on RoboJob to show per-request cost
     - show request cost on the Response dropdown
