@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
           # Remove the first and last line of each group unless it's the top or bottom of the file
           group.shift unless group.first == 0
           group.pop unless group.last == content_lines.length - 1
-          group.map { |line_number| { line: line_number, content: content_lines[line_number] } if content_lines[line_number].present? }.compact
+          group.map { |line_number| { line: line_number, content: content_lines[line_number] } }.compact
         end
         acc << { file: file, line_groups: grouped_line_content }
       end

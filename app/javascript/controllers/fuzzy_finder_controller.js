@@ -234,13 +234,13 @@ export default class FuzzyFinderController extends Controller {
 
     if (this.searchMode() === 'file_content' && file.line_groups) {
       const groupContent = (group) => {
-        let content_html = group.map(line => `<span class="line-number">${line.line + 1}:</span> ${escapeHtml(line.content)}`).join('\n');
+        let content_html = group.map(line => `<span class="text-xs text-gray-500">${line.line + 1}:</span> ${escapeHtml(line.content)}`).join('\n');
         return this.highlightSearchTerm(content_html, this.inputTarget.value);
       }
 
-      toReturn += `<div class="text-sm text-gray-400 pl-2 flex flex-col gap-4 my-2">
+      toReturn += `<div class="text-sm text-gray-400 pl-2 flex flex-col gap-4 my-2 overflow-auto">
         ${file.line_groups.map(group => {
-          return `<pre class="whitespace-pre-wrap">${groupContent(group)}</pre>`;
+          return `<pre class="whitespace-pre max-w-full">${groupContent(group)}</pre>`;
         }).join('')}
       </div>`;
     }
@@ -309,7 +309,7 @@ export default class FuzzyFinderController extends Controller {
       return content.replace(regex, '<span class="bg-[#6c2c07] rounded">$&</span>');
     } else {
       const escapedSearchTerm = escapeHtml(searchTerm).replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
-      const searchRegex = new RegExp(escapedSearchTerm, this.isCaseSensitive() ? '' : 'i');
+      const searchRegex = new RegExp(escapedSearchTerm, this.isCaseSensitive() ? 'g' : 'gi');
       return content.replace(searchRegex, '<span class="bg-[#6c2c07] rounded">$&</span>');
     }
   }

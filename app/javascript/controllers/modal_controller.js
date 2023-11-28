@@ -21,6 +21,8 @@ export default class extends Controller {
     })
   }
 
+  // Can set this up on the data-controller="modal" element w/
+  // data-action="keyup@document->modal#closeOnEscape"
   closeOnEscape(e) {
     if (e.key === "Escape") {
       this.close()
