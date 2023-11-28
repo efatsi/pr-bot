@@ -1,12 +1,10 @@
 # TODO
-- Contextual Files batch
+- contextual files enhance
   - bring back renderFileList after click
   - show found search matches below file
   - regex search
   - let you access it from show view
     - allow form still, but can add / remove w/o it
-
-- contextual files fix
   - files mentioned in feature request have content sent in contextual_files search
   - files mentioned in feature request are auto added to contextual_files
   - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")

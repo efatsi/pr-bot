@@ -38,6 +38,7 @@ class ProjectsController < ApplicationController
     file_list = project.fetch_directory_tree
     search_terms = params[:query].split(/\/|\s/).map(&:downcase).reject(&:empty?)
 
+    # Ensure that the search terms appear in the file name in the order they were entered
     matching_files = file_list.select do |file|
       last_index = -1
       sequence_found = search_terms.all? do |term|
