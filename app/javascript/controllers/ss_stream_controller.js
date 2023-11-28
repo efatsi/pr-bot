@@ -21,7 +21,7 @@ export default class SsStreamController extends Controller {
     const eventSource = new EventSource(this.urlValue)
 
     eventSource.addEventListener("message", (event) => {
-      console.log("Received server-side event:", event)
+      // console.log("Received server-side event:", event)
       const data = JSON.parse(event.data)
 
       if (data.turbo_stream) {

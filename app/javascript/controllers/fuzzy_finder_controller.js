@@ -43,6 +43,7 @@ export default class FuzzyFinderController extends Controller {
     this.finalInput = document.getElementById(this.inputIdValue);
     this.previewedFile = null;
     this.lastUrl = null;
+    this.abortController = null
 
     this.loadSelectedFiles();
     this.element.addEventListener('keydown', this.handleKeyDown.bind(this));
@@ -184,11 +185,20 @@ export default class FuzzyFinderController extends Controller {
       this.lastUrl = url;
     }
 
-    fetch(url)
+    if (this.abortController) { this.abortController.abort(); }
+    this.abortController = new AbortController();
+
+    fetch(url, { signal: this.abortController.signal })
       .then(response => response.json())
       .then(data => {
+        this.abortController = null;
         this.resultsTarget.innerHTML = data.map(f => this.renderFile(f)).join('');
-      });
+      })
+      .catch(error => {
+        if (error.name !== 'AbortError') {
+          console.error(error);
+        }
+      })
   }
 
   renderFile(file) {
