@@ -26,7 +26,9 @@ export default class FuzzyFinderController extends Controller {
     'previewSection',
     'previewFile',
     'previewContent',
-    'previewToggle'
+    'previewToggle',
+    'contentSearch',
+    'caseSensitiveElement',
   ]
 
   static debounces = [
@@ -174,9 +176,24 @@ export default class FuzzyFinderController extends Controller {
   }
 
   handleFormChange() {
-    const searchMode = this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
     const query = this.inputTarget.value;
-    const url = searchMode === 'file_name' ? `${this.fileNameSearchUrlValue}?query=${query}` : `${this.fileContentSearchUrlValue}?query=${query}`;
+    const searchMode = this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
+    const isRegex = this.element.querySelector('input[name="fuzzy_search[regex]"][type="checkbox"]').checked;
+    const isCaseSensitive = this.element.querySelector('input[name="fuzzy_search[case_sensitive]"][type="checkbox"]').checked;
+
+    let url
+    if (searchMode === 'file_name') {
+      url = `${this.fileNameSearchUrlValue}?query=${query}`
+    } else {
+      url = `${this.fileContentSearchUrlValue}?query=${query}&regex=${isRegex}&case_sensitive=${isCaseSensitive}`;
+    }
+
+    // show/hide regex checkbox if needed
+    if (searchMode === 'file_content') {
+      this.contentSearchTargets.forEach(el => el.classList.remove('hidden'));
+    } else {
+      this.contentSearchTargets.forEach(el => el.classList.add('hidden'));
+    }
 
     // check if query changed
     if (this.lastUrl === url) {

@@ -35,6 +35,10 @@ class ProjectsController < ApplicationController
   end
 
   def file_name_search
+    if params[:query].blank?
+      return render json: []
+    end
+
     file_list = project.fetch_directory_tree
     search_terms = params[:query].split(/\/|\s/).map(&:downcase).reject(&:empty?)
 
@@ -57,10 +61,37 @@ class ProjectsController < ApplicationController
   end
 
   def file_content_search
+    if params[:query].blank?
+      return render json: []
+    end
+
     file_list = project.fetch_directory_tree
     matching_files = file_list.select do |file|
       file_path = File.join(project.filepath, file)
-      File.read(file_path).downcase.include?(params[:query].downcase)
+      content = File.read(file_path)
+
+      if params[:regex] == 'true'
+        begin
+          if params[:case_sensitive] == 'true'
+            regex = Regexp.new(params[:query])
+            match = content.match(regex)
+          else
+            regex = Regexp.new(params[:query].downcase)
+            match = content.downcase.match(regex)
+          end
+        rescue RegexpError => e
+          render json: { error: e.message }, status: :bad_request
+          return
+        end
+        match
+      else
+        if params[:case_sensitive] == 'true'
+          content.include?(params[:query])
+        else
+          content.downcase.include?(params[:query].downcase)
+        end
+      end
+
     end
     render json: matching_files
   end

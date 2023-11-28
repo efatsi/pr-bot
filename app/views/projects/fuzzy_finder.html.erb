@@ -26,6 +26,12 @@
 
             <%= f.radio_button :mode, "file_content", class: "mr-2" %>
             <%= f.label :mode_file_content, "File Content" %>
+
+            <%= f.check_box :regex, class: "ml-4 hidden", "data-fuzzy-finder-target": "contentSearch" %>
+            <%= f.label :regex, "Regex Search", class: "ml-1 hidden", "data-fuzzy-finder-target": "contentSearch" %>
+
+            <%= f.check_box :case_sensitive, class: "ml-4 hidden", "data-fuzzy-finder-target": "contentSearch" %>
+            <%= f.label :case_sensitive, "Case Sensitive", class: "ml-1 hidden", "data-fuzzy-finder-target": "contentSearch" %>
           </div>
 
           <%= f.input :text,
