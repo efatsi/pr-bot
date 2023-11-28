@@ -177,14 +177,13 @@ export default class FuzzyFinderController extends Controller {
 
   handleFormChange() {
     const query = this.inputTarget.value;
-    const isRegex = this.element.querySelector('input[name="fuzzy_search[regex]"][type="checkbox"]').checked;
-    const isCaseSensitive = this.element.querySelector('input[name="fuzzy_search[case_sensitive]"][type="checkbox"]').checked;
+    if (query.trim() === '') return;
 
     let url
     if (this.searchMode() === 'file_name') {
       url = `${this.fileNameSearchUrlValue}?query=${query}`
     } else {
-      url = `${this.fileContentSearchUrlValue}?query=${query}&regex=${isRegex}&case_sensitive=${isCaseSensitive}`;
+      url = `${this.fileContentSearchUrlValue}?query=${query}&regex=${this.isRegex()}&case_sensitive=${this.isCaseSensitive()}`;
     }
 
     // show/hide regex checkbox if needed
@@ -233,11 +232,17 @@ export default class FuzzyFinderController extends Controller {
       <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
     </div>`
 
-    if (file.surrounding_lines) {
-      toReturn += `<div class="text-sm text-gray-500 pl-2">
-        <div>Line: ${file.line}</div>
-        <pre class="whitespace-pre-wrap">${file.surrounding_lines.join("<br>")}</pre>
-      </div>`
+    if (this.searchMode() === 'file_content' && file.line_groups) {
+      const groupContent = (group) => {
+        let content_html = group.map(line => `<span class="line-number">${line.line + 1}:</span> ${escapeHtml(line.content)}`).join('\n');
+        return this.highlightSearchTerm(content_html, this.inputTarget.value);
+      }
+
+      toReturn += `<div class="text-sm text-gray-400 pl-2 flex flex-col gap-4 my-2">
+        ${file.line_groups.map(group => {
+          return `<pre class="whitespace-pre-wrap">${groupContent(group)}</pre>`;
+        }).join('')}
+      </div>`;
     }
 
     return toReturn;
@@ -298,7 +303,26 @@ export default class FuzzyFinderController extends Controller {
     )
   }
 
+  highlightSearchTerm(content, searchTerm) {
+    if (this.isRegex()) {
+      const regex = this.isCaseSensitive() ? new RegExp(searchTerm, 'g') : new RegExp(searchTerm, 'gi');
+      return content.replace(regex, '<span class="bg-[#6c2c07] rounded">$&</span>');
+    } else {
+      const escapedSearchTerm = escapeHtml(searchTerm).replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(escapedSearchTerm, this.isCaseSensitive() ? '' : 'i');
+      return content.replace(searchRegex, '<span class="bg-[#6c2c07] rounded">$&</span>');
+    }
+  }
+
   searchMode() {
     return this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
+  }
+
+  isRegex() {
+    return this.element.querySelector('input[name="fuzzy_search[regex]"][type="checkbox"]').checked
+  }
+
+  isCaseSensitive() {
+    return this.element.querySelector('input[name="fuzzy_search[case_sensitive]"][type="checkbox"]').checked
   }
 }

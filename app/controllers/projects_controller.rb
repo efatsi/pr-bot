@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
     file_list = project.fetch_directory_tree
     search_terms = params[:query].split(/\/|\s/).map(&:downcase).reject(&:empty?)
 
-    # Ensure that the search terms appear in the file name in the order they were entered
+    # Ensure that the search terms appear in the filepath in the order they were entered
     matching_files = file_list.select do |file|
       last_index = -1
       sequence_found = search_terms.all? do |term|
@@ -68,26 +68,31 @@ class ProjectsController < ApplicationController
     file_list = project.fetch_directory_tree
     matching_files = file_list.each_with_object([]) do |file, acc|
       file_path = File.join(project.filepath, file)
-      content = File.read(file_path)
+      content_lines = File.read(file_path).split("\n")
 
-      content_lines = content.split("\n")
-      content_lines.each_with_index do |line, index|
-        if params[:regex] == 'true'
-          begin
-            regex = params[:case_sensitive] == 'true' ? Regexp.new(params[:query]) : Regexp.new(params[:query], Regexp::IGNORECASE)
-            match = line.match(regex)
-          rescue RegexpError => e
-            return render json: { error: e.message }, status: :bad_request
-          end
+      matching_lines = content_lines.map.with_index do |line, index|
+        match = if params[:regex] == 'true'
+          regex = params[:case_sensitive] == 'true' ? Regexp.new(params[:query]) : Regexp.new(params[:query], Regexp::IGNORECASE)
+          line.match(regex)
         else
-          match = params[:case_sensitive] == 'true' ? line.include?(params[:query]) : line.downcase.include?(params[:query].downcase)
+          params[:case_sensitive] == 'true' ? line.include?(params[:query]) : line.downcase.include?(params[:query].downcase)
         end
 
-        if match
-          surrounding_lines = content_lines[[index - 1, 0].max..[index + 1, content_lines.length - 1].min].select(&:present?).compact
-          acc << { file: file, line: index + 1, surrounding_lines: surrounding_lines }
-          break
+        index if match
+      end.compact
+
+      if matching_lines.any?
+        buffered_matching_lines = matching_lines.flat_map { |line| [(line - 2), (line - 1), line, (line + 1), (line + 2)] }.uniq.sort
+        buffered_matching_lines.reject! { |l| l < 0 || l >= content_lines.length }
+
+        grouped_lines = buffered_matching_lines.slice_when { |i, j| i + 1 != j }.to_a
+        grouped_line_content = grouped_lines.map do |group|
+          # Remove the first and last line of each group unless it's the top or bottom of the file
+          group.shift unless group.first == 0
+          group.pop unless group.last == content_lines.length - 1
+          group.map { |line_number| { line: line_number, content: content_lines[line_number] } if content_lines[line_number].present? }.compact
         end
+        acc << { file: file, line_groups: grouped_line_content }
       end
     end
 

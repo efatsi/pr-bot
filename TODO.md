@@ -2,9 +2,8 @@
 - contextual files enhance
   ~ show found search matches below file
     - show all results
-      - collect all lines, collapse overlaps, remove duplicates
-      - show distinct groups
       - highlight matching search term (checking regex)
+    - re-focus on input after radio/checkbox click
     - highlight line & handle click when hovering search results
 
   - let you access file finder from show view
@@ -13,9 +12,6 @@
   - files mentioned in feature request have content sent in contextual_files search
   - files mentioned in feature request are auto added to contextual_files
   - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
-
-- prompt stuff
-  - for instrsuctions: do rewrite entire methods. do not rewrite just the smallest portion necessary
 
 - Step 3: cleanup
   - stream button, similar to "continue"
@@ -46,6 +42,10 @@
   - project cost dips down through RoboJob requests and job-less Commit requests
   - RoboJob cost dips down through self's requests, followup requests, and commit requests
 
+- commits
+  - move button out of main frame
+  - show commits
+
 ## v2
 
 - Better contextual file finding
@@ -62,6 +62,9 @@
       - collecting pieces of the files that matter
   - git history
     - there's soooo much to dig through here, but it's some of the more valuable stuff (eg: fix this bug over here just like when it was fixed by shaaaaa)
+
+- question mode vs. feature mode
+  - different prompt, lets you just ask questions about the app to get humanoid answers
 
 ## v3 / gettin fancy:
 
