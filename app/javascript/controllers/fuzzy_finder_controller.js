@@ -177,19 +177,18 @@ export default class FuzzyFinderController extends Controller {
 
   handleFormChange() {
     const query = this.inputTarget.value;
-    const searchMode = this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
     const isRegex = this.element.querySelector('input[name="fuzzy_search[regex]"][type="checkbox"]').checked;
     const isCaseSensitive = this.element.querySelector('input[name="fuzzy_search[case_sensitive]"][type="checkbox"]').checked;
 
     let url
-    if (searchMode === 'file_name') {
+    if (this.searchMode() === 'file_name') {
       url = `${this.fileNameSearchUrlValue}?query=${query}`
     } else {
       url = `${this.fileContentSearchUrlValue}?query=${query}&regex=${isRegex}&case_sensitive=${isCaseSensitive}`;
     }
 
     // show/hide regex checkbox if needed
-    if (searchMode === 'file_content') {
+    if (this.searchMode() === 'file_content') {
       this.contentSearchTargets.forEach(el => el.classList.remove('hidden'));
     } else {
       this.contentSearchTargets.forEach(el => el.classList.add('hidden'));
@@ -224,17 +223,24 @@ export default class FuzzyFinderController extends Controller {
   }
 
   renderFile(file) {
-    const fileClass = "cursor-pointer pl-2 py-0.5 rounded hover:bg-blue-700 group flex items-center justify-between"
-    const selectedClass = this.selectedFiles.has(file) ? '!bg-green-700' : '';
-    const linkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
-    const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file}"`
+    const fileClass = "cursor-pointer py-0.5 rounded hover:bg-blue-700 group flex items-center justify-between"
+    const selectedClass = this.selectedFiles.has(file.file) ? '!bg-green-700' : '';
+    const linkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file.file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
+    const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file.file}"`
 
-    return (
-      `<div class="${fileClass} ${selectedClass} file-item" tabindex="0" data-action="click->fuzzy-finder#toggleFileSelection">
-        <span>${file}</span>
-        <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
+    let toReturn = `<div class="${fileClass} ${selectedClass} file-item" tabindex="0" data-action="click->fuzzy-finder#toggleFileSelection">
+      <span>${file.file}</span>
+      <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
+    </div>`
+
+    if (file.surrounding_lines) {
+      toReturn += `<div class="text-sm text-gray-500 pl-2">
+        <div>Line: ${file.line}</div>
+        <pre class="whitespace-pre-wrap">${file.surrounding_lines.join("<br>")}</pre>
       </div>`
-    )
+    }
+
+    return toReturn;
   }
 
   loadSelectedFiles() {
@@ -290,5 +296,9 @@ export default class FuzzyFinderController extends Controller {
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>`
     )
+  }
+
+  searchMode() {
+    return this.element.querySelector('input[name="fuzzy_search[mode]"]:checked').value;
   }
 }

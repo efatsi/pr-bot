@@ -57,7 +57,7 @@ class ProjectsController < ApplicationController
       sequence_found
     end
 
-    render json: matching_files
+    render json: matching_files.map { |f| { file: f } }
   end
 
   def file_content_search
@@ -66,33 +66,31 @@ class ProjectsController < ApplicationController
     end
 
     file_list = project.fetch_directory_tree
-    matching_files = file_list.select do |file|
+    matching_files = file_list.each_with_object([]) do |file, acc|
       file_path = File.join(project.filepath, file)
       content = File.read(file_path)
 
-      if params[:regex] == 'true'
-        begin
-          if params[:case_sensitive] == 'true'
-            regex = Regexp.new(params[:query])
-            match = content.match(regex)
-          else
-            regex = Regexp.new(params[:query].downcase)
-            match = content.downcase.match(regex)
+      content_lines = content.split("\n")
+      content_lines.each_with_index do |line, index|
+        if params[:regex] == 'true'
+          begin
+            regex = params[:case_sensitive] == 'true' ? Regexp.new(params[:query]) : Regexp.new(params[:query], Regexp::IGNORECASE)
+            match = line.match(regex)
+          rescue RegexpError => e
+            return render json: { error: e.message }, status: :bad_request
           end
-        rescue RegexpError => e
-          render json: { error: e.message }, status: :bad_request
-          return
-        end
-        match
-      else
-        if params[:case_sensitive] == 'true'
-          content.include?(params[:query])
         else
-          content.downcase.include?(params[:query].downcase)
+          match = params[:case_sensitive] == 'true' ? line.include?(params[:query]) : line.downcase.include?(params[:query].downcase)
+        end
+
+        if match
+          surrounding_lines = content_lines[[index - 1, 0].max..[index + 1, content_lines.length - 1].min].select(&:present?).compact
+          acc << { file: file, line: index + 1, surrounding_lines: surrounding_lines }
+          break
         end
       end
-
     end
+
     render json: matching_files
   end
 

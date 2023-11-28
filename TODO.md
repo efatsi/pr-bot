@@ -1,8 +1,15 @@
 # TODO
 - contextual files enhance
-  - show found search matches below file
-  - let you access it from show view
+  ~ show found search matches below file
+    - show all results
+      - collect all lines, collapse overlaps, remove duplicates
+      - show distinct groups
+      - highlight matching search term (checking regex)
+    - highlight line & handle click when hovering search results
+
+  - let you access file finder from show view
     - allow form still, but can add / remove w/o it
+
   - files mentioned in feature request have content sent in contextual_files search
   - files mentioned in feature request are auto added to contextual_files
   - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
@@ -55,14 +62,6 @@
       - collecting pieces of the files that matter
   - git history
     - there's soooo much to dig through here, but it's some of the more valuable stuff (eg: fix this bug over here just like when it was fixed by shaaaaa)
-
-- commit polish
-  - handle branch funniness
-    - If new_branch is an existing brnach, switch to it instead of creating a new one
-    - bash_runner
-      - takes array of commands and runs them all
-      - tracks status
-      - outputs all data in a json blob to be saved on records
 
 ## v3 / gettin fancy:
 
