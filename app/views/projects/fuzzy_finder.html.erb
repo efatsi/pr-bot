@@ -5,6 +5,7 @@
       data-controller="fuzzy-finder"
       data-fuzzy-finder-input-id-value="<%= params[:input_id] %>"
       data-fuzzy-finder-file-preview-url-value="<%= file_preview_project_path(project) %>"
+      data-fuzzy-finder-all-files-url-value="<%= full_directory_listing_project_path(project) %>"
       data-fuzzy-finder-file-name-search-url-value="<%= file_name_search_project_path(project) %>"
       data-fuzzy-finder-file-content-search-url-value="<%= file_content_search_project_path(project) %>"
     >
@@ -21,6 +22,9 @@
           } do |f|
         %>
           <div class="flex items-center mb-4">
+            <%= f.radio_button :mode, "all_files", class: "mr-2" %>
+            <%= f.label :mode_all_files, "Show All Files", class: "mr-4" %>
+
             <%= f.radio_button :mode, "file_name", checked: true, class: "mr-2" %>
             <%= f.label :mode_file_name, "File Name", class: "mr-4" %>
 

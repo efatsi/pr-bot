@@ -57,7 +57,7 @@ class ProjectsController < ApplicationController
       sequence_found
     end
 
-    render json: matching_files.map { |f| { file: f } }
+    render json: matching_files
   end
 
   def file_content_search
@@ -97,6 +97,10 @@ class ProjectsController < ApplicationController
     end
 
     render json: matching_files
+  end
+
+  def full_directory_listing
+    render json: project.fetch_directory_tree
   end
 
   def file_preview

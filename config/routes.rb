@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get :file_name_search, on: :member
     get :file_content_search, on: :member
     get :file_preview, on: :member
+    get :full_directory_listing, on: :member
 
     resources :git_commits, only: [:new, :edit, :update] do
       get :generate_options, on: :member

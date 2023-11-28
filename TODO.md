@@ -1,11 +1,5 @@
 # TODO
 - contextual files enhance
-  ~ show found search matches below file
-    - show all results
-      - highlight matching search term (checking regex)
-    - re-focus on input after radio/checkbox click
-    - highlight line & handle click when hovering search results
-
   - let you access file finder from show view
     - allow form still, but can add / remove w/o it
 
@@ -37,6 +31,7 @@
 - export sharable RoboJob
 
 - cost updates
+  - check pricing ... http://localhost:3000/robo_jobs/124 is 0.05 but has loooots of requests
   - toggle on RoboJob to show per-request cost
     - show request cost on the Response dropdown
   - project cost dips down through RoboJob requests and job-less Commit requests

@@ -15,6 +15,7 @@ export default class FuzzyFinderController extends Controller {
     fileData: Array,
     inputId: String,
     filePreviewUrl: String,
+    allFilesUrl: String,
     fileNameSearchUrl: String,
     fileContentSearchUrl: String,
   }
@@ -178,7 +179,9 @@ export default class FuzzyFinderController extends Controller {
     const query = this.inputTarget.value;
 
     let url
-    if (this.searchMode() === 'file_name') {
+    if (this.searchMode() === 'all_files') {
+      url = `${this.allFilesUrlValue}`;
+    } else if (this.searchMode() === 'file_name') {
       url = `${this.fileNameSearchUrlValue}?query=${query}`
     } else {
       url = `${this.fileContentSearchUrlValue}?query=${query}&regex=${this.isRegex()}&case_sensitive=${this.isCaseSensitive()}`;
@@ -192,7 +195,7 @@ export default class FuzzyFinderController extends Controller {
     }
 
     // check if query is empty or unchanged
-    if (query.trim() === '') {
+    if (query.trim() === '' && this.searchMode() !== 'all_files') {
       this.displayFiles = new Set();
       this.renderFileList()
       return;
@@ -221,13 +224,17 @@ export default class FuzzyFinderController extends Controller {
 
   renderFileList() {
     if (this.displayFiles.size === 0) {
-      this.resultsTarget.innerHTML = Array.from(this.selectedFiles).map(f => this.renderFile({file: f})).join('');
+      this.resultsTarget.innerHTML = Array.from(this.selectedFiles).map(f => this.renderFile(f)).join('');
     } else {
       this.resultsTarget.innerHTML = this.displayFiles.map(f => this.renderFile(f)).join('');
     }
   }
 
   renderFile(file) {
+    if (typeof file === 'string') {
+      file = { file: file }
+    }
+
     const wrapperAttrs = `class="group cursor-pointer" data-action="click->fuzzy-finder#toggleFileSelection" data-fuzzy-finder-file-param="${file.file}"`
     const fileClass = "py-0.5 rounded group-hover:bg-blue-700 flex items-center justify-between"
     const selectedClass = this.selectedFiles.has(file.file) ? '!bg-green-700' : '';
