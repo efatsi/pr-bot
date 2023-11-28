@@ -1,6 +1,5 @@
 # TODO
 - contextual files enhance
-  - bring back renderFileList after click
   - show found search matches below file
   - regex search
   - let you access it from show view

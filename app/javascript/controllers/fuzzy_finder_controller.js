@@ -40,6 +40,7 @@ export default class FuzzyFinderController extends Controller {
     useDebounce(this);
 
     this.selectedFiles = new Set();
+    this.displayFiles = new Set();
     this.finalInput = document.getElementById(this.inputIdValue);
     this.previewedFile = null;
     this.lastUrl = null;
@@ -143,8 +144,7 @@ export default class FuzzyFinderController extends Controller {
       this.selectedFiles.add(fileName);
       this.addFileToInput(fileName);
     }
-    // TODO: bring this back... cache displayedFiles to align w/ selectedFiles
-    // this.renderFileList();
+    this.renderFileList();
 
     if (this.previewedFile) {
       this.setPreviewToggleText()
@@ -192,13 +192,18 @@ export default class FuzzyFinderController extends Controller {
       .then(response => response.json())
       .then(data => {
         this.abortController = null;
-        this.resultsTarget.innerHTML = data.map(f => this.renderFile(f)).join('');
+        this.displayFiles = data
+        this.renderFileList();
       })
       .catch(error => {
         if (error.name !== 'AbortError') {
           console.error(error);
         }
       })
+  }
+
+  renderFileList() {
+    this.resultsTarget.innerHTML = this.displayFiles.map(f => this.renderFile(f)).join('');
   }
 
   renderFile(file) {
