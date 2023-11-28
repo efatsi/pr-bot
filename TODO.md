@@ -1,7 +1,6 @@
 # TODO
 - contextual files enhance
   - show found search matches below file
-  - regex search
   - let you access it from show view
     - allow form still, but can add / remove w/o it
   - files mentioned in feature request have content sent in contextual_files search
