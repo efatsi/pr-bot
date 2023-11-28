@@ -49,6 +49,8 @@ export default class FuzzyFinderController extends Controller {
     this.abortController = null
 
     this.loadSelectedFiles();
+    this.renderFileList()
+
     this.element.addEventListener('keydown', this.handleKeyDown.bind(this));
   }
 
@@ -78,7 +80,7 @@ export default class FuzzyFinderController extends Controller {
         case ' ':
           if (event.target.classList.contains('file-item')) {
             event.preventDefault();
-            this.toggleFileSelection(event);
+            this.toggleFileSelection(event, event.target.textContent.trim());
 
             // maintain focus on selected file, all files were just rerendered
             const selectedFile = event.target.textContent.trim();
@@ -127,16 +129,17 @@ export default class FuzzyFinderController extends Controller {
   }
 
 
-  toggleFileSelection(event) {
+  toggleFileSelection(event, fileName) {
     // Prevent the default event behavior
     event.preventDefault();
 
-    // Find filename, either based on previewing file or direct click
-    let fileName;
-    if (this.previewedFile) {
-      fileName = this.previewedFile;
-    } else {
-      fileName = event.target.textContent.trim();
+    // Find filename, either based on previewing file, or passed in, or from event params
+    if (!fileName) {
+      if (this.previewedFile) {
+        fileName = this.previewedFile;
+      } else {
+        fileName = event.params.file
+      }
     }
 
     if (this.selectedFiles.has(fileName)) {
@@ -150,10 +153,6 @@ export default class FuzzyFinderController extends Controller {
 
     if (this.previewedFile) {
       this.setPreviewToggleText()
-    }
-
-    if (this.inputTarget.value.length > 0) {
-      this.inputTarget.focus();
     }
   }
 
@@ -177,7 +176,6 @@ export default class FuzzyFinderController extends Controller {
 
   handleFormChange() {
     const query = this.inputTarget.value;
-    if (query.trim() === '') return;
 
     let url
     if (this.searchMode() === 'file_name') {
@@ -193,8 +191,12 @@ export default class FuzzyFinderController extends Controller {
       this.contentSearchTargets.forEach(el => el.classList.add('hidden'));
     }
 
-    // check if query changed
-    if (this.lastUrl === url) {
+    // check if query is empty or unchanged
+    if (query.trim() === '') {
+      this.displayFiles = new Set();
+      this.renderFileList()
+      return;
+    } else if (this.lastUrl === url) {
       return;
     } else {
       this.lastUrl = url;
@@ -218,16 +220,21 @@ export default class FuzzyFinderController extends Controller {
   }
 
   renderFileList() {
-    this.resultsTarget.innerHTML = this.displayFiles.map(f => this.renderFile(f)).join('');
+    if (this.displayFiles.size === 0) {
+      this.resultsTarget.innerHTML = Array.from(this.selectedFiles).map(f => this.renderFile({file: f})).join('');
+    } else {
+      this.resultsTarget.innerHTML = this.displayFiles.map(f => this.renderFile(f)).join('');
+    }
   }
 
   renderFile(file) {
-    const fileClass = "cursor-pointer py-0.5 rounded hover:bg-blue-700 group flex items-center justify-between"
+    const wrapperAttrs = `class="group cursor-pointer" data-action="click->fuzzy-finder#toggleFileSelection" data-fuzzy-finder-file-param="${file.file}"`
+    const fileClass = "py-0.5 rounded group-hover:bg-blue-700 flex items-center justify-between"
     const selectedClass = this.selectedFiles.has(file.file) ? '!bg-green-700' : '';
     const linkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file.file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
     const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file.file}"`
 
-    let toReturn = `<div class="${fileClass} ${selectedClass} file-item" tabindex="0" data-action="click->fuzzy-finder#toggleFileSelection">
+    let toReturn = `<div class="${fileClass} ${selectedClass} file-item" tabindex="0">
       <span>${file.file}</span>
       <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
     </div>`
@@ -245,7 +252,7 @@ export default class FuzzyFinderController extends Controller {
       </div>`;
     }
 
-    return toReturn;
+    return `<div ${wrapperAttrs}>${toReturn}</div>`;
   }
 
   loadSelectedFiles() {
