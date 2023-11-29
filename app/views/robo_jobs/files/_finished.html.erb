@@ -6,8 +6,12 @@
       <div class="whitespace-pre-wrap"><%= robo_request.prompt %></div>
     <% end %>
 
-    <%= render "shared/dropdown", label: "Response" do %>
-      <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
+    <% if robo_request.response.present? %>
+      <%= render "shared/dropdown", label: "Response" do %>
+        <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
+      <% end %>
+    <% else %>
+      <p class="italic ml-1 mb-2 text-sm">no response, defined manually</p>
     <% end %>
   <% else %>
     <p class="italic ml-1 mb-2 text-sm">no robo_request, defined manually</p>
