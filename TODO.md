@@ -7,6 +7,8 @@
   - files mentioned in feature request are auto added to contextual_files
   - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
 
+- add remove_file to possible moves AI can return
+
 - Step 3: cleanup
   - stream button, similar to "continue"
     - new followup job
@@ -45,6 +47,12 @@
   - show commits
 
 ## v2
+
+- Commit History search
+  - AI buddy that can dig into git commit history
+  - combination of actual search & LLM stuff
+  - gotta be smrt and lean to avoid blowing token limits
+    - if <4k can go local model
 
 - Better contextual file finding
   - Data compression
