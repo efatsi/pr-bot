@@ -22,18 +22,22 @@ class RobotApi
 
     @response = ""
 
-    client.chat(
-      parameters: {
-        model: GPT_4_TURBO,
-        messages: [
-          { role: "system", content: PromptGenerator::SYSTEM_SETUP },
-          { role: "user", content: prompt }
-        ],
-        response_format: { type: json_mode ? "json_object" : "text" },
-        temperature: 0.2,
-        stream: stream_proc(sse_proc),
-      }
-    )
+    begin
+      client.chat(
+        parameters: {
+          model: GPT_4_TURBO,
+          messages: [
+            { role: "system", content: PromptGenerator::SYSTEM_SETUP },
+            { role: "user", content: prompt }
+          ],
+          response_format: { type: json_mode ? "json_object" : "text" },
+          temperature: 0.2,
+          stream: stream_proc(sse_proc),
+        }
+      )
+    rescue Exception => ex
+      binding.pry if Rails.env.local?
+    end
 
     @response
   end
