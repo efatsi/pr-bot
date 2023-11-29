@@ -7,10 +7,11 @@ class ApplicationRecord < ActiveRecord::Base
   def self.array_field(name)
     define_method("#{name}=") do |files|
       if files.is_a?(String)
-        super(files.split("\n").sort)
-      else
-        super(files.sort)
+        files = files.split("\n")
       end
+
+      files = files.compact
+      super(files.sort)
     end
   end
 end
