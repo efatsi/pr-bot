@@ -1,4 +1,4 @@
-<% if robo_job.robo_changes.pending.count > 1 %>
+<% if robo_job.robo_changes.pending.count >= 1 %>
   <%= render "shared/stream_button",
     path: execute_all_robo_job_robo_changes_path(robo_job),
     label: "Fire All!",
