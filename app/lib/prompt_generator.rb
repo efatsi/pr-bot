@@ -43,10 +43,10 @@ class PromptGenerator
       "Feature request:",
       robo_job.feature_request,
       "",
-      "Return paths for files or entire directories that would provide helpful context.",
+      "Return paths for files that would provide helpful context.",
       RETURN_CONTEXT_FILES_AS_JSON,
-      "- files: An array of files/directories worth investigating:",
-      "  - filpath: exact path of file or directory",
+      "- files: An array of files worth investigating:",
+      "  - filpath: exact path of file",
       "  - why: explain why this is relevant to the feature request",
     ].join("\n")
   end
