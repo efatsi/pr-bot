@@ -97,7 +97,11 @@ class RoboJob < ApplicationRecord
   end
 
   def full_path(f)
-    File.join(project.filepath, f)
+    if f.downcase.start_with?(project.filepath.downcase)
+      File.join(f)
+    else
+      File.join(project.filepath.downcase, f)
+    end
   end
 end
 
