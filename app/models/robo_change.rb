@@ -100,7 +100,11 @@ class RoboChange < ApplicationRecord
   end
 
   def full_filepath
-    File.join(robo_job.project.filepath, file)
+    if file.downcase.start_with?(project.filepath.downcase)
+      file
+    else
+      File.join(project.filepath.downcase, file)
+    end
   end
 
   def timestamped_file
