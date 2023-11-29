@@ -124,8 +124,8 @@ end
 #  id               :bigint           not null, primary key
 #  action           :string           not null
 #  error            :string
-#  file             :string           not null
-#  new_content      :text
+#  file             :string
+#  new_content      :text             not null
 #  new_file         :string
 #  original_content :text
 #  raw_json         :json             not null
