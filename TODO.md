@@ -1,4 +1,11 @@
 # TODO
+- render feature requests inline, button to toggle one or all
+- remove additional_notes, collapse to one prose field
+- render errors when stream execution fails (eg: invalid path)
+- hide 'continue the convo' button when convo is continuing
+- add escape back unless your on the filepicker
+- add remove_file to possible moves AI can return
+
 - contextual files enhance
   - let you access file finder from show view
     - allow form still, but can add / remove w/o it
@@ -7,7 +14,6 @@
   - files mentioned in feature request are auto added to contextual_files
   - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
 
-- add remove_file to possible moves AI can return
 
 - Step 3: cleanup
   - stream button, similar to "continue"
