@@ -235,15 +235,15 @@ export default class FuzzyFinderController extends Controller {
       file = { file: file }
     }
 
-    const wrapperAttrs = `class="group cursor-pointer" data-action="click->fuzzy-finder#toggleFileSelection" data-fuzzy-finder-file-param="${file.file}"`
-    const fileClass = "py-0.5 rounded group-hover:bg-blue-700 flex items-center justify-between"
+    const rowClass = "p-0.5 rounded group-hover:bg-blue-700 flex items-center justify-between"
     const selectedClass = this.selectedFiles.has(file.file) ? '!bg-green-700' : '';
-    const linkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file.file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
-    const linkAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file.file}"`
+    const selectFileAttrs = `data-action="click->fuzzy-finder#toggleFileSelection" data-fuzzy-finder-file-param="${file.file}"`
+    const showLinkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file.file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
+    const showFileAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file.file}"`
 
-    let toReturn = `<div class="${fileClass} ${selectedClass} file-item" tabindex="0">
-      <span>${file.file}</span>
-      <a href="#" class="${linkClass}" ${linkAction} tabindex="0">${this.eyeSvg()}</a>
+    let toReturn = `<div class="${rowClass} ${selectedClass} file-item" tabindex="0">
+    <span class="flex-grow" >${file.file}</span>
+    <a href="#" class="${showLinkClass}" ${showFileAction} tabindex="0">${this.eyeSvg()}</a>
     </div>`
 
     if (this.searchMode() === 'file_content' && file.line_groups) {
@@ -259,7 +259,7 @@ export default class FuzzyFinderController extends Controller {
       </div>`;
     }
 
-    return `<div ${wrapperAttrs}>${toReturn}</div>`;
+    return `<div class="group cursor-pointer" ${selectFileAttrs}>${toReturn}</div>`;
   }
 
   loadSelectedFiles() {
@@ -269,6 +269,7 @@ export default class FuzzyFinderController extends Controller {
 
   openFile(e) {
     e.preventDefault();
+    e.stopImmediatePropagation();
     const file = e.params.file
 
     fetch(`${this.filePreviewUrlValue}?file=${file}`)
