@@ -1,6 +1,5 @@
 # TODO
 ## sm
-- bugfix in content search
 - add escape back unless your on the filepicker (use commit history)
 - add remove_file to possible moves AI can return
 - show commits on RoboJob
