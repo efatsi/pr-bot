@@ -68,7 +68,11 @@ class ProjectsController < ApplicationController
     file_list = project.fetch_directory_tree
     matching_files = file_list.each_with_object([]) do |file, acc|
       file_path = File.join(project.filepath, file)
-      content_lines = File.read(file_path).split("\n")
+      content_lines = (File.read(file_path)
+        .force_encoding('UTF-8')
+        .encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+        .split("\n")
+      )
 
       matching_lines = content_lines.map.with_index do |line, index|
         match = if params[:regex] == 'true'
