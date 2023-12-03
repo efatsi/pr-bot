@@ -105,6 +105,10 @@ export default class FuzzyFinderController extends Controller {
           break;
       }
     }
+
+    if (event.key == "Escape" && this.previewedFile) {
+      this.backToSearch(event);
+    }
   }
 
   focusNextFile() {
