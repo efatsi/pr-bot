@@ -1,16 +1,13 @@
 # TODO
 ## sm
-- add remove_file to possible moves AI can return
-- show commits on RoboJob
-
-## md
-- render errors when stream execution fails (eg: invalid path)
+- render errors when stream execution fails (eg: invalid context filepath on generate_instructions)
 - show invalid path errors when setting contextual files
 - remove additional_notes, collapse to one prose field
 - all files make click-to-copy (or open in vscode...)
-- a "ding" when it's done
+- a "ding" when instruction generation is done
+- show commits on RoboJob
 
-## mg
+## md
 - render feature requests inline, button to toggle one or all
 - JS interval for alerting if server connection fails
 - move continue / commit buttons into actions partial outside of box

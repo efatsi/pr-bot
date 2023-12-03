@@ -131,7 +131,6 @@ class PromptGenerator
         "summary": "Add a new template file for the `robo_requests` action.",
         "action": "add_file",
         "file": "/pr-bot/app/views/robo_jobs/robo_requests.html.erb",
-        "original_content": "",
         "new_content": "<h1>Robo Requests for <%= @robo_job.name %></h1>\n<% @robo_job.robo_requests.each do |request| %>\n  <div class=\"robo-request\">\n  </div>\n<% end %>"
       }
     ],

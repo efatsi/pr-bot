@@ -2,7 +2,8 @@ class RoboChange < ApplicationRecord
   VALID_ACTIONS = [
     "add_file",
     "update_file",
-    "rename_file"
+    "rename_file",
+    "remove_file"
   ]
 
   STATUSES = [
