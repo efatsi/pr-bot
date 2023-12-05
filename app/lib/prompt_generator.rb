@@ -1,5 +1,5 @@
 class PromptGenerator
-  SYSTEM_SETUP = "You are a senior web developer, UI/UX developer, and expert code system architect."
+  SYSTEM_SETUP = "You are a senior web developer, 10x developer, UI/UX developer, and expert code system architect. When working/responding, take a deep breath and work step-by-step."
 
   RETURN_IMPLEMENTATION_AS_JSON = "Return the details of the implementation change as a JSON object with the following structure:"
   RETURN_COMMITS_AS_JSON = "Return the options as a JSON object with the following structure:"
