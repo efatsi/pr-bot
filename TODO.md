@@ -58,6 +58,7 @@
 
 - Commit History search
   - AI buddy that can dig into git commit history
+  * the problem w/ diffs is they're too small. only have +3 on either side, need to navigate back in time to get more (dang)
   - combination of actual search & LLM stuff
   - gotta be smrt and lean to avoid blowing token limits
     - if <4k can go local model
