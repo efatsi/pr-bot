@@ -9,10 +9,10 @@
 
 ## md
 - render feature requests inline, button to toggle one or all
-- JS interval for alerting if server connection fails
 - move continue / commit buttons into actions partial outside of box
   - show / hide when requests hit / resolve
-
+- add checkbox to "include last convo" & "include all convos"
+- JS interval for alerting if server connection fails
 
 # contextual files enhance
 - let you access file finder from show view

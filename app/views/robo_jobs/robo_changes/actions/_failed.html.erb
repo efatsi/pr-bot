@@ -1,4 +1,4 @@
 <div class="flex items-center gap-2 mr-2">
+  <%= button_to "try again", execute_robo_job_robo_change_path(robo_change.robo_job, robo_change), class: "btn-opaque btn-slim text-xs hidden group-hover/dropdown:inline-block" %>
   <div class="whitespace-nowrap">:(</div>
-  <%= button_to "Try Again", execute_robo_job_robo_change_path(robo_change.robo_job, robo_change), class: "btn-opaque btn-slim inline" %>
 </div>
