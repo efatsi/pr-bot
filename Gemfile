@@ -23,8 +23,8 @@ gem 'tiktoken_ruby'
 gem "redcarpet"
 
 group :development, :test do
-  gem "web-console"
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "better_errors"
+  gem "binding_of_caller"
   gem "pry-rails"
   gem "annotate"
 end

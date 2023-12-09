@@ -1,7 +1,7 @@
 # TODO
 ## sm
 - render errors when stream execution fails (eg: invalid context filepath on generate_instructions)
-- show invalid path errors when setting contextual files
+- annotate invalid paths in contextual files
 - remove additional_notes, collapse to one prose field
 - all files make click-to-copy (or open in vscode...)
 - a "ding" when instruction generation is done
