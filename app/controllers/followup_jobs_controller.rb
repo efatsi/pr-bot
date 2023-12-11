@@ -4,9 +4,11 @@ class FollowupJobsController < ApplicationController
       contextual_files: robo_job.last_contextual_files
     )
 
-    render partial: "robo_jobs/followup/form_wrapper", locals: {
-      robo_job: robo_job, followup_job: followup_job
-    }
+    render turbo_stream: turbo_stream.update(
+      "continue-conversation",
+      partial: "robo_jobs/followup/form",
+      locals: { robo_job: robo_job, followup_job: followup_job }
+    )
   end
 
   def create

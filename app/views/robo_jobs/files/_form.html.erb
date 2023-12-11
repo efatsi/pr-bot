@@ -3,7 +3,7 @@
 <%= simple_form_for robo_job do |f| %>
   <div class="w-[700px] max-w-full">
     <div>
-      <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="contextual-file-input-">Contextual files</label>
+      <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="<%= input_id %>">Contextual files</label>
 
       <div class="flex gap-2 items-start w-full">
         <%= f.input :contextual_files, as: :text, label: false,
