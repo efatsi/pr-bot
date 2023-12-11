@@ -1,6 +1,5 @@
 # TODO
 ## md
-- add checkbox to "include last convo" & "include all convos"
 - show commits on RoboJob
 - collapse feature_request and context files into one form
   - let you access file finder from show view

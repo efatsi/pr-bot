@@ -14,7 +14,7 @@ class PromptGenerator
   end
 
   def prompt_messages
-    to_return = [
+    [
       { role: "system", content: PromptGenerator::SYSTEM_SETUP },
       *previous_convo_messages,
       { role: "user", content: generate_new_prompt }

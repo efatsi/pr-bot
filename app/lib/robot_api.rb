@@ -9,26 +9,19 @@ class RobotApi
 
   def ask_gpt4(prompt_messages, sse_proc=nil, json_mode=true)
     check_token_limit(prompt_messages)
-
-    puts "=========================="
-    puts "Requesting: #{prompt[0..300]}..."
-    puts
+    print_intro(prompt_messages)
 
     @response = ""
 
-    begin
-      client.chat(
-        parameters: {
-          model: GPT_4_TURBO,
-          messages: prompt_messages,
-          response_format: { type: json_mode ? "json_object" : "text" },
-          temperature: 0.2,
-          stream: stream_proc(sse_proc),
-        }
-      )
-    rescue Exception => ex
-      binding.pry if Rails.env.local?
-    end
+    client.chat(
+      parameters: {
+        model: GPT_4_TURBO,
+        messages: prompt_messages,
+        response_format: { type: json_mode ? "json_object" : "text" },
+        temperature: 0.2,
+        stream: stream_proc(sse_proc),
+      }
+    )
 
     @response
   end
@@ -56,6 +49,12 @@ class RobotApi
     if token_count > PROMPT_MAX_LENGTH
       raise RobotError.new("Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}.")
     end
+  end
+
+  def print_intro(prompt_messages)
+    puts "=========================="
+    puts "Requesting: #{prompt_messages.last[:content][0..300]}..."
+    puts
   end
 
   # have this here as a default for testing
