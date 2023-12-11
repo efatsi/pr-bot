@@ -12,7 +12,7 @@ class RoboRequest < ApplicationRecord
   delegate :project, to: :parent
 
   validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
-  validates :prompt_messages, presence: true
+  validates :prompt, presence: true
 
   def self.of_type(type)
     where(request_type: type).by_id
@@ -28,7 +28,7 @@ class RoboRequest < ApplicationRecord
 
   def prompt
     if prompt_messages.present?
-      prompt_messages.last[:content]
+      prompt_messages.last["content"]
     end
   end
 end
