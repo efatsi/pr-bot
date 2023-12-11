@@ -8,7 +8,7 @@ class RoboManager
   end
 
   def run_request(sse_proc=nil)
-    response = robot_api.ask_gpt4(robo_request.prompt, sse_proc)
+    response = robot_api.ask_gpt4(robo_request, sse_proc)
 
     robo_request.update(response: response)
 

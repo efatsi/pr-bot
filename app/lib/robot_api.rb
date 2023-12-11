@@ -7,7 +7,7 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 30_000
 
-  def ask_gpt4(prompt, sse_proc=nil, json_mode=true)
+  def ask_gpt4(robo_request, sse_proc=nil, json_mode=true)
     # first check prompt length is less than PROMPT_MAX_LENGTH
     token_count = OpenAI.rough_token_count(prompt)
     if token_count > PROMPT_MAX_LENGTH
@@ -24,10 +24,7 @@ class RobotApi
       client.chat(
         parameters: {
           model: GPT_4_TURBO,
-          messages: [
-            { role: "system", content: PromptGenerator::SYSTEM_SETUP },
-            { role: "user", content: prompt }
-          ],
+          messages: PromptGenerator.new(robo_request).prompt_messages,
           response_format: { type: json_mode ? "json_object" : "text" },
           temperature: 0.2,
           stream: stream_proc(sse_proc),

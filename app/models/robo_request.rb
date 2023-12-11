@@ -18,11 +18,6 @@ class RoboRequest < ApplicationRecord
     where(request_type: type).by_id
   end
 
-  def initialize(*args)
-    super(*args)
-    self.prompt = PromptGenerator.new(self).generate_prompt
-  end
-
   def calculate_token_usage_and_cost
     encoder = Tiktoken.encoding_for_model('gpt-4')
     self.prompt_token_count = encoder.encode(prompt).length

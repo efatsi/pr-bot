@@ -42,6 +42,10 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def includes_past_convo?
+    include_last_convo? || include_all_convos?
+  end
+
   def contextual_file_data
     contextual_files.map do |file|
       {

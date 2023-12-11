@@ -13,6 +13,38 @@ class PromptGenerator
     @robo_request = robo_request
   end
 
+  def prompt_messages
+    to_return = [
+      { role: "system", content: PromptGenerator::SYSTEM_SETUP },
+      *previous_convo_messages,
+      { role: "user", content: prompt }
+    ]
+  end
+
+  def previous_convo_messages(robo_job)
+    if robo_request.request_type == "instructions"
+      robo_job = robo_request.parent
+
+      if robo_job.include_last_convo?
+        last_job = robo_job.parent_job.followup_jobs.last
+        [
+          { role: "user": content: last_job.feature_request },
+          { role: "system": content: last_job.generated_instructions.to_s },
+        ]
+
+      elsif robo_job.include_all_convos?
+        [robo_job, *robo_job.followup_jobs].flat_map do |job|
+          if job.robo_changes.any?
+            [
+              { role: "user": content: job.feature_request },
+              { role: "system": content: job.generated_instructions.to_s },
+            ]
+          end
+        end.compact
+      end
+    end
+  end
+
   def generate_prompt
     case robo_request.request_type
     when "contextual_files"
@@ -49,7 +81,8 @@ class PromptGenerator
     robo_job = robo_request.parent
 
     [
-      "You are working on a project with these tools:\n" + project.project_context,
+      "You are working on a project with these tools:",
+      project.project_context,
       "",
       "These are relevant project files:",
       robo_job.contextual_file_data,
