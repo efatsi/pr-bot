@@ -23,9 +23,6 @@ class RoboManager
     when "commit_suggestions"
       parent.update(message_options: JSON.parse(robo_request.response))
     end
-  rescue StandardError => e
-    puts "RoboApi Error: #{e.message}"
-    robo_request.update(response: "Error: #{e.message}")
   end
 
   private
