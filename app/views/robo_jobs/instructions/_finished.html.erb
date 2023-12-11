@@ -5,25 +5,19 @@
     </div>
 
     <%= turbo_frame_tag "continue-conversation" %>
-
-    <div class="flex justify-between mt-8 mb-4">
-      <div>
-        <%= link_to "Continue the Conversation ->",
-          new_robo_job_followup_job_path(robo_job),
-          class: "btn-opaque",
-          "data-turbo-frame": "continue-conversation"
-        %>
-      </div>
-
-      <% if robo_job.robo_changes.executed.exists? %>
-        <div>
-          <%= link_to 'Create Git Commit', new_project_git_commit_path(project, robo_job_id: robo_job.id, modal: true),
-            class: "btn-primary",
-            "data-turbo-frame": "modal"
-          %>
-        </div>
-      <% end %>
-    </div>
-
   </div>
 <% end %>
+
+<div class="flex justify-between mt-8 mb-4">
+  <div>
+    <%= link_to "Continue the Conversation ->",
+      new_robo_job_followup_job_path(robo_job),
+      class: "btn-opaque",
+      "data-turbo-frame": "continue-conversation"
+    %>
+  </div>
+
+  <%= turbo_frame_tag "commit-button" do %>
+    <%= render "robo_jobs/instructions/commit_button" %>
+  <% end %>
+</div>

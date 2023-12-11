@@ -1,18 +1,23 @@
 # TODO
+## md
+- move continue / commit buttons into actions partial outside of box
+  - show / hide when requests hit / resolve
+
+- add checkbox to "include last convo" & "include all convos"
+- show commits on RoboJob
+- collapse feature_request and context files into one form
+- render feature requests inline, button to toggle one or all
+  - include link to contextual files
+    - fancy, saved versions of them in db at time of instructions execution
+- JS interval for alerting if server connection fails
+
 ## sm
 - render errors when stream execution fails (eg: invalid context filepath on generate_instructions)
 - annotate invalid paths in contextual files
 - remove additional_notes, collapse to one prose field
 - all files make click-to-copy (or open in vscode...)
 - a "ding" when instruction generation is done
-- show commits on RoboJob
-
-## md
-- render feature requests inline, button to toggle one or all
-- move continue / commit buttons into actions partial outside of box
-  - show / hide when requests hit / resolve
-- add checkbox to "include last convo" & "include all convos"
-- JS interval for alerting if server connection fails
+- when click continue the convo, and already focused continuing, just focus on input instead of re-fetching
 
 # contextual files enhance
 - let you access file finder from show view
@@ -112,3 +117,7 @@
       - call
   - eg: update the RoboChange file creation logic to target the full path based on the project's filepath. For context, look at robo_change robo_job and project model files
 
+
+
+## Search keys
+- when talking about updating: `set_sse_headers` content

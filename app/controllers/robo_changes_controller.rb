@@ -20,7 +20,12 @@ class RoboChangesController < SseApplicationController
       end
     end
   ensure
-    sse.write({ turbo_stream: turbo_update_fire_all })
+    sse.write({
+      turbo_stream: [
+        turbo_update_fire_all,
+        turbo_update_commit_button
+      ]
+    })
 
     sse.close
   end
@@ -34,9 +39,9 @@ class RoboChangesController < SseApplicationController
         partial: "robo_jobs/robo_changes/show",
         locals: { robo_change: robo_change }
       ),
-      turbo_update_fire_all
+      turbo_update_fire_all,
+      turbo_update_commit_button
     ]
-
     render turbo_stream: stream_updates
   end
 
@@ -62,7 +67,8 @@ class RoboChangesController < SseApplicationController
         partial: "robo_jobs/robo_changes/show",
         locals: { robo_change: robo_change }
       ),
-      turbo_update_fire_all
+      turbo_update_fire_all,
+      turbo_update_commit_button
     ]
   end
 
@@ -96,5 +102,13 @@ class RoboChangesController < SseApplicationController
         partial: "robo_jobs/instructions/fire_all",
         locals: { robo_job: robo_job }
       )
+  end
+
+  def turbo_update_commit_button
+    turbo_stream.update(
+      "commit-button",
+      partial: "robo_jobs/instructions/commit_button",
+      locals: { robo_job: robo_job }
+    )
   end
 end
