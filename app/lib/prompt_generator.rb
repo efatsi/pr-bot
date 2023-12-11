@@ -5,12 +5,6 @@ class PromptGenerator
   RETURN_COMMITS_AS_JSON = "Return the options as a JSON object with the following structure:"
   RETURN_CONTEXT_FILES_AS_JSON = "Return the files as a JSON object with the following structure:"
 
-  JSON_RETURNS = [
-    RETURN_IMPLEMENTATION_AS_JSON,
-    RETURN_COMMITS_AS_JSON,
-    RETURN_CONTEXT_FILES_AS_JSON,
-  ]
-
   attr_reader :robo_request
 
   delegate :project, to: :robo_request

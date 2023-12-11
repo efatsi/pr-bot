@@ -7,9 +7,7 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 30_000
 
-  def ask_gpt4(prompt, sse_proc=nil)
-    json_mode = PromptGenerator::JSON_RETURNS.any? {|p| prompt.include?(p) }
-
+  def ask_gpt4(prompt, sse_proc=nil, json_mode=true)
     # first check prompt length is less than PROMPT_MAX_LENGTH
     token_count = OpenAI.rough_token_count(prompt)
     if token_count > PROMPT_MAX_LENGTH
