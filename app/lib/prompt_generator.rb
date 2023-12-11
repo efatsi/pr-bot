@@ -132,6 +132,12 @@ class PromptGenerator
         "action": "add_file",
         "file": "/pr-bot/app/views/robo_jobs/robo_requests.html.erb",
         "new_content": "<h1>Robo Requests for <%= @robo_job.name %></h1>\n<% @robo_job.robo_requests.each do |request| %>\n  <div class=\"robo-request\">\n  </div>\n<% end %>"
+      },
+      {
+        "summary": "Create a migration to add robo_job_id to robo_requests.",
+        "action": "add_file",
+        "file": "/db/migrate/[timestamp]_add_robo_job_id_to_robo_requests.rb",
+        "new_content": "class AddRoboJobIdToRoboRequests < ActiveRecord::Migration[6.1]\n  def change\n    add_reference :robo_requests, :robo_job, null: false, foreign_key: true\n  end\nend"
       }
     ],
     "additional_notes": "Check that the template is being rendered correctly at the path `/robo_jobs/:id/robo_requests`."

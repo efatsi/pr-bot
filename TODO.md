@@ -1,8 +1,5 @@
 # TODO
 ## md
-- move continue / commit buttons into actions partial outside of box
-  - show / hide when requests hit / resolve
-
 - add checkbox to "include last convo" & "include all convos"
 - show commits on RoboJob
 - collapse feature_request and context files into one form
@@ -41,6 +38,17 @@
 - generate new RoboChanges
   - render w/ light blue
   - maybe icon everything up (plus / pencil / broom)
+
+# commands that it can run
+it wants to
+```rb
+{
+  "summary": "Run the migration.",
+  "action": "run_command",
+  "command": "rails db:migrate"
+}
+```
+give it a list of approved things, say
 
 # full-blown customizable action templates
 - default available on all projects: git push origin [branch]
