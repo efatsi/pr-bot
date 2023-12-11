@@ -3,6 +3,8 @@
 - add checkbox to "include last convo" & "include all convos"
 - show commits on RoboJob
 - collapse feature_request and context files into one form
+  - let you access file finder from show view
+    - allow form still, but can add / remove w/o it
 - render feature requests inline, button to toggle one or all
   - include link to contextual files
     - fancy, saved versions of them in db at time of instructions execution
@@ -17,9 +19,7 @@
 - when click continue the convo, and already focused continuing, just focus on input instead of re-fetching
 
 # contextual files enhance
-- let you access file finder from show view
-  - allow form still, but can add / remove w/o it
-
+- files added during last robo_joba's changes are included in followup contextual files
 - files mentioned in feature request have content sent in contextual_files search
 - files mentioned in feature request are auto added to contextual_files
 - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
@@ -126,6 +126,8 @@ give it a list of approved things, say
   - eg: update the RoboChange file creation logic to target the full path based on the project's filepath. For context, look at robo_change robo_job and project model files
 
 
+## what i love about this thing
+While i'm researching for the feature, digging through the codebase, i'm writing notes in the `feature_request`, and updating code doing cleanup and learning what i need to in order to prompt the LLM. Then I commit all the lil cleanup I've done to give it a blank slate to run on, and fire all the changes to review those. Cleaning and coding together.
 
 ## Search keys
 - when talking about updating: `set_sse_headers` content

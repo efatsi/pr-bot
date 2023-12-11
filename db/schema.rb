@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_195105) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_10_235135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,10 +43,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_195105) do
     t.bigint "robo_job_id", null: false
     t.json "raw_json", null: false
     t.text "summary"
-    t.string "file"
+    t.string "file", null: false
     t.string "action", null: false
     t.text "original_content"
-    t.text "new_content", null: false
+    t.text "new_content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "pending", null: false
@@ -63,6 +63,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_195105) do
     t.bigint "project_id"
     t.bigint "parent_job_id"
     t.json "generated_instructions", default: {}
+    t.boolean "include_last_convo", default: false
+    t.boolean "include_all_convos", default: false
     t.index ["parent_job_id"], name: "index_robo_jobs_on_parent_job_id"
     t.index ["project_id"], name: "index_robo_jobs_on_project_id"
   end

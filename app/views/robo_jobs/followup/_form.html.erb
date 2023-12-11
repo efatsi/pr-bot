@@ -1,6 +1,6 @@
 <% input_id = "contextual-file-input-#{followup_job.id}" %>
 
-<div class="mb-4" data-controller="followup">
+<div class="mb-4" data-controller="followup conversation">
   <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
     <label class="block text optional text-sm font-medium text-gray-300 mb-1" for="<%= input_id %>">Contextual files</label>
 
@@ -33,9 +33,28 @@
       hint: "eg: “you forgot to add the edit file, do that too!”"
     %>
 
-    <div class="mb-2 flex justify-end gap-2">
-      <%= link_to "Cancel", "#", "data-action": "followup#remove", class: "btn-opaque" %>
-      <%= f.submit "Submit", class: "btn-primary" %>
+    <div class="flex justify-between">
+      <div class="mt-2">
+        <%= f.input :include_last_convo,
+          as: :boolean,
+          label: 'Include last convo',
+          input_html: {
+            'data-conversation-target': 'lastConvo', 'data-action': 'change->conversation#toggleCheckboxes'
+          }
+        %>
+        <%= f.input :include_all_convos,
+          as: :boolean,
+          label: 'Include all convos',
+          input_html: {
+            'data-conversation-target': 'allConvos', 'data-action': 'change->conversation#toggleCheckboxes'
+          }
+        %>
+      </div>
+
+      <div class="mb-2 flex justify-end gap-2 self-end">
+        <%= link_to "Cancel", "#", "data-action": "followup#remove", class: "btn-opaque" %>
+        <%= f.submit "Submit", class: "btn-primary" %>
+      </div>
     </div>
   <% end %>
 </div>

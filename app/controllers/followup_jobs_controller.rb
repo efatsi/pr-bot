@@ -42,7 +42,7 @@ class FollowupJobsController < ApplicationController
   end
 
   def followup_job_params
-    params.require(:followup_job).permit(:feature_request, :contextual_files).merge(
+    params.require(:followup_job).permit(:feature_request, :contextual_files, :include_last_convo, :include_all_convos).merge(
       project: project
     )
   end

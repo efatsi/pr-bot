@@ -113,6 +113,8 @@ end
 #  contextual_files       :string           default([]), is an Array
 #  feature_request        :text             not null
 #  generated_instructions :json
+#  include_all_convos     :boolean          default(FALSE)
+#  include_last_convo     :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  parent_job_id          :bigint
