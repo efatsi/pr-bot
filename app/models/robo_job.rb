@@ -14,6 +14,7 @@ class RoboJob < ApplicationRecord
   array_field :contextual_files
 
   scope :parent_jobs, -> { where(parent_job_id: nil) }
+  scope :with_changes, -> { joins(:robo_changes).distinct }
 
   def all_feature_requests
     if is_parent_job?
