@@ -20,10 +20,14 @@ class RoboRequest < ApplicationRecord
 
   def calculate_token_usage_and_cost
     encoder = Tiktoken.encoding_for_model('gpt-4')
-    self.prompt_token_count = encoder.encode(prompt).length
+    self.prompt_token_count = encoder.encode(prompt_messages.map{|a| a["content"]}.join(" ")).length
     self.response_token_count = encoder.encode(response).length if response.present?
     self.cost = (prompt_token_count + response_token_count.to_i) / 70000.0
     save!
+  end
+
+  def prompt
+    prompt_messages.last[:content]
   end
 end
 
@@ -34,7 +38,7 @@ end
 #  id                   :bigint           not null, primary key
 #  cost                 :decimal(8, 2)
 #  parent_type          :string           not null
-#  prompt               :text             not null
+#  prompt_messages      :json
 #  prompt_token_count   :integer
 #  raw_response         :json             not null
 #  request_type         :string           not null

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_10_235135) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_11_060616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,7 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_235135) do
 
   create_table "robo_requests", force: :cascade do |t|
     t.string "request_type", null: false
-    t.text "prompt", null: false
     t.text "response"
     t.json "raw_response", default: {}, null: false
     t.datetime "created_at", null: false
@@ -81,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_10_235135) do
     t.decimal "cost", precision: 8, scale: 2
     t.string "parent_type", null: false
     t.bigint "parent_id", null: false
+    t.json "prompt_messages", default: []
     t.index ["parent_type", "parent_id"], name: "index_robo_requests_on_parent"
   end
 

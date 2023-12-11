@@ -8,9 +8,11 @@ class RoboManager
   end
 
   def run_request(sse_proc=nil)
-    response = robot_api.ask_gpt4(robo_request, sse_proc)
+    prompt_generator = PromptGenerator.new(robo_request)
+    prompt_messages = prompt_generator.prompt_messages
+    response = robot_api.ask_gpt4(prompt_messages, sse_proc)
 
-    robo_request.update(response: response)
+    robo_request.update(prompt_messages: prompt_messages, response: response)
 
     case robo_request.request_type
     when "contextual_files"

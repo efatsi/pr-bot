@@ -7,12 +7,8 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 30_000
 
-  def ask_gpt4(robo_request, sse_proc=nil, json_mode=true)
-    # first check prompt length is less than PROMPT_MAX_LENGTH
-    token_count = OpenAI.rough_token_count(prompt)
-    if token_count > PROMPT_MAX_LENGTH
-      raise RobotError.new("Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}.")
-    end
+  def ask_gpt4(prompt_messages, sse_proc=nil, json_mode=true)
+    check_token_limit(prompt_messages)
 
     puts "=========================="
     puts "Requesting: #{prompt[0..300]}..."
@@ -24,7 +20,7 @@ class RobotApi
       client.chat(
         parameters: {
           model: GPT_4_TURBO,
-          messages: PromptGenerator.new(robo_request).prompt_messages,
+          messages: prompt_messages,
           response_format: { type: json_mode ? "json_object" : "text" },
           temperature: 0.2,
           stream: stream_proc(sse_proc),
@@ -48,6 +44,17 @@ class RobotApi
           sse_proc.call(new_content)
         end
       end
+    end
+  end
+
+  def check_token_limit(prompt_messages)
+    # first check prompt length is less than PROMPT_MAX_LENGTH
+    encoder = Tiktoken.encoding_for_model('gpt-4')
+    prompt_content = prompt_messages.map{|a| a[:content]}.join(" ")
+    token_count = encoder.encode(prompt_content).length
+
+    if token_count > PROMPT_MAX_LENGTH
+      raise RobotError.new("Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}.")
     end
   end
 

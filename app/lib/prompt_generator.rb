@@ -17,27 +17,28 @@ class PromptGenerator
     to_return = [
       { role: "system", content: PromptGenerator::SYSTEM_SETUP },
       *previous_convo_messages,
-      { role: "user", content: prompt }
+      { role: "user", content: generate_new_prompt }
     ]
   end
 
-  def previous_convo_messages(robo_job)
+  def previous_convo_messages
     if robo_request.request_type == "instructions"
       robo_job = robo_request.parent
 
       if robo_job.include_last_convo?
-        last_job = robo_job.parent_job.followup_jobs.last
-        [
-          { role: "user": content: last_job.feature_request },
-          { role: "system": content: last_job.generated_instructions.to_s },
-        ]
+        if last_job = robo_job.parent_job.followup_jobs.to_a.reverse.detect{|a| a.robo_changes.any?}
+          [
+            { role: "user", content: last_job.feature_request },
+            { role: "system", content: last_job.generated_instructions.to_s },
+          ]
+        end
 
       elsif robo_job.include_all_convos?
-        [robo_job, *robo_job.followup_jobs].flat_map do |job|
+        [robo_job.parent_job, *robo_job.parent_job.followup_jobs].flat_map do |job|
           if job.robo_changes.any?
             [
-              { role: "user": content: job.feature_request },
-              { role: "system": content: job.generated_instructions.to_s },
+              { role: "user", content: job.feature_request },
+              { role: "system", content: job.generated_instructions.to_s },
             ]
           end
         end.compact
@@ -45,7 +46,7 @@ class PromptGenerator
     end
   end
 
-  def generate_prompt
+  def generate_new_prompt
     case robo_request.request_type
     when "contextual_files"
       contextual_files_prompt
