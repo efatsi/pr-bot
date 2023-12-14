@@ -1,15 +1,9 @@
 # TODO
 ## md
-- show commits on RoboJob
-- collapse feature_request and context files into one form
-  - let you access file finder from show view
-    - allow form still, but can add / remove w/o it
-- render feature requests inline, button to toggle one or all
-  - include link to contextual files
-    - fancy, saved versions of them in db at time of instructions execution
+- when showing prompt, include all prompt_messages that were sent in that request
+- files added during last robo_job's changes are included in followup contextual files
+- replace "try again" w/ "reset"
 - JS interval for alerting if server connection fails
-
-## sm
 - render errors when stream execution fails (eg: invalid context filepath on generate_instructions)
 - annotate invalid paths in contextual files
 - remove additional_notes, collapse to one prose field
@@ -17,8 +11,18 @@
 - a "ding" when instruction generation is done
 - when click continue the convo, and already focused continuing, just focus on input instead of re-fetching
 
+## sm
+- show commits on RoboJob
+- render feature requests inline, button to toggle one or all
+  - include link to contextual files
+    - fancy, saved versions of them in db at time of instructions execution
+
 # contextual files enhance
-- files added during last robo_joba's changes are included in followup contextual files
+- collapse feature_request and context files into one form
+  - contextual files can take other files as well
+  - let you access file finder from show view
+    - allow form still, but can add / remove w/o it
+
 - files mentioned in feature request have content sent in contextual_files search
 - files mentioned in feature request are auto added to contextual_files
 - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
