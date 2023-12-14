@@ -4,7 +4,6 @@
 - render feature requests inline, button to toggle one or all
   - include link to contextual files
     - fancy, saved versions of them in db at time of instructions execution
-- JS interval for alerting if server connection fails
 
 # contextual files enhance
 - collapse feature_request and context files into one form
@@ -17,8 +16,7 @@
 - files mentioned in feature request are auto added to contextual_files
 - per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
 
-
-# Step 3: cleanup
+# cleanup step
 - new stream button, similar to "continue"
   - new followup job
   - optional message from user to guide the cleanup

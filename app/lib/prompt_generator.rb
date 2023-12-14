@@ -35,6 +35,7 @@ class PromptGenerator
       { role: "system", content: PromptGenerator::SYSTEM_SETUP },
       { role: "user", content: instructions_background_prompt },
       *previous_convo_messages,
+      { role: "user", content: relevant_files_prompt },
       { role: "user", content: instructions_prompt }
     ]
   end
@@ -83,13 +84,19 @@ class PromptGenerator
     ].join("\n")
   end
 
-  def instructions_prompt
+  def relevant_files_prompt
     robo_job = robo_request.parent
 
     [
       "These are relevant project files:",
       robo_job.contextual_file_data,
-      "",
+    ].join("\n")
+  end
+
+  def instructions_prompt
+    robo_job = robo_request.parent
+
+    [
       "How would you implement this feature request?",
       robo_job.feature_request,
     ].join("\n")
@@ -97,14 +104,14 @@ class PromptGenerator
 
   def previous_convo_messages
     robo_job = robo_request.parent
+    parent_job = robo_job.parent_job
 
     if robo_job.include_last_convo?
-      if last_job = robo_job.parent_job.followup_jobs.to_a.reverse.detect{|a| a.robo_changes.any?}
-        [
-          { role: "user", content: last_job.feature_request },
-          { role: "system", content: last_job.generated_instructions.to_s },
-        ]
-      end
+      last_job = parent_job.followup_jobs.to_a.reverse.detect{|a| a.robo_changes.any?} || parent_job
+      [
+        { role: "user", content: last_job.feature_request },
+        { role: "system", content: last_job.generated_instructions.to_s },
+      ]
 
     elsif robo_job.include_all_convos?
       [robo_job.parent_job, *robo_job.parent_job.followup_jobs].flat_map do |job|
