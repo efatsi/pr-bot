@@ -2,7 +2,9 @@ class RoboManager
   attr_reader :parent, :request_type, :robo_request
 
   def initialize(parent, request_type)
+    # RoboJob or GitCommit
     @parent = parent
+
     @request_type = request_type
     @robo_request = parent.robo_requests.new(request_type: request_type)
 

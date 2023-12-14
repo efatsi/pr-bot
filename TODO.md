@@ -1,6 +1,5 @@
 # TODO
 ## md
-- JS interval for alerting if server connection fails
 - render errors when stream execution fails (eg: invalid context filepath on generate_instructions)
 - annotate invalid paths in contextual files
 - remove additional_notes, collapse to one prose field
@@ -14,6 +13,7 @@
 - render feature requests inline, button to toggle one or all
   - include link to contextual files
     - fancy, saved versions of them in db at time of instructions execution
+- JS interval for alerting if server connection fails
 
 # contextual files enhance
 - collapse feature_request and context files into one form

@@ -38,6 +38,19 @@ class RoboJobStreamsController < SseApplicationController
       })
     end
 
+  rescue => e
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "get-files",
+        partial: "robo_jobs/shared/error",
+        locals: {
+          robo_request: robo_manager&.robo_request,
+          error_message: e.message,
+          label: "Contextual Files"
+        }
+      )
+    })
+
   ensure
     sse.close
   end
@@ -64,6 +77,19 @@ class RoboJobStreamsController < SseApplicationController
         )
       })
     end
+
+  rescue => e
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "get-instructions",
+        partial: "robo_jobs/shared/error",
+        locals: {
+          robo_request: robo_manager&.robo_request,
+          error_message: e.message,
+          label: "Build Instructions"
+        }
+      )
+    })
 
   ensure
     sse.close
@@ -105,6 +131,22 @@ class RoboJobStreamsController < SseApplicationController
       sleep(0.5)
       sse_proc.call("\nFlip ROBO_ENABLED to true to see the real thing!")
     end
+
+  rescue => e
+    sse.write({
+      turbo_stream: turbo_stream.update(
+        "continue-conversation",
+        partial: "robo_jobs/shared/error",
+        locals: {
+          robo_request: robo_manager&.robo_request,
+          error_message: e.message,
+          label: "Continue Conversation"
+        }
+      )
+    })
+
+  ensure
+    sse.close
   end
 
   private
