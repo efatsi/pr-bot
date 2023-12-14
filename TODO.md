@@ -1,8 +1,6 @@
 # TODO
 ## md
-- all files make click-to-copy (or open in vscode...)
-- a "ding" when instruction generation is done
-- when click continue the convo, and already focused continuing, just focus on input instead of re-fetching
+- when click continue the convo, and there's already a continue conversation going, just focus on input instead of re-fetching
 
 ## sm
 - show commits on RoboJob
@@ -17,6 +15,7 @@
   - contextual files can take other files as well
   - let you access file finder from show view
     - allow form still, but can add / remove w/o it
+  - click on contextual file to open in file viewer
 
 - files mentioned in feature request have content sent in contextual_files search
 - files mentioned in feature request are auto added to contextual_files

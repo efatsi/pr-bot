@@ -26,6 +26,7 @@ class RoboJobStreamsController < SseApplicationController
             locals: {
               robo_job: robo_job.reload,
               robo_request: robo_manager.robo_request,
+              ding: true,
               open_on_load: true
             }
           ),
@@ -73,7 +74,10 @@ class RoboJobStreamsController < SseApplicationController
         turbo_stream: turbo_stream.update(
           "get-instructions",
           partial: "robo_jobs/instructions/finished",
-          locals: { robo_job: robo_job.reload }
+          locals: {
+            robo_job: robo_job.reload,
+            ding: true
+          }
         )
       })
     end
@@ -118,7 +122,10 @@ class RoboJobStreamsController < SseApplicationController
           turbo_stream.update(
             "robo-changes",
             partial: "robo_jobs/instructions/robo_changes",
-            locals: { robo_job: parent_job }
+            locals: {
+              robo_job: parent_job,
+              ding: true
+            }
           ),
           turbo_stream.update(
             "continue-conversation",

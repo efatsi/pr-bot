@@ -1,3 +1,6 @@
+<% ding ||= false %>
+<%= render "shared/ding" if ding %>
+
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <div class="px-1">
     <div class="mb-6" id="robo-changes">

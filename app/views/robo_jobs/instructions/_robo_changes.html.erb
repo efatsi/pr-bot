@@ -1,3 +1,6 @@
+<% ding ||= false %>
+<%= render "shared/ding" if ding %>
+
 <div class="inline-block font-medium border-b border-opacity-10 mb-4">Proposed Changes</div>
 
 <% [robo_job, *robo_job.followup_jobs].each do |job| %>

@@ -1,4 +1,6 @@
 <% open_on_load ||= session[:show_files] %>
+<% ding ||= false %>
+<%= render "shared/ding" if ding %>
 
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: open_on_load do %>
   <% if robo_request %>
