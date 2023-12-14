@@ -19,7 +19,7 @@
       <% git_commit.message_options.fetch("commits", []).each do |option| %>
         <div class="flex items-center mb-2 gap-2">
           <button data-action="commit-copy#useMessage" data-message="<%= option['message'] %>" data-description="<%= option['description'] %>" class="btn-opaque mr-2">
-            <%= heroicon "arrow-up-on-square-stack", variant: :outline, options: { class: "w-4 h-4" } %>
+            <%= heroicon "arrow-up-on-square-stack", options: { class: "!w-4 !h-4" } %>
           </button>
           <div>
             <div><%= option['message'] %></div>

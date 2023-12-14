@@ -10,7 +10,7 @@
         <li class="flex items-center gap-1.5">
           <%= filepath %>
           <% if robo_job.project.invalid_path?(filepath) %>
-            <%= heroicon "exclamation-circle", variant: :outline, options: { class: "text-red-500 w-4 h-4" } %>
+            <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
           <% end %>
         </li>
       <% end %>
