@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class AudioController extends Controller {
   connect() {
-    this.doubleDing()
+    if (this.playSound()) {
+      this.doubleDing()
+    }
   }
 
   doubleDing() {
@@ -11,5 +13,9 @@ export default class AudioController extends Controller {
       this.element.currentTime = 0
       this.element.play()
     }, 175)
+  }
+
+  playSound() {
+    return document.cookie.split('; ').some(cookie => cookie.trim().startsWith('playSound=true'))
   }
 }

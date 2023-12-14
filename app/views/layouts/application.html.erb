@@ -22,9 +22,17 @@
     <%= turbo_frame_tag "turbo_scripts" %>
 
     <main class="p-3">
-      <%= link_to root_url do %>
-        <%= heroicon :home, variant: :outline, options: { class: "w-6 h-6" } %>
-      <% end %>
+      <div class="flex items-center gap-2">
+        <%= link_to root_url do %>
+          <%= heroicon :home %>
+        <% end %>
+
+        <div data-controller="mute" data-action="click->mute#toggle" class="cursor-pointer">
+          <%= heroicon "speaker-wave", options: { class: "#{'hidden' unless cookies['playSound'] == 'true'}", "data-mute-target": "unmutedIcon" } %>
+          <%= heroicon "speaker-x-mark", options: { class: "#{'hidden' if cookies['playSound'] == 'true'}", "data-mute-target": "mutedIcon" } %>
+        </div>
+      </div>
+
       <div class="my-8 w-[70%] min-w-[100%] px-3 md:min-w-[768px] mx-auto">
         <%= turbo_frame_tag "flash" do %>
           <%= render "shared/flash" %>
