@@ -35,11 +35,8 @@ class RoboJob < ApplicationRecord
   end
 
   def last_contextual_files
-    if is_parent_job?
-      followup_jobs.last&.contextual_files || contextual_files
-    else
-      contextual_files
-    end
+    last_job = followup_jobs.last || self
+    (last_job.contextual_files + last_job.robo_changes.map(&:file)).uniq
   end
 
   def includes_past_convo?

@@ -1,7 +1,5 @@
 # TODO
 ## md
-- files added during last robo_job's changes are included in followup contextual files
-- replace "try again" w/ "reset"
 - JS interval for alerting if server connection fails
 - render errors when stream execution fails (eg: invalid context filepath on generate_instructions)
 - annotate invalid paths in contextual files
