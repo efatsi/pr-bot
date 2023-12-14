@@ -23,17 +23,6 @@ class RoboJob < ApplicationRecord
     end
   end
 
-  [
-    :implementation_overview,
-    :additional_notes
-  ].each do |field|
-    define_method(field) do
-      if generated_instructions?
-        generated_instructions[field.to_s]
-      end
-    end
-  end
-
   def last_contextual_files
     last_job = followup_jobs.last || self
     (last_job.contextual_files + last_job.robo_changes.map(&:file)).uniq
@@ -49,6 +38,12 @@ class RoboJob < ApplicationRecord
         name: file,
         content: File.read(full_path(file))
       }
+    end
+  end
+
+  def implementation_overview
+    if generated_instructions?
+      generated_instructions["implementation_overview"]
     end
   end
 

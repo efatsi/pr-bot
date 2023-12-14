@@ -1,6 +1,5 @@
 # TODO
 ## md
-- remove additional_notes, collapse to one prose field
 - all files make click-to-copy (or open in vscode...)
 - a "ding" when instruction generation is done
 - when click continue the convo, and already focused continuing, just focus on input instead of re-fetching

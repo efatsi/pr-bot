@@ -94,8 +94,7 @@ class PromptGenerator
       "Prefer solutions that use the project tools over generic solutions.",
       "",
       RETURN_IMPLEMENTATION_AS_JSON,
-      "- implementation_overview: Describe the steps involved to implement the feature",
-      "- additional_notes: Any other details to know, or steps to take after the implementation is complete",
+      "- implementation_overview: Describe the steps involved to implement the feature, and any follow-up steps to take afterwards",
       "- changes: An array of all the file changes required, following this structure:",
       "  - summary: A brief description of the change",
       "  - action: one of `#{RoboChange::VALID_ACTIONS.join('`, `')}`",
@@ -139,7 +138,7 @@ class PromptGenerator
   end
 
   IMPLEMENTATION_JSON_EXAMPLE = JSON.pretty_generate({
-    "implementation_overview": "We need to add a new member route to the robo_jobs resources in the routes.rb file and create a new controller action along with a corresponding template file.",
+    "implementation_overview": "Add a new member route to the robo_jobs resources in the routes.rb file and create a new controller action along with a corresponding template file. After implementing, check that the template is being rendered correctly at the path `/robo_jobs/:id/robo_requests`",
     "changes": [
       {
         "summary": "Add a new `:robo_requests` member route to the `robo_jobs` resources",
@@ -168,7 +167,6 @@ class PromptGenerator
         "new_content": "class AddRoboJobIdToRoboRequests < ActiveRecord::Migration[6.1]\n  def change\n    add_reference :robo_requests, :robo_job, null: false, foreign_key: true\n  end\nend"
       }
     ],
-    "additional_notes": "Check that the template is being rendered correctly at the path `/robo_jobs/:id/robo_requests`."
   })
 
   # COMMITS_JSON_EXAMPLE = JSON.pretty_generate({
