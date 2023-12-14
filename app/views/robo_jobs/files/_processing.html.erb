@@ -1,6 +1,9 @@
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: true do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
-    <div class="whitespace-pre-wrap"><%= robo_request.prompt %></div>
+    <% robo_request.prompt_messages.each do |prompt_message| %>
+      <div class="uppercase text-sm mb-2"><%= prompt_message["role"] %></div>
+      <pre class="whitespace-pre-wrap mb-4"><%= prompt_message["content"] %></pre>
+    <% end %>
   <% end %>
 
   <%= render "shared/dropdown", label: "Response", open_on_load: true do %>

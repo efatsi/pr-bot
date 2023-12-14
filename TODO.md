@@ -1,6 +1,5 @@
 # TODO
 ## md
-- when showing prompt, include all prompt_messages that were sent in that request
 - files added during last robo_job's changes are included in followup contextual files
 - replace "try again" w/ "reset"
 - JS interval for alerting if server connection fails
@@ -13,6 +12,7 @@
 
 ## sm
 - show commits on RoboJob
+- reorder prompt generation to load user instructions in first, and then chain user/system back-n-forths
 - render feature requests inline, button to toggle one or all
   - include link to contextual files
     - fancy, saved versions of them in db at time of instructions execution
