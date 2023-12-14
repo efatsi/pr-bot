@@ -45,6 +45,19 @@ class RoboChangesController < SseApplicationController
     render turbo_stream: stream_updates
   end
 
+  def reset
+    robo_change.update(status: "pending")
+
+    render turbo_stream: [
+      turbo_stream.update(
+        "robo-change-#{ robo_change.id }",
+        partial: "robo_jobs/robo_changes/show",
+        locals: { robo_change: robo_change }
+      ),
+      turbo_update_fire_all
+    ]
+  end
+
   def skip
     robo_change.update(status: 'skipped')
 

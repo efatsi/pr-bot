@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :robo_changes, only: [] do
       get :execute_all, on: :collection
       post :execute, on: :member
+      post :reset, on: :member
       post :skip, on: :member
       post :unexecute, on: :member
       post :unskip, on: :member
