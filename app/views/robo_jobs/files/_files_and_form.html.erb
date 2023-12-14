@@ -7,7 +7,12 @@
 
     <ul class="list-disc text-left pl-5" data-inline-edit-target="content">
       <% robo_job.contextual_files.each do |filepath| %>
-        <li><%= filepath %></li>
+        <li class="flex items-center gap-1.5">
+          <%= filepath %>
+          <% if robo_job.project.invalid_path?(filepath) %>
+            <%= heroicon "exclamation-circle", variant: :outline, options: { class: "text-red-500 w-4 h-4" } %>
+          <% end %>
+        </li>
       <% end %>
     </ul>
   </div>

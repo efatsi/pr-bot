@@ -67,6 +67,11 @@ class Project < ApplicationRecord
     files.map { |f| f.gsub(filepath + "/", "") }
   end
 
+  def invalid_path?(path)
+    path = File.join(filepath, path)
+    !File.exist?(path) || File.directory?(path)
+  end
+
   require 'open3'
 
   def current_diff
