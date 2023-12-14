@@ -1,9 +1,6 @@
 class PromptGenerator
   SYSTEM_SETUP = "You are a senior web developer, 10x developer, UI/UX developer, and expert code system architect. When working/responding, take a deep breath and work step-by-step."
-
-  RETURN_IMPLEMENTATION_AS_JSON = "Return the details of the implementation change as a JSON object with the following structure:"
-  RETURN_COMMITS_AS_JSON = "Return the options as a JSON object with the following structure:"
-  RETURN_CONTEXT_FILES_AS_JSON = "Return the files as a JSON object with the following structure:"
+  RETURN_AS_JSON = "as a JSON object with the following structure:"
 
   attr_reader :robo_request
 
@@ -14,47 +11,32 @@ class PromptGenerator
   end
 
   def prompt_messages
+    if robo_request.request_type == "instructions"
+      # this might have a conversation history, structure it differently
+      instructions_prompt_messages
+
+    else
+      # these are more straightforward, just one system/user pair
+      user_prompt = if robo_request.request_type == "contextual_files"
+        contextual_files_prompt
+      elsif robo_request.request_type == "commit_suggestions"
+        commit_suggestions_prompt
+      end
+
+      [
+        { role: "system", content: PromptGenerator::SYSTEM_SETUP },
+        { role: "user", content: user_prompt }
+      ]
+    end
+  end
+
+  def instructions_prompt_messages
     [
       { role: "system", content: PromptGenerator::SYSTEM_SETUP },
+      { role: "user", content: instructions_background_prompt },
       *previous_convo_messages,
-      { role: "user", content: generate_new_prompt }
+      { role: "user", content: instructions_prompt }
     ]
-  end
-
-  def previous_convo_messages
-    if robo_request.request_type == "instructions"
-      robo_job = robo_request.parent
-
-      if robo_job.include_last_convo?
-        if last_job = robo_job.parent_job.followup_jobs.to_a.reverse.detect{|a| a.robo_changes.any?}
-          [
-            { role: "user", content: last_job.feature_request },
-            { role: "system", content: last_job.generated_instructions.to_s },
-          ]
-        end
-
-      elsif robo_job.include_all_convos?
-        [robo_job.parent_job, *robo_job.parent_job.followup_jobs].flat_map do |job|
-          if job.robo_changes.any?
-            [
-              { role: "user", content: job.feature_request },
-              { role: "system", content: job.generated_instructions.to_s },
-            ]
-          end
-        end.compact
-      end
-    end
-  end
-
-  def generate_new_prompt
-    case robo_request.request_type
-    when "contextual_files"
-      contextual_files_prompt
-    when "instructions"
-      instructions_prompt
-    when "commit_suggestions"
-      commit_suggestions_prompt
-    end
   end
 
   def contextual_files_prompt
@@ -70,30 +52,23 @@ class PromptGenerator
       "Feature request:",
       robo_job.feature_request,
       "",
-      "Return paths for files that would provide helpful context.",
-      RETURN_CONTEXT_FILES_AS_JSON,
+      "Return paths for files that would provide helpful context #{RETURN_AS_JSON}",
       "- files: An array of files worth investigating:",
       "  - filpath: exact path of file",
       "  - why: explain why this is relevant to the feature request",
     ].join("\n")
   end
 
-  def instructions_prompt
+  def instructions_background_prompt
     robo_job = robo_request.parent
 
     [
       "You are working on a project with these tools:",
       project.project_context,
       "",
-      "These are relevant project files:",
-      robo_job.contextual_file_data,
-      "",
-      "How would you implement this feature request?",
-      robo_job.feature_request,
-      "",
       "Prefer solutions that use the project tools over generic solutions.",
       "",
-      RETURN_IMPLEMENTATION_AS_JSON,
+      "Return the details of the implementation change #{RETURN_AS_JSON}",
       "- implementation_overview: Describe the steps involved to implement the feature, and any follow-up steps to take afterwards",
       "- changes: An array of all the file changes required, following this structure:",
       "  - summary: A brief description of the change",
@@ -106,6 +81,41 @@ class PromptGenerator
       "Example",
       "#{IMPLEMENTATION_JSON_EXAMPLE}"
     ].join("\n")
+  end
+
+  def instructions_prompt
+    robo_job = robo_request.parent
+
+    [
+      "These are relevant project files:",
+      robo_job.contextual_file_data,
+      "",
+      "How would you implement this feature request?",
+      robo_job.feature_request,
+    ].join("\n")
+  end
+
+  def previous_convo_messages
+    robo_job = robo_request.parent
+
+    if robo_job.include_last_convo?
+      if last_job = robo_job.parent_job.followup_jobs.to_a.reverse.detect{|a| a.robo_changes.any?}
+        [
+          { role: "user", content: last_job.feature_request },
+          { role: "system", content: last_job.generated_instructions.to_s },
+        ]
+      end
+
+    elsif robo_job.include_all_convos?
+      [robo_job.parent_job, *robo_job.parent_job.followup_jobs].flat_map do |job|
+        if job.robo_changes.any?
+          [
+            { role: "user", content: job.feature_request },
+            { role: "system", content: job.generated_instructions.to_s },
+          ]
+        end
+      end.compact
+    end
   end
 
   def commit_suggestions_prompt
@@ -128,7 +138,7 @@ class PromptGenerator
       "",
       "The first 2 options should be short (under 72 characters). If the diff is sufficiently complex, include a third option that has an additional description, with max 70 characters per line.",
       "",
-      RETURN_COMMITS_AS_JSON,
+      "Return the options #{RETURN_AS_JSON}",
       "- commits: An array of commit messages to suggest, following this structure:",
       "  - message: the commit message",
       "  - description: optional, a longer description of the commit",
@@ -168,15 +178,4 @@ class PromptGenerator
       }
     ],
   })
-
-  # COMMITS_JSON_EXAMPLE = JSON.pretty_generate({
-  #   "commits": [
-  #     {
-  #       "message": "Add the ability to edit and update robo_requests"
-  #     },
-  #     {
-  #       # similar to the above message but worded differently
-  #       "message": "
-  #     }
-
 end

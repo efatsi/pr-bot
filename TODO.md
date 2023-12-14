@@ -1,10 +1,6 @@
 # TODO
-## md
-- when click continue the convo, and there's already a continue conversation going, just focus on input instead of re-fetching
-
 ## sm
 - show commits on RoboJob
-- reorder prompt generation to load user instructions in first, and then chain user/system back-n-forths
 - render feature requests inline, button to toggle one or all
   - include link to contextual files
     - fancy, saved versions of them in db at time of instructions execution

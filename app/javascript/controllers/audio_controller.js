@@ -10,6 +10,6 @@ export default class AudioController extends Controller {
     setTimeout(() => {
       this.element.currentTime = 0
       this.element.play()
-    }, 200)
+    }, 175)
   }
 }
