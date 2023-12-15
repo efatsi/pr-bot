@@ -1,35 +1,4 @@
 # TODO
-## sm
-- show commits on RoboJob
-- render feature requests inline, button to toggle one or all
-  - include link to contextual files
-    - fancy, saved versions of them in db at time of instructions execution
-
-# contextual files enhance
-- collapse feature_request and context files into one form
-  - contextual files can take other files as well
-  - let you access file finder from show view
-    - allow form still, but can add / remove w/o it
-  - click on contextual file to open in file viewer
-
-- files mentioned in feature request have content sent in contextual_files search
-- files mentioned in feature request are auto added to contextual_files
-- per file line, show "rationale" from robo_request (or "included in feature request") (or "human added")
-
-# cleanup step
-- new stream button, similar to "continue"
-  - new followup job
-  - optional message from user to guide the cleanup
-    - generate & display some primer examples that can be copied in
-- LLM call w/
-  - git diff
-  - copy of full files
-  - prompt asking to check for syntax errors, logic bugs, whitespace
-  - example shows a couple things i want it to hit
-- generate new RoboChanges
-  - render w/ light blue
-  - maybe icon everything up (plus / pencil / broom)
-
 # commands that it can run
 it wants to
 ```rb
@@ -45,6 +14,50 @@ give it a list of approved things, say
 - default available on all projects: git push origin [branch]
 - can add new action templates to projects
 - can create actions from templates in RoboJob
+
+## sm
+- show commits on RoboJob
+- render feature requests inline, button to toggle one or all
+  - include link to contextual files
+    - fancy, saved versions of them in db at time of instructions execution
+
+# contextual files enhance
+- show contextual_files input right away so you can seed in things you know
+  - pre-seeded things are passed into contextual files request
+
+- human review step
+  - show responses w/ "rationale"
+  - checkboxes to include / ignore
+    - before directories get unpacked!
+
+- can give line numbers
+  - nice-to-have: combine multiple code batches if defining same file
+  - make vscode helper to output file name w/ line numbers
+
+- let you access file finder from show view
+  - allow form still, but can add / remove w/o it
+- click on contextual file to open in file viewer
+
+# planning hat vs. implementing hat
+- split generate instructions into plan / instructions buttons
+- plan generates pre_flight robo_changes
+- can continue plan, skip, edit
+- generate instructions off of plan
+
+
+# cleanup step
+- new stream button, similar to "continue"
+  - new followup job
+  - optional message from user to guide the cleanup
+    - generate & display some primer examples that can be copied in
+- LLM call w/
+  - git diff
+  - copy of full files
+  - prompt asking to check for syntax errors, logic bugs, whitespace
+  - example shows a couple things i want it to hit
+- generate new RoboChanges
+  - render w/ light blue
+  - maybe icon everything up (plus / pencil / broom)
 
 # export sharable RoboJob
 
