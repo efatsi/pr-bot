@@ -46,7 +46,7 @@ SimpleForm.setup do |config|
     b.optional :min_max
     b.optional :readonly
     b.use :label, class: 'block', error_class: 'text-red-500'
-    b.use :input, class: 'shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500 text-gray-700 leading-6 transition-colors duration-200 ease-in-out', error_class: 'border-red-500'
+    b.use :input, class: 'shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-[#19212b] text-gray-300 focus:outline-none focus:ring-0 focus:border-blue-500 leading-6 transition-colors duration-200 ease-in-out', error_class: 'border-red-500'
     b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-500 text-xs italic' }
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-1 text-grey-700 text-xs italic' }
   end
