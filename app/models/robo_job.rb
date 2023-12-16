@@ -3,6 +3,7 @@ class RoboJob < ApplicationRecord
 
   has_many :robo_requests, -> { by_id }, as: :parent, dependent: :destroy
   has_many :robo_changes, -> { by_id }, dependent: :destroy
+  has_many :actions, -> { by_id }, dependent: :destroy
 
   has_many :followup_jobs, -> { by_id }, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
   belongs_to :parent_job, class_name: "RoboJob", optional: true
