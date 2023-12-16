@@ -3,7 +3,7 @@
 
 <div id="robo-change-<%= robo_change.id %>">
   <%= render "shared/dropdown", label: robo_change.summary, label_class: label_class, label_action: label_action do %>
-    <% if robo_change.error %>
+    <% if robo_change.status == "failed" && robo_change.error %>
       <div class="mb-4">
         <div class="font-medium">Error:</div>
         <pre class="text-red-700"><%= robo_change.error %></pre>
