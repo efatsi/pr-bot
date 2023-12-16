@@ -2,6 +2,9 @@ class Project < ApplicationRecord
   has_many :robo_jobs, dependent: :destroy
   has_many :robo_requests, through: :robo_jobs
 
+  has_many :action_templates, dependent: :destroy
+  accepts_nested_attributes_for :action_templates, allow_destroy: true
+
   has_many :git_commits, dependent: :destroy
 
   validates :filepath, :project_context, presence: true

@@ -14,6 +14,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_17_105203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "action_templates", force: :cascade do |t|
+    t.bigint "project_id"
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "system_action", default: false
+    t.string "command"
+    t.string "reverse_command"
+    t.json "arguments_schema", default: []
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_action_templates_on_project_id"
+  end
+
+  create_table "actions", force: :cascade do |t|
+    t.bigint "robo_job_id", null: false
+    t.bigint "action_template_id", null: false
+    t.string "status", default: "pending", null: false
+    t.json "arguments", default: []
+    t.json "history", default: []
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_template_id"], name: "index_actions_on_action_template_id"
+    t.index ["robo_job_id"], name: "index_actions_on_robo_job_id"
+  end
+
   create_table "git_commits", force: :cascade do |t|
     t.string "commit_hash"
     t.text "message"
@@ -161,6 +186,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_17_105203) do
     t.index ["parent_type", "parent_id"], name: "index_robo_requests_on_parent"
   end
 
+  add_foreign_key "action_templates", "projects"
+  add_foreign_key "actions", "action_templates"
+  add_foreign_key "actions", "robo_jobs"
   add_foreign_key "git_commits", "projects"
   add_foreign_key "git_commits", "robo_jobs"
   add_foreign_key "robo_changes", "robo_jobs"

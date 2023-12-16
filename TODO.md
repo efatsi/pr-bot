@@ -37,6 +37,7 @@
 - let you access file finder from show view
   - allow form still, but can add / remove w/o it
 - click on contextual file to open in file viewer
+- remove leading slash before checking uniqueness (/db/seeds & db/seeds both on there)
 
 # planning hat vs. implementing hat
 - split generate instructions into plan / instructions buttons
