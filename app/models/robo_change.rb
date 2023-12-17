@@ -51,6 +51,9 @@ class RoboChange < ApplicationRecord
       else
         raise 'File or directory to be renamed does not exist'
       end
+    elsif action == "remove_file"
+      File.delete(full_filepath) if File.exist?(full_filepath)
+
     else
       raise "Unknown action: #{action}"
     end
