@@ -1,6 +1,4 @@
 class GitCommitsController < SseApplicationController
-  before_action :set_sse_headers, only: :generate_options
-
   def new
     if params[:robo_job_id]
       @git_commit = (
@@ -38,27 +36,7 @@ class GitCommitsController < SseApplicationController
   end
 
   def generate_options
-    robo_manager = RoboManager.new(git_commit, "commit_suggestions")
-
-    sse.write({
-      turbo_stream: turbo_stream.update(
-        "commit-suggestions",
-        partial: "git_commits/suggestions/processing",
-        locals: { robo_request: robo_manager.robo_request }
-      )
-    })
-
-    robo_manager.run_request(sse_proc)
-
-    sse.write({
-      turbo_stream: turbo_stream.update(
-        "commit-suggestions",
-        partial: "git_commits/suggestions/finished",
-        locals: { robo_request: robo_manager.robo_request, git_commit: git_commit }
-      )
-    })
-  ensure
-    sse.close
+    CommitRunnerJob.perform_later(git_commit.id, "commit_suggestions")
   end
 
   private

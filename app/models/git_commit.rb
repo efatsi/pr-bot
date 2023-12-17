@@ -45,6 +45,10 @@ class GitCommit < ApplicationRecord
       end
     end
   end
+
+  def stream_key
+    robo_job.stream_key
+  end
 end
 
 # == Schema Information
