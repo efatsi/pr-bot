@@ -34,8 +34,8 @@ class PromptGenerator
     [
       { role: "system", content: PromptGenerator::SYSTEM_SETUP },
       { role: "user", content: instructions_background_prompt },
-      *previous_convo_messages,
       { role: "user", content: relevant_files_prompt },
+      *previous_convo_messages,
       { role: "user", content: instructions_prompt }
     ]
   end
