@@ -21,26 +21,18 @@ class RoboManager
     # broadcast processing state
     handler.broadcast_processing_state
 
-    # bail early if robot disabled
-    if !ROBOT_ENABLED
+    if ROBOT_ENABLED
+      # run request
+      response = robot_api.ask_gpt4(robo_request.prompt_messages, stream_proc)
+      robo_request.update(response: response)
+
+      # handle response
+      handler.handle_response
+
+      # broadcast finished state
+      handler.broadcast_finished_state
+    else
       send_test_response
-      return
-    end
-
-    # run request
-    response = robot_api.ask_gpt4(robo_request.prompt_messages, stream_proc)
-    robo_request.update(response: response)
-
-    handler.handle_response
-
-    # handle response based on request type
-    handler.broadcast_finished_state
-    case robo_request.request_type
-    when "instructions"
-      parent.update(generated_instructions: JSON.parse(robo_request.response))
-      parent.process_instructions_to_changes
-    when "commit_suggestions"
-      parent.update(message_options: JSON.parse(robo_request.response))
     end
   end
 

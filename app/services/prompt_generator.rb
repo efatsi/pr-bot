@@ -11,7 +11,7 @@ class PromptGenerator
   end
 
   def prompt_messages
-    if robo_request.request_type == "instructions"
+    if robo_request.request_type.in?(["instructions", "followup_instructions"])
       # this might have a conversation history, structure it differently
       instructions_prompt_messages
 
