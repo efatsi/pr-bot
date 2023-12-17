@@ -21,6 +21,6 @@
   </div>
 
   <%= turbo_frame_tag "commit-button" do %>
-    <%= render "robo_jobs/instructions/commit_button" %>
+    <%= render "robo_jobs/instructions/commit_button", robo_job: robo_job %>
   <% end %>
 </div>

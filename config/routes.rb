@@ -36,4 +36,6 @@ Rails.application.routes.draw do
 
     resources :followup_jobs, only: [:new, :create]
   end
+
+  mount GoodJob::Engine => 'good_job'
 end

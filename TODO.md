@@ -128,6 +128,3 @@ give it a list of approved things, say
     - `Function`
       - call
   - eg: update the RoboChange file creation logic to target the full path based on the project's filepath. For context, look at robo_change robo_job and project model files
-
-## Search keys
-- when talking about updating: `set_sse_headers` content
