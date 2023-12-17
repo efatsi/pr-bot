@@ -9,13 +9,10 @@ module Handlers
     end
 
     def broadcast_processing_state
-      ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: turbo_stream_action(:update,
-          target: "commit-suggestions",
-          partial: "git_commits/suggestions/processing",
-          locals: { robo_request: robo_request }
-        )
-      })
+      broadcast(
+        partial: 'git_commits/suggestions/processing',
+        locals: { robo_request: robo_request }
+      )
     end
 
     def handle_response
@@ -23,16 +20,17 @@ module Handlers
     end
 
     def broadcast_finished_state
-      ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: turbo_stream_action(:update,
-          target: "commit-suggestions",
-          partial: "git_commits/suggestions/finished",
-          locals: { robo_request: robo_request, git_commit: git_commit }
-        )
-      })
+      broadcast(
+        partial: 'git_commits/suggestions/finished',
+        locals: { robo_request: robo_request, git_commit: git_commit }
+      )
     end
 
     private
+
+    def stream_key
+      robo_job.stream_key
+    end
 
     def git_commit
       @git_commit ||= robo_job.git_commit

@@ -8,13 +8,9 @@ module Handlers
     end
 
     def broadcast_processing_state
-      ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: turbo_stream_action(:update,
-          target: "get-instructions",
-          partial: "robo_jobs/instructions/processing",
-          locals: { robo_request: robo_request }
-        )
-      })
+      broadcast(
+        partial: 'robo_jobs/instructions/processing',
+        locals: { robo_request: robo_request })
     end
 
     def handle_response
@@ -23,16 +19,10 @@ module Handlers
     end
 
     def broadcast_finished_state
-      ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: turbo_stream_action(:update,
-          target: "get-instructions",
-          partial: "robo_jobs/instructions/finished",
-          locals: {
-            robo_job: robo_job.reload,
-            ding: true
-          }
-        )
-      })
+      broadcast(
+        partial: 'robo_jobs/instructions/finished',
+        locals: { robo_job: robo_job.reload, ding: true }
+      )
     end
 
     private

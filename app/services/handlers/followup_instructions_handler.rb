@@ -8,13 +8,10 @@ module Handlers
     end
 
     def broadcast_processing_state
-      ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: turbo_stream_action(:update,
-          target: "continue-conversation",
-          partial: "robo_jobs/followup/processing",
-          locals: { robo_request: robo_request }
-        )
-      })
+      broadcast(
+        partial: 'robo_jobs/followup/processing',
+        locals: { robo_request: robo_request }
+      )
     end
 
     def handle_response
@@ -25,19 +22,10 @@ module Handlers
     def broadcast_finished_state
       parent_job = robo_job.parent_job.reload
 
-      ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: [
-          turbo_stream_action(:update,
-            target: "robo-changes",
-            partial: "robo_jobs/instructions/robo_changes",
-            locals: {
-              robo_job: parent_job,
-              ding: true
-            }
-          ),
-          turbo_stream.update("continue-conversation", plain: "")
-        ]
-      })
+      broadcast(
+        partial: 'robo_jobs/instructions/robo_changes',
+        locals: { robo_job: parent_job, ding: true }
+      )
     end
 
     private
