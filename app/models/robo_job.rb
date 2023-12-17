@@ -107,6 +107,10 @@ class RoboJob < ApplicationRecord
       File.join(project.filepath.downcase, f)
     end
   end
+
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, feature_request: #{feature_request.truncate(50)}, created_at: #{created_at}, updated_at: #{updated_at}, parent_job_id: #{parent_job_id}, project_id: #{project_id}>"
+  end
 end
 
 # == Schema Information

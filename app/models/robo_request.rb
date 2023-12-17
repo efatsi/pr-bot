@@ -31,6 +31,10 @@ class RoboRequest < ApplicationRecord
       prompt_messages.last["content"]
     end
   end
+
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, request_type: #{request_type}, created_at: #{created_at}, updated_at: #{updated_at}, parent_type: #{parent_type}, parent_id: #{parent_id}>"
+  end
 end
 
 # == Schema Information

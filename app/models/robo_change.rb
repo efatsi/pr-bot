@@ -123,6 +123,10 @@ class RoboChange < ApplicationRecord
     # in case timestampe is being swapped out
     update(file: timestamped_file) if timestamped_file != file
   end
+
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, action: #{action}, file: #{file}, status: #{status}, created_at: #{created_at}, updated_at: #{updated_at}>"
+  end
 end
 
 # == Schema Information
