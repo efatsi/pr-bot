@@ -15,6 +15,18 @@ export default class WebsocketController extends Controller {
   }
 
   handleReceivedMessage(data) {
-    console.log(data)
+    console.log("Received message:", data)
+
+    if (data.turbo_stream) {
+      // if data is an array, make it an array
+      if (!Array.isArray(data.turbo_stream)) {
+        data.turbo_stream = [data.turbo_stream]
+      }
+
+      // render each turbo stream message
+      for (const message of data.turbo_stream) {
+        Turbo.renderStreamMessage(message)
+      }
+    }
   }
 }

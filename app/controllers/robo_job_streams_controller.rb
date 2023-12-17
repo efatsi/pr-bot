@@ -2,58 +2,8 @@ class RoboJobStreamsController < SseApplicationController
   # Toggle this off to disable fetches to the AI API
   ROBO_ENABLED = true
 
-  before_action :set_sse_headers
-
   def get_contextual_files
-    robo_manager = RoboManager.new(robo_job, "contextual_files")
-
-    sse.write({
-      turbo_stream: turbo_stream.update(
-        "get-files",
-        partial: "robo_jobs/files/processing",
-        locals: { robo_request: robo_manager.robo_request }
-      )
-    })
-
-    if ROBO_ENABLED
-      robo_manager.run_request(sse_proc)
-
-      sse.write({
-        turbo_stream: [
-          turbo_stream.update(
-            "get-files",
-            partial: "robo_jobs/files/finished",
-            locals: {
-              robo_job: robo_job.reload,
-              robo_request: robo_manager.robo_request,
-              ding: true,
-              open_on_load: true
-            }
-          ),
-          turbo_stream.update(
-            "get-instructions",
-            partial: "robo_jobs/instructions/index",
-            locals: { robo_job: robo_job }
-          )
-        ]
-      })
-    end
-
-  rescue => e
-    sse.write({
-      turbo_stream: turbo_stream.update(
-        "get-files",
-        partial: "robo_jobs/shared/error",
-        locals: {
-          robo_request: robo_manager&.robo_request,
-          error_message: e.message,
-          label: "Contextual Files"
-        }
-      )
-    })
-
-  ensure
-    sse.close
+    RoboRunnerJob.perform_later(robo_job.id, "contextual_files")
   end
 
   def get_instructions

@@ -7,7 +7,7 @@
   <% else %>
     <div data-controller="toggle">
       <div data-toggle-target="content1" class="flex gap-2">
-        <%= render "shared/stream_button", path: get_contextual_files_robo_job_path(robo_job), label: "Step 1: Gather Contextual Files" %>
+        <%= button_to "Step 1: Gather Contextual Files", get_contextual_files_robo_job_path(robo_job), method: "post", class: "btn-primary inline-block" %>
         <%= link_to "Or, define files manually", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
       </div>
 

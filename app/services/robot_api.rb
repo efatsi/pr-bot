@@ -7,7 +7,7 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 30_000
 
-  def ask_gpt4(prompt_messages, sse_proc=nil, json_mode=true)
+  def ask_gpt4(prompt_messages, stream_proc=nil, json_mode=true)
     check_token_limit(prompt_messages)
     print_intro(prompt_messages)
 
@@ -19,7 +19,7 @@ class RobotApi
         messages: prompt_messages,
         response_format: { type: json_mode ? "json_object" : "text" },
         temperature: 0.2,
-        stream: stream_proc(sse_proc),
+        stream: stream_proc(stream_proc),
       }
     )
 
@@ -28,13 +28,13 @@ class RobotApi
 
   private
 
-  def stream_proc(sse_proc=print_proc)
+  def stream_proc(stream_proc=print_proc)
     proc do |chunk, _bytesize|
       if new_content = chunk.dig("choices", 0, "delta", "content")
         @response += new_content
 
-        if sse_proc
-          sse_proc.call(new_content)
+        if stream_proc
+          stream_proc.call(new_content)
         end
       end
     end

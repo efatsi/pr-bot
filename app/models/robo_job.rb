@@ -70,6 +70,10 @@ class RoboJob < ApplicationRecord
     unpack_paths(filepaths)
   end
 
+  def stream_key
+    "robo-job-#{id}-stream"
+  end
+
   private
 
   def unpack_paths(paths)
