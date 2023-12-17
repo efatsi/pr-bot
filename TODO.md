@@ -129,9 +129,5 @@ give it a list of approved things, say
       - call
   - eg: update the RoboChange file creation logic to target the full path based on the project's filepath. For context, look at robo_change robo_job and project model files
 
-
-## what i love about this thing
-While i'm researching for the feature, digging through the codebase, i'm writing notes in the `feature_request`, and updating code doing cleanup and learning what i need to in order to prompt the LLM. Then I commit all the lil cleanup I've done to give it a blank slate to run on, and fire all the changes to review those. Cleaning and coding together.
-
 ## Search keys
 - when talking about updating: `set_sse_headers` content
