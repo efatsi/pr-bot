@@ -43,7 +43,7 @@ class RobotApi
   def check_token_limit(prompt_messages)
     # first check prompt length is less than PROMPT_MAX_LENGTH
     encoder = Tiktoken.encoding_for_model('gpt-4')
-    prompt_content = prompt_messages.map{|a| a[:content]}.join(" ")
+    prompt_content = prompt_messages.map{|a| a["content"]}.join(" ")
     token_count = encoder.encode(prompt_content).length
 
     if token_count > PROMPT_MAX_LENGTH
@@ -53,7 +53,7 @@ class RobotApi
 
   def print_intro(prompt_messages)
     puts "=========================="
-    puts "Requesting: #{prompt_messages.last[:content][0..300]}..."
+    puts "Requesting: #{prompt_messages.last["content"][0..300]}..."
     puts
   end
 

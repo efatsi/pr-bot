@@ -9,7 +9,7 @@ module Handlers
 
     def broadcast_processing_state
       ActionCable.server.broadcast(robo_job.stream_key, {
-        turbo_stream: turbo_stream_action("update",
+        turbo_stream: turbo_stream_action(:update,
           target: "get-files",
           partial: "robo_jobs/files/processing",
           locals: { robo_request: robo_request }
@@ -24,7 +24,7 @@ module Handlers
     def broadcast_finished_state
       ActionCable.server.broadcast(robo_job.stream_key, {
         turbo_stream: [
-          turbo_stream_action("update",
+          turbo_stream_action(:update,
             target: "get-files",
             partial: "robo_jobs/files/finished",
             locals: {
@@ -34,13 +34,27 @@ module Handlers
               open_on_load: true
             }
           ),
-          turbo_stream_action("update",
+          turbo_stream_action(:update,
             target: "get-instructions",
             partial: "robo_jobs/instructions/index",
             locals: { robo_job: robo_job }
           )
         ]
       })
+    end
+
+    private
+
+    def stream_key
+      robo_job.stream_key
+    end
+
+    def primary_target
+      "get-files"
+    end
+
+    def primary_label
+      "Contextual Files"
     end
   end
 end

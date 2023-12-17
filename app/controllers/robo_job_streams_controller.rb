@@ -10,10 +10,6 @@ class RoboJobStreamsController < SseApplicationController
     RoboRunnerJob.perform_later(robo_job.id, "instructions")
   end
 
-  def get_followup_instructions
-    RoboRunnerJob.perform_later(robo_job.id, "followup_instructions")
-  end
-
   private
 
   helper_method :robo_job

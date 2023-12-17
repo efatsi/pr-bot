@@ -71,7 +71,11 @@ class RoboJob < ApplicationRecord
   end
 
   def stream_key
-    "robo-job-#{id}-stream"
+    if is_parent_job?
+      "robo-job-#{id}-stream"
+    else
+      parent_job.stream_key
+    end
   end
 
   private

@@ -1,6 +1,0 @@
-<% stream_path = get_followup_instructions_robo_job_path(followup_job) %>
-<div data-controller="ss-stream" data-ss-stream-url-value="<%= stream_path %>" data-ss-stream-autofire-value="true"></div>
-
-<%# placeholder UI to avoid flicker %>
-<%= render "shared/dropdown", label: "Prompt" %>
-<%= render "shared/dropdown", label: "Response", open_on_load: true %>

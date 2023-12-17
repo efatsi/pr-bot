@@ -1,7 +1,7 @@
 <%# Don't render this if haven't gotten to that step yet  %>
 <% if robo_job.contextual_files.any? || robo_job.robo_requests.of_type("contextual_files").any? %>
   <% if !robo_job.generated_instructions? %>
-    <%= render "shared/stream_button", path: get_instructions_robo_job_path(robo_job), label: "Step 2: Build Instructions" %>
+    <%= button_to "Step 2: Build Instructions", get_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
 
   <% else %>
     <%= render "robo_jobs/instructions/finished" %>

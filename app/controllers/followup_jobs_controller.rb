@@ -15,11 +15,7 @@ class FollowupJobsController < ApplicationController
     followup_job = robo_job.followup_jobs.new(followup_job_params)
 
     if followup_job.save
-      render turbo_stream: turbo_stream.update(
-        "continue-conversation",
-        partial: "robo_jobs/followup/fire",
-        locals: { followup_job: followup_job }
-      )
+      RoboRunnerJob.perform_later(followup_job.id, "followup_instructions")
     else
       render turbo_stream: turbo_stream.update(
         "continue-conversation",
