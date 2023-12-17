@@ -1,0 +1,46 @@
+module Handlers
+  class ContextualFilesHandler < BaseHandler
+    attr_reader :robo_request, :robo_job
+
+    def initialize(robo_request)
+      @robo_request = robo_request
+      @robo_job = robo_request.parent
+    end
+
+    def broadcast_processing_state
+      ActionCable.server.broadcast(robo_job.stream_key, {
+        turbo_stream: turbo_stream_action("update",
+          target: "get-files",
+          partial: "robo_jobs/files/processing",
+          locals: { robo_request: robo_request }
+        )
+      })
+    end
+
+    def handle_response
+      robo_job.update(contextual_files: robo_job.dig_out_contextual_files(robo_request))
+    end
+
+    def broadcast_finished_state
+      ActionCable.server.broadcast(robo_job.stream_key, {
+        turbo_stream: [
+          turbo_stream_action("update",
+            target: "get-files",
+            partial: "robo_jobs/files/finished",
+            locals: {
+              robo_job: robo_job.reload,
+              robo_request: robo_request,
+              ding: true,
+              open_on_load: true
+            }
+          ),
+          turbo_stream_action("update",
+            target: "get-instructions",
+            partial: "robo_jobs/instructions/index",
+            locals: { robo_job: robo_job }
+          )
+        ]
+      })
+    end
+  end
+end

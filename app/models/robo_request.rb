@@ -26,6 +26,10 @@ class RoboRequest < ApplicationRecord
     save!
   end
 
+  def prompt_messages
+    super.map(&:with_indifferent_access)
+  end
+
   def prompt
     if prompt_messages.present?
       prompt_messages.last["content"]
