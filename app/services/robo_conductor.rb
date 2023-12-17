@@ -1,4 +1,4 @@
-class RoboManager
+class RoboConductor
   include ServiceStreamHelpers
 
   # Toggle this off to disable fetches to the AI API

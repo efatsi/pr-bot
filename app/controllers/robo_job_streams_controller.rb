@@ -3,11 +3,11 @@ class RoboJobStreamsController < SseApplicationController
   ROBO_ENABLED = true
 
   def get_contextual_files
-    RoboRunnerJob.perform_later(robo_job.id, "contextual_files")
+    UniversalRunnerJob.perform_later(robo_job.to_global_id.to_s, "contextual_files")
   end
 
   def get_instructions
-    RoboRunnerJob.perform_later(robo_job.id, "instructions")
+    UniversalRunnerJob.perform_later(robo_job.to_global_id.to_s, "instructions")
   end
 
   private
