@@ -1,4 +1,8 @@
 # TODO
+# fix double stream subscription
+maybe unsubscribe on backend
+first identify problem i suppose (ROBO_ENABLED=false)
+
 # commands that it can run
 it wants to
 ```rb

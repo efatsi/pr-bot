@@ -3,11 +3,9 @@
 
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <div class="px-1">
-    <div class="mb-6" id="robo-changes">
+    <%= turbo_frame_tag "robo-changes" do %>
       <%= render "robo_jobs/instructions/robo_changes", robo_job: robo_job %>
-    </div>
-
-    <%= turbo_frame_tag "continue-conversation" %>
+    <% end %>
   </div>
 <% end %>
 
@@ -15,8 +13,7 @@
   <div>
     <%= link_to "Continue the Conversation ->",
       new_robo_job_followup_job_path(robo_job),
-      class: "btn-opaque",
-      "data-turbo-frame": "continue-conversation"
+      class: "btn-opaque"
     %>
   </div>
 

@@ -10,7 +10,8 @@ module Handlers
     def broadcast_processing_state
       broadcast(
         partial: 'robo_jobs/instructions/processing',
-        locals: { robo_request: robo_request })
+        locals: { robo_request: robo_request }
+      )
     end
 
     def handle_response
@@ -21,7 +22,10 @@ module Handlers
     def broadcast_finished_state
       broadcast(
         partial: 'robo_jobs/instructions/finished',
-        locals: { robo_job: robo_job.reload, ding: true }
+        locals: {
+          robo_job: robo_job.reload,
+          ding: true
+        }
       )
     end
 

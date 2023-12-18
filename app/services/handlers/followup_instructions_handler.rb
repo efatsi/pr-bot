@@ -20,11 +20,13 @@ module Handlers
     end
 
     def broadcast_finished_state
-      parent_job = robo_job.parent_job.reload
-
       broadcast(
+        target: "robo-changes",
         partial: 'robo_jobs/instructions/robo_changes',
-        locals: { robo_job: parent_job, ding: true }
+        locals: {
+          robo_job: robo_job.parent_job.reload,
+          ding: true
+        }
       )
     end
 

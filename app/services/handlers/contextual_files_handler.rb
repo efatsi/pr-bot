@@ -21,9 +21,15 @@ module Handlers
     def broadcast_finished_state
       broadcast(
         partial: 'robo_jobs/files/finished',
-        locals: { robo_request: robo_request }
+        locals: {
+          robo_job: robo_job.reload,
+          robo_request: robo_request,
+          ding: true,
+          open_on_load: true
+        }
       )
       broadcast(
+        target: "get-instructions",
         partial: "robo_jobs/instructions/index",
         locals: { robo_job: robo_job }
       )
