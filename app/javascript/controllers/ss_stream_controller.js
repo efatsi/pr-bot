@@ -25,7 +25,7 @@ export default class SsStreamController extends Controller {
       const data = JSON.parse(event.data)
 
       if (data.turbo_stream) {
-        // if data is an array, make it an array
+        // you can pass in an array, or we'll make it an array here
         if (!Array.isArray(data.turbo_stream)) {
           data.turbo_stream = [data.turbo_stream]
         }
