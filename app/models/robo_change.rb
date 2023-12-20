@@ -35,12 +35,18 @@ class RoboChange < ApplicationRecord
     elsif action == "update_file"
       text = File.read(full_filepath)
 
-      if !text.include?(original_content.strip)
-        raise "Original content not found in file"
-      end
+      if original_content.present?
+        # throw new content at the end
+        new_file_content = text + "\n" + new_content
+        File.open(full_filepath, "w") { |f| f.puts new_file_content }
+      else
+        if !text.include?(original_content.strip)
+          raise "Original content not found in file"
+        end
 
-      new_file_content = text.gsub(original_content.strip, new_content.strip)
-      File.open(full_filepath, "w") { |f| f.puts new_file_content }
+        new_file_content = text.gsub(original_content.strip, new_content.strip)
+        File.open(full_filepath, "w") { |f| f.puts new_file_content }
+      end
 
     elsif action == "rename_file"
       save_filename

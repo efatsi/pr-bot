@@ -1,7 +1,14 @@
 # TODO
-# fix double stream subscription
-maybe unsubscribe on backend
-first identify problem i suppose (ROBO_ENABLED=false)
+## lil bugs
+- fix double stream subscription
+  - maybe unsubscribe on backend
+  - first identify problem i suppose (ROBO_ENABLED=false)
+
+- quit a job on refresh
+  - handle unsubscribed in backend channel
+  - force the good_job task to stop
+    - send `sigkill` somehow
+    - `discard_on InterruptError`
 
 # commands that it can run
 it wants to
