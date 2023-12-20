@@ -35,7 +35,7 @@ class RoboChange < ApplicationRecord
     elsif action == "update_file"
       text = File.read(full_filepath)
 
-      if original_content.present?
+      if original_content.blank?
         # throw new content at the end
         new_file_content = text + "\n" + new_content
         File.open(full_filepath, "w") { |f| f.puts new_file_content }
