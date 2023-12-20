@@ -21,6 +21,11 @@ it wants to
 ```
 give it a list of approved things, say
 
+# button to include git diff as part of prompt or contextual files
+  - skip deleted files
+  - send git diff summary?
+  - update the prompt to specify that this is supplementary to contextual files
+
 # full-blown customizable action templates
 - default available on all projects: git push origin [branch]
 - can add new action templates to projects
