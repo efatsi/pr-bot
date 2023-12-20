@@ -1,24 +1,35 @@
-# README
+# PR Bot
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## System Dependencies
 
-Things you may want to cover:
+Recommend installing these w/ homebrew:
 
-* Ruby version
+- ruby 3.2.2
+- postgresql (for main application database)
+- redis (for websocket communication)
 
-* System dependencies
+## Setup
 
-* Configuration
+```bash
+gem install bundler
+bundle install
+```
 
-* Database creation
+And finally:
+```bash
+./bin/rails db:create
+./bin/rails db:migrate
 
-* Database initialization
+# Run this anytime you add a new Card type to seed the Card(s) into your database
+./bin/rails db:seed
+```
 
-* How to run the test suite
+### Running the app locally
+```bash
+./bin/rails s
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Playing w/ console
+```bash
+./bin/rails c
+```
