@@ -7,6 +7,9 @@ export default class ToggleController extends Controller {
     e.preventDefault()
 
     this.content1Target.classList.toggle('hidden')
-    this.content2Target.classList.toggle('hidden')
+
+    if (this.hasContent2Target) {
+      this.content2Target.classList.toggle('hidden')
+    }
   }
 }

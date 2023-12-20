@@ -1,25 +1,31 @@
-<div class="flex justify-center">
-  <div class="mb-1">
-    <%= link_to info_robo_job_path(robo_job, feature: true), "data-turbo-frame": "modal" do %>
-      <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-        <%= heroicon "light-bulb", options: { class: "!w-4 !h-4" } %>
-        <span>feature</span>
-      </div>
-    <% end %>
+<div class="mb-1" data-controller="toggle">
+  <div class="flex justify-center">
+    <div>
+      <%= link_to info_robo_job_path(robo_job, feature: true), "data-action": "toggle#toggleContent" do %>
+        <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+          <%= heroicon "light-bulb", options: { class: "!w-4 !h-4" } %>
+          <span>feature</span>
+        </div>
+      <% end %>
 
-    <%= link_to info_robo_job_path(robo_job, conversation: true), "data-turbo-frame": "modal" do %>
-      <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-        <%= heroicon "chat-bubble-left-right", options: { class: "!w-4 !h-4" } %>
-        <span>convo</span>
-      </div>
-    <% end %>
+      <%= link_to info_robo_job_path(robo_job, conversation: true), "data-turbo-frame": "modal" do %>
+        <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+          <%= heroicon "chat-bubble-left-right", options: { class: "!w-4 !h-4" } %>
+          <span>convo</span>
+        </div>
+      <% end %>
 
-    <%= link_to info_robo_job_path(robo_job, notes: true), "data-turbo-frame": "modal" do %>
-      <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-        <%= heroicon "clipboard-document-list", options: { class: "!w-4 !h-4" } %>
-        <span>notes</span>
-      </div>
-    <% end %>
+      <%= link_to info_robo_job_path(robo_job, notes: true), "data-turbo-frame": "modal" do %>
+        <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+          <%= heroicon "clipboard-document-list", options: { class: "!w-4 !h-4" } %>
+          <span>notes</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="border border-white border-opacity-20 rounded p-2 hidden" data-toggle-target="content1">
+    <div class="whitespace-pre-wrap"><%= robo_job.feature_request %></div>
   </div>
 </div>
 
