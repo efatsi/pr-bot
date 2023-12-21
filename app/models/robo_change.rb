@@ -44,7 +44,7 @@ class RoboChange < ApplicationRecord
           raise "Original content not found in file"
         end
 
-        new_file_content = text.gsub(original_content.strip, new_content.strip)
+        new_file_content = text.sub(original_content.strip, new_content.strip)
         File.open(full_filepath, "w") { |f| f.puts new_file_content }
       end
 
