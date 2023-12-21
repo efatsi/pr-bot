@@ -4,14 +4,27 @@ import { createConsumer } from "@rails/actioncable"
 export default class WebsocketController extends Controller {
   static values = { roboJobId: String }
 
+  disconnect() {
+    if (this.subscription) {
+      this.consumer.subscriptions.remove(this.subscription)
+      document.roboSubscription = null
+      console.log("WebsocketController disconnected and subscription removed")
+    }
+  }
+
   connect() {
     console.log("WebsocketController connected")
     this.consumer = createConsumer()
 
-    this.consumer.subscriptions.create(
-      { channel: "RoboChannel", robo_job_id: this.roboJobIdValue },
-      { received: this.handleReceivedMessage.bind(this) }
-    )
+    if (!document.roboSubscription) {
+      document.roboSubscription = this.consumer.subscriptions.create(
+        { channel: "RoboChannel", robo_job_id: this.roboJobIdValue },
+        { received: this.handleReceivedMessage.bind(this) }
+      )
+    } else {
+      console.log("Using existing subscription")
+    }
+    this.subscription = document.roboSubscription
   }
 
   handleReceivedMessage(data) {
