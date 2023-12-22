@@ -1,3 +1,5 @@
+DUMMY_MODE = false
+
 class PromptGenerator
   SYSTEM_SETUP = "You are a senior web developer, 10x developer, UI/UX developer, and expert code system architect. When working/responding, take a deep breath and work step-by-step."
   RETURN_AS_JSON = "as a JSON object with the following structure:"
@@ -11,6 +13,13 @@ class PromptGenerator
   end
 
   def prompt_messages
+    if DUMMY_MODE
+      return [
+        { role: "system", content: "You are a bird scientist." },
+        { role: "user", content: "Tell me a cool fact about migratory birds that I didn't know. In about 100 words." }
+      ]
+    end
+
     if robo_request.request_type.in?(["instructions", "followup_instructions"])
       # this might have a conversation history, structure it differently
       instructions_prompt_messages

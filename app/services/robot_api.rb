@@ -7,9 +7,11 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 30_000
 
-  def ask_gpt4(prompt_messages, stream_proc=nil, json_mode=true)
+  def ask_gpt4(prompt_messages, stream_proc=nil)
     check_token_limit(prompt_messages)
     print_intro(prompt_messages)
+
+    json_mode = prompt_messages.map{|a| a["content"]}.any? {|a| a.include? "JSON"}
 
     @response = ""
 
