@@ -20,7 +20,7 @@
     <%= f.input :ignored_files, as: :text, input_html: {
         rows: [[project.ignored_files.length, 1].max + 1, 15].min,
         value: project.ignored_files.join("\n")
-      }, hint: "files you do not want to send to AI, or even tell it they exist<br>one per line, globbing supported/**/*".html_safe
+      }, hint: "files you do not want to send to AI, or even tell it they exist<br>one per line, globbing supported. eg: <code class='p-0.5 rounded-sm bg-blue-800'>**/__pycache__/**</code>".html_safe
     %>
   </div>
 

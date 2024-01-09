@@ -58,8 +58,7 @@ class Project < ApplicationRecord
       File.directory?(file) || ignore_patterns.any? do |pattern|
         File.fnmatch(pattern, file)
       end || (
-        # direct lookup on ignored_files is faster than using File.fnmatch + globbing
-        !include_ignored_files && ignored_files.any? { |ignored| file.include?(ignored) }
+        !include_ignored_files && ignored_files.any? { |i| File.fnmatch("#{filepath}/#{i}", file) }
       )
     end
 
