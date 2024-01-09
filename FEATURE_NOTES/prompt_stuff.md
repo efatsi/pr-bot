@@ -1,4 +1,6 @@
 ## Mike's research:
+- i have no fingers, type everything out for me
+
 Answer the Question by exploring multiple reasoning paths as follows:
 - First, carefully analyze the question to extract the key information components and break it down into logical sub-questions. This helps set up the framework for reasoning. The goal is to construct an internal search tree.
 - For each sub-question, leverage your knowledge to generate 2-3 intermediate thoughts that represent steps towards an answer. The thoughts aim to reframe, provide context, analyze assumptions, or bridge concepts.

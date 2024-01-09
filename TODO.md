@@ -96,22 +96,12 @@
 
 - Better contextual file finding
   - extract snippets instead of full files
-  - Data compression
-    - https://github.blog/2023-05-17-how-github-copilot-is-getting-better-at-understanding-your-code/
-  - run this locally, slower but could be more accurate
-    - robo recon:
-      - cached process that generates overviews of files so contextual_files can be done more accurately
-    - optional second pass:
-      - only select a small subset first, instead of all the things you might need
-      - then a second pass pulls additional files based on context learned from the first
-      - until satisfied
-      - collecting pieces of the files that matter
+  - use langchain Python to dig around in codebase
 
 - question mode vs. feature mode
   - different prompt, lets you just ask questions about the app to get humanoid answers
 
 ## v3 / gettin fancy:
-
 - wrap in Electron app
 
 - handle photo uploads
