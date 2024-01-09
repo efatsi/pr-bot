@@ -7,7 +7,22 @@ class RobotApi
   # ~70k = $1
   PROMPT_MAX_LENGTH = 30_000
 
-  def ask_gpt4(prompt_messages, stream_proc=nil)
+  def chat(message)
+    client.chat(
+      parameters: {
+        model: GPT_4_TURBO,
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          { role: "user", content: message }
+        ],
+        response_format: { type: "text" },
+        temperature: 0.2,
+        stream: print_proc,
+      }
+    )
+  end
+
+  def ask_gpt4(prompt_messages, stream_proc_input=nil)
     check_token_limit(prompt_messages)
     print_intro(prompt_messages)
 
@@ -21,7 +36,7 @@ class RobotApi
         messages: prompt_messages,
         response_format: { type: json_mode ? "json_object" : "text" },
         temperature: 0.2,
-        stream: stream_proc(stream_proc),
+        stream: stream_proc(stream_proc_input),
       }
     )
 
@@ -30,14 +45,12 @@ class RobotApi
 
   private
 
-  def stream_proc(stream_proc=print_proc)
+  def stream_proc(stream_proc_input=print_proc)
     proc do |chunk, _bytesize|
       if new_content = chunk.dig("choices", 0, "delta", "content")
         @response += new_content
 
-        if stream_proc
-          stream_proc.call(new_content)
-        end
+        stream_proc_input.call(new_content)
       end
     end
   end
@@ -61,7 +74,7 @@ class RobotApi
 
   # have this here as a default for testing
   def print_proc
-    proc { |msg| print msg }
+    proc { |msg| print msg.dig("choices", 0, "delta", "content") }
   end
 
   def client
