@@ -1,3 +1,18 @@
+# Scratch / Infra Overview
+
+currently, i can assemble unique prompts to hit the LLM once:
+
+`RoboJob`: has a high level user-defined feature prompt
+`RoboConductor`: takes a `RoboJob` and a `request_type` and oversees
+  makes a `RoboRequest`
+  calls `PromptGenerator` w/ `RoboRequest` to seed prompt data
+  passes prompt to LLM
+  processes response in `Handlers`
+
+
+the conductor now needs to be able to run multiple RoboRequests simultaneously... right? or is human required every time
+
+
 # planning hat vs. implementing hat
 - hit `generate_plan` button:
   - is given action templates and examples of using all of them to make a high level plan

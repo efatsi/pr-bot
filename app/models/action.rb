@@ -2,6 +2,16 @@ class Action < ApplicationRecord
   belongs_to :robo_job
   belongs_to :action_template
 
+  STATUSES = [
+    "pre_flight",
+    "pending",
+    "executed",
+    "failed",
+    "skipped"
+  ]
+
+  validates :status, presence: true, inclusion: { in: STATUSES }
+
   def execute
   end
 

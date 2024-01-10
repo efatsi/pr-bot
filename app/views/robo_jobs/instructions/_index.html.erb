@@ -5,6 +5,10 @@
 
   <% else %>
     <%= render "robo_jobs/instructions/finished" %>
+  <% end %>
 
+  <% if robo_job.actions.none? %>
+    <%# todo: turn this into a regular post request instead of stream_button %>
+    <%= render "shared/stream_button", path: build_plan_robo_job_path(robo_job), label: "Step 2: Build Plan" %>
   <% end %>
 <% end %>

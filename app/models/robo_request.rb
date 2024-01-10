@@ -3,6 +3,7 @@ class RoboRequest < ApplicationRecord
 
   REQUEST_TYPES = [
     "contextual_files",
+    "build_plan",
     "instructions",
     "commit_suggestions",
   ]

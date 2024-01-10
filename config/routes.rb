@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :robo_jobs, except: :destroy do
     [
       :get_contextual_files,
+      :build_plan,
       :get_instructions,
       :get_followup_instructions,
     ].each do |action|
