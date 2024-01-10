@@ -24,6 +24,10 @@ class PromptGenerator
       # this might have a conversation history, structure it differently
       instructions_prompt_messages
 
+    elsif robo_request.request_type == "build_plan"
+      # this might have a conversation history, structure it differently
+      build_plan_prompt_messages
+
     else
       # these are more straightforward, just one system/user pair
       user_prompt = if robo_request.request_type == "contextual_files"
@@ -37,6 +41,16 @@ class PromptGenerator
         { role: "user", content: user_prompt }
       ]
     end
+  end
+
+  def build_plan_prompt_messages
+    [
+      { role: "system", content: PromptGenerator::SYSTEM_SETUP },
+      { role: "user", content: build_plan_background_prompt },
+      *previous_convo_messages,
+      { role: "user", content: relevant_files_prompt },
+      { role: "user", content: instructions_prompt }
+    ]
   end
 
   def instructions_prompt_messages
@@ -66,6 +80,29 @@ class PromptGenerator
       "- files: An array of files worth investigating:",
       "  - filpath: exact path of file",
       "  - why: explain why this is relevant to the feature request",
+    ].join("\n")
+  end
+
+  def build_plan_background_prompt
+    action_templates = ActionTemplate.all.map do |template|
+      "- name: \(template.name)\n  description: \(template.description)"
+    end.join("\n")
+
+    [
+      "You are working on a project with these tools:",
+      project.project_context,
+      "",
+      "Prefer solutions that use the project tools over generic solutions.",
+      "",
+      "Here are the available action templates for building a plan:",
+      action_templates,
+      "",
+      "Choose one or more action templates to include in your build plan.",
+      "",
+      "Return the details of the build plan \(RETURN_AS_JSON)",
+      "- build_plan: An array of selected action templates with optional arguments:",
+      "  - name: name of the action template",
+      "  - arguments: optional, arguments for the action template",
     ].join("\n")
   end
 
@@ -194,4 +231,10 @@ class PromptGenerator
       }
     ],
   })
+
+  private
+
+  # def format_action_template(template)
+  #   "- name: \\(template.name)\n  description: \\(template.description)"
+  # end
 end

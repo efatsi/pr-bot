@@ -70,6 +70,8 @@ class RoboConductor
     @handler ||= case request_type
     when "contextual_files"
       Handlers::ContextualFilesHandler.new(robo_request)
+    when "build_plan"
+      Handlers::BuildPlanHandler.new(robo_request)
     when "instructions"
       Handlers::InstructionsHandler.new(robo_request)
     when "followup_instructions"
