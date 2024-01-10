@@ -1,20 +1,3 @@
-# Scratch / Infra Overview
-
-currently, i can assemble unique prompts to hit the LLM once:
-
-`RoboJob`: has a high level user-defined feature prompt
-`RoboConductor`: takes a `RoboJob` and a `request_type` and oversees
-  makes a `RoboRequest`
-  calls `PromptGenerator` w/ `RoboRequest` to seed prompt data
-  passes prompt to LLM
-  processes response in `Handlers`
-
-
-the conductor now needs to be able to run multiple RoboRequests simultaneously... right? or is human required every time
-
-
-- make stream ai-response more targetable (to RoboRequest?) so multiple things can stream at once
-
 # planning hat vs. implementing hat
 - hit `generate_plan` button:
   - is given action templates and examples of using all of them to make a high level plan
@@ -43,6 +26,27 @@ the conductor now needs to be able to run multiple RoboRequests simultaneously..
   - `generate_plan` & `generate_action_details` w/o middle review step
   - 😢 RIP `RoboChanges`
 - allow "edit and rerun last request (abandon this changeset)"
+
+## allow parallel research to seed context for plan
+currently, i can assemble unique prompts to hit the LLM once:
+
+`RoboJob`: has a high level user-defined feature prompt
+`RoboConductor`: takes a `RoboJob` and a `request_type` and oversees
+  creates `RoboRequest` record
+  calls `PromptGenerator` to seed prompt data for `RoboRequest`
+  passes assembled prompt to LLM
+  processes response in handler eg: `Handlers::InstructionsHandler`
+
+
+the conductor now needs to be able to run multiple RoboRequests simultaneously... like "look into codebase" and "do internet research" before "build plan items"
+
+`RoboConductor` takes `RoboJob` and `request_type`
+  based on type, lines up:
+    One Runner takes it all
+    Multiple Runners one after the other
+      Runner takes over PromptGeneration + LLM call OR hits redis and waits for python
+
+- make stream ai-response more targetable (to RoboRequest?) so multiple things can stream at once
 
 ## nice-to-have:
 - run different steps w/ different models via background jobs
