@@ -14,7 +14,7 @@ class RoboConductor
     @robo_request = parent.robo_requests.new(request_type: request_type)
   end
 
-  def run_request(render_proc=stream_proc)
+  def run_request
     # generate prompt messages
     robo_request.prompt_messages = prompt_generator.prompt_messages
 
@@ -23,7 +23,7 @@ class RoboConductor
 
     if ROBOT_ENABLED
       # run request
-      response = robot_api.ask_gpt4(robo_request.prompt_messages, render_proc)
+      response = robot_api.ask_gpt4(robo_request.prompt_messages, stream_proc)
       robo_request.update(response: response)
 
       # handle response

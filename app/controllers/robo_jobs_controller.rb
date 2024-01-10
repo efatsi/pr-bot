@@ -51,6 +51,18 @@ class RoboJobsController < ApplicationController
     )
   end
 
+  def get_contextual_files
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "contextual_files")
+  end
+
+  def build_plan
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "build_plan")
+  end
+
+  def get_instructions
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "instructions")
+  end
+
   private
 
   helper_method :robo_job

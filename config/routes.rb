@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       :get_instructions,
       :get_followup_instructions,
     ].each do |action|
-      post action, on: :member, to: "robo_job_streams##{action}"
+      post action, on: :member
     end
 
     get :info, on: :member
