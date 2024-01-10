@@ -36,3 +36,4 @@
 .env
 
 Procfile.dev
+.ipynb_checkpoints
