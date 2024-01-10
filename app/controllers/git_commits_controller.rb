@@ -36,7 +36,7 @@ class GitCommitsController < SseApplicationController
   end
 
   def generate_options
-    UniversalRunnerJob.perform_later(git_commit.to_global_id.to_s, "commit_suggestions")
+    ConductorJob.perform_later(git_commit.to_global_id.to_s, "commit_suggestions")
   end
 
   private

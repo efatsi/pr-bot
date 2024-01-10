@@ -13,6 +13,8 @@ currently, i can assemble unique prompts to hit the LLM once:
 the conductor now needs to be able to run multiple RoboRequests simultaneously... right? or is human required every time
 
 
+- make stream ai-response more targetable (to RoboRequest?) so multiple things can stream at once
+
 # planning hat vs. implementing hat
 - hit `generate_plan` button:
   - is given action templates and examples of using all of them to make a high level plan

@@ -8,7 +8,6 @@
   <% end %>
 
   <% if robo_job.actions.none? %>
-    <%# todo: turn this into a regular post request instead of stream_button %>
-    <%= render "shared/stream_button", path: build_plan_robo_job_path(robo_job), label: "Step 2: Build Plan" %>
+    <%= button_to "Step 2: Build Plan", build_plan_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
   <% end %>
 <% end %>
