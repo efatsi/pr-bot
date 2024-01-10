@@ -35,7 +35,7 @@
     <% if robo_request = git_commit.robo_requests.last %>
       <%= render "git_commits/suggestions/finished", robo_request: robo_request %>
     <% else %>
-      <%= button_to "Fetch suggestions", generate_options_project_git_commit_path(project, git_commit), method: "post", class: "btn-primary" %>
+      <%= link_to "Fetch suggestions", generate_options_project_git_commit_path(project, git_commit), class: "btn-primary" %>
     <% end %>
   </div>
 
