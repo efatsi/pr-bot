@@ -1,9 +1,9 @@
-module Handlers
-  class CommitSuggestionsHandler < BaseHandler
-    attr_reader :robo_request, :git_commit, :robo_job
+module Runners
+  class CommitSuggestionsRunner < BaseRunner
+    attr_reader :git_commit, :robo_job
 
     def initialize(robo_request)
-      @robo_request = robo_request
+      super
       @git_commit = robo_request.parent
       @robo_job = git_commit.robo_job
     end

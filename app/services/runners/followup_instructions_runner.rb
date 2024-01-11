@@ -1,9 +1,9 @@
-module Handlers
-  class FollowupInstructionsHandler < BaseHandler
-    attr_reader :robo_request, :robo_job
+module Runners
+  class FollowupInstructionsRunner < BaseRunner
+    attr_reader :robo_job
 
     def initialize(robo_request)
-      @robo_request = robo_request
+      super
       @robo_job = robo_request.parent
     end
 

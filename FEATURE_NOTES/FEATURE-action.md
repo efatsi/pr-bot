@@ -4,7 +4,7 @@ On the show page, there will be a button for each ActionTemplate defined on the 
 Clicking the button will load a new Action form based on the ActionTemplate
 The action form will have different inputs based on the template.
 
-add to modles
+add to models
 ActionTemplate
 - robo_runnable (passes template and description to Robot so it can fire those actions if it sees fit)
 
