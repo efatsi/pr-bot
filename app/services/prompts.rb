@@ -40,16 +40,6 @@ class Prompts
     end
   end
 
-  def build_plan_prompt_messages
-    [
-      { role: "system", content: PromptGenerator::SYSTEM_SETUP },
-      { role: "user", content: build_plan_background_prompt },
-      *previous_convo_messages,
-      { role: "user", content: relevant_files_prompt },
-      { role: "user", content: instructions_prompt }
-    ]
-  end
-
   def instructions_prompt_messages
     [
       { role: "system", content: PromptGenerator::SYSTEM_SETUP },
@@ -77,35 +67,6 @@ class Prompts
       "- files: An array of files worth investigating:",
       "  - filpath: exact path of file",
       "  - why: explain why this is relevant to the feature request",
-    ].join("\n")
-  end
-
-  def build_plan_background_prompt
-    ActionTemplate.ensure_file_templates
-
-    action_templates = ActionTemplate.file_templates.map do |template|
-      [
-        "- name: #{template.name}",
-        "  - description: #{template.description}",
-        "  - arguments: [#{template.plan_arguments}]"
-      ]
-    end.join("\n")
-
-    [
-      "You are working on a project with these tools:",
-      project.project_context,
-      "",
-      "Prefer solutions that use the project tools over generic solutions.",
-      "",
-      "Here are the available action templates for building a plan:",
-      action_templates,
-      "",
-      "Choose one or more action templates to include in your build plan.",
-      "",
-      "Return the details of the build plan \(RETURN_AS_JSON)",
-      "- build_plan: An array of selected action templates with optional arguments:",
-      "  - name: name of the action template",
-      "  - arguments: optional, arguments for the action template",
     ].join("\n")
   end
 

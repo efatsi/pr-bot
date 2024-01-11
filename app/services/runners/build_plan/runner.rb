@@ -1,20 +1,10 @@
 module Runners
-  class BuildPlanRunner < BaseRunner
-    attr_reader :robo_job
+  class BuildPlan::Runner < BaseRunner
 
-    def initialize(robo_request)
-      super
-      @robo_job = robo_request.parent
-    end
+    private
 
-    def prompt_messages
-      [
-        { role: "system", content: PromptHub::SYSTEM_SETUP },
-        { role: "user", content: build_plan_background_prompt },
-        *previous_convo_messages,
-        { role: "user", content: relevant_files_prompt },
-        { role: "user", content: instructions_prompt }
-      ]
+    def robo_job
+      @robo_job ||= robo_request.parent
     end
 
     def broadcast_processing_state
@@ -43,18 +33,12 @@ module Runners
       )
     end
 
-    private
-
-    def stream_key
-      robo_job.parent_job.stream_key
-    end
-
     def primary_target
-      "continue-conversation"
+      "get-plan"
     end
 
     def primary_label
-      "Followup Instructions"
+      "Build Plan"
     end
   end
 end

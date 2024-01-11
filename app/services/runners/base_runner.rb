@@ -2,11 +2,10 @@ module Runners
   class BaseRunner
     include ServiceStreamHelpers
 
-    attr_reader :robo_request, :stream_proc
+    attr_reader :robo_request
 
-    def initialize(robo_request, stream_proc)
+    def initialize(robo_request)
       @robo_request = robo_request
-      @stream_proc = stream_proc
     end
 
     def gooo
@@ -17,7 +16,7 @@ module Runners
       broadcast_processing_state
 
       # run LLM request
-      response = robot_api.ask_gpt4(robo_request.prompt_messages, stream_proc)
+      response = RobotApi.ask_gpt4(robo_request.prompt_messages, stream_proc)
       robo_request.update(response: response)
 
       # handle response: save the good stuff to db
@@ -32,10 +31,15 @@ module Runners
 
     private
 
-    # available methods, relies on `stream_key`, `primary_target`, and `primary_label`
-    # being defined in subclass
+    def prompt_messages
+      runner_module = self.module_parents[0]
+      prompt = runner_module::Prompt.new
+      prompt.prompt_messages
+    end
+
+    # available methods, relies on `primary_target`, and `primary_label` defined in subclass
     def broadcast(partial:, locals: {}, target: primary_target, action: :update)
-      ActionCable.server.broadcast(stream_key, {
+      ActionCable.server.broadcast(robo_job.stream_key, {
         turbo_stream: turbo_stream_action(action,
           target: target,
           partial: partial,
@@ -55,6 +59,18 @@ module Runners
       )
     end
 
+    # TODO: update this to broadcast to robo_request id, for multiple simul streams
+    def stream_proc
+      proc do |new_chars|
+        ActionCable.server.broadcast(robo_job.stream_key, {
+          turbo_stream: turbo_stream.append(
+            "ai-response",
+            plain: new_chars
+          )
+        })
+      end
+    end
+
     # methods that need to be defined in subclasses
     def broadcast_processing_state
       raise NotImplementedError
@@ -65,10 +81,6 @@ module Runners
     end
 
     def broadcast_finished_state
-      raise NotImplementedError
-    end
-
-    def stream_key
       raise NotImplementedError
     end
 
