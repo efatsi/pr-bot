@@ -1,9 +1,9 @@
-module Handlers
-  class ContextualFilesHandler < BaseHandler
-    attr_reader :robo_request, :robo_job
+module Runners
+  class ContextualFilesRunner < BaseRunner
+    attr_reader :robo_job
 
     def initialize(robo_request)
-      @robo_request = robo_request
+      super
       @robo_job = robo_request.parent
     end
 

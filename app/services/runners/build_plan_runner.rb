@@ -1,10 +1,20 @@
-module Handlers
-  class BuildPlanHandler < BaseHandler
-    attr_reader :robo_request, :robo_job
+module Runners
+  class BuildPlanRunner < BaseRunner
+    attr_reader :robo_job
 
     def initialize(robo_request)
-      @robo_request = robo_request
+      super
       @robo_job = robo_request.parent
+    end
+
+    def prompt_messages
+      [
+        { role: "system", content: PromptHub::SYSTEM_SETUP },
+        { role: "user", content: build_plan_background_prompt },
+        *previous_convo_messages,
+        { role: "user", content: relevant_files_prompt },
+        { role: "user", content: instructions_prompt }
+      ]
     end
 
     def broadcast_processing_state

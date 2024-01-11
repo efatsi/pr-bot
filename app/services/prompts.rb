@@ -1,6 +1,6 @@
 DUMMY_MODE = false
 
-class PromptGenerator
+class Prompts
   SYSTEM_SETUP = "You are a senior web developer, 10x developer, UI/UX developer, and expert code system architect. When working/responding, take a deep breath and work step-by-step."
   RETURN_AS_JSON = "as a JSON object with the following structure:"
 
@@ -14,10 +14,7 @@ class PromptGenerator
 
   def prompt_messages
     if DUMMY_MODE
-      return [
-        { role: "system", content: "You are a bird scientist." },
-        { role: "user", content: "Tell me a cool fact about migratory birds that I didn't know. In about 100 words." }
-      ]
+      return request_bird_facts
     end
 
     if robo_request.request_type.in?(["instructions", "followup_instructions"])
@@ -84,8 +81,14 @@ class PromptGenerator
   end
 
   def build_plan_background_prompt
-    action_templates = ActionTemplate.all.map do |template|
-      "- name: \(template.name)\n  description: \(template.description)"
+    ActionTemplate.ensure_file_templates
+
+    action_templates = ActionTemplate.file_templates.map do |template|
+      [
+        "- name: #{template.name}",
+        "  - description: #{template.description}",
+        "  - arguments: [#{template.plan_arguments}]"
+      ]
     end.join("\n")
 
     [
@@ -233,6 +236,13 @@ class PromptGenerator
   })
 
   private
+
+  def request_bird_facts
+    [
+      { role: "system", content: "You are a bird scientist." },
+      { role: "user", content: "Tell me a cool fact about migratory birds that I didn't know. In about 100 words." }
+    ]
+  end
 
   # def format_action_template(template)
   #   "- name: \\(template.name)\n  description: \\(template.description)"

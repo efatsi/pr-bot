@@ -5,10 +5,66 @@ class ActionTemplate < ApplicationRecord
   validates :name, presence: true
   validates :command, :reverse_command, :argument_schema, presence: true, if: :user_defined_action?
 
+  scope :file_templates, -> { where(file_action: true) }
+
+  def self.ensure_file_templates
+    if self.file_templates.none?
+      self.generate_defaults
+    end
+  end
+
+  def self.generate_defaults
+    ActionTemplate.create(
+      name: 'add_file',
+      description: 'Add new file',
+      file_action: true,
+      arguments_schema: [
+        {name: 'file', plan_argument: true},
+        {name: 'new_content'}
+      ]
+    )
+
+    ActionTemplate.create(
+      name: 'update_file',
+      description: 'Update existing file',
+      file_action: true,
+      arguments_schema: [
+        {name: 'file', plan_argument: true},
+        {name: 'original_content'},
+        {name: 'new_content'}
+      ]
+    )
+
+    ActionTemplate.create(
+      name: 'rename_file',
+      description: 'Rename file or directory',
+      file_action: true,
+      arguments_schema: [
+        {name: 'file', plan_argument: true},
+        {name: 'new_file', plan_argument: true}
+      ]
+    )
+
+    ActionTemplate.create(
+      name: 'remove_file',
+      description: 'Remove file',
+      file_action: true,
+      arguments_schema: [
+        {name: 'file', plan_argument: true}
+      ]
+    )
+  end
+
+  def plan_arguments
+    arguments_schema.select do |arg_schema|
+      arg_schema[:plan_argument]
+    end
+  end
+
   private
 
   def user_defined_action?
-    !system_action
+    !file_action
   end
 end
 
@@ -20,9 +76,9 @@ end
 #  arguments_schema :json
 #  command          :string
 #  description      :string
+#  file_action      :boolean          default(FALSE)
 #  name             :string           not null
 #  reverse_command  :string
-#  system_action    :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  project_id       :bigint
