@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_11_021625) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_17_105203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_11_021625) do
     t.bigint "project_id"
     t.string "name", null: false
     t.string "description"
-    t.boolean "file_action", default: false
+    t.boolean "system_action", default: false
     t.string "command"
     t.string "reverse_command"
     t.json "arguments_schema", default: []

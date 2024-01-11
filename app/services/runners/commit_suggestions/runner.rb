@@ -1,11 +1,13 @@
 module Runners
   class CommitSuggestionsRunner < BaseRunner
-    attr_reader :git_commit, :robo_job
+    private
 
-    def initialize(robo_request)
-      super
-      @git_commit = robo_request.parent
-      @robo_job = git_commit.robo_job
+    def git_commit
+      @git_commit ||= robo_job.git_commit
+    end
+
+    def robo_job
+      @robo_job = robo_request.parent
     end
 
     def broadcast_processing_state
@@ -24,12 +26,6 @@ module Runners
         partial: 'git_commits/suggestions/finished',
         locals: { robo_request: robo_request, git_commit: git_commit }
       )
-    end
-
-    private
-
-    def stream_key
-      robo_job.stream_key
     end
 
     def git_commit

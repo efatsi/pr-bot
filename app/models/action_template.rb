@@ -5,10 +5,10 @@ class ActionTemplate < ApplicationRecord
   validates :name, presence: true
   validates :command, :reverse_command, :argument_schema, presence: true, if: :user_defined_action?
 
-  scope :file_templates, -> { where(file_action: true) }
+  scope :system_templates, -> { where(system_action: true) }
 
-  def self.ensure_file_templates
-    if self.file_templates.none?
+  def self.ensure_system_templates
+    if self.system_templates.none?
       self.generate_defaults
     end
   end
@@ -17,7 +17,7 @@ class ActionTemplate < ApplicationRecord
     ActionTemplate.create(
       name: 'add_file',
       description: 'Add new file',
-      file_action: true,
+      system_action: true,
       arguments_schema: [
         {name: 'file', plan_argument: true},
         {name: 'new_content'}
@@ -27,7 +27,7 @@ class ActionTemplate < ApplicationRecord
     ActionTemplate.create(
       name: 'update_file',
       description: 'Update existing file',
-      file_action: true,
+      system_action: true,
       arguments_schema: [
         {name: 'file', plan_argument: true},
         {name: 'original_content'},
@@ -38,7 +38,7 @@ class ActionTemplate < ApplicationRecord
     ActionTemplate.create(
       name: 'rename_file',
       description: 'Rename file or directory',
-      file_action: true,
+      system_action: true,
       arguments_schema: [
         {name: 'file', plan_argument: true},
         {name: 'new_file', plan_argument: true}
@@ -48,7 +48,7 @@ class ActionTemplate < ApplicationRecord
     ActionTemplate.create(
       name: 'remove_file',
       description: 'Remove file',
-      file_action: true,
+      system_action: true,
       arguments_schema: [
         {name: 'file', plan_argument: true}
       ]
@@ -64,7 +64,7 @@ class ActionTemplate < ApplicationRecord
   private
 
   def user_defined_action?
-    !file_action
+    !system_action
   end
 end
 
@@ -76,9 +76,9 @@ end
 #  arguments_schema :json
 #  command          :string
 #  description      :string
-#  file_action      :boolean          default(FALSE)
 #  name             :string           not null
 #  reverse_command  :string
+#  system_action    :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  project_id       :bigint

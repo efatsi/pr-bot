@@ -1,9 +1,9 @@
 module Runners
   class InstructionsRunner < BaseRunner
-    attr_reader :robo_job
 
-    def initialize(robo_request)
-      super
+    private
+
+    def robo_job
       @robo_job = robo_request.parent
     end
 
@@ -27,12 +27,6 @@ module Runners
           ding: true
         }
       )
-    end
-
-    private
-
-    def stream_key
-      robo_job.stream_key
     end
 
     def primary_target
