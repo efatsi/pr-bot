@@ -1,13 +1,14 @@
-<%# Don't render this if haven't gotten to that step yet  %>
-<% if robo_job.contextual_files.any? || robo_job.robo_requests.of_type("contextual_files").any? %>
-  <% if !robo_job.generated_instructions? %>
-    <%= button_to "Step 2: Build Instructions", get_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
-
-  <% else %>
-    <%= render "robo_jobs/instructions/finished" %>
-  <% end %>
-
-  <% if robo_job.actions.none? %>
-    <%= button_to "Step 2: Build Plan", build_plan_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
-  <% end %>
+<% if !robo_job.generated_instructions? && !robo_job.generated_plan? %>
+  <div class="flex justify-between mt-8 mb-4">
+    <div>
+      <p>Quick & Easy?</p>
+      <%= button_to "Step 2: Build Instructions", get_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
+    </div>
+    <div>
+      <p>Requires some thinking?</p>
+      <%= button_to "Step 2: Build Plan", build_plan_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
+    </div>
+  </div>
+<% else %>
+  <%= render "robo_jobs/instructions/finished" %>
 <% end %>

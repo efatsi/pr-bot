@@ -1,5 +1,5 @@
 # flip this to true to disable full prompt generation, for testing rest of infrastructure
-DUMMY_MODE = false
+DUMMY_MODE = true
 
 class BasePromptGenerator
   attr_reader :robo_request

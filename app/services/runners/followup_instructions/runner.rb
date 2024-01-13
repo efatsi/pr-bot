@@ -4,7 +4,7 @@ module Runners::FollowupInstructions
     private
 
     def robo_job
-      @robo_job = robo_request.parent
+      @robo_job ||= robo_request.parent
     end
 
     def broadcast_processing_state

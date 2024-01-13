@@ -1,4 +1,17 @@
 # TODO
+## Instructions vs. Build Plan
+- convert robo_changes to actions
+  - render actions from instructions pass
+  - build pre_flight actions in build_plan
+- hit go to hit LLM to fill out actions in parallel
+- execute one or execute all (more robo_change -> action)
+
+## Context Files
+- let you define files first
+- optional button to query for more files after reading initial set
+- button to hit internet for research too
+
+
 ## lil bugs
 - fix double stream subscription
   - maybe unsubscribe on backend

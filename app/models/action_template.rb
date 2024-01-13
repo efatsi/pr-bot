@@ -58,7 +58,13 @@ class ActionTemplate < ApplicationRecord
   def plan_arguments
     arguments_schema.select do |arg_schema|
       arg_schema[:plan_argument]
+    end.map do |arg_schema|
+      arg_schema[:name]
     end
+  end
+
+  def arguments_schema
+    super.map(&:with_indifferent_access)
   end
 
   private
