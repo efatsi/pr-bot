@@ -4,13 +4,13 @@ module Runners::Instructions
     private
 
     def robo_job
-      @robo_job = robo_request.parent
+      @robo_job ||= robo_request.parent
     end
 
     def broadcast_processing_state
       broadcast(
         partial: 'robo_jobs/instructions/processing',
-        locals: { robo_request: robo_request }
+        locals: { robo_request: robo_request, label: primary_label }
       )
     end
 

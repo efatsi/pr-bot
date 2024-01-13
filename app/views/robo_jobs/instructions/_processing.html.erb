@@ -1,4 +1,6 @@
-<%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
+<% label ||= "Build Instructions" %>
+
+<%= render "shared/dropdown", label: label, open_on_load: true do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
     <% robo_request.prompt_messages.each do |prompt_message| %>
       <div class="uppercase text-sm mb-2"><%= prompt_message["role"] %></div>
