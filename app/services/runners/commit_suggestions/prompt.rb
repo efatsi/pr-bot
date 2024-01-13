@@ -19,7 +19,7 @@ module Runners::CommitSuggestions
         project_tools,
         "",
         include_job_requests? ? feature_requests : nil,
-        ""
+        "",
         "suggest 2-3 different commit messages based on the following diff:",
         project.current_diff,
         "",

@@ -3,11 +3,11 @@ module Runners::CommitSuggestions
     private
 
     def git_commit
-      @git_commit ||= robo_job.git_commit
+      @git_commit ||= robo_request.parent
     end
 
     def robo_job
-      @robo_job = robo_request.parent
+      @robo_job ||= git_commit.robo_job
     end
 
     def broadcast_processing_state
@@ -26,10 +26,6 @@ module Runners::CommitSuggestions
         partial: 'git_commits/suggestions/finished',
         locals: { robo_request: robo_request, git_commit: git_commit }
       )
-    end
-
-    def git_commit
-      @git_commit ||= robo_job.git_commit
     end
 
     def primary_target
