@@ -1,5 +1,5 @@
-module Runners
-  class FollowupInstructions::Runner < BaseRunner
+module Runners::FollowupInstructions
+  class Runner < BaseRunner
 
     private
 

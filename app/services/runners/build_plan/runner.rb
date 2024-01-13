@@ -1,5 +1,5 @@
-module Runners
-  class BuildPlan::Runner < BaseRunner
+module Runners::BuildPlan
+  class Runner < BaseRunner
 
     private
 
@@ -17,20 +17,21 @@ module Runners
     def handle_response
       robo_job.update(generated_plan: JSON.parse(robo_request.response))
       # todo: create pre_flight actions on robojob w/ request response
+    end
 
     def broadcast_finished_state
       broadcast(
         target: "robo-changes",
         partial: 'robo_jobs/action_plan/index',
         locals: {
-          robo_job: robo_job.parent_job.reload,
+          robo_job: robo_job.reload,
           ding: true
         }
       )
     end
 
     def primary_target
-      "get-plan"
+      "get-instructions"
     end
 
     def primary_label
