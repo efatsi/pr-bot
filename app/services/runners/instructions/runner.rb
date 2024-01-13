@@ -1,5 +1,5 @@
 module Runners
-  class InstructionsRunner < BaseRunner
+  class Instructions::Runner < BaseRunner
 
     private
 

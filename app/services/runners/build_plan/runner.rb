@@ -15,12 +15,8 @@ module Runners
     end
 
     def handle_response
+      robo_job.update(generated_plan: JSON.parse(robo_request.response))
       # todo: create pre_flight actions on robojob w/ request response
-
-      # old implementation:
-      # robo_job.update(generated_instructions: JSON.parse(robo_request.response))
-      # robo_job.process_instructions_to_changes
-    end
 
     def broadcast_finished_state
       broadcast(
