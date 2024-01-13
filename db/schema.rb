@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_17_105203) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_13_105246) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -167,6 +167,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_17_105203) do
     t.json "generated_instructions", default: {}
     t.boolean "include_last_convo", default: false
     t.boolean "include_all_convos", default: false
+    t.json "generated_plan"
     t.index ["parent_job_id"], name: "index_robo_jobs_on_parent_job_id"
     t.index ["project_id"], name: "index_robo_jobs_on_project_id"
   end

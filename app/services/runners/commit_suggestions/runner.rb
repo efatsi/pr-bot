@@ -1,5 +1,5 @@
 module Runners
-  class CommitSuggestionsRunner < BaseRunner
+  class CommitSuggestions::Runner < BaseRunner
     private
 
     def git_commit
