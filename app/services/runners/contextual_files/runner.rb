@@ -1,5 +1,5 @@
-module Runners
-  class ContextualFiles::Runner < BaseRunner
+module Runners::ContextualFiles
+  class Runner < BaseRunner
 
     private
 

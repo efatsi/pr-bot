@@ -1,5 +1,5 @@
 class RoboConductor
-  attr_reader :parent, :request_type=
+  attr_reader :parent, :request_type
 
   def initialize(parent, request_type)
     # RoboJob or GitCommit
@@ -19,15 +19,15 @@ class RoboConductor
     @runner ||= begin
       runner_klass = case request_type
       when "contextual_files"
-        Runners::ContextualFilesRunner
+        Runners::ContextualFiles::Runner
       when "build_plan"
-        Runners::BuildPlanRunner
+        Runners::BuildPlan::Runner
       when "instructions"
-        Runners::InstructionsRunner
+        Runners::Instructions::Runner
       when "followup_instructions"
-        Runners::FollowupInstructionsRunner
+        Runners::FollowupInstructions::Runner
       when "commit_suggestions"
-        Runners::CommitSuggestionsRunner
+        Runners::CommitSuggestions::Runner
       end
 
       runner_klass.new(robo_request)

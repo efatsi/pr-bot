@@ -1,0 +1,25 @@
+<% ding ||= false %>
+<%= render "shared/ding" if ding %>
+
+<%= render "shared/dropdown", label: "Build Plan", open_on_load: true do %>
+  <div class="px-1">
+    <pre id="ai-response" class="whitespace-pre-wrap"><%= robo_job.generated_plan %></pre>
+
+    <%# turbo_frame_tag "robo-changes" do %>
+      <%# render "robo_jobs/instructions/robo_changes", robo_job: robo_job %>
+    <%# end %>
+  </div>
+<% end %>
+
+<div class="flex justify-between mt-8 mb-4">
+  <div>
+    <%= link_to "TODO: tweak the plan ->",
+      "#",
+      class: "btn-opaque"
+    %>
+  </div>
+
+  <%= turbo_frame_tag "commit-button" do %>
+    <%= render "robo_jobs/instructions/commit_button", robo_job: robo_job %>
+  <% end %>
+</div>

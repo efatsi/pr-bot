@@ -1,13 +1,14 @@
-module Runners
-  class BuildPlan::Prompt < BasePromptGenerator
-    PLAN_SYSTEM_SETUP = "You are a senior full-stack web developer, and expert code system architect."
+module Runners::BuildPlan
+  class Prompt < BasePromptGenerator
 
     def prompt_messages
       [
-        { role: "system", content: PLAN_SYSTEM_SETUP },
+        { role: "system", content: PromptHub::SYSTEM_SETUP },
         { role: "user", content: build_plan_background_prompt },
+        { role: "system", content: "I understand. I will not provide any code, I will just return the high level plan. Let's get started!" },
         *previous_convo_messages,
         { role: "user", content: relevant_files_prompt },
+        { role: "system", content: PromptHub::UNDERSTAND_FILES },
         { role: "user", content: instructions_prompt }
       ]
     end
@@ -20,10 +21,7 @@ module Runners
 
     def build_plan_background_prompt
       [
-        "You are working on a project with these tools:",
-        project.project_context,
-        "",
-        "Prefer solutions that use the project tools over generic solutions.",
+        project_tools,
         "",
         "Here are the relevant CONTEXT_FILES to help inform the plan:",
         robo_job.contextual_file_data,
@@ -33,7 +31,7 @@ module Runners
         "",
         "Your job is to create a plan of actions to implement the solution..",
         "",
-        "Return the details of the build plan \(RETURN_AS_JSON)",
+        "Return the details of the build plan \(PromptHub::RETURN_AS_JSON)",
         "- overview: Explain at high level what the plan is to implement the feature request",
         "- build_plan: An array of valid actions available in the ACTION_TEMPLATES schema",
         "  - action_type: One of the available ACTION_TEMPLATES",
