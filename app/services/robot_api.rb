@@ -68,8 +68,8 @@ class RobotApi
     end
 
     def print_intro(prompt_messages)
-      puts "=========================="
-      puts "Requesting: #{prompt_messages.last["content"][0..300]}..."
+      puts "================== Requesting: =================="
+      puts "#{prompt_messages.last["content"][0..300]}..."
       puts
     end
 

@@ -5,7 +5,7 @@ module Runners::BuildPlan
       [
         { role: "system", content: PromptHub::SYSTEM_SETUP },
         { role: "user", content: build_plan_background_prompt },
-        { role: "system", content: "I understand. I will not provide any code, I will just return the high level plan. Let's get started!" },
+        { role: "system", content: "I understand. I will return the high level plan in that format. Let's get started!" },
         *previous_convo_messages,
         { role: "user", content: relevant_files_prompt },
         { role: "system", content: PromptHub::UNDERSTAND_FILES },
@@ -36,7 +36,7 @@ module Runners::BuildPlan
         "- build_plan: An array of valid actions available in the ACTION_TEMPLATES schema",
         "  - action_type: One of the available ACTION_TEMPLATES",
         "  - summary: Summarize the implementation required",
-        "  - arguments: Array for each defined argument",
+        "  - arguments: Array for each defined argument. Do not add additional arguments than those listed in the specs.",
         "    - key: value",
         "  - relevant_files: Array of files that would help inform the action implementation. If no files are necessary, return an empty array",
         "    - filepath: Exact path of file",
