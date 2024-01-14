@@ -12,6 +12,8 @@ class Action < ApplicationRecord
 
   validates :status, presence: true, inclusion: { in: STATUSES }
 
+  delegate :project, to: :robo_job
+
   STATUSES.each do |status|
     scope status, -> { where(status: status) }
 
