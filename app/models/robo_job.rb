@@ -45,6 +45,8 @@ class RoboJob < ApplicationRecord
   def implementation_overview
     if generated_instructions?
       generated_instructions["implementation_overview"]
+    elsif generated_plan?
+      generated_plan["overview"]
     end
   end
 

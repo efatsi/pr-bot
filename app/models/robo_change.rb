@@ -101,14 +101,6 @@ class RoboChange < ApplicationRecord
     update(status: "failed", error: e.message)
   end
 
-  def unskip!
-    raise 'Only skipped changes can be un-skipped' unless skipped?
-
-    update(status: 'pending')
-  rescue => e
-    update(status: 'failed', error: e.message)
-  end
-
   def full_filepath
     if file.downcase.start_with?(robo_job.project.filepath.downcase)
       file
