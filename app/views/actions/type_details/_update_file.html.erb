@@ -1,0 +1,20 @@
+<div class="flex gap-8">
+  <div class="mb-4">
+    <div class="font-medium">File:</div>
+    <%= action.arguments[:file] %>
+  </div>
+</div>
+
+<% if !action.pre_flight? %>
+  <div class="flex mb-2 gap-1">
+    <div class="diff-og">
+      <div class="font-medium mb-2">OG Content:</div>
+      <pre><%= action.arguments[:original_content] %></pre>
+    </div>
+
+    <div class="diff-new">
+      <div class="font-medium mb-2">New Content:</div>
+      <pre><%= action.arguments[:new_content] %></pre>
+    </div>
+  </div>
+<% end %>

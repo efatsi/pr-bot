@@ -1,14 +1,14 @@
 <% open_on_load ||= false %>
 <% label_class ||= "bg-[#3e3f40]" %>
-<% label_action ||= nil %>
+<% label_buttons ||= nil %>
 
 <div data-controller="dropdown" class="mb-2 border border-gray-600 rounded-md">
   <div class="flex justify-between p-2 pr-4 cursor-pointer rounded-md <%= label_class %> group/dropdown" data-action="click->dropdown#toggle">
     <span><%= label %></span>
 
     <div class="flex items-center gap-2">
-      <% if label_action %>
-        <div class="min-w-[24px]"><%= label_action %></div>
+      <% if label_buttons %>
+        <div class="min-w-[24px]"><%= label_buttons %></div>
       <% end %>
       <span>v</span>
     </div>

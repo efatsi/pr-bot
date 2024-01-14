@@ -52,13 +52,33 @@ class RoboJob < ApplicationRecord
     robo_requests.sum(:cost)
   end
 
-  def process_instructions_to_changes
-    robo_changes.destroy_all
+  def process_instructions_to_pending_actions
+    actions.destroy_all
 
     generated_instructions["changes"].each do |changeset|
-      robo_changes.create!(
-        **changeset,
-        raw_json: changeset
+      action_name = changeset.delete("action")
+      summary = changeset.delete("summary")
+      action_template = ActionTemplate.find_by(name: action_name)
+
+      actions.create!(
+        summary: summary,
+        action_name: action_name,
+        action_template: action_template,
+        arguments: changeset,
+      )
+    end
+  end
+
+  def process_plan_to_pre_flight_changes
+    actions.destroy_all
+
+    generated_plan["build_plan"].each do |changeset|
+      action_template = ActionTemplate.find_by(name: changeset["action_name"])
+
+      actions.create!(
+        status: "pre_flight",
+        action_template: action_template,
+        **changeset.slice("action_name", "summary", "arguments", "relevant_files")
       )
     end
   end

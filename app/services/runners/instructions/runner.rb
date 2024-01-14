@@ -16,7 +16,7 @@ module Runners::Instructions
 
     def handle_response
       robo_job.update(generated_instructions: JSON.parse(robo_request.response))
-      robo_job.process_instructions_to_changes
+      robo_job.process_instructions_to_pending_actions
     end
 
     def broadcast_finished_state

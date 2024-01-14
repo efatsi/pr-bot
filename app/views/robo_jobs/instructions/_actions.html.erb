@@ -2,12 +2,12 @@
 <%= render "shared/ding" if ding %>
 
 <div class="mb-6">
-  <div class="inline-block font-medium border-b border-opacity-10 mb-4">Proposed Changes</div>
+  <div class="inline-block font-medium border-b border-opacity-10 mb-4">Action Plan</div>
 
   <% [robo_job, *robo_job.followup_jobs].each do |job| %>
-    <% if job.robo_changes.any? %>
+    <% if job.actions.any? %>
       <div class="mb-4">
-        <%= render "robo_jobs/robo_changes/index", robo_job: job %>
+        <%= render "actions/index", robo_job: job %>
       </div>
     <% end %>
   <% end %>

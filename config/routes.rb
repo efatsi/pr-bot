@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     get :info, on: :member
     patch :update_files, on: :member
 
-    resources :robo_changes, only: [] do
+    resources :actions, only: [] do
       get :execute_all, on: :collection
       post :execute, on: :member
       post :reset, on: :member
