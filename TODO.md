@@ -1,7 +1,6 @@
 # TODO
 ## Instructions vs. Build Plan
-- hit go to hit LLM to fill out actions in parallel
-- execute one or execute all (final RoboChange -> Action, RIP RoboChange)
+- hit go to hit LLM to fill out actions in parallel (try google LLM)
 
 ## Context Files
 - let you define files first
