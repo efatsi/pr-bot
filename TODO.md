@@ -32,6 +32,7 @@
 - button to Stop
 
 ## lil things
+- rename project.filepath to project.repository_path
 - show commits on RoboJob
 
 # Better Context
@@ -70,6 +71,9 @@
   - send git diff summary?
 - skip contents of deleted files
 - remind the prompt this is supplementary to contextual files (wrap in `<context:git>` `</context:git>`)
+  - replace others eg: "Directory Tree:" w/ <directory-tree> </directory-tree>
+  - project search: `"[\w+\s?]{2,}:",`
+
 
 # cleanup step
 - new stream button, similar to "continue"
