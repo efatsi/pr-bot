@@ -1,5 +1,5 @@
-module Runners::BuildPlan
-  class Runner < Runners::Instructions::Runner
+module JobRunners::BuildPlan
+  class Runner < JobRunners::Instructions::Runner
 
     # similar in every way to the instructions runner except for a few things
 

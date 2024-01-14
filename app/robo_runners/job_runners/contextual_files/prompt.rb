@@ -1,4 +1,4 @@
-module Runners::ContextualFiles
+module JobRunners::ContextualFiles
   class Prompt < BasePromptGenerator
 
     def robo_job

@@ -1,4 +1,4 @@
-module Runners::Instructions
+module JobRunners::FollowupInstructions
   class Runner < BaseRunner
 
     private
@@ -9,8 +9,8 @@ module Runners::Instructions
 
     def broadcast_processing_state
       broadcast(
-        partial: 'robo_jobs/instructions/processing',
-        locals: { robo_request: robo_request, label: primary_label }
+        partial: 'robo_jobs/followup/processing',
+        locals: { robo_request: robo_request }
       )
     end
 
@@ -21,20 +21,21 @@ module Runners::Instructions
 
     def broadcast_finished_state
       broadcast(
-        partial: 'robo_jobs/instructions/finished',
+        target: "actions",
+        partial: 'robo_jobs/instructions/actions',
         locals: {
-          robo_job: robo_job.reload,
+          robo_job: robo_job.parent_job.reload,
           ding: true
         }
       )
     end
 
     def primary_target
-      "get-instructions"
+      "continue-conversation"
     end
 
     def primary_label
-      "Build Instructions"
+      "Followup Instructions"
     end
   end
 end

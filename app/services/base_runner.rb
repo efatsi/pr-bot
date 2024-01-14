@@ -1,5 +1,5 @@
 class BaseRunner
-  include ServiceStreamHelpers
+  include TurboStreamHelpers
 
   attr_reader :robo_request
 

@@ -1,7 +1,7 @@
-module Runners::FollowupInstructions
-  class Prompt < Runners::Instructions::Prompt
+module JobRunners::FollowupInstructions
+  class Prompt < JobRunners::Instructions::Prompt
 
-    # identical to Runners::Instructions::Prompt except w/ `previous_convo_messages`
+    # identical to JobRunners::Instructions::Prompt except w/ `previous_convo_messages`
     def prompt_messages
       [
         { role: "system", content: PromptHub::SYSTEM_SETUP },
