@@ -1,4 +1,6 @@
 class Action < ApplicationRecord
+  include Actions::FileHelpers
+
   belongs_to :robo_job
   belongs_to :action_template
 
@@ -22,24 +24,38 @@ class Action < ApplicationRecord
     end
   end
 
-  def execute
+  def fire!
+    # this is defined in subclasses
+    fire
+
+    # if all went well, set executed status
+    update(status: "executed")
+
+  rescue => e
+    # if something failed, set status and error
+    update(status: "failed", error: e.message)
   end
 
-  def revert
-  end
+  def unfire!
+    # this is defined in subclasses
+    unfire
 
-  def timestamped_file
-    file = arguments[:file]
-
-    if "/[timestamp]_".in?(file.downcase) || "/timestamp_".in?(file.downcase)
-      file.gsub(/\[?timestamp\]?/i, Time.now.strftime("%Y%m%d%H%M%S"))
-    else
-      file
-    end
+    # reset status back to pending
+    update(status: "pending")
+  rescue => e
+    update(status: "failed", error: e.message)
   end
 
   def arguments
     super.with_indifferent_access
+  end
+
+  def history
+    (super || []).map(&:with_indifferent_access)
+  end
+
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, status: #{status}, created_at: #{created_at}, updated_at: #{updated_at}>"
   end
 end
 
@@ -48,13 +64,13 @@ end
 # Table name: actions
 #
 #  id                 :bigint           not null, primary key
-#  action_name        :string
 #  arguments          :json
 #  error              :text
 #  history            :json
 #  relevant_files     :json
 #  status             :string           default("pending"), not null
 #  summary            :text
+#  type               :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  action_template_id :bigint           not null
@@ -67,6 +83,5 @@ end
 #
 # Foreign Keys
 #
-#  fk_rails_...  (action_template_id => action_templates.id)
 #  fk_rails_...  (robo_job_id => robo_jobs.id)
 #

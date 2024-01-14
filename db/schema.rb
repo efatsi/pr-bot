@@ -10,34 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_14_052425) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_14_175406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "action_templates", force: :cascade do |t|
-    t.bigint "project_id"
-    t.string "name", null: false
-    t.string "description"
-    t.boolean "system_action", default: false
-    t.string "command"
-    t.string "reverse_command"
-    t.json "arguments_schema", default: []
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_action_templates_on_project_id"
-  end
 
   create_table "actions", force: :cascade do |t|
     t.bigint "robo_job_id", null: false
     t.bigint "action_template_id", null: false
     t.string "status", default: "pending", null: false
-    t.json "arguments", default: []
+    t.json "arguments", default: {}
     t.json "history", default: []
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "summary"
     t.text "error"
-    t.string "action_name"
+    t.string "type"
     t.json "relevant_files"
     t.index ["action_template_id"], name: "index_actions_on_action_template_id"
     t.index ["robo_job_id"], name: "index_actions_on_robo_job_id"
@@ -145,22 +132,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_052425) do
     t.string "ignored_files", default: [], array: true
   end
 
-  create_table "robo_changes", force: :cascade do |t|
-    t.bigint "robo_job_id", null: false
-    t.json "raw_json", null: false
-    t.text "summary"
-    t.string "file"
-    t.string "action", null: false
-    t.text "original_content"
-    t.text "new_content", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status", default: "pending", null: false
-    t.string "error"
-    t.string "new_file"
-    t.index ["robo_job_id"], name: "index_robo_changes_on_robo_job_id"
-  end
-
   create_table "robo_jobs", force: :cascade do |t|
     t.text "feature_request", null: false
     t.string "contextual_files", default: [], array: true
@@ -171,7 +142,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_052425) do
     t.json "generated_instructions", default: {}
     t.boolean "include_last_convo", default: false
     t.boolean "include_all_convos", default: false
-    t.json "generated_plan"
+    t.json "generated_plan", default: {}
     t.index ["parent_job_id"], name: "index_robo_jobs_on_parent_job_id"
     t.index ["project_id"], name: "index_robo_jobs_on_project_id"
   end
@@ -191,12 +162,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_052425) do
     t.index ["parent_type", "parent_id"], name: "index_robo_requests_on_parent"
   end
 
-  add_foreign_key "action_templates", "projects"
-  add_foreign_key "actions", "action_templates"
   add_foreign_key "actions", "robo_jobs"
   add_foreign_key "git_commits", "projects"
   add_foreign_key "git_commits", "robo_jobs"
-  add_foreign_key "robo_changes", "robo_jobs"
   add_foreign_key "robo_jobs", "projects"
   add_foreign_key "robo_jobs", "robo_jobs", column: "parent_job_id"
 end
