@@ -35,7 +35,7 @@ currently, i can assemble unique prompts to hit the LLM once:
   creates `RoboRequest` record
   calls `PromptGenerator` to seed prompt data for `RoboRequest`
   passes assembled prompt to LLM
-  processes response in handler eg: `Runners::InstructionsRunner`
+  processes response in handler eg: `JobRunners::InstructionsRunner`
 
 
 the conductor now needs to be able to run multiple RoboRequests simultaneously... like "look into codebase" and "do internet research" before "build plan items"

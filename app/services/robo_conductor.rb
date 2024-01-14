@@ -19,15 +19,15 @@ class RoboConductor
     @runner ||= begin
       runner_klass = case request_type
       when "contextual_files"
-        Runners::ContextualFiles::Runner
+        JobRunners::ContextualFiles::Runner
       when "build_plan"
-        Runners::BuildPlan::Runner
+        JobRunners::BuildPlan::Runner
       when "instructions"
-        Runners::Instructions::Runner
+        JobRunners::Instructions::Runner
       when "followup_instructions"
-        Runners::FollowupInstructions::Runner
+        JobRunners::FollowupInstructions::Runner
       when "commit_suggestions"
-        Runners::CommitSuggestions::Runner
+        JobRunners::CommitSuggestions::Runner
       end
 
       runner_klass.new(robo_request)

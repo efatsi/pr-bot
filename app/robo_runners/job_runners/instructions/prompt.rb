@@ -1,4 +1,4 @@
-module Runners::Instructions
+module JobRunners::Instructions
   class Prompt < BasePromptGenerator
 
     def prompt_messages

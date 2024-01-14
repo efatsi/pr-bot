@@ -1,4 +1,4 @@
-module ServiceStreamHelpers
+module TurboStreamHelpers
   # This helper method generates the turbo html that's handled by `Turbo.renderStreamMessage`
   #
   # Tried to use regular `turbo_stream.update` but it struggles w/ `host` context during rendering

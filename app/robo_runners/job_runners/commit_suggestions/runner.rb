@@ -1,4 +1,4 @@
-module Runners::CommitSuggestions
+module JobRunners::CommitSuggestions
   class Runner < BaseRunner
     private
 
