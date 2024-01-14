@@ -20,7 +20,7 @@ class GitCommit < ApplicationRecord
     end
   end
 
-  def fire
+  def fire!
     Dir.chdir(project.filepath) do
       if new_branch.present?
         `git branch -D #{new_branch}; git checkout -b #{new_branch}`

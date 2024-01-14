@@ -2,7 +2,6 @@ class Action < ApplicationRecord
   include Actions::FileHelpers
 
   belongs_to :robo_job
-  belongs_to :action_template
 
   STATUSES = [
     "pre_flight",
@@ -22,6 +21,20 @@ class Action < ApplicationRecord
     define_method("#{status}?") do
       self.status == status
     end
+  end
+
+  def self.action_templates
+    [
+      Actions::AddFile.template,
+      Actions::UpdateFile.template,
+      Actions::RenameFile.template,
+      Actions::RemoveFile.template,
+      # Actions::RunCommand.template
+    ]
+  end
+
+  def action_name
+    self.class.name.demodulize.underscore
   end
 
   def fire!
@@ -63,23 +76,21 @@ end
 #
 # Table name: actions
 #
-#  id                 :bigint           not null, primary key
-#  arguments          :json
-#  error              :text
-#  history            :json
-#  relevant_files     :json
-#  status             :string           default("pending"), not null
-#  summary            :text
-#  type               :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  action_template_id :bigint           not null
-#  robo_job_id        :bigint           not null
+#  id             :bigint           not null, primary key
+#  arguments      :json
+#  error          :text
+#  history        :json
+#  relevant_files :json
+#  status         :string           default("pending"), not null
+#  summary        :text
+#  type           :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  robo_job_id    :bigint           not null
 #
 # Indexes
 #
-#  index_actions_on_action_template_id  (action_template_id)
-#  index_actions_on_robo_job_id         (robo_job_id)
+#  index_actions_on_robo_job_id  (robo_job_id)
 #
 # Foreign Keys
 #

@@ -2,7 +2,6 @@ class RoboJob < ApplicationRecord
   belongs_to :project
 
   has_many :robo_requests, -> { by_id }, as: :parent, dependent: :destroy
-  has_many :robo_changes, -> { by_id }, dependent: :destroy
   has_many :actions, -> { by_id }, dependent: :destroy
 
   has_many :followup_jobs, -> { by_id }, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
@@ -26,7 +25,7 @@ class RoboJob < ApplicationRecord
 
   def last_contextual_files
     last_job = followup_jobs.last || self
-    (last_job.contextual_files + last_job.robo_changes.map(&:file)).uniq
+    (last_job.contextual_files + last_job.actions.map(&:file).compact).uniq
   end
 
   def includes_past_convo?
@@ -58,15 +57,13 @@ class RoboJob < ApplicationRecord
     actions.destroy_all
 
     generated_instructions["changes"].each do |changeset|
-      action_name = changeset.delete("action")
+      action_type = changeset.delete("action")
       summary = changeset.delete("summary")
-      action_template = ActionTemplate.find_by(name: action_name)
 
       actions.create!(
+        type: "Actions::#{action_type.camelize}",
         summary: summary,
-        action_name: action_name,
-        action_template: action_template,
-        arguments: changeset,
+        arguments: changeset.slice("file", "new_file", "original_content", "new_content"),
       )
     end
   end
@@ -75,12 +72,12 @@ class RoboJob < ApplicationRecord
     actions.destroy_all
 
     generated_plan["build_plan"].each do |changeset|
-      action_template = ActionTemplate.find_by(name: changeset["action_name"])
+      action_type = changeset.delete("action")
 
       actions.create!(
+        type: "Actions::#{action_type.camelize}",
         status: "pre_flight",
-        action_template: action_template,
-        **changeset.slice("action_name", "summary", "arguments", "relevant_files")
+        **changeset.slice("action", "summary", "arguments", "relevant_files")
       )
     end
   end

@@ -1,5 +1,5 @@
 module Actions
-  class FileHelpers
+  module FileHelpers
 
     def file
       arguments[:file]

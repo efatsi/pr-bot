@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_14_175406) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_14_181405) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
     t.bigint "robo_job_id", null: false
-    t.bigint "action_template_id", null: false
     t.string "status", default: "pending", null: false
     t.json "arguments", default: {}
     t.json "history", default: []
@@ -26,7 +25,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_175406) do
     t.text "error"
     t.string "type"
     t.json "relevant_files"
-    t.index ["action_template_id"], name: "index_actions_on_action_template_id"
     t.index ["robo_job_id"], name: "index_actions_on_robo_job_id"
   end
 

@@ -22,7 +22,7 @@ module Runners::FollowupInstructions
     def broadcast_finished_state
       broadcast(
         target: "actions",
-        partial: 'robo_jobs/instructions/robo_changes',
+        partial: 'robo_jobs/instructions/actions',
         locals: {
           robo_job: robo_job.parent_job.reload,
           ding: true

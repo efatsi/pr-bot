@@ -42,7 +42,7 @@
             'data-conversation-target': 'lastConvo', 'data-action': 'change->conversation#toggleCheckboxes'
           }
         %>
-        <% if followup_job.parent_job.followup_jobs.any? {|a| a.robo_changes.any? } %>
+        <% if followup_job.parent_job.followup_jobs.any? {|a| a.actions.any? } %>
           <%= f.input :include_all_convos,
             as: :boolean,
             label: 'Include All Convos',
