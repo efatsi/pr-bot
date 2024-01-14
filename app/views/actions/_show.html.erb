@@ -1,0 +1,16 @@
+<% label_class = dropdown_label_bg_for(action) %>
+<% label_buttons = render("actions/buttons/#{action.status}", action: action) %>
+
+<%= turbo_frame_tag "action-#{action.id}" do %>
+  <%= render "shared/dropdown", label: action.summary, label_class: label_class, label_buttons: label_buttons do %>
+    <% if action.status == "failed" && action.error %>
+      <div class="mb-4">
+        <div class="font-medium">Error:</div>
+        <pre class="text-red-700"><%= action.error %></pre>
+      </div>
+    <% end %>
+
+    <%= render "actions/type_details/#{action.action_name}", action: action %>
+  <% end %>
+<% end %>
+

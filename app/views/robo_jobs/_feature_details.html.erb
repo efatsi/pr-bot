@@ -28,11 +28,3 @@
     <div class="whitespace-pre-wrap"><%= robo_job.feature_request %></div>
   </div>
 </div>
-
-<% robo_job.robo_changes.each do |robo_change| %>
-  <%= render "robo_jobs/robo_changes/show", robo_change: robo_change %>
-<% end %>
-
-<div class="flex flex-col items-end" id="fire-all-<%= robo_job.id %>">
-  <%= render "robo_jobs/instructions/fire_all", robo_job: robo_job %>
-</div>

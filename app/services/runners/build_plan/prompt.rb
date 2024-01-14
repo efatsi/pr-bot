@@ -34,12 +34,12 @@ module Runners::BuildPlan
         "Return the details of the build plan \(PromptHub::RETURN_AS_JSON)",
         "- overview: Explain at high level what the plan is to implement the feature request",
         "- build_plan: An array of valid actions available in the ACTION_TEMPLATES schema",
-        "  - action_type: One of the available ACTION_TEMPLATES",
+        "  - action_name: One of the available ACTION_TEMPLATES",
         "  - summary: Summarize the implementation required",
         "  - arguments: Array for each defined argument. Do not add additional arguments than those listed in the specs.",
         "    - key: value",
         "  - relevant_files: Array of files that would help inform the action implementation. If no files are necessary, return an empty array",
-        "    - filepath: Exact path of file",
+        "    - file: Exact path of file",
         "",
         "Example",
         "#{PLAN_JSON_EXAMPLE}"
@@ -67,7 +67,7 @@ module Runners::BuildPlan
 
       ActionTemplate.system_templates.map do |template|
         [
-          "- action_type: #{template.name}",
+          "- action_name: #{template.name}",
           "  - description: #{template.description}",
           "  - arguments: [#{template.plan_arguments}]"
         ]
@@ -84,23 +84,27 @@ module Runners::BuildPlan
       "overview": "Implement a new member route for robo_requests within the robo_jobs resources, including a controller action, corresponding template, and a migration to add robo_job_id to robo_requests.",
       "build_plan": [
         {
-          "action_type": "update_file",
+          "action_name": "update_file",
           "summary": "Add a new `:robo_requests` member route to the `robo_jobs` resources.",
           "arguments": {
             "file": "config/routes.rb",
           },
-          "relevant_files": ["config/routes.rb"]
+          "relevant_files": [{
+            "file": "config/routes.rb"
+          }]
         },
         {
-          "action_type": "update_file",
+          "action_name": "update_file",
           "summary": "Add a new `robo_requests` action to the `RoboJobsController`.",
           "arguments": {
             "file": "app/controllers/robo_jobs_controller.rb",
           },
-          "relevant_files": ["app/controllers/robo_jobs_controller.rb"]
+          "relevant_files": [{
+            "file": "app/controllers/robo_jobs_controller.rb"
+          }]
         },
         {
-          "action_type": "add_file",
+          "action_name": "add_file",
           "summary": "Add a new template file for the `robo_requests` action.",
           "arguments": {
             "file": "app/views/robo_jobs/robo_requests.html.erb",
@@ -108,7 +112,7 @@ module Runners::BuildPlan
           "relevant_files": []
         },
         {
-          "action_type": "add_file",
+          "action_name": "add_file",
           "summary": "Create a migration to add robo_job_id to robo_requests.",
           "arguments": {
             "file": "/db/migrate/[timestamp]_add_robo_job_id_to_robo_requests.rb",

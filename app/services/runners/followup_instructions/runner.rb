@@ -16,12 +16,12 @@ module Runners::FollowupInstructions
 
     def handle_response
       robo_job.update(generated_instructions: JSON.parse(robo_request.response))
-      robo_job.process_instructions_to_changes
+      robo_job.process_instructions_to_pending_actions
     end
 
     def broadcast_finished_state
       broadcast(
-        target: "robo-changes",
+        target: "actions",
         partial: 'robo_jobs/instructions/robo_changes',
         locals: {
           robo_job: robo_job.parent_job.reload,

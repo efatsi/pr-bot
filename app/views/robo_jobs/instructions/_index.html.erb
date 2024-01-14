@@ -1,5 +1,5 @@
 <% if !robo_job.generated_instructions? && !robo_job.generated_plan? %>
-  <div class="flex justify-between mt-8 mb-4">
+  <div class="flex justify-around mt-8 mb-4">
     <div>
       <p>Quick & Easy?</p>
       <%= button_to "Step 2: Build Instructions", get_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>

@@ -3,8 +3,8 @@
 
 <%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <div class="px-1">
-    <%= turbo_frame_tag "robo-changes" do %>
-      <%= render "robo_jobs/instructions/robo_changes", robo_job: robo_job %>
+    <%= turbo_frame_tag "actions" do %>
+      <%= render "robo_jobs/instructions/actions", robo_job: robo_job %>
     <% end %>
   </div>
 <% end %>
@@ -18,6 +18,6 @@
   </div>
 
   <%= turbo_frame_tag "commit-button" do %>
-    <%= render "robo_jobs/instructions/commit_button", robo_job: robo_job %>
+    <%= render "actions/commit_button", robo_job: robo_job %>
   <% end %>
 </div>
