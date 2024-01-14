@@ -1,8 +1,5 @@
 # TODO
 ## Instructions vs. Build Plan
-- convert robo_changes to actions
-  - render actions from instructions pass
-  - build pre_flight actions in build_plan
 - hit go to hit LLM to fill out actions in parallel
 - execute one or execute all (more robo_change -> action)
 
@@ -12,16 +9,11 @@
 - button to hit internet for research too
 
 
-## lil bugs
-- fix double stream subscription
-  - maybe unsubscribe on backend
-  - first identify problem i suppose (ROBO_ENABLED=false)
-
-- quit a job on refresh
-  - handle unsubscribed in backend channel
-  - force the good_job task to stop
-    - send `sigkill` somehow
-    - `discard_on InterruptError`
+# quit a job on refresh
+- handle unsubscribed in backend channel
+- force the good_job task to stop
+  - send `sigkill` somehow
+  - `discard_on InterruptError`
 
 # button to include git diff as part of prompt or contextual files
   - skip deleted files
@@ -52,12 +44,6 @@
 - click on contextual file to open in file viewer
 - remove leading slash before checking uniqueness (/db/seeds & db/seeds both on there)
 
-# planning hat vs. implementing hat
-- split generate instructions into plan / instructions buttons
-- plan generates pre_flight robo_changes
-- can continue plan, skip, edit
-- generate instructions off of plan
-
 
 # cleanup step
 - new stream button, similar to "continue"
@@ -86,6 +72,7 @@
 - RoboJob cost dips down through self's requests, followup requests, and commit requests
 
 # v2
+- handle photo uploads
 
 - Commit History search
   - AI buddy that can dig into git commit history
@@ -116,10 +103,6 @@
   - different prompt, lets you just ask questions about the app to get humanoid answers
 
 ## v3 / gettin fancy:
-- wrap in Electron app
-
-- handle photo uploads
-
 - voice commands:
   - endless list of possibilities here ...
     - talk whatever you want into robot
@@ -132,3 +115,5 @@
     - `Function`
       - call
   - eg: update the RoboChange file creation logic to target the full path based on the project's filepath. For context, look at robo_change robo_job and project model files
+
+- wrap in Electron app
