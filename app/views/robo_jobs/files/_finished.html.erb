@@ -5,10 +5,7 @@
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: open_on_load do %>
   <% if robo_request %>
     <%= render "shared/dropdown", label: "Prompt" do %>
-      <% robo_request.prompt_messages.each do |prompt_message| %>
-        <div class="uppercase text-sm mb-2"><%= prompt_message["role"] %></div>
-        <pre class="whitespace-pre-wrap mb-4"><%= prompt_message["content"] %></pre>
-      <% end %>
+      <%= render "shared/prompt_conversation", robo_request: robo_request %>
     <% end %>
 
     <% if robo_request.response.present? %>

@@ -1,3 +1,5 @@
-<audio data-controller="audio">
+<% single_ding ||= false %>
+
+<audio data-controller="audio" data-audio-single-ding-value="<%= single_ding %>">
   <source src="<%= asset_path("ding.mp3") %>" type="audio/mpeg">
 </audio>

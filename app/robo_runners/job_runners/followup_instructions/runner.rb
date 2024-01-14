@@ -1,22 +1,16 @@
 module JobRunners::FollowupInstructions
-  class Runner < BaseRunner
+  class Runner < JobRunners::Instructions::Runner
+
+    # mostly the same functionality as main Instructions runner
+    # different broadcast messages and primary target/label
 
     private
-
-    def robo_job
-      @robo_job ||= robo_request.parent
-    end
 
     def broadcast_processing_state
       broadcast(
         partial: 'robo_jobs/followup/processing',
         locals: { robo_request: robo_request }
       )
-    end
-
-    def handle_response
-      robo_job.update(generated_instructions: JSON.parse(robo_request.response))
-      robo_job.process_instructions_to_pending_actions
     end
 
     def broadcast_finished_state

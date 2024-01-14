@@ -1,5 +1,5 @@
 module JobRunners::ContextualFiles
-  class Runner < BaseRunner
+  class Runner < JobRunners::BaseJobRunner
 
     private
 

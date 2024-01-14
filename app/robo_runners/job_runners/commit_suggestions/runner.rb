@@ -1,5 +1,5 @@
 module JobRunners::CommitSuggestions
-  class Runner < BaseRunner
+  class Runner < JobRunners::BaseJobRunner
     private
 
     def git_commit

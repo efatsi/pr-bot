@@ -1,0 +1,4 @@
+<% robo_request.prompt_messages.each do |prompt_message| %>
+  <div class="uppercase text-sm mb-2"><%= prompt_message["role"] %></div>
+  <pre class="whitespace-pre-wrap mb-4"><%= prompt_message["content"] %></pre>
+<% end %>

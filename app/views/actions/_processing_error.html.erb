@@ -1,0 +1,20 @@
+<% label_class = dropdown_label_bg_for(action) %>
+<% label_buttons = render("shared/spinner") %>
+
+<%= render "shared/dropdown", label: action.summary, label_class: label_class, label_buttons: label_buttons do %>
+  <%= render "actions/type_details/#{action.action_name}", action: action %>
+
+  <%= render "shared/dropdown", label: "Build Action", open_on_load: true do %>
+    <%= render "shared/dropdown", label: "Prompt" do %>
+      <%= render "shared/prompt_conversation", robo_request: robo_request %>
+    <% end %>
+
+    <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
+      <pre class="whitespace-pre-wrap text-red-600 mb-2">Error: <%= error.message %></pre>
+
+      <%= render "shared/dropdown", label: "Backtrace", open_on_load: true do %>
+        <div class="whitespace-pre"><%= error.backtrace.join("\n") %></div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

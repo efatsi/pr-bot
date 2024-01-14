@@ -1,5 +1,5 @@
 module JobRunners::Instructions
-  class Runner < BaseRunner
+  class Runner < JobRunners::BaseJobRunner
 
     private
 

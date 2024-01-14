@@ -1,4 +1,4 @@
 module ActionRunners
-  class BaseActionPrompt
+  class BaseActionPrompt < BasePromptGenerator
   end
 end

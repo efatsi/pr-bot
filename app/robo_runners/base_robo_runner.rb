@@ -1,4 +1,4 @@
-class BaseRunner
+class BaseRoboRunner
   include TurboStreamHelpers
 
   attr_reader :robo_request
@@ -33,6 +33,7 @@ class BaseRunner
   def prompt_messages
     runner_module = self.class.module_parents[0]
     prompt = runner_module::Prompt.new(robo_request)
+
     prompt.generate_prompt_messages
   end
 
@@ -45,17 +46,6 @@ class BaseRunner
         locals: locals
       )
     })
-  end
-
-  def broadcast_error_state(error)
-    broadcast(
-      partial: "robo_jobs/shared/error",
-      locals: {
-        robo_request: robo_request,
-        error: error,
-        label: primary_label
-      }
-    )
   end
 
   # TODO: update this to broadcast to robo_request id, for multiple simul streams

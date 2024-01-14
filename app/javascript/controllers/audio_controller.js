@@ -1,10 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class AudioController extends Controller {
+  static values = { singleDing: Boolean }
+
   connect() {
     if (this.playSound()) {
-      this.doubleDing()
+      if (this.singleDingValue) {
+        this.singleDing()
+      } else {
+        this.doubleDing()
+      }
     }
+  }
+
+  singleDing() {
+    this.element.play()
   }
 
   doubleDing() {

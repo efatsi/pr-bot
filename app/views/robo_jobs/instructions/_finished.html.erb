@@ -7,10 +7,8 @@
       <%= render "robo_jobs/instructions/actions", robo_job: robo_job %>
     <% end %>
   </div>
-<% end %>
 
-<div class="flex justify-between mt-8 mb-4">
-  <div>
+  <div class="mb-1">
     <%= link_to "Continue the Conversation ->",
       new_robo_job_followup_job_path(robo_job),
       class: "btn-opaque"
@@ -25,6 +23,9 @@
       </div>
     <% end %>
   </div>
+<% end %>
+
+<div class="flex justify-between mt-8 mb-4">
 
   <%= turbo_frame_tag "commit-button" do %>
     <%= render "actions/commit_button", robo_job: robo_job %>

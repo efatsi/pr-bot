@@ -28,6 +28,8 @@ class RoboConductor
         JobRunners::FollowupInstructions::Runner
       when "commit_suggestions"
         JobRunners::CommitSuggestions::Runner
+      when *Action.action_types
+        ActionRunners::BaseActionRunner
       end
 
       runner_klass.new(robo_request)
