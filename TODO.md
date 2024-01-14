@@ -1,6 +1,9 @@
 # TODO
 ## Instructions vs. Build Plan
-- hit go to hit LLM to fill out actions in parallel (try google LLM)
+- "Fill in Plan Details"
+  - fire LLMs to fill out actions in parallel (try google LLM)
+- allow inline editing of plan (summary, file, relevant_files)
+- allow "continute the conversation" for plan items
 
 ## Context Files
 - let you define files first

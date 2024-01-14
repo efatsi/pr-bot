@@ -15,6 +15,15 @@
       new_robo_job_followup_job_path(robo_job),
       class: "btn-opaque"
     %>
+
+    <% if robo_job.actions.all?(&:pre_flight?) %>
+      <div class="mt-4">
+        <%= link_to "Fill in Plan Details",
+          new_robo_job_followup_job_path(robo_job),
+          class: "btn-primary"
+        %>
+      </div>
+    <% end %>
   </div>
 
   <%= turbo_frame_tag "commit-button" do %>
