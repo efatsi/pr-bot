@@ -1,4 +1,4 @@
-<% if robo_job.robo_changes.executed.exists? %>
+<% if robo_job.actions.executed.exists? %>
   <div>
     <%= link_to 'Create Git Commit', new_project_git_commit_path(robo_job.project, robo_job_id: robo_job.id, modal: true),
       class: "btn-primary",

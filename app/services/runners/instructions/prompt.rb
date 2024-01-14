@@ -29,7 +29,7 @@ module Runners::Instructions
         "- implementation_overview: Describe the steps involved to implement the feature, and any follow-up steps to take afterwards",
         "- changes: An array of all the file changes required, following this structure:",
         "  - summary: A brief description of the change",
-        "  - action: one of `#{RoboChange::VALID_ACTIONS.join('`, `')}`",
+        "  - action: one of `#{Action.action_templates.map{|a| a[:name]}.join('`, `')}`",
         "  - file: source file path",
         "  - new_file: destination file path (only required for `rename_file` action)",
         "  - original_content: the exact text which needs to be replaced by the new_content. Do not summarize. Return full existing snippets of code from the source file.",

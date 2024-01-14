@@ -34,6 +34,7 @@
 ## lil things
 - rename project.filepath to project.repository_path
 - show commits on RoboJob
+- fix git commit get request inside a frame BS
 
 # Better Context
 ## contextual files enhance
@@ -70,6 +71,7 @@
     - `-U` flag can increase context lines: `git diff -U20`
   - send git diff summary?
 - skip contents of deleted files
+- skip contents of markdown files
 - remind the prompt this is supplementary to contextual files (wrap in `<context:git>` `</context:git>`)
   - replace others eg: "Directory Tree:" w/ <directory-tree> </directory-tree>
   - project search: `"[\w+\s?]{2,}:",`
@@ -154,6 +156,6 @@
       - allowed_functions
     - `Function`
       - call
-  - eg: update the RoboChange file creation logic to target the full path based on the project's filepath. For context, look at robo_change robo_job and project model files
+  - eg: update the Action file creation logic to target the full path based on the project's filepath. For context, look at action robo_job and project model files
 
 - wrap in Electron app

@@ -32,7 +32,7 @@ body {
   @apply cursor-pointer;
 }
 
-/* Diff styles for robo_change */
+/* Diff styles */
 .diff-og {
   @apply bg-[#5d3737] text-white px-2 py-1;
 }

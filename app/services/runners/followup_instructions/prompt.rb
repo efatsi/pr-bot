@@ -20,7 +20,7 @@ module Runners::FollowupInstructions
       parent_job = robo_job.parent_job
 
       if robo_job.include_last_convo?
-        last_job = parent_job.followup_jobs.to_a.reverse.detect{|a| a.robo_changes.any?} || parent_job
+        last_job = parent_job.followup_jobs.to_a.reverse.detect{|a| a.actions.any?} || parent_job
         [
           { role: "user", content: last_job.feature_request },
           { role: "system", content: last_job.generated_instructions.to_s },
@@ -28,7 +28,7 @@ module Runners::FollowupInstructions
 
       elsif robo_job.include_all_convos?
         [parent_job, *parent_job.followup_jobs].flat_map do |job|
-          if job.robo_changes.any?
+          if job.actions.any?
             [
               { role: "user", content: job.feature_request },
               { role: "system", content: job.generated_instructions.to_s },
