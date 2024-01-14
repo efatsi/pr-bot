@@ -1,49 +1,75 @@
 # TODO
 ## Instructions vs. Build Plan
 - hit go to hit LLM to fill out actions in parallel
-- execute one or execute all (more robo_change -> action)
+- execute one or execute all (final RoboChange -> Action, RIP RoboChange)
 
 ## Context Files
 - let you define files first
-- optional button to query for more files after reading initial set
-- button to hit internet for research too
+- button to hit LLM for more files with the defined set as prompt context
+  - token limits might be a concern here for large projects
+  - v2: break up this search into multiple batches
+    - probably batched per-context-file, or per bucket of directory paths ... whichever is bigger
 
+## Back up Conversation
+- ability to edit previous request / context and re-run LLM
+- organizing things in tree-like threads: ConversationThread
+- clicking "edit" starts a new RoboJob / Thread
+- RoboJob belongs_to Thread, Thread belongs_to Thread as well?
+  - ... i see why chatgpt didn't let you edit the first message for a while lol
+  - change the URL from robo_jobs/3 to robo_threads/3
+  - when creating new RoboJob, build parent Thread, and then new RoboJob+Thread w/in that
+  - threads can be branched off
+- rendering defaults to most recent thread
+- allow navigating back to previous threads, continuing those if wanted
 
-# quit a job on refresh
-- handle unsubscribed in backend channel
-- force the good_job task to stop
-  - send `sigkill` somehow
-  - `discard_on InterruptError`
+# Tooling todo
+## ability to halt AI
+- quit on refresh
+  - handle unsubscribed in backend channel
+  - force the good_job task to stop
+    - send `sigkill` somehow
+    - `discard_on InterruptError`
+- button to Stop
 
-# button to include git diff as part of prompt or contextual files
-  - skip deleted files
-  - send git diff summary?
-  - update the prompt to specify that this is supplementary to contextual files
-
-## sm
+## lil things
 - show commits on RoboJob
-- render feature requests inline, button to toggle one or all
-  - include link to contextual files
-    - fancy, saved versions of them in db at time of instructions execution
 
-# contextual files enhance
-- show contextual_files input right away so you can seed in things you know
-  - pre-seeded things are passed into contextual files request
-
-- human review step
-  - show responses w/ "rationale"
-  - checkboxes to include / ignore
+# Better Context
+## contextual files enhance
+- when asking for files, ask for structured data back
+  - `line_numbers`, `why_important`, `importance_weight` (critical, helpful, maybe_helpful)
+    - use this to capture the LLM's desire to overtalk, and put that yammering in the right box
+  - show data in a human review step of the context digging
+    - checkboxes to include / ignore
     - before directories get unpacked!
 
-- can give line numbers
-  - nice-to-have: combine multiple code batches if defining same file
-  - make vscode helper to output file name w/ line numbers
+- can work w/ line numbers
+  - robo input: extract snippets instead of full files
+    - break up file into overlapping chunks
+    - pass chunks to simple LLM and ask "what lines do you REALLY care about"
+      - ask for an array of chunks w/ `line_numbers`, `why_important`, `importance_weight`
+  - human input: make vscode helper to output file name w/ line numbers
 
 - let you access file finder from show view
-  - allow form still, but can add / remove w/o it
-- click on contextual file to open in file viewer
+  - don't have the file finder just write to the form input, have it update the backend
+- click on contextual file `↗` to open in file viewer
 - remove leading slash before checking uniqueness (/db/seeds & db/seeds both on there)
 
+## internet search
+- ask AI for a few internet searches given the prompt
+- hit some API somehow, LangChain has examples
+  - https://python.langchain.com/docs/integrations/tools/ddg
+  - https://python.langchain.com/docs/integrations/tools/tavily_search
+  - maybe pop out of Ruby for this one, pass to Python via Redis and use off-the-shelf tooling
+- summarize responses into condense information useful for the implementation
+
+## git history
+- can work against a specific diff
+  - pass in more than git gives you by default
+    - `-U` flag can increase context lines: `git diff -U20`
+  - send git diff summary?
+- skip contents of deleted files
+- remind the prompt this is supplementary to contextual files (wrap in `<context:git>` `</context:git>`)
 
 # cleanup step
 - new stream button, similar to "continue"
@@ -60,47 +86,57 @@
   - maybe icon everything up (plus / pencil / broom)
 
 # export sharable RoboJob
-
-# cost updates
-- show on project
-  - http://localhost:3000/robo_jobs/79
-  - demo mode?
-- check pricing ... http://localhost:3000/robo_jobs/124 is 0.05 but has loooots of requests
-- toggle on RoboJob to show per-request cost
-  - show request cost on the Response dropdown
-- project cost dips down through RoboJob requests and job-less Commit requests
-- RoboJob cost dips down through self's requests, followup requests, and commit requests
+- unpacked feature requests
+- unpacked implementation overview
+- diffs splayed out w/o the border cutting them off
 
 # v2
 - handle photo uploads
 
-- Commit History search
-  - AI buddy that can dig into git commit history
-  * the problem w/ diffs is they're too small. only have +3 on either side, need to navigate back in time to get more (dang)
-  - combination of actual search & LLM stuff
-  - gotta be smrt and lean to avoid blowing token limits
-    - if <4k can go local model
-  - poposition
-    1. ask AI to get the top keywords out of a request
-    2. use keywords in a comprehensive local search to generate possibilities
-    3. pass possibilities to AI model, as it to vet the ones we do care about for the feature
-      - one at a time?
-      - as many as will fit?
-    4. load commit in as "context" for parent RoboJob (like files)
-      - or just a subset of it (perhaps some of commit is not relevant)
-      - [bonus] convert commit details into formatted changesets, like how we want AI to respon
-      - build commit UI that
-        - shows tiers of selected options (AI filtered, all keyword search results, all)
-        - has diff viewer (future: interlink between this and file search UI)
-        - user can select/deselect relevant commits
-    5. commit data is passed in during PromptGeneration
-
-- Better contextual file finding
-  - extract snippets instead of full files
-  - use langchain Python to dig around in codebase
-
 - question mode vs. feature mode
   - different prompt, lets you just ask questions about the app to get humanoid answers
+
+- Commit History search
+  - AI buddy that can dig into git commit history
+  - the problem w/ diffs is they're too small.
+    * can use `-U` flag
+    * orrr, use `git show` to get data at that time for all the files and ask LLM which is important to send along to capture the diff
+  - gotta be smrt and lean to avoid blowing token limits
+    - if <4k can go local model
+  - flow:
+  1. ask AI to get the top keywords out of a request
+  2. use keywords in a comprehensive local search to generate possibilities
+  3. pass possibilities to AI model, as it to vet the ones we do care about for the feature
+    - one at a time?
+    - as many as will fit?
+  4. load commit in as "context" for parent RoboJob (like files)
+    - or just a subset of it (perhaps some of commit is not relevant)
+    - build commit review UI that
+      - shows tiers of selected options (AI filtered, all keyword search results, all)
+      - has diff viewer (future: interlink between this and file search UI)
+      - user can select/deselect relevant commits
+  5. commit data is passed in during PromptGeneration
+
+- ask for changes in git-diff mode instead of find-replace mode
+  - it's way better, so says the Aider team
+    - https://aider.chat/docs/unified-diffs.html
+  - although I think line find-replace w/ numbers could be pretty fricking good
+    - rationale:
+      - it's easier for me to imagine that working w/ strong stability, so it might be easier for LLM to be good at it too?
+      - LLMs have seen a lot of git diff examples, but that doesn't mean it's good at translating intention to/from that format. And I bet it's seen a LOT more examples of code in more readable formats performing tasks
+
+- cost updates
+  - show on project
+    - http://localhost:3000/robo_jobs/79
+    - demo mode?
+  - check pricing ... http://localhost:3000/robo_jobs/124 is 0.05 but has loooots of requests
+  - toggle on RoboJob to show per-request cost
+    - show request cost on the Response dropdown
+  - project cost dips down through RoboJob requests and job-less Commit requests
+  - RoboJob cost dips down through self's requests, followup requests, and commit requests
+
+- "Rollback to this step"
+  - would require git committing on ... every action
 
 ## v3 / gettin fancy:
 - voice commands:
