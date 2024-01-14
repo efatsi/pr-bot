@@ -13,10 +13,7 @@
       <% robo_request = robo_job.robo_requests.of_type("instructions").last %>
       <div class="mb-2">
         <%= render "shared/dropdown", label: "Prompt", open_on_load: params[:conversation] do %>
-          <% robo_request.prompt_messages.each do |prompt_message| %>
-            <div class="uppercase text-sm mb-2"><%= prompt_message["role"] %></div>
-            <pre class="whitespace-pre-wrap mb-4"><%= prompt_message["content"] %></pre>
-          <% end %>
+          <%= render "shared/prompt_conversation", robo_request: robo_request %>
         <% end %>
 
         <%= render "shared/dropdown", label: "Response", open_on_load: true do %>

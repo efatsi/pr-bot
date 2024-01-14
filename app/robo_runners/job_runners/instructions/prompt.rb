@@ -20,10 +20,7 @@ module JobRunners::Instructions
 
     def instructions_background_prompt
       [
-        "You are working on a project with these tools:",
-        project.project_context,
-        "",
-        "Prefer solutions that use the project tools over generic solutions.",
+        project_tools,
         "",
         "Return the details of the implementation change #{PromptHub::RETURN_AS_JSON}",
         "- implementation_overview: Describe the steps involved to implement the feature, and any follow-up steps to take afterwards",
