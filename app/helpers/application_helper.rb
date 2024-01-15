@@ -9,9 +9,9 @@ module ApplicationHelper
       nil
     elsif action.failed?
       "bg-[#5f2424]"
-    elsif action.action_name == "add_file"
+    elsif action.action_type == "add_file"
       "bg-[#2b4a35]"
-    elsif action.action_name == "update_file"
+    elsif action.action_type == "update_file"
       "bg-[#523823]"
     else
       "bg-[#65533e]"

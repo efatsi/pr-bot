@@ -12,7 +12,7 @@
 
 - hit `generate_action_details` button:
   - new robo_request for each item in the plan
-    - prompt_generator leans on action_name & action_template to send appropriate examples
+    - prompt_generator leans on action_type & action_template to send appropriate examples
       - includes the plan and previous action requests w/in this cycle
     - handler takes response and
       - fills out Action record

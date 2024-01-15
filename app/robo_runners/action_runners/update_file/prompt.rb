@@ -18,7 +18,7 @@ module ActionRunners::UpdateFile
       [
         project_tools,
         "",
-        "Your job will be to return the details of an action in order to implement the provided feature request.",
+        "Your job will be to return the details necessary to implement the provided feature request.",
         "Do not worry about actions to other files, they will be taken care of by other actions.",
         "Return the smallest possible changeset you can think of to implement the task.",
         "",
@@ -40,11 +40,11 @@ module ActionRunners::UpdateFile
         "This action is part of a broader feature request effort:",
         action.robo_job.feature_request,
         "",
-        "To implement this feature, we will:",
+        "The overview for this feature implementation is:",
         action.robo_job.generated_plan["overview"],
         "",
-        "Concerning the file `#{action.file}`, how would you implement this task?",
-        action.summary,
+        "Fill in this action specification to accomplish the task:",
+        JSON.pretty_generate(action.arguments_placeholder),
       ].join("\n")
     end
 
