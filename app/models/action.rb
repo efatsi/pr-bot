@@ -38,8 +38,16 @@ class Action < ApplicationRecord
     action_templates.map { |template| template[:name] }
   end
 
-  def action_name
+  def action_type
     self.class.name.demodulize.underscore
+  end
+
+  def arguments_placeholder
+    self.class.template[:arguments_schema].inject({}) do |full_args, arg_schema|
+      key = arg_schema[:name]
+      full_args[key] = arguments.fetch(key, "[FILL IN]")
+      full_args
+    end
   end
 
   def fire!
