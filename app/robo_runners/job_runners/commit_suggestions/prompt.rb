@@ -1,9 +1,7 @@
 module JobRunners::CommitSuggestions
   class Prompt < BasePromptGenerator
 
-    def git_commit
-      @git_commit ||= robo_request.parent
-    end
+    alias :git_commit :parent
 
     def prompt_messages
       [

@@ -1,6 +1,8 @@
 module ActionRunners
   class BaseActionPrompt < BasePromptGenerator
 
+    private
+
     def action
       @action ||= robo_request.parent
     end

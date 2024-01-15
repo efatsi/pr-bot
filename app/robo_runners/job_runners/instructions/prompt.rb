@@ -1,6 +1,8 @@
 module JobRunners::Instructions
   class Prompt < BasePromptGenerator
 
+    alias :robo_job :parent
+
     def prompt_messages
       [
         { role: "system", content: PromptHub::SYSTEM_SETUP },
@@ -13,10 +15,6 @@ module JobRunners::Instructions
     end
 
     private
-
-    def robo_job
-      @robo_job ||= robo_request.parent
-    end
 
     def instructions_background_prompt
       [

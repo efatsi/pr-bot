@@ -1,10 +1,11 @@
 class BaseRoboRunner
   include TurboStreamHelpers
 
-  attr_reader :robo_request
+  attr_reader :parent, :robo_request
 
-  def initialize(robo_request)
-    @robo_request = robo_request
+  def initialize(parent, request_type)
+    @parent = parent
+    @robo_request = parent.robo_requests.new(request_type: request_type)
   end
 
   def gooo

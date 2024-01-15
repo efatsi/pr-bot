@@ -1,9 +1,7 @@
 module JobRunners::ContextualFiles
   class Prompt < BasePromptGenerator
 
-    def robo_job
-      @robo_job ||= robo_request.parent
-    end
+    alias :robo_job :parent
 
     def prompt_messages
       [

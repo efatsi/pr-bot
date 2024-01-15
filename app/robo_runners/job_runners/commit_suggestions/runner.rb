@@ -1,10 +1,9 @@
 module JobRunners::CommitSuggestions
   class Runner < JobRunners::BaseJobRunner
-    private
 
-    def git_commit
-      @git_commit ||= robo_request.parent
-    end
+    alias :git_commit :parent
+
+    private
 
     def robo_job
       @robo_job ||= git_commit.robo_job
