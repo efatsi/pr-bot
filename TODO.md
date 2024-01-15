@@ -1,8 +1,8 @@
 # TODO
 ## Instructions vs. Build Plan
 - "Fill in Plan Details"
-  - fire LLMs to fill out actions in parallel (try google LLM)
-  - don't ask LLM if all the arguments of an action are already filled (eg: remove_file, run_command)
+  - swap out "Fill in" button
+  - swap in "Fire all" button
 - plan editing
   - allow inline editing of plan (summary, file, relevant_files)
   - drag-n-drop (eg: so can add before remove)

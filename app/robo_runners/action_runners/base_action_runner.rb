@@ -27,7 +27,7 @@ module ActionRunners
       response_arguments = JSON.parse(robo_request.response)
       new_arguments = action.arguments.merge(response_arguments)
 
-      action.update(arguments: new_arguments)
+      action.update(arguments: new_arguments, status: :pending)
     end
 
     def broadcast_finished_state
@@ -55,5 +55,10 @@ module ActionRunners
     def primary_target
       "action-#{action.id}"
     end
+
+    def stream_proc_target
+      "ai-response-#{action.id}"
+    end
+
   end
 end

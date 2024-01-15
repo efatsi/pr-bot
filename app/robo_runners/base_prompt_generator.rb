@@ -8,7 +8,6 @@ class BasePromptGenerator
     @robo_request = robo_request
   end
 
-
   def generate_prompt_messages
     return request_bird_facts if DUMMY_MODE
 
@@ -19,6 +18,10 @@ class BasePromptGenerator
 
   def project
     @project ||= robo_request.project
+  end
+
+  def parent
+    @parent ||= robo_request.parent
   end
 
   def project_tools
