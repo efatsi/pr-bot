@@ -6,9 +6,9 @@ module JobRunners::FollowupInstructions
       [
         { role: "system", content: PromptHub::SYSTEM_SETUP },
         { role: "user", content: instructions_background_prompt },
-        { role: "system", content: "I understand the instructions" },
+        { role: "system", content: PromptHub::ROGER_THAT },
         *previous_convo_messages,
-        { role: "user", content: relevant_files_prompt },
+        { role: "user", content: robo_job_context_files },
         { role: "system", content: PromptHub::UNDERSTAND_FILES },
         { role: "user", content: instructions_prompt }
       ]

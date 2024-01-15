@@ -30,6 +30,22 @@ class BasePromptGenerator
     ].join("\n")
   end
 
+  def robo_job_context_files
+    contextual_file_data = robo_job.contextual_files.map do |file|
+      {
+        name: file,
+        content: File.read(project.full_path(file))
+      }
+    end
+
+    [
+      "These are relevant project files to work with:",
+      "<contextual_file_data>",
+      contextual_file_data,
+      "</contextual_file_data>"
+    ].join("\n")
+  end
+
   def request_bird_facts
     [
       { role: "system", content: "You are a bird scientist." },

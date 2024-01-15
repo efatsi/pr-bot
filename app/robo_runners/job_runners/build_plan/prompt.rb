@@ -5,9 +5,9 @@ module JobRunners::BuildPlan
       [
         { role: "system", content: PromptHub::SYSTEM_SETUP },
         { role: "user", content: build_plan_background_prompt },
-        { role: "system", content: "I understand. I will return the high level plan in that format. Let's get started!" },
+        { role: "system", content: PromptHub::ROGER_THAT },
         *previous_convo_messages,
-        { role: "user", content: relevant_files_prompt },
+        { role: "user", content: robo_job_context_files },
         { role: "system", content: PromptHub::UNDERSTAND_FILES },
         { role: "user", content: instructions_prompt }
       ]
@@ -23,15 +23,12 @@ module JobRunners::BuildPlan
       [
         project_tools,
         "",
-        "Here are the relevant CONTEXT_FILES to help inform the plan:",
-        robo_job.contextual_file_data,
-        "",
         "Here are the available ACTION_TEMPLATES for building a plan:",
         action_templates,
         "",
-        "Your job is to create a plan of actions to implement the solution..",
+        "Your job is to create a plan of actions to implement the solution.",
         "",
-        "Return the details of the build plan \(PromptHub::RETURN_AS_JSON)",
+        "Return the details of the build plan #{PromptHub::RETURN_AS_JSON}",
         "- overview: Explain at high level what the plan is to implement the feature request",
         "- build_plan: An array of valid actions available in the ACTION_TEMPLATES schema",
         "  - action: One of the available ACTION_TEMPLATES",
@@ -43,14 +40,6 @@ module JobRunners::BuildPlan
         "",
         "Example",
         "#{PLAN_JSON_EXAMPLE}"
-      ].join("\n")
-    end
-
-    # TODO: abstract this out to a module
-    def relevant_files_prompt
-      [
-        "These are relevant project files:",
-        robo_job.contextual_file_data,
       ].join("\n")
     end
 
@@ -85,8 +74,7 @@ module JobRunners::BuildPlan
       []
     end
 
-    PLAN_JSON_EXAMPLE = JSON.pretty_generate(
-    {
+    PLAN_JSON_EXAMPLE = JSON.pretty_generate({
       "overview": "Implement a new member route for robo_requests within the robo_jobs resources, including a controller action, corresponding template, and a migration to add robo_job_id to robo_requests.",
       "build_plan": [
         {

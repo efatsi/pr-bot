@@ -108,8 +108,8 @@ class ProjectsController < ApplicationController
   end
 
   def file_preview
-    full_path = File.join(project.filepath, params[:file])
-    file_contents = File.read(full_path)
+    full_filepath = File.join(project.filepath, params[:file])
+    file_contents = File.read(full_filepath)
 
     render plain: file_contents
   end

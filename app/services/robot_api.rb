@@ -46,7 +46,9 @@ class RobotApi
 
     private
 
-    def stream_proc(stream_proc_input=print_proc)
+    def stream_proc(stream_proc_input=nil)
+      stream_proc_input ||= print_proc
+
       proc do |chunk, _bytesize|
         if new_content = chunk.dig("choices", 0, "delta", "content")
           @response += new_content
@@ -75,7 +77,8 @@ class RobotApi
 
     # have this here as a default for testing
     def print_proc
-      proc { |msg| print msg.dig("choices", 0, "delta", "content") }
+      # proc { |msg| print msg.dig("choices", 0, "delta", "content") }
+      proc { |msg| print msg }
     end
 
     def client

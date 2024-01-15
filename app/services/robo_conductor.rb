@@ -2,7 +2,7 @@ class RoboConductor
   attr_reader :parent, :request_type
 
   def initialize(parent, request_type)
-    # RoboJob or GitCommit
+    # RoboJob or GitCommit or Action
     @parent = parent
     @request_type = request_type
   end

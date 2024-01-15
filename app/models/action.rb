@@ -2,6 +2,7 @@ class Action < ApplicationRecord
   include Actions::FileHelpers
 
   belongs_to :robo_job
+  has_many :robo_requests, as: :parent, dependent: :destroy
 
   STATUSES = [
     "pre_flight",
@@ -31,6 +32,10 @@ class Action < ApplicationRecord
       Actions::RemoveFile.template,
       # Actions::RunCommand.template
     ]
+  end
+
+  def self.action_types
+    action_templates.map { |template| template[:name] }
   end
 
   def action_name

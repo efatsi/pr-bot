@@ -2,8 +2,13 @@
 ## Instructions vs. Build Plan
 - "Fill in Plan Details"
   - fire LLMs to fill out actions in parallel (try google LLM)
-- allow inline editing of plan (summary, file, relevant_files)
-- allow "continute the conversation" for plan items
+  - don't ask LLM if all the arguments of an action are already filled (eg: remove_file, run_command)
+- plan editing
+  - allow inline editing of plan (summary, file, relevant_files)
+  - drag-n-drop (eg: so can add before remove)
+  - allow "continute the conversation" for plan items
+
+- update general instructions prompt to pass all action templates
 
 ## Context Files
 - let you define files first

@@ -32,15 +32,6 @@ class RoboJob < ApplicationRecord
     include_last_convo? || include_all_convos?
   end
 
-  def contextual_file_data
-    contextual_files.map do |file|
-      {
-        name: file,
-        content: File.read(full_path(file))
-      }
-    end
-  end
-
   def implementation_overview
     if generated_instructions?
       generated_instructions["implementation_overview"]
@@ -102,7 +93,7 @@ class RoboJob < ApplicationRecord
 
   def unpack_paths(paths)
     paths.map do |f|
-      full_filepath = full_path(f)
+      full_filepath = project.full_path(f)
 
       if File.file?(full_filepath)
         f
@@ -118,14 +109,6 @@ class RoboJob < ApplicationRecord
 
   def is_parent_job?
     parent_job_id.nil?
-  end
-
-  def full_path(f)
-    if f.downcase.start_with?(project.filepath.downcase)
-      f
-    else
-      File.join(project.filepath.downcase, f)
-    end
   end
 
   def inspect
