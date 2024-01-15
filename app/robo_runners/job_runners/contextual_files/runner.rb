@@ -1,11 +1,9 @@
 module JobRunners::ContextualFiles
   class Runner < JobRunners::BaseJobRunner
 
-    private
+    alias :robo_job :parent
 
-    def robo_job
-      @robo_job ||= robo_request.parent
-    end
+    private
 
     def broadcast_processing_state
       broadcast(

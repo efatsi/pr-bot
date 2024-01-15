@@ -43,10 +43,17 @@ class Action < ApplicationRecord
   end
 
   def arguments_placeholder
-    self.class.template[:arguments_schema].inject({}) do |full_args, arg_schema|
+    arguments_schema.inject({}) do |full_args, arg_schema|
       key = arg_schema[:name]
       full_args[key] = arguments.fetch(key, "[FILL IN]")
       full_args
+    end
+  end
+
+  def needs_argument_input?
+    arguments_schema.any? do |argument|
+      arg_key = argument[:name]
+      arguments[arg_key].blank?
     end
   end
 
@@ -68,8 +75,15 @@ class Action < ApplicationRecord
 
     # reset status back to pending
     update(status: "pending")
+
   rescue => e
     update(status: "failed", error: e.message)
+  end
+
+  # helper methods & getters
+
+  def arguments_schema
+    self.class.template[:arguments_schema]
   end
 
   def arguments

@@ -1,18 +1,11 @@
 class RoboRequest < ApplicationRecord
   after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
 
-  REQUEST_TYPES = [
-    "contextual_files",
-    "build_plan",
-    "instructions",
-    "commit_suggestions",
-  ]
-
   belongs_to :parent, polymorphic: true
 
   delegate :project, to: :parent
 
-  validates :request_type, presence: true, inclusion: { in: REQUEST_TYPES }
+  validates :request_type, presence: true
   validates :prompt, presence: true
 
   def self.of_type(type)

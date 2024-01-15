@@ -1,6 +1,8 @@
 module JobRunners::BuildPlan
   class Prompt < BasePromptGenerator
 
+    alias :robo_job :parent
+
     def prompt_messages
       [
         { role: "system", content: PromptHub::SYSTEM_SETUP },
@@ -14,10 +16,6 @@ module JobRunners::BuildPlan
     end
 
     private
-
-    def robo_job
-      @robo_job ||= robo_request.parent
-    end
 
     def build_plan_background_prompt
       [

@@ -14,14 +14,11 @@ Rails.application.routes.draw do
   end
 
   resources :robo_jobs, except: :destroy do
-    [
-      :get_contextual_files,
-      :build_plan,
-      :get_instructions,
-      :get_followup_instructions,
-    ].each do |action|
-      post action, on: :member
-    end
+    post :get_contextual_files, on: :member
+    post :build_plan, on: :member
+    post :fill_in_plan, on: :member
+    post :get_instructions, on: :member
+    post :get_followup_instructions, on: :member
 
     get :info, on: :member
     patch :update_files, on: :member

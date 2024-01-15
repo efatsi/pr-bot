@@ -1,7 +1,7 @@
 module ActionRunners
   class BaseActionRunner < BaseRoboRunner
 
-    private
+    alias :action :parent
 
     def prompt_messages
       runner_module = ActionRunners.const_get(action.type.demodulize)
@@ -10,8 +10,10 @@ module ActionRunners
       prompt.generate_prompt_messages
     end
 
-    def action
-      @action ||= robo_request.parent
+    private
+
+    def robo_job
+      @robo_job ||= action.robo_job
     end
 
     def broadcast_processing_state
@@ -43,6 +45,7 @@ module ActionRunners
       broadcast(
         partial: "actions/processing_error",
         locals: {
+          action: action,
           robo_request: robo_request,
           error: error,
         }

@@ -3,9 +3,7 @@ module JobRunners::Instructions
 
     private
 
-    def robo_job
-      @robo_job ||= robo_request.parent
-    end
+    alias :robo_job :parent
 
     def broadcast_processing_state
       broadcast(

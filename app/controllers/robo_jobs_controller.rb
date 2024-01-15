@@ -59,6 +59,10 @@ class RoboJobsController < ApplicationController
     ConductorJob.perform_later(robo_job.to_global_id.to_s, "build_plan")
   end
 
+  def fill_in_plan
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "fill_in_plan")
+  end
+
   def get_instructions
     ConductorJob.perform_later(robo_job.to_global_id.to_s, "instructions")
   end
