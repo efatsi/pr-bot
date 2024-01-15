@@ -69,6 +69,14 @@ class Project < ApplicationRecord
     files.map { |f| f.gsub(filepath + "/", "") }
   end
 
+  def full_path(f)
+    if f.downcase.start_with?(filepath.downcase)
+      f
+    else
+      File.join(filepath.downcase, f)
+    end
+  end
+
   def invalid_path?(path)
     path = File.join(filepath, path)
     !File.exist?(path) || File.directory?(path)
