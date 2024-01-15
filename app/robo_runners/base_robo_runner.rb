@@ -16,7 +16,7 @@ class BaseRoboRunner
     broadcast_processing_state
 
     # run LLM request
-    response = RobotApi.ask_gpt4(robo_request.prompt_messages, stream_proc)
+    response = RobotApi.new.ask_gpt4(robo_request.prompt_messages, stream_proc)
     robo_request.update(response: response)
 
     # handle response: save the good stuff to db
@@ -54,11 +54,16 @@ class BaseRoboRunner
     proc do |new_chars|
       ActionCable.server.broadcast(robo_job.stream_key, {
         turbo_stream: turbo_stream.append(
-          "ai-response",
+          stream_proc_target,
           plain: new_chars
         )
       })
     end
+  end
+
+  # Default this to this key, subclasses can override if need to target multiple at same time
+  def stream_proc_target
+    "ai-response"
   end
 
   # methods that need to be defined in subclasses
