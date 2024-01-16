@@ -32,6 +32,13 @@ module ActionRunners
       response_arguments = JSON.parse(robo_request.response)
       new_arguments = action.arguments.merge(response_arguments)
 
+      # clean up the argument values
+      if [".rb", ".erb"].any? { |ext| new_arguments.dig("file")&.end_with?(ext) }
+        new_arguments.each do |k, v|
+          new_arguments[k] = LlmCleaner.clean_ruby_text(v)
+        end
+      end
+
       action.update(arguments: new_arguments, status: :pending)
     end
 

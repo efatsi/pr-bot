@@ -54,7 +54,7 @@ module JobRunners::BuildPlan
         [
           "- action: #{template[:name]}",
           "  - description: #{template[:description]}",
-          "  - arguments: [#{plan_arguments(template)}]"
+          "  - arguments: #{plan_arguments(template)}"
         ]
       end.join("\n")
     end

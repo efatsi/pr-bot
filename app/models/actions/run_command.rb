@@ -1,8 +1,17 @@
 module Actions
   class RunCommand < Action
 
-    # TODO: fill this out
+    def self.template
+      {
+        name: "run_command",
+        description: "Run a command in the terminal",
+        arguments_schema: [
+          {name: "command", plan_argument: true},
+        ]
+      }
+    end
 
+    # TODO: fill this out
     def fire
     end
 

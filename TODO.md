@@ -1,9 +1,15 @@
 # TODO
 ## Instructions vs. Build Plan
-- add_file Prompt (can use update_file as source)
 - plan editing
   - inline editing of plan (summary, file, relevant_files)
   - drag-n-drop (eg: so can add before remove)
+
+- running `fill_in_plan`
+  - recognize actions that depend on changes in earlier ones, group into steps. eg:
+    - create new file
+    - update new file
+    - update other files based on new file
+  - orrrr, pass in the previous actions...? idk this action plan doesn't seem all that good anymore...
 
 - continue-the-convo button
   - hide if just pre_flight actions (until "modify plan")
