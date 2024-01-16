@@ -1,14 +1,20 @@
 # TODO
 ## Instructions vs. Build Plan
-- "Fill in Plan Details"
-  - swap out "Fill in" button
-  - swap in "Fire all" button
+- add_file Prompt (can use update_file as source)
 - plan editing
-  - allow inline editing of plan (summary, file, relevant_files)
+  - inline editing of plan (summary, file, relevant_files)
   - drag-n-drop (eg: so can add before remove)
-  - allow "continute the conversation" for plan items
+- "modify plan"
+  - form input
+    - checkboxes to mark as needs_change
+    - box to input what should change
+    - chance to modify contextual files
+  - new prompt
+  - new runner
 
-- update general instructions prompt to pass all action templates
+- update general instructions prompt:
+  - pass all action templates
+  - include the line "Return the smallest possible changeset necessary to clearly implement the task."
 
 ## Context Files
 - let you define files first
@@ -130,6 +136,10 @@
       - user can select/deselect relevant commits
   5. commit data is passed in during PromptGeneration
 
+## different changeset format
+- ask for lines to replace instead of content
+  - less tokens
+  - potentially more accurate
 - ask for changes in git-diff mode instead of find-replace mode
   - it's way better, so says the Aider team
     - https://aider.chat/docs/unified-diffs.html
