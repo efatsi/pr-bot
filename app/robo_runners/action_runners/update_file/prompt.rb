@@ -20,7 +20,7 @@ module ActionRunners::UpdateFile
         "",
         "Your job will be to return the details necessary to implement the provided feature request.",
         "Do not worry about actions to other files, they will be taken care of by other actions.",
-        "Return the smallest possible changeset you can think of to implement the task.",
+        "Return the smallest possible changeset necessary to clearly implement the task.",
         "",
         "Return the details of the action #{PromptHub::RETURN_AS_JSON}",
         "- file",
@@ -56,8 +56,8 @@ module ActionRunners::UpdateFile
       },
       {
         file: "app/views/users/show.html.erb",
-        original_content: "<div class=\"mt-4 sm:mt-8\">",
-        new_content: "<div class=\"mt-2 sm:mt-4\">"
+        original_content: "<div class=\"mt-4 sm:mt-8\">\n          <p>Don't want to wait?</p>\n          <%= link_to \"Find Local Quiz\", root_url, class: \"btn-primary\" %>\n        </div>",
+        new_content: "<div class=\"mt-2 sm:mt-4\">\n          <p>Don't want to wait?</p>\n          <%= link_to \"Find Local Quiz\", root_url, class: \"btn-primary\" %>\n        </div>"
       }
     ]
   end
