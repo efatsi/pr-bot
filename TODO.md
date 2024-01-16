@@ -4,17 +4,23 @@
 - plan editing
   - inline editing of plan (summary, file, relevant_files)
   - drag-n-drop (eg: so can add before remove)
-- "modify plan"
-  - form input
-    - checkboxes to mark as needs_change
-    - box to input what should change
-    - chance to modify contextual files
-  - new prompt
-  - new runner
+
+- continue-the-convo button
+  - hide if just pre_flight actions (until "modify plan")
+  - add radio-select to "build instructions" (default) or "build plan"
+    - update RoboConductor queue type based on input
 
 - update general instructions prompt:
   - pass all action templates
   - include the line "Return the smallest possible changeset necessary to clearly implement the task."
+
+- "modify plan" (save til later)
+  - form input (copy-pasted from continue-the-convo)
+    - radio select to mark as needs_change or looks_good
+    - can modify contextual files (not feature request, saving that for back-up-convo)
+    - box to input what should change
+  - new prompt
+  - new runner
 
 ## Context Files
 - let you define files first
