@@ -112,15 +112,15 @@ class ActionsController < SseApplicationController
   def turbo_update_fire_all
     turbo_stream.update(
       "fire-all-#{robo_job.id}",
-      partial: "actions/fire_all",
+      partial: "actions/buttons/fire_all",
       locals: { robo_job: robo_job }
     )
   end
 
   def turbo_update_commit_button
     turbo_stream.update(
-      "commit-button",
-      partial: "actions/commit_button",
+      "commit-#{robo_job.id}",
+      partial: "actions/buttons/commit",
       locals: { robo_job: robo_job }
     )
   end
