@@ -20,14 +20,10 @@ module ActionRunners
 
     def action_context_files
       contextual_file_data = action.relevant_files.map do |file_row|
-        begin
-          {
-            name: file_row["file"],
-            content: File.read(project.full_path(file_row["file"]))
-          }
-        rescue
-          nil
-        end.compact
+        {
+          name: file_row["file"],
+          content: File.read(project.full_path(file_row["file"]))
+        }
       end
 
       [
