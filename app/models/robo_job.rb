@@ -48,13 +48,22 @@ class RoboJob < ApplicationRecord
     actions.destroy_all
 
     generated_instructions["changes"].each do |changeset|
-      action_type = changeset.delete("action")
-      summary = changeset.delete("summary")
+      action_type = changeset["action"]
+      summary = changeset["summary"]
+
+      new_arguments = changeset["arguments"].slice("file", "new_file", "original_content", "new_content")
+
+      # clean up the argument values
+      if [".rb", ".erb"].any? { |ext| new_arguments.dig("file")&.end_with?(ext) }
+        new_arguments.each do |k, v|
+          new_arguments[k] = LlmCleaner.clean_ruby_text(v)
+        end
+      end
 
       actions.create!(
         type: "Actions::#{action_type.camelize}",
         summary: summary,
-        arguments: changeset.slice("file", "new_file", "original_content", "new_content"),
+        arguments: new_arguments,
       )
     end
   end

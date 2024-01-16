@@ -1,5 +1,5 @@
 class Action < ApplicationRecord
-  include Actions::FileHelpers
+  include FileHelpers
 
   belongs_to :robo_job
   has_many :robo_requests, as: :parent, dependent: :destroy

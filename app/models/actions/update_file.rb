@@ -43,6 +43,15 @@ module Actions
       File.open(full_filepath, "w") { |f| f.puts reverted_content }
     end
 
+    # always include the file
+    def relevant_files
+      if file.present?
+        ([{"file" => file}] | super).uniq
+      else
+        super
+      end
+    end
+
     private
 
     def original_content
