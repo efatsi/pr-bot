@@ -6,7 +6,11 @@ module TurboStreamHelpers
   #
   # ApplicationController.render works just fine though so using that here and pushing
   # the results in as plaintext.
-  def turbo_stream_action(action, target:, partial:, locals: {})
+  def turbo_stream_action(action, target:, partial: nil, locals: {})
+    if action.to_s == "remove"
+      return turbo_stream.remove(target)
+    end
+
     turbo_stream.send(
       action,
       target,

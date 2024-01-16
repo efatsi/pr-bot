@@ -39,7 +39,7 @@ class BaseRoboRunner
   end
 
   # available methods, relies on `primary_target`, and `primary_label` defined in subclass
-  def broadcast(partial:, locals: {}, target: primary_target, action: :update)
+  def broadcast(target: primary_target, partial: nil, locals: {}, action: :update)
     ActionCable.server.broadcast(robo_job.stream_key, {
       turbo_stream: turbo_stream_action(action,
         target: target,

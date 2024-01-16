@@ -14,17 +14,15 @@
       class: "btn-opaque"
     %>
 
-    <% if robo_job.actions.all?(&:pre_flight?) %>
-      <div class="mt-4">
-        <%= button_to "Fill in Plan Details", fill_in_plan_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
-      </div>
+    <%= turbo_frame_tag "fill-in-plan-#{robo_job.id}" do %>
+      <%= render "actions/buttons/fill_in_plan", robo_job: robo_job %>
     <% end %>
   </div>
 <% end %>
 
 <div class="flex justify-between mt-8 mb-4">
 
-  <%= turbo_frame_tag "commit-button" do %>
-    <%= render "actions/commit_button", robo_job: robo_job %>
+  <%= turbo_frame_tag "commit-#{robo_job.id}" do %>
+    <%= render "actions/buttons/commit", robo_job: robo_job %>
   <% end %>
 </div>

@@ -2,7 +2,7 @@
 <%= render("shared/ding", single_ding: true) if ding %>
 
 <% label_class = dropdown_label_bg_for(action) %>
-<% label_buttons = render("actions/buttons/#{action.status}", action: action) %>
+<% label_buttons = render("actions/label_buttons/#{action.status}", action: action) %>
 
 <%= render "shared/dropdown", label: action.summary, label_class: label_class, label_buttons: label_buttons do %>
   <% if action.status == "failed" && action.error %>
