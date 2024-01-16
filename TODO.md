@@ -1,33 +1,4 @@
 # TODO
-## Instructions vs. Build Plan
-- plan editing
-  - inline editing of plan (summary, file, relevant_files)
-  - drag-n-drop (eg: so can add before remove)
-
-- running `fill_in_plan`
-  - recognize actions that depend on changes in earlier ones, group into steps. eg:
-    - create new file
-    - update new file
-    - update other files based on new file
-  - orrrr, pass in the previous actions...? idk this action plan doesn't seem all that good anymore...
-
-- continue-the-convo button
-  - hide if just pre_flight actions (until "modify plan")
-  - add radio-select to "build instructions" (default) or "build plan"
-    - update RoboConductor queue type based on input
-
-- update general instructions prompt:
-  - pass all action templates
-  - include the line "Return the smallest possible changeset necessary to clearly implement the task."
-
-- "modify plan" (save til later)
-  - form input (copy-pasted from continue-the-convo)
-    - radio select to mark as needs_change or looks_good
-    - can modify contextual files (not feature request, saving that for back-up-convo)
-    - box to input what should change
-  - new prompt
-  - new runner
-
 ## Context Files
 - let you define files first
 - button to hit LLM for more files with the defined set as prompt context
@@ -100,6 +71,26 @@
 - remind the prompt this is supplementary to contextual files (wrap in `<context:git>` `</context:git>`)
   - replace others eg: "Directory Tree:" w/ <directory-tree> </directory-tree>
   - project search: `"[\w+\s?]{2,}:",`
+
+# Build Plan
+- plan editing
+  - inline editing of plan (summary, file, relevant_files)
+  - drag-n-drop (eg: so can add before remove)
+- running `fill_in_plan`
+  - pass in the previous actions...? idk this action plan doesn't seem all that good anymore...
+
+- continue-the-convo button
+  - hide if just pre_flight actions (until "modify plan")
+  - add radio-select to "build instructions" (default) or "build plan"
+    - update RoboConductor queue type based on input
+
+- "modify plan" (save til later)
+  - form input (copy-pasted from continue-the-convo)
+    - radio select to mark as needs_change or looks_good
+    - can modify contextual files (not feature request, saving that for back-up-convo)
+    - box to input what should change
+  - new prompt
+  - new runner
 
 
 # cleanup step
