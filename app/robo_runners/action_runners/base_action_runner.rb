@@ -17,15 +17,14 @@ module ActionRunners
     end
 
     def broadcast_processing_state
+      action.update(status: :processing)
+
       broadcast(
         partial: 'actions/processing',
         locals: { action: action, robo_request: robo_request }
       )
 
-      broadcast(
-        target: "fill-in-plan-#{robo_job.id}",
-        action: :remove
-      )
+      broadcast_button_updates
     end
 
     def handle_response

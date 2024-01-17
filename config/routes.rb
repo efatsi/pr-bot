@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
     resources :actions, only: [] do
       get :execute_all, on: :collection
+      post :fill_in, on: :member
       post :execute, on: :member
       post :reset, on: :member
       post :skip, on: :member

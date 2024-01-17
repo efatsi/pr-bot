@@ -5,24 +5,17 @@ class Action < ApplicationRecord
   has_many :robo_requests, as: :parent, dependent: :destroy
 
   STATUSES = [
-    "pre_flight",
-    "pending",
-    "executed",
-    "failed",
-    "skipped"
+    "pre_flight", # is just a shell of a plan
+    "processing", # being filled out by AI
+    "pending",    # ready to be executed
+    "executed",   # has been executed
+    "failed",     # failed to execute/revert
+    "skipped"     # was skipped by user
   ]
 
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   delegate :project, to: :robo_job
-
-  STATUSES.each do |status|
-    scope status, -> { where(status: status) }
-
-    define_method("#{status}?") do
-      self.status == status
-    end
-  end
 
   def self.action_templates
     [
@@ -36,6 +29,18 @@ class Action < ApplicationRecord
 
   def self.action_types
     action_templates.map { |template| template[:name] }
+  end
+
+  STATUSES.each do |status|
+    scope status, -> { where(status: status) }
+
+    define_method("#{status}?") do
+      self.status == status
+    end
+  end
+
+  def in_plan_stage?
+    pre_flight? || processing?
   end
 
   def action_type
