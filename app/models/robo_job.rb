@@ -51,7 +51,7 @@ class RoboJob < ApplicationRecord
       action_type = changeset["action"]
       summary = changeset["summary"]
 
-      new_arguments = changeset["arguments"].slice("file", "new_file", "original_content", "new_content")
+      new_arguments = changeset.slice("file", "new_file", "original_content", "new_content")
 
       # clean up the argument values
       if [".rb", ".erb"].any? { |ext| new_arguments.dig("file")&.end_with?(ext) }
