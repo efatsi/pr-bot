@@ -43,9 +43,9 @@ class BasePromptGenerator
 
     [
       "These are relevant project files to work with:",
-      "<contextual_file_data>",
+      "<contextual_source_files>",
       contextual_file_data,
-      "</contextual_file_data>"
+      "</contextual_source_files>"
     ].join("\n")
   end
 
