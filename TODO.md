@@ -1,10 +1,32 @@
 # TODO
+## Build Plan
+- render things
+  - render pre_flight actions a lil lighter
+  - show relevant files
+
 ## Context Files
 - let you define files first
-- button to hit LLM for more files with the defined set as prompt context
-  - token limits might be a concern here for large projects
-  - v2: break up this search into multiple batches
-    - probably batched per-context-file, or per bucket of directory paths ... whichever is bigger
+- new "Manage Context" modal
+  - AI buttons:
+    - `scan_file_directory` for possible candidates
+    - `generate_keywords` (from request / files) and find_files_from_keyword
+    - `analyze_for_relevance`
+      * bonus:
+        * make this work on chunks of LOCs instead of full files
+        * pass back:`line_numbers`, `why_important`, `importance_weight` (critical, helpful, maybe_helpful)
+          * use this to capture the LLM's desire to overtalk, and put that yammering in the right box
+    - later: `hit_the_internet` & `summarize_results`
+  - 2 tabs
+    - AI Control
+    - Human File Review (current file search / viewer)
+  - 3 columns in AI Control
+    - actual_file_list
+    - AI-found candidates
+      - can strike out items, rest are passed to analysis
+    - AI filtered analysis
+      - shows each file/chunk w/ reasoning and weight
+      - clicking on line should open file-viewer (w/ LOCs highlighted if present)
+      - can strike out items, or commit all to actual_file_list
 
 ## Back up Conversation
 - ability to edit previous request / context and re-run LLM
@@ -25,28 +47,23 @@
   - force the good_job task to stop
     - send `sigkill` somehow
     - `discard_on InterruptError`
+    - OR dig into source code and find out what "Force Discard" does
 - button to Stop
 
 ## lil things
+- streamed responses are received in funky order
+  - server: append a timestamp during send
+  - client: push inputs into a queue ordered by timestamp, delay the rendering of the first queue item .5 seconds
 - rename project.filepath to project.repository_path
 - show commits on RoboJob
 - fix git commit get request inside a frame BS
 
 # Better Context
 ## contextual files enhance
-- when asking for files, ask for structured data back
-  - `line_numbers`, `why_important`, `importance_weight` (critical, helpful, maybe_helpful)
-    - use this to capture the LLM's desire to overtalk, and put that yammering in the right box
-  - show data in a human review step of the context digging
-    - checkboxes to include / ignore
-    - before directories get unpacked!
-
 - can work w/ line numbers
   - robo input: extract snippets instead of full files
     - break up file into overlapping chunks
-    - pass chunks to simple LLM and ask "what lines do you REALLY care about"
-      - ask for an array of chunks w/ `line_numbers`, `why_important`, `importance_weight`
-  - human input: make vscode helper to output file name w/ line numbers
+  - human input: make vscode helper to output file name w/ line numbers from selection
 
 - let you access file finder from show view
   - don't have the file finder just write to the form input, have it update the backend
@@ -72,25 +89,23 @@
   - replace others eg: "Directory Tree:" w/ <directory-tree> </directory-tree>
   - project search: `"[\w+\s?]{2,}:",`
 
-# Build Plan
-- plan editing
-  - inline editing of plan (summary, file, relevant_files)
-  - drag-n-drop (eg: so can add before remove)
-- running `fill_in_plan`
-  - pass in the previous actions...? idk this action plan doesn't seem all that good anymore...
-
-- continue-the-convo button
-  - hide if just pre_flight actions (until "modify plan")
+# Build Plan l8er
+- continue-the-convo button for plans
   - add radio-select to "build instructions" (default) or "build plan"
     - update RoboConductor queue type based on input
 
-- "modify plan" (save til later)
-  - form input (copy-pasted from continue-the-convo)
-    - radio select to mark as needs_change or looks_good
-    - can modify contextual files (not feature request, saving that for back-up-convo)
-    - box to input what should change
-  - new prompt
-  - new runner
+- inline editing of action (summary, file, relevant_files)
+
+- "modify exising plan"
+  - one button to modify them all
+    - form input (copy-pasted from continue-the-convo)
+      - radio select to mark as needs_change or looks_good
+      - can modify contextual files (not feature request, saving that for back-up-convo)
+      - box to input what should change
+    - new prompt
+    - new runner
+  - buttons on each action to re-run fill in plan
+    - after editing, and/or with a new prompt to guide it
 
 
 # cleanup step

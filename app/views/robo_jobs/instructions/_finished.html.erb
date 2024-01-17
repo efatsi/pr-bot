@@ -9,10 +9,12 @@
   </div>
 
   <div class="mb-1">
-    <%= link_to "Continue the Conversation ->",
-      new_robo_job_followup_job_path(robo_job),
-      class: "btn-opaque"
-    %>
+    <% if robo_job.actions.any?(&:executed?) %>
+      <%= link_to "Continue the Conversation ->",
+        new_robo_job_followup_job_path(robo_job),
+        class: "btn-opaque"
+      %>
+    <% end %>
 
     <%= turbo_frame_tag "fill-in-plan-#{robo_job.id}" do %>
       <%= render "actions/buttons/fill_in_plan", robo_job: robo_job %>
