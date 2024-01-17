@@ -31,7 +31,8 @@ module JobRunners::Instructions
         "  - arguments: Array for each defined argument. Do not add additional arguments than those listed in the specs.",
         "    - key: value",
         "",
-        "Do not summarize. Return full existing snippets of code from the source file.",
+        "When writing new code, DO NOT summarize any code.",
+        "When returning original_content, DO NOT summarize, DO return full existing snippets of code from the contextual source files.",
         "",
         "Example",
         "#{IMPLEMENTATION_JSON_EXAMPLE}"

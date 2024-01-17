@@ -4,6 +4,10 @@
   - render pre_flight actions a lil lighter
   - show relevant files
 
+- move the logic into handlers out of models
+  - process_instructions_to_pending_actions
+  - process_plan_to_pre_flight_changes
+
 ## Context Files
 - let you define files first
 - new "Manage Context" modal
@@ -27,6 +31,16 @@
       - shows each file/chunk w/ reasoning and weight
       - clicking on line should open file-viewer (w/ LOCs highlighted if present)
       - can strike out items, or commit all to actual_file_list
+      - prompt:
+        - need human input to help find what we're looking for
+
+- File navigator
+  - search results
+    - clicking should navigate to text
+    - highlight the search text?
+  - hover code pops up options
+    - search by this
+    - ask AI to lookup based on this blob (maybe redundant)
 
 ## Back up Conversation
 - ability to edit previous request / context and re-run LLM
@@ -106,6 +120,7 @@
     - new runner
   - buttons on each action to re-run fill in plan
     - after editing, and/or with a new prompt to guide it
+    - eg: can change it from add_file to update_file
 
 
 # cleanup step
