@@ -1,9 +1,6 @@
 # TODO
 ## Build Plan
-- render things
-  - render pre_flight actions a lil lighter
-  - show relevant files
-
+- render relevant files
 - move the logic into handlers out of models
   - process_instructions_to_pending_actions
   - process_plan_to_pre_flight_changes
