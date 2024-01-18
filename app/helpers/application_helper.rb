@@ -10,9 +10,17 @@ module ApplicationHelper
     elsif action.failed?
       "bg-[#5f2424]"
     elsif action.action_type == "add_file"
-      "bg-[#2b4a35]"
+      if action.in_plan_stage?
+        "bg-[#43614dc4]"
+      else
+        "bg-[#2b4a35]"
+      end
     elsif action.action_type == "update_file"
-      "bg-[#523823]"
+      if action.in_plan_stage?
+        "bg-[#6a513cc4]"
+      else
+        "bg-[#523823]"
+      end
     else
       "bg-[#65533e]"
     end
