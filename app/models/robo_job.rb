@@ -44,44 +44,6 @@ class RoboJob < ApplicationRecord
     robo_requests.sum(:cost)
   end
 
-  def process_instructions_to_pending_actions
-    actions.destroy_all
-
-    generated_instructions["changes"].each do |changeset|
-      action_type = changeset["action"]
-      summary = changeset["summary"]
-
-      new_arguments = changeset.slice("file", "new_file", "original_content", "new_content")
-
-      # clean up the argument values
-      if [".rb", ".erb"].any? { |ext| new_arguments.dig("file")&.end_with?(ext) }
-        new_arguments.each do |k, v|
-          new_arguments[k] = LlmCleaner.clean_ruby_text(v)
-        end
-      end
-
-      actions.create!(
-        type: "Actions::#{action_type.camelize}",
-        summary: summary,
-        arguments: new_arguments,
-      )
-    end
-  end
-
-  def process_plan_to_pre_flight_changes
-    actions.destroy_all
-
-    generated_plan["build_plan"].each do |changeset|
-      action_type = changeset.delete("action")
-
-      actions.create!(
-        type: "Actions::#{action_type.camelize}",
-        status: "pre_flight",
-        **changeset.slice("action", "summary", "arguments", "relevant_files")
-      )
-    end
-  end
-
   def dig_out_contextual_files(robo_request)
     filepaths = JSON.parse(robo_request.response)["files"].map do |f|
       f["filepath"]
