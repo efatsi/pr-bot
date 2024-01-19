@@ -17,6 +17,8 @@ class Action < ApplicationRecord
 
   delegate :project, to: :robo_job
 
+  before_validation :check_can_skip_pre_flight, on: :create, if: :pre_flight?
+
   def self.action_templates
     [
       Actions::AddFile.template,
@@ -97,6 +99,12 @@ class Action < ApplicationRecord
 
   def history
     (super || []).map(&:with_indifferent_access)
+  end
+
+  def check_can_skip_pre_flight
+    if !needs_argument_input?
+      self.status = "pending"
+    end
   end
 
   def inspect
