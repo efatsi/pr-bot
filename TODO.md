@@ -1,9 +1,9 @@
 # TODO
 ## Build Plan
-- render relevant files
 - move the logic into handlers out of models
   - process_instructions_to_pending_actions
   - process_plan_to_pre_flight_changes
+    - flip some straight to pending if don't need arguments (eg: remove_file)
 
 ## Context Files
 - let you define files first
