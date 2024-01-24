@@ -21,7 +21,8 @@ gem "ruby-openai"
 gem "simple_form"
 gem "simple_form-tailwind"
 gem "heroicon"
-gem 'tiktoken_ruby'
+gem "tiktoken_ruby"
+gem "httparty"
 gem "redcarpet"
 
 group :development, :test do

@@ -17,9 +17,12 @@ class RobotApi
         ],
         response_format: { type: "text" },
         temperature: 0.2,
-        stream: print_proc,
+        stream: stream_proc,
       }
     )
+
+    puts
+    @response
   end
 
   def ask_gpt4(prompt_messages, stream_proc_input=nil)
@@ -27,8 +30,6 @@ class RobotApi
     print_intro(prompt_messages)
 
     json_mode = prompt_messages.map{|a| a["content"]}.any? {|a| a.include? "JSON"}
-
-    @response = ""
 
     client.chat(
       parameters: {
@@ -40,12 +41,53 @@ class RobotApi
       }
     )
 
+    puts
     @response
+  end
+
+  def ask_google(prompt_messages)
+    generate_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=#{ENV["GOOGLE_AI_API_KEY"]}"
+
+    google_prompts = prompt_messages.dup.map do |message|
+      message.with_indifferent_access.tap do |m|
+        m[:role] = m[:role] == "system" ? "model" : m[:role]
+        m[:parts] = [{ text: m.delete(:content) }]
+      end
+    end
+
+    # no streamed responses to be had in google land
+    google_response = HTTParty.post(
+      generate_url,
+      headers: { "Content-Type" => "application/json" },
+      body: { contents: google_prompts }.to_json
+    )
+
+    @response = google_response.dig("candidates", 0, "content", "parts", 0, "text").gsub("```", "")
+  end
+
+  def chat_google(message)
+    generate_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=#{ENV["GOOGLE_AI_API_KEY"]}"
+
+    google_prompts = [
+      { role: "model", parts: [{ text: "You are a helpful assistant." }] },
+      { role: "user", parts: [{ text: message }] },
+    ],
+
+    # no streamed responses to be had in google land
+    google_response = HTTParty.post(
+      generate_url,
+      headers: { "Content-Type" => "application/json" },
+      body: { contents: google_prompts }.to_json
+    )
+
+    # @response = google_response.dig("candidates", 0, "content", "parts", 0, "text").gsub("```", "")
   end
 
   private
 
   def stream_proc(stream_proc_input=nil)
+    @response = ""
+
     stream_proc_input ||= print_proc
 
     proc do |chunk, _bytesize|
@@ -76,7 +118,6 @@ class RobotApi
 
   # have this here as a default for testing
   def print_proc
-    # proc { |msg| print msg.dig("choices", 0, "delta", "content") }
     proc { |msg| print msg }
   end
 
