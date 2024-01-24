@@ -1,3 +1,14 @@
+- making context better:
+  - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
+  - button to "looking at these files, what other files would you want to check out based on request"
+
+- making the request better
+  - overhaul build_plan
+  - first, "describe 2 different implementation options, go into verbal depth talking about the execution paths that will be updated to accomplish the request, maybe show some code, but make it conversational":
+  - show 2 plans
+    - button to continue conversation (to revise plan)
+    - build instructions based off of one (same thing but w/ better prompt now)
+
 # TODO
 ## Context Files
 - let you define files first
@@ -44,6 +55,12 @@
   - threads can be branched off
 - rendering defaults to most recent thread
 - allow navigating back to previous threads, continuing those if wanted
+
+## Prompt Massaging
+- for things that are complex code execution paths, I think we have to get the LLM to talk through the process before implementing the solution
+  - checkbox for "talk it through first"
+- running prompt through a research step that takes the prompt and describes the execution paths that need to change, and outputs a description of the prompt in execution path format.
+  - for some solutions, I'd hope this would be a big jump up
 
 # Tooling todo
 ## ability to halt AI
