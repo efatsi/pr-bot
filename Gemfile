@@ -18,11 +18,11 @@ gem "dotenv-rails"
 
 gem "awesome_print"
 gem "ruby-openai"
+gem "gemini-ai", "~> 3.2.0"
 gem "simple_form"
 gem "simple_form-tailwind"
 gem "heroicon"
 gem "tiktoken_ruby"
-gem "httparty"
 gem "redcarpet"
 
 group :development, :test do

@@ -66,21 +66,35 @@ class RobotApi
   end
 
   def chat_google(message)
-    generate_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=#{ENV["GOOGLE_AI_API_KEY"]}"
+    # google_prompts = [
+    #   { role: "model", parts: { text: "You are a helpful assistant." } },
+    #   { role: "user", parts: { text: message } },
+    # ],
 
-    google_prompts = [
-      { role: "model", parts: [{ text: "You are a helpful assistant." }] },
-      { role: "user", parts: [{ text: message }] },
-    ],
-
-    # no streamed responses to be had in google land
-    google_response = HTTParty.post(
-      generate_url,
-      headers: { "Content-Type" => "application/json" },
-      body: { contents: google_prompts }.to_json
+    client = Gemini.new(
+      credentials: {
+        service: 'generative-language-api',
+        api_key: ENV['GOOGLE_AI_API_KEY']
+      },
+      options: { model: 'gemini-pro', server_sent_events: true }
     )
 
-    # @response = google_response.dig("candidates", 0, "content", "parts", 0, "text").gsub("```", "")
+    result = client.generate_content(
+      { contents: { role: 'user', parts: { text: message } } }
+    )
+
+    @response = ""
+    result = client.stream_generate_content(
+      { contents: { role: 'user', parts: { text: message } } }
+    ) do |event, parsed, raw|
+      new_content = event.dig("candidates", 0, "content", "parts", 0, "text")
+      @response += new_content
+
+      print(new_content)
+    end
+
+    puts
+    @response
   end
 
   private
