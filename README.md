@@ -25,8 +25,16 @@ And finally:
 ```
 
 ### Running the app locally
+Best option is to use foreman to run Rails + Tailwind watcher
+```bash
+cp Procfile.dev.example Procfile.dev
+foreman start -f Procfile.dev
+```
+
+Or, you can run these individually
 ```bash
 ./bin/rails s
+./bin/rails tailwindcss:watch
 ```
 
 ### Playing w/ console
