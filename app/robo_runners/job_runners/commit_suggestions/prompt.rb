@@ -5,7 +5,8 @@ module JobRunners::CommitSuggestions
 
     def prompt_messages
       [
-        { role: "system", content: PromptHub::SYSTEM_SETUP },
+        { role: "user", content: PromptHub::SYSTEM_SETUP },
+        { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: commit_suggestions_prompt },
       ]
     end

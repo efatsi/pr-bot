@@ -8,7 +8,6 @@ module Robots
 
     def chat(message)
       prompt_messages = [
-        { role: "system", content: "I am a helpful assistant." },
         { role: "user", content: message }
       ]
 

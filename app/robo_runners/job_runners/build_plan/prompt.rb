@@ -5,7 +5,8 @@ module JobRunners::BuildPlan
 
     def prompt_messages
       [
-        { role: "system", content: PromptHub::SYSTEM_SETUP },
+        { role: "user", content: PromptHub::SYSTEM_SETUP },
+        { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: build_plan_background_prompt },
         { role: "system", content: PromptHub::ROGER_THAT },
         *previous_convo_messages,

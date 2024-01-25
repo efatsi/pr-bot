@@ -5,7 +5,8 @@ module JobRunners::Instructions
 
     def prompt_messages
       [
-        { role: "system", content: PromptHub::SYSTEM_SETUP },
+        { role: "user", content: PromptHub::SYSTEM_SETUP },
+        { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: instructions_background_prompt },
         { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: robo_job_context_files },

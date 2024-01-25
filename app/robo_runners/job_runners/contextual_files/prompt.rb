@@ -5,7 +5,8 @@ module JobRunners::ContextualFiles
 
     def prompt_messages
       [
-        { role: "system", content: PromptHub::SYSTEM_SETUP },
+        { role: "user", content: PromptHub::SYSTEM_SETUP },
+        { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: contextual_files_prompt },
       ]
     end

@@ -4,7 +4,8 @@ module JobRunners::FollowupInstructions
     # identical to JobRunners::Instructions::Prompt except w/ `previous_convo_messages`
     def prompt_messages
       [
-        { role: "system", content: PromptHub::SYSTEM_SETUP },
+        { role: "user", content: PromptHub::SYSTEM_SETUP },
+        { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: instructions_background_prompt },
         { role: "system", content: PromptHub::ROGER_THAT },
         *previous_convo_messages,
