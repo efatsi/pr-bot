@@ -1,5 +1,5 @@
 class RobotApi
-  def initialize(external_stream_proc: print_proc)
+  def initialize(external_stream_proc = print_proc)
     @external_stream_proc = external_stream_proc
   end
 
@@ -26,7 +26,7 @@ class RobotApi
 
   private
 
-  def get_robot(model: :gpt)
+  def get_robot(model)
     if model.to_s == "gpt"
       Robots::Gpt.new(@external_stream_proc)
     elsif model.to_s == "gemini"
