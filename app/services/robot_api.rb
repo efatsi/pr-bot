@@ -1,51 +1,43 @@
-class RobotError < StandardError; end
-
 class RobotApi
-  def ask(prompt_messages, external_stream_proc: print_proc, model: :gpt)
-    robot = if model == :gpt
-      Robots::Gpt.new(external_stream_proc)
-    elsif model == :gemini
-      Robots::Gemini.new(external_stream_proc)
-    end
-
-    robot.ask(prompt_messages)
+  def initialize(external_stream_proc: print_proc)
+    @external_stream_proc = external_stream_proc
   end
 
-  def chat(message, external_stream_proc: print_proc, model: :gpt)
-    robot = if model == :gpt
-      Robots::Gpt.new(external_stream_proc)
-    elsif model == :gemini
-      Robots::Gemini.new(external_stream_proc)
-    end
+  def conversation(prompt_messages, model: :gpt)
+    robot = get_robot(model)
+    robot.conversation(prompt_messages)
+  end
 
+  def chat(message, model: :gpt)
+    robot = get_robot(model)
     robot.chat(message)
   end
 
-  def chat_google(message)
-    google_prompts = [
-      { role: 'model', parts: { text: "I'm am a helpful assistant" } },
-      { role: 'user', parts: { text: message } }
-    ],
+  def code_chat(message, model: :gpt)
+    prompt_messages = [
+      { role: "user", content: PromptHub::SYSTEM_SETUP },
+      { role: "system", content: PromptHub::ROGER_THAT },
+      { role: "user", content: message }
+    ]
 
-    { contents: { role: 'user', parts: { text: message } } }
-
-    @response = ""
-    result = client.stream_generate_content(google_prompts) do |event, parsed, raw|
-      new_content = event.dig("candidates", 0, "content", "parts", 0, "text")
-      @response += new_content
-
-      print(new_content)
-    end
-
-    puts
-    @response
+    robot = get_robot(model)
+    robot.conversation(prompt_messages)
   end
 
   private
+
+  def get_robot(model: :gpt)
+    if model.to_s == "gpt"
+      Robots::Gpt.new(@external_stream_proc)
+    elsif model.to_s == "gemini"
+      Robots::Gemini.new(@external_stream_proc)
+    else
+      raise "Invalid model key: #{model}. Must be one of [:gpt, :gemini]"
+    end
+  end
 
   # have this here as a default for testing
   def print_proc
     proc { |msg| print msg }
   end
-
 end

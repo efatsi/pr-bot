@@ -16,7 +16,7 @@ class BaseRoboRunner
     broadcast_processing_state
 
     # run LLM request
-    response = RobotApi.new.ask_gpt4(robo_request.prompt_messages, stream_proc)
+    response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages)
     robo_request.update(response: response)
 
     # handle response: save the good stuff to db

@@ -2,9 +2,17 @@ module Robots
   class Gemini < BaseRobot
 
     def chat(message)
-      @response = ""
+      prompt_messages = { contents: [
+        { role: 'user', parts: { text: message } }
+      ] }
 
-      prompt_messages = { contents: { role: 'user', parts: { text: message } } }
+      conversation(prompt_messages)
+    end
+
+    def conversation(prompt_messages)
+      # check_token_limit(prompt_messages)
+
+      @response = ""
 
       result = client.stream_generate_content(prompt_messages) do |event, _parsed, _raw|
         new_content = event.dig("candidates", 0, "content", "parts", 0, "text")
