@@ -15,15 +15,17 @@ module Robots
     end
 
     def conversation(prompt_messages)
-      # check_token_limit(prompt_messages)
+      check_token_limit(prompt_messages)
 
       @response = ""
+
+      json_mode = prompt_messages.map{|a| a["content"]}.any? {|a| a.include? PromptHub::RETURN_AS_JSON}
 
       client.chat(
         parameters: {
           model: GPT_4_TURBO,
           messages: prompt_messages,
-          response_format: { type: "text" },
+          response_format: { type: json_mode ? "json_object" : "text" },
           temperature: 0.2,
           stream: stream_proc,
         }
@@ -42,7 +44,7 @@ module Robots
       token_count = encoder.encode(prompt_content).length
 
       if token_count > PROMPT_MAX_LENGTH
-        raise RobotError.new("Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}.")
+        raise "Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}."
       end
     end
 
