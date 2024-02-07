@@ -1,6 +1,16 @@
+- terminate all jobs button
+  - Force Discard works from browser
+    - introduced in PR: https://github.com/bensheldon/good_job/pull/1073
+    - figure out how to iterate that over all running jobs, and then restart the processes somehow
+```rb
+@job = GoodJob::Job.find(params[:id])
+@job.force_discard_job("killed from PrBot")
+
 - making context better:
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
   - button to "looking at these files, what other files would you want to check out based on request"
+
+- unpack notes inline just like unpack feature request (leaves modal to just conversation)
 
 # TODO
 ## Context Files
