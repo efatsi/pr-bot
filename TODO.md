@@ -2,13 +2,6 @@
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
   - button to "looking at these files, what other files would you want to check out based on request"
 
-- making the request better
-  - overhaul build_plan
-  - first, "describe 2 different implementation options, go into verbal depth talking about the execution paths that will be updated to accomplish the request, maybe show some code, but make it conversational":
-  - show 2 plans
-    - button to continue conversation (to revise plan)
-    - build instructions based off of one (same thing but w/ better prompt now)
-
 # TODO
 ## Context Files
 - let you define files first
