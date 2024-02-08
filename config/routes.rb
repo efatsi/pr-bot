@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   resources :robo_jobs, except: :destroy do
     post :get_contextual_files, on: :member
     post :build_plan, on: :member
-    post :fill_in_plan, on: :member
     post :get_instructions, on: :member
     post :get_followup_instructions, on: :member
 
@@ -25,7 +24,6 @@ Rails.application.routes.draw do
 
     resources :actions, only: [] do
       get :execute_all, on: :collection
-      post :fill_in, on: :member
       post :execute, on: :member
       post :reset, on: :member
       post :skip, on: :member

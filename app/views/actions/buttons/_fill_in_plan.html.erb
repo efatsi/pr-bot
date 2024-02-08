@@ -1,5 +1,0 @@
-<% if robo_job.actions.any?(&:pre_flight?) %>
-  <div class="mt-4">
-    <%= button_to "Fill in All Actions", fill_in_plan_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
-  </div>
-<% end %>

@@ -8,13 +8,8 @@ class RoboConductor
   end
 
   def run_request
-    if request_type == "fill_in_plan"
-      # queue up all the actions in their own thread
-      parent.actions.pre_flight.each do |action|
-        if action.needs_argument_input?
-          ConductorJob.perform_later(action.to_global_id.to_s, "fill_in_action")
-        end
-      end
+    if request_type == "build_plan...TODO"
+      # queue up different robots to run against each other
 
     else
       # Run a single robo request
@@ -38,8 +33,6 @@ class RoboConductor
       JobRunners::FollowupInstructions::Runner
     when "commit_suggestions"
       JobRunners::CommitSuggestions::Runner
-    when "fill_in_action"
-      ActionRunners::BaseActionRunner
     else
       raise "Unknown request type: #{request_type}"
     end

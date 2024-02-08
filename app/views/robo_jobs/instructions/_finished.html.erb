@@ -15,10 +15,6 @@
         class: "btn-opaque"
       %>
     <% end %>
-
-    <%= turbo_frame_tag "fill-in-plan-#{robo_job.id}" do %>
-      <%= render "actions/buttons/fill_in_plan", robo_job: robo_job %>
-    <% end %>
   </div>
 <% end %>
 

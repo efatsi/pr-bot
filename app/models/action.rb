@@ -5,7 +5,6 @@ class Action < ApplicationRecord
   has_many :robo_requests, as: :parent, dependent: :destroy
 
   STATUSES = [
-    "pre_flight", # is just a shell of a plan
     "processing", # being filled out by AI
     "pending",    # ready to be executed
     "executed",   # has been executed
@@ -16,8 +15,6 @@ class Action < ApplicationRecord
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   delegate :project, to: :robo_job
-
-  before_validation :check_can_skip_pre_flight, on: :create, if: :pre_flight?
 
   def self.action_templates
     [
@@ -37,27 +34,8 @@ class Action < ApplicationRecord
     end
   end
 
-  def in_plan_stage?
-    pre_flight? || processing?
-  end
-
   def action_type
     self.class.name.demodulize.underscore
-  end
-
-  def arguments_placeholder
-    arguments_schema.inject({}) do |full_args, arg_schema|
-      key = arg_schema[:name]
-      full_args[key] = arguments.fetch(key, "[FILL IN]")
-      full_args
-    end
-  end
-
-  def needs_argument_input?
-    arguments_schema.any? do |argument|
-      arg_key = argument[:name]
-      arguments[arg_key].blank?
-    end
   end
 
   def fire!
@@ -84,24 +62,19 @@ class Action < ApplicationRecord
   end
 
   # helper methods & getters
+  # ...not used
+  #
+  # def arguments_schema
+  #   self.class.template[:arguments_schema]
+  # end
 
-  def arguments_schema
-    self.class.template[:arguments_schema]
-  end
+  # def arguments
+  #   super.with_indifferent_access
+  # end
 
-  def arguments
-    super.with_indifferent_access
-  end
-
-  def history
-    (super || []).map(&:with_indifferent_access)
-  end
-
-  def check_can_skip_pre_flight
-    if !needs_argument_input?
-      self.status = "pending"
-    end
-  end
+  # def history
+  #   (super || []).map(&:with_indifferent_access)
+  # end
 
   def inspect
     "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, status: #{status}, created_at: #{created_at}, updated_at: #{updated_at}>"

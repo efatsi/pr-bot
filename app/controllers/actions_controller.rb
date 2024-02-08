@@ -30,10 +30,6 @@ class ActionsController < SseApplicationController
     sse.close
   end
 
-  def fill_in
-    ConductorJob.perform_later(action.to_global_id.to_s, "fill_in_action")
-  end
-
   def execute
     action.fire!
 
