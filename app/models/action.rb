@@ -29,10 +29,6 @@ class Action < ApplicationRecord
     ]
   end
 
-  def self.action_types
-    action_templates.map { |template| template[:name] }
-  end
-
   STATUSES.each do |status|
     scope status, -> { where(status: status) }
 

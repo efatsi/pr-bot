@@ -32,6 +32,7 @@ module JobRunners::Instructions
         "  - new_content: the new content required for the feature",
         "",
         "When generating the array of changes, prefer lots of individual changes for distinct functional updates instead of one big one.",
+        "",
         "Example",
         "#{IMPLEMENTATION_JSON_EXAMPLE}"
       ].join("\n")
