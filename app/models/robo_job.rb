@@ -35,8 +35,6 @@ class RoboJob < ApplicationRecord
   def implementation_overview
     if generated_instructions?
       generated_instructions["implementation_overview"]
-    elsif generated_plan?
-      generated_plan["overview"]
     end
   end
 
@@ -95,7 +93,6 @@ end
 #  contextual_files       :string           default([]), is an Array
 #  feature_request        :text             not null
 #  generated_instructions :json
-#  generated_plan         :json
 #  include_all_convos     :boolean          default(FALSE)
 #  include_last_convo     :boolean          default(FALSE)
 #  created_at             :datetime         not null

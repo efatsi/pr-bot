@@ -76,7 +76,7 @@ class BaseRoboRunner
   end
 
   def handle_response
-    raise NotImplementedError
+    # no op by default, response is already saved to request
   end
 
   def broadcast_finished_state
