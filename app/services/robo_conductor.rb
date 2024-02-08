@@ -8,7 +8,7 @@ class RoboConductor
   end
 
   def run_request
-    if request_type == "build_plan...TODO"
+    if request_type == "enhance_feature_request...TODO"
       # queue up different robots to run against each other
 
     else
@@ -25,8 +25,8 @@ class RoboConductor
     case request_type
     when "contextual_files"
       JobRunners::ContextualFiles::Runner
-    when "build_plan"
-      JobRunners::BuildPlan::Runner
+    when "enhance_feature_request"
+      JobRunners::EnhanceFeatureRequest::Runner
     when "instructions"
       JobRunners::Instructions::Runner
     when "followup_instructions"

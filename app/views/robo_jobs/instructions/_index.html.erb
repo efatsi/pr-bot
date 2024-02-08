@@ -1,4 +1,8 @@
-<% if !robo_job.generated_instructions? && !robo_job.generated_plan? %>
+<% if robo_job.generated_instructions? %>
+  <%= render "robo_jobs/instructions/finished" %>
+<% elsif robo_job.robo_requests.of_type("enhance_feature_request").any? %>
+  <%= render "robo_jobs/instructions/feature_prompt_selection" %>
+<% else %>
   <div class="flex justify-around mt-8 mb-4">
     <div>
       <p>Quick & Easy?</p>
@@ -6,9 +10,7 @@
     </div>
     <div>
       <p>Requires some thinking?</p>
-      <%= button_to "Step 2: Build Plan", build_plan_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
+      <%= button_to "Step 2: Build Plan", enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
     </div>
   </div>
-<% else %>
-  <%= render "robo_jobs/instructions/finished" %>
 <% end %>

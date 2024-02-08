@@ -8,6 +8,14 @@ class RoboRequest < ApplicationRecord
   validates :request_type, presence: true
   validates :prompt, presence: true
 
+  REQUEST_TYPE = [
+    "contextual_files",
+    "enhance_feature_request",
+    "instructions",
+    "followup_instructions",
+    "commit_suggestions",
+  ]
+
   def self.of_type(type)
     where(request_type: type).by_id
   end

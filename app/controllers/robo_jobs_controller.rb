@@ -55,8 +55,8 @@ class RoboJobsController < ApplicationController
     ConductorJob.perform_later(robo_job.to_global_id.to_s, "contextual_files")
   end
 
-  def build_plan
-    ConductorJob.perform_later(robo_job.to_global_id.to_s, "build_plan")
+  def enhance_feature_request
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "enhance_feature_request")
   end
 
   def get_instructions

@@ -1,10 +1,9 @@
 - terminate all jobs button
-  - Force Discard works from browser
-    - introduced in PR: https://github.com/bensheldon/good_job/pull/1073
-    - figure out how to iterate that over all running jobs, and then restart the processes somehow
+- add a service class to terminate all jobs that are processing. Here's code I took from the source that backs the "Force Discard" flow:
 ```rb
 @job = GoodJob::Job.find(params[:id])
 @job.force_discard_job("killed from PrBot")
+```
 
 - making context better:
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
