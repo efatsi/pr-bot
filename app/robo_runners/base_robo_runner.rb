@@ -53,6 +53,10 @@ class BaseRoboRunner
   def stream_proc
     proc do |new_chars|
       ActionCable.server.broadcast(robo_job.stream_key, {
+        event_timestamp: {
+          target: stream_proc_target,
+          time: Time.now.strftime('%s%L')
+        },
         turbo_stream: turbo_stream.append(
           stream_proc_target,
           plain: new_chars
