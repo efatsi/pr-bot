@@ -1,10 +1,9 @@
 # Build plan overhaul
 goal: making the input prompt better when it's time to generate instructions
 
-- remove all "fill_in_plan" references
-  - and convert type strings to constants + model validation for docs reference
+- and convert type strings to constants + model validation for docs reference
 
-- "build_plan" button now does:
+- "build_plan" button now does "enhance_feature_request":
   - 2 new RoboRequests
     - "enhance_feature_request" request_type
     - robo_model: gpt | gemini

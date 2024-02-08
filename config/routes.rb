@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :robo_jobs, except: :destroy do
     post :get_contextual_files, on: :member
-    post :build_plan, on: :member
+    post :enhance_feature_request, on: :member
     post :get_instructions, on: :member
     post :get_followup_instructions, on: :member
 

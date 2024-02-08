@@ -1,0 +1,15 @@
+<% ding ||= false %>
+<%= render "shared/ding" if ding %>
+
+<%= render "shared/dropdown", label: "Prompt Refinement", open_on_load: true do %>
+  <div class="px-1">
+    <% enhance_request = robo_job.robo_requests.of_type("enhance_feature_request").last %>
+
+    <div>
+      <%= turbo_frame_tag "enhance-#{enhance_request.id}" do %>
+        <pre class="whitespace-pre-wrap"><%= enhance_request.response %></pre>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
