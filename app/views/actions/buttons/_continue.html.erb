@@ -1,0 +1,8 @@
+<% if robo_job.actions.executed.exists? %>
+  <div>
+    <%= link_to "Continue the Conversation ->",
+      new_robo_job_followup_job_path(robo_job),
+      class: "btn-opaque"
+    %>
+  </div>
+<% end %>

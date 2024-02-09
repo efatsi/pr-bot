@@ -23,6 +23,7 @@ class ActionsController < SseApplicationController
     sse.write({
       turbo_stream: [
         turbo_update_fire_all,
+        turbo_update_continue_button,
         turbo_update_commit_button
       ]
     })
@@ -40,6 +41,7 @@ class ActionsController < SseApplicationController
         locals: { action: action }
       ),
       turbo_update_fire_all,
+      turbo_update_continue_button,
       turbo_update_commit_button
     ]
     render turbo_stream: stream_updates
@@ -81,6 +83,7 @@ class ActionsController < SseApplicationController
         locals: { action: action }
       ),
       turbo_update_fire_all,
+      turbo_update_continue_button,
       turbo_update_commit_button
     ]
   end
@@ -113,6 +116,14 @@ class ActionsController < SseApplicationController
     turbo_stream.update(
       "fire-all-#{robo_job.id}",
       partial: "actions/buttons/fire_all",
+      locals: { robo_job: robo_job }
+    )
+  end
+
+  def turbo_update_continue_button
+    turbo_stream.update(
+      "continue-#{robo_job.id}",
+      partial: "actions/buttons/continue",
       locals: { robo_job: robo_job }
     )
   end
