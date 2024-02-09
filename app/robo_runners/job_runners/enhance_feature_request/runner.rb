@@ -3,6 +3,8 @@ module JobRunners::EnhanceFeatureRequest
 
     # similar in every way to the instructions runner except handling response & label
 
+    private
+
     def handle_response
       # no op, the raw response in robo_request will be used
     end
@@ -18,10 +20,8 @@ module JobRunners::EnhanceFeatureRequest
       )
     end
 
-    private
-
     def primary_label
-      "Build Plan"
+      "Enhance Feature Request"
     end
 
   end
