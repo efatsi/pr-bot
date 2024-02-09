@@ -10,11 +10,13 @@ module MarkdownHelper
   end
 
   def markdown_to_blocks(source_text)
+    return [] if source_text.blank?
+
     blocks = []
     current_block = nil
 
     source_text.split("\n").each do |line|
-      if line.start_with?("```")
+      if line.strip.start_with?("```")
         if current_block&.type == :code
           # finishing existing code block
           blocks << current_block
@@ -26,7 +28,7 @@ module MarkdownHelper
           blocks << current_block if current_block.present?
 
           # make new code block
-          language = line[3..-1]
+          language = line.strip[3..-1]
           current_block = TextBlock.new("", :code, language)
         end
 
