@@ -1,8 +1,6 @@
 # Build plan overhaul
 goal: making the input prompt better when it's time to generate instructions
 
-- and convert type strings to constants + model validation for docs reference
-
 - "build_plan" button now does "enhance_feature_request":
   - 2 new RoboRequests
     - "enhance_feature_request" request_type

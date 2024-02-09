@@ -1,4 +1,12 @@
 class RoboRequest < ApplicationRecord
+  REQUEST_TYPES = [
+    "contextual_files",
+    "enhance_feature_request",
+    "instructions",
+    "followup_instructions",
+    "commit_suggestions",
+  ]
+
   after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
 
   belongs_to :parent, polymorphic: true
@@ -8,13 +16,7 @@ class RoboRequest < ApplicationRecord
   validates :request_type, presence: true
   validates :prompt, presence: true
 
-  REQUEST_TYPE = [
-    "contextual_files",
-    "enhance_feature_request",
-    "instructions",
-    "followup_instructions",
-    "commit_suggestions",
-  ]
+  validates :request_type, inclusion: { in: REQUEST_TYPES }
 
   def self.of_type(type)
     where(request_type: type).by_id
