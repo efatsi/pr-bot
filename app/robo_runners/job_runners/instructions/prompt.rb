@@ -7,17 +7,17 @@ module JobRunners::Instructions
       [
         { role: "user", content: PromptHub::SYSTEM_SETUP },
         { role: "system", content: PromptHub::ROGER_THAT },
-        { role: "user", content: instructions_background_prompt },
-        { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: robo_job_context_files },
         { role: "system", content: PromptHub::UNDERSTAND_FILES },
-        { role: "user", content: instructions_prompt }
+        { role: "user", content: instructions_prompt },
+        { role: "system", content: PromptHub::ROGER_THAT },
+        { role: "user", content: final_request_prompt }
       ]
     end
 
     private
 
-    def instructions_background_prompt
+    def instructions_prompt
       [
         project_tools,
         "",
@@ -38,7 +38,7 @@ module JobRunners::Instructions
       ].join("\n")
     end
 
-    def instructions_prompt
+    def final_request_prompt
       [
         "How would you implement this feature request?",
         robo_job.feature_request,
