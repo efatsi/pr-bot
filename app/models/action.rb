@@ -85,17 +85,16 @@ end
 #
 # Table name: actions
 #
-#  id             :bigint           not null, primary key
-#  arguments      :json
-#  error          :text
-#  history        :json
-#  relevant_files :json
-#  status         :string           default("pending"), not null
-#  summary        :text
-#  type           :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  robo_job_id    :bigint           not null
+#  id          :bigint           not null, primary key
+#  arguments   :json
+#  error       :text
+#  history     :json
+#  status      :string           default("pending"), not null
+#  summary     :text
+#  type        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  robo_job_id :bigint           not null
 #
 # Indexes
 #

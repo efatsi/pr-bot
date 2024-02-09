@@ -2,11 +2,7 @@
 
 <% robo_job.actions.each do |action| %>
   <%= turbo_frame_tag "action-#{action.id}" do %>
-    <% if action.processing? %>
-      <%= render "actions/processing", action: action %>
-    <% else %>
-      <%= render "actions/show", action: action %>
-    <% end %>
+    <%= render "actions/show", action: action %>
   <% end %>
 <% end %>
 

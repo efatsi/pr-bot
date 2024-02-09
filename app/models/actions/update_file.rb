@@ -43,15 +43,6 @@ module Actions
       File.open(full_filepath, "w") { |f| f.puts reverted_content }
     end
 
-    # always include the file
-    def relevant_files
-      if file.present?
-        ([{"file" => file}] | super).uniq
-      else
-        super
-      end
-    end
-
     private
 
     def original_content
@@ -69,17 +60,16 @@ end
 #
 # Table name: actions
 #
-#  id             :bigint           not null, primary key
-#  arguments      :json
-#  error          :text
-#  history        :json
-#  relevant_files :json
-#  status         :string           default("pending"), not null
-#  summary        :text
-#  type           :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  robo_job_id    :bigint           not null
+#  id          :bigint           not null, primary key
+#  arguments   :json
+#  error       :text
+#  history     :json
+#  status      :string           default("pending"), not null
+#  summary     :text
+#  type        :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  robo_job_id :bigint           not null
 #
 # Indexes
 #

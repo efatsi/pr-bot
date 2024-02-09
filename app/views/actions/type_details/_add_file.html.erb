@@ -5,20 +5,9 @@
   </div>
 </div>
 
-<% if action.processing? %>
-  <div class="mb-4 mt-2">
-    <div class="font-medium mb-1">Relevant Context Files:</div>
-    <ul class="text-left pl-5">
-      <% action.relevant_files.each do |file| %>
-        <li><%= file["file"] %></li>
-      <% end %>
-    </ul>
+<div class="flex mb-2 gap-1">
+  <div class="diff-new">
+    <div class="font-medium mb-2">New Content:</div>
+    <pre><%= action.arguments[:new_content] %></pre>
   </div>
-<% else %>
-  <div class="flex mb-2 gap-1">
-    <div class="diff-new">
-      <div class="font-medium mb-2">New Content:</div>
-      <pre><%= action.arguments[:new_content] %></pre>
-    </div>
-  </div>
-<% end %>
+</div>

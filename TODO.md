@@ -114,25 +114,6 @@
   - replace others eg: "Directory Tree:" w/ <directory-tree> </directory-tree>
   - project search: `"[\w+\s?]{2,}:",`
 
-# Build Plan l8er
-- continue-the-convo button for plans
-  - add radio-select to "build instructions" (default) or "build plan"
-    - update RoboConductor queue type based on input
-
-- inline editing of action (summary, file, relevant_files)
-
-- "modify exising plan"
-  - one button to modify them all
-    - form input (copy-pasted from continue-the-convo)
-      - radio select to mark as needs_change or looks_good
-      - can modify contextual files (not feature request, saving that for back-up-convo)
-      - box to input what should change
-    - new prompt
-    - new runner
-  - buttons on each action to re-run fill in plan
-    - after editing, and/or with a new prompt to guide it
-    - eg: can change it from add_file to update_file
-
 
 # cleanup step
 - new stream button, similar to "continue"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_08_205122) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_09_073723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,7 +24,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_08_205122) do
     t.text "summary"
     t.text "error"
     t.string "type"
-    t.json "relevant_files"
     t.index ["robo_job_id"], name: "index_actions_on_robo_job_id"
   end
 
