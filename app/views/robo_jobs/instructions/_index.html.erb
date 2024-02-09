@@ -1,16 +1,26 @@
-<% if robo_job.generated_instructions? %>
+<% has_feature_enhancement = robo_job.robo_requests.of_type("enhance_feature_request").any? %>
+<% has_generated_instructions = robo_job.generated_instructions? %>
+
+<%# show this if its here %>
+<% if has_feature_enhancement %>
+  <%= render "robo_jobs/instructions/enhance_feature_prompt" %>
+<% end %>
+
+<%# show this if its here %>
+<% if has_generated_instructions %>
   <%= render "robo_jobs/instructions/finished" %>
-<% elsif robo_job.robo_requests.of_type("enhance_feature_request").any? %>
-  <%= render "robo_jobs/instructions/feature_prompt_selection" %>
-<% else %>
+<% end %>
+
+<%# show this if neither of the above is here %>
+<% if !has_feature_enhancement && !has_generated_instructions %>
   <div class="flex justify-around mt-8 mb-4">
     <div>
       <p>Quick & Easy?</p>
-      <%= button_to "Step 2: Build Instructions", get_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
+      <%= button_to "Build Instructions", build_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
     </div>
     <div>
       <p>Requires some thinking?</p>
-      <%= button_to "Step 2: Build Plan", enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
+      <%= button_to "Enhance Feature Prompt", enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
     </div>
   </div>
 <% end %>
