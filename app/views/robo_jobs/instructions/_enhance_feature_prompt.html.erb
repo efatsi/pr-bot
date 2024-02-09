@@ -2,7 +2,7 @@
 <%= render "shared/ding" if ding %>
 
 <%= render "shared/dropdown", label: "Prompt Refinement", open_on_load: true do %>
-  <div class="px-1">
+  <%= render "shared/dropdown", label: "Updated Prompt", open_on_load: true do %>
     <% enhance_request = robo_job.robo_requests.of_type("enhance_feature_request").last %>
 
     <div>
@@ -10,6 +10,14 @@
         <%= render "shared/render_md_and_code", body: enhance_request.response %>
       <% end %>
     </div>
+  <% end %>
+
+  <div class="flex justify-end mt-4 mb-2">
+    <%= button_to "Looks good? Bulid Instructions ->",
+      build_instructions_robo_job_path(robo_job),
+      method: :post,
+      class: "btn-primary"
+    %>
   </div>
 <% end %>
 

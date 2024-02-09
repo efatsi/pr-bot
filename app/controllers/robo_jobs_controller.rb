@@ -59,7 +59,7 @@ class RoboJobsController < ApplicationController
     ConductorJob.perform_later(robo_job.to_global_id.to_s, "enhance_feature_request")
   end
 
-  def get_instructions
+  def build_instructions
     ConductorJob.perform_later(robo_job.to_global_id.to_s, "instructions")
   end
 
