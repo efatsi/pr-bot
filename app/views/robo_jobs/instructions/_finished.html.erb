@@ -9,17 +9,13 @@
   </div>
 
   <div class="mb-1">
-    <% if robo_job.actions.any?(&:executed?) %>
-      <%= link_to "Continue the Conversation ->",
-        new_robo_job_followup_job_path(robo_job),
-        class: "btn-opaque"
-      %>
+    <%= turbo_frame_tag "continue-#{robo_job.id}" do %>
+      <%= render "actions/buttons/continue", robo_job: robo_job %>
     <% end %>
   </div>
 <% end %>
 
-<div class="flex justify-between mt-8 mb-4">
-
+<div class="mt-8 mb-4">
   <%= turbo_frame_tag "commit-#{robo_job.id}" do %>
     <%= render "actions/buttons/commit", robo_job: robo_job %>
   <% end %>
