@@ -1,31 +1,14 @@
 <%= render "shared/modal" do %>
-  <div class="font-semibold inline-block border-b border-opacity-10 mb-4">RoboJob info</div>
+  <div class="font-semibold inline-block border-b border-opacity-10 mb-4">RoboRequest Conversation</div>
+
+  <% robo_request = robo_job.robo_requests.of_type(["instructions", "followup_instructions"]).last %>
   <div class="mb-4">
-    <%= render "shared/dropdown", label: "Feature Request", open_on_load: params[:feature] do %>
-      <div class="mb-2">
-        <div class="whitespace-pre-wrap"><%= robo_job.feature_request %></div>
-      </div>
+    <%= render "shared/dropdown", label: "Prompt" do %>
+      <%= render "shared/prompt_conversation", robo_request: robo_request %>
     <% end %>
-  </div>
 
-  <div class="mb-4">
-    <%= render "shared/dropdown", label: "Conversation", open_on_load: !params[:notes] do %>
-      <% robo_request = robo_job.robo_requests.of_type(["instructions", "followup_instructions"]).last %>
-      <div class="mb-2">
-        <%= render "shared/dropdown", label: "Prompt", open_on_load: params[:conversation] do %>
-          <%= render "shared/prompt_conversation", robo_request: robo_request %>
-        <% end %>
-
-        <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
-          <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="mb-4">
-    <%= render "shared/dropdown", label: "Implementation Overview", open_on_load: params[:notes] do %>
-      <div class="mb-4"><%= robo_job.implementation_overview %></div>
+    <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
+      <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
     <% end %>
   </div>
 <% end %>

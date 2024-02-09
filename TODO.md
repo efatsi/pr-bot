@@ -1,3 +1,8 @@
+- markdown + code rendering
+  - render all blocks as single markdown call w/ code blocks keyed out
+  - then slot in rendered code blocks later
+  - roll out to other places .feature_request is shown
+
 - making context better:
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
   - button to "looking at these files, what other files would you want to check out based on request"
