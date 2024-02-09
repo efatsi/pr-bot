@@ -23,6 +23,14 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def feature_request
+    if enhance_request = robo_requests.of_type("enhance_feature_request").last
+      enhance_request.response
+    else
+      super
+    end
+  end
+
   def last_contextual_files
     last_job = followup_jobs.last || self
     (last_job.contextual_files + last_job.actions.map(&:file).compact).uniq
