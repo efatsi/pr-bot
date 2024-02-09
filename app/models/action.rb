@@ -60,15 +60,15 @@ class Action < ApplicationRecord
     update(status: "failed", error: e.message)
   end
 
+  def arguments
+    super.with_indifferent_access
+  end
+
   # helper methods & getters
   # ...not used
   #
   # def arguments_schema
   #   self.class.template[:arguments_schema]
-  # end
-
-  # def arguments
-  #   super.with_indifferent_access
   # end
 
   # def history
