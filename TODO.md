@@ -1,15 +1,7 @@
-- terminate all jobs button
-- add a service class to terminate all jobs that are processing. Here's code I took from the source that backs the "Force Discard" flow:
-```rb
-@job = GoodJob::Job.find(params[:id])
-@job.force_discard_job("killed from PrBot")
-```
-
 - making context better:
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
   - button to "looking at these files, what other files would you want to check out based on request"
 
-- unpack notes inline just like unpack feature request (leaves modal to just conversation)
 
 # TODO
 ## Context Files
@@ -58,21 +50,7 @@
 - rendering defaults to most recent thread
 - allow navigating back to previous threads, continuing those if wanted
 
-## Prompt Massaging
-- for things that are complex code execution paths, I think we have to get the LLM to talk through the process before implementing the solution
-  - checkbox for "talk it through first"
-- running prompt through a research step that takes the prompt and describes the execution paths that need to change, and outputs a description of the prompt in execution path format.
-  - for some solutions, I'd hope this would be a big jump up
-
 # Tooling todo
-## ability to halt AI
-- quit on refresh
-  - handle unsubscribed in backend channel
-  - force the good_job task to stop
-    - send `sigkill` somehow
-    - `discard_on InterruptError`
-    - OR dig into source code and find out what "Force Discard" does
-- button to Stop
 
 ## lil things
 - streamed responses are received in funky order
