@@ -1,0 +1,7 @@
+<% markdown_to_blocks(body).each do |block| %>
+  <% if block.type == :code %>
+    <pre class="whitespace-pre-wrap line-numbers language-<%= block.language %>"><code><%= block.text %></code></pre>
+  <% else %>
+    <div class="my-4"><%= markdown_to_html(block.text) %></div>
+  <% end %>
+<% end %>
