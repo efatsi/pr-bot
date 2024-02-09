@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     post :enhance_feature_request, on: :member
     post :build_instructions, on: :member
 
-    get :info, on: :member
+    get :conversation, on: :member
     patch :update_files, on: :member
 
     resources :actions, only: [] do

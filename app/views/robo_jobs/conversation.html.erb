@@ -1,7 +1,7 @@
 <%= render "shared/modal" do %>
-  <div class="font-semibold inline-block border-b border-opacity-10 mb-4">RoboRequest Conversation</div>
+  <div class="font-semibold inline-block border-b border-opacity-10 mb-4">Robo Conversation</div>
 
-  <% robo_request = robo_job.robo_requests.of_type(["instructions", "followup_instructions"]).last %>
+  <% robo_request = robo_job.robo_requests.of_type(params[:type].split(",")).last %>
   <div class="mb-4">
     <%= render "shared/dropdown", label: "Prompt" do %>
       <%= render "shared/prompt_conversation", robo_request: robo_request %>

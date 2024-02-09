@@ -4,17 +4,14 @@
 
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: open_on_load do %>
   <% if robo_request %>
-    <%= render "shared/dropdown", label: "Prompt" do %>
-      <%= render "shared/prompt_conversation", robo_request: robo_request %>
-    <% end %>
-
-    <% if robo_request.response.present? %>
-      <%= render "shared/dropdown", label: "Response" do %>
-        <pre class="whitespace-pre-wrap"><%= robo_request.response %></pre>
+    <div class="flex justify-center gap-1">
+      <%= link_to conversation_robo_job_path(robo_job, type: ["contextual_files"].join(",")), "data-turbo-frame": "modal" do %>
+        <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+          <span>convo</span>
+          <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+        </div>
       <% end %>
-    <% else %>
-      <p class="italic ml-1 mb-2 text-sm">no response, defined manually</p>
-    <% end %>
+    </div>
   <% else %>
     <p class="italic ml-1 mb-2 text-sm">no robo_request, defined manually</p>
   <% end %>

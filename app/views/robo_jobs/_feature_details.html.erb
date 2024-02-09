@@ -1,6 +1,6 @@
 <div class="mb-1" data-controller="tabs">
   <div class="flex justify-center gap-1">
-    <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "feature" do %>
+    <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input" do %>
       <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
         <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
         <span>input</span>
@@ -14,7 +14,7 @@
       </div>
     <% end %>
 
-    <%= link_to info_robo_job_path(robo_job), "data-turbo-frame": "modal" do %>
+    <%= link_to conversation_robo_job_path(robo_job, type: ["instructions", "followup_instructions"].join(",")), "data-turbo-frame": "modal" do %>
       <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
         <span>convo</span>
         <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
@@ -22,7 +22,7 @@
     <% end %>
   </div>
 
-  <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="feature">
+  <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
     <div class="whitespace-pre-wrap"><%= robo_job.feature_request %></div>
   </div>
 

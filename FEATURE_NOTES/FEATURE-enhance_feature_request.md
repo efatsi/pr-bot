@@ -1,10 +1,6 @@
 # Build plan overhaul
 goal: making the input prompt better when it's time to generate instructions
 
-- show "input | conversation" links
-  - rename feature to input elsewhere
-  - refactor notes to expand like feature/input does
-
 - work in 2 robots
   - 2 new RoboRequests
     - robo_model: gpt | gemini
