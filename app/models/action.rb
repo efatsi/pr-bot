@@ -5,11 +5,10 @@ class Action < ApplicationRecord
   has_many :robo_requests, as: :parent, dependent: :destroy
 
   STATUSES = [
-    "processing", # being filled out by AI
-    "pending",    # ready to be executed
-    "executed",   # has been executed
-    "failed",     # failed to execute/revert
-    "skipped"     # was skipped by user
+    "pending",   # ready to be executed
+    "executed",  # has been executed
+    "failed",    # failed to execute/revert
+    "skipped"    # was skipped by user
   ]
 
   validates :status, presence: true, inclusion: { in: STATUSES }
