@@ -1,23 +1,20 @@
 # Build plan overhaul
 goal: making the input prompt better when it's time to generate instructions
 
-- "build_plan" button now does "enhance_feature_request":
+- show "input | conversation" links
+  - rename feature to input elsewhere
+  - refactor notes to expand like feature/input does
+
+- work in 2 robots
   - 2 new RoboRequests
-    - "enhance_feature_request" request_type
     - robo_model: gpt | gemini
-    - favored: boolean default false
-  - prompt:
-    - talk about the problem and solution in technical detail
-    - talk out the execution paths for complex logic that supports the validity of the solution
-      - give it a good example here (find on internet)
+    - status: default / rejected / accepted
   - show outputs of both in realtime
   - when done
     - shows both if not one favored
-    - pick one as favored
-    - button to go back to review options
-    - inline edit
-    - continue conversing w/ it
-- build instructions button
-  - uses the beefed up prompt
-    - finds the last request of type "enhance_feature_request"
-    - off to the usual races
+    - build instructions locks one in as favored, others as rejected
+    - update .feature_request lookup
+    - put rejected ones in other dropdown
+    - dropdown label should show robot responsible
+
+- continue conversing w/ enhance thread
