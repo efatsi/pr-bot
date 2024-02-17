@@ -22,10 +22,9 @@ module JobRunners::EnhanceFeatureRequest
       [
         project_tools,
         "",
-        "Your job is to talk about the incoming feature request and a solution plan to implement it.",
-        "For code that involves complex execution paths, take time to talk them out when explaining your solution.",
-        "It's alright to show high level code snippets but don't worry about the fine details right now, we're focused on the big picture.",
-        "Describe the problem and solution in thorough technical detail.",
+        "Your job is to talk about the incoming feature request and a solution plan to implement it, no code.",
+        "For solutions that involves complex execution paths, take time to talk them out when explaining your reasoning.",
+        "Describe the problem and solution in thorough technical detail. Don't write code.",
       ].join("\n")
     end
 
