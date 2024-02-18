@@ -2,15 +2,17 @@ module Robots
   class Gemini < BaseRobot
 
     def chat(message)
-      prompt_messages = { contents: [
-        { role: 'user', parts: { text: message } }
-      ] }
+      # Define this in OpenAI format, will be converted
+      prompt_messages = [
+        { role: 'user', content: message }
+      ]
 
       conversation(prompt_messages)
     end
 
     def conversation(prompt_messages)
-      # check_token_limit(prompt_messages)
+      # Convert from OpenAI format to Gemini format
+      prompt_messages = to_gemini(prompt_messages)
 
       @response = ""
 
@@ -33,6 +35,17 @@ module Robots
         },
         options: { model: "gemini-pro", server_sent_events: true }
       )
+    end
+
+    def to_gemini(prompt_messages)
+      messages = prompt_messages.map do |message|
+        {
+          role: message["role"] == "user" ? "user" : "model",
+          parts: [{ text: message["content"] }]
+        }
+      end
+
+      { contents: messages }
     end
   end
 end
