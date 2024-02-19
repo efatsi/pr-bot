@@ -1,11 +1,22 @@
-- markdown + code rendering
-  - render all blocks as single markdown call w/ code blocks keyed out
-  - then slot in rendered code blocks later
-  - roll out to other places .feature_request is shown
+# punch list
+- back up / redo
+  - history view down the left side
+  - can click in to back up to that step, or delete the last step
+  - then threads, keep this but fork off from here
 
 - making context better:
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
+    - iterate through each file
+      - clean filename (leading slash)
+      - look at file contents
+        - decide if relevant in the sphere of the feature request
+        - decide if want to see new files
   - button to "looking at these files, what other files would you want to check out based on request"
+
+- image uploads
+
+- open one file, or batch of files, in vs code
+
 
 
 # TODO
