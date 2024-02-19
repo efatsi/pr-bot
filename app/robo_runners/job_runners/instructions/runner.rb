@@ -13,7 +13,7 @@ module JobRunners::Instructions
     end
 
     def handle_response
-      generated_instructions = JSON.parse(robo_request.response)
+      generated_instructions = JSON.parse(robo_request.response.gsub("^```\w*$", ""))
 
       robo_job.update(generated_instructions: generated_instructions)
       robo_job.actions.destroy_all
