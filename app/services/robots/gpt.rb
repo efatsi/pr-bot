@@ -3,9 +3,6 @@ module Robots
     GPT_4_TURBO = "gpt-4-1106-preview"
     GPT_4 = "gpt-4"
 
-    # ~70k = $1
-    PROMPT_MAX_LENGTH = 30_000
-
     def chat(message)
       prompt_messages = [
         { role: "user", content: message }
@@ -36,17 +33,6 @@ module Robots
     end
 
     private
-
-    def check_token_limit(prompt_messages)
-      # first check prompt length is less than PROMPT_MAX_LENGTH
-      encoder = Tiktoken.encoding_for_model('gpt-4')
-      prompt_content = prompt_messages.map{|a| a["content"]}.join(" ")
-      token_count = encoder.encode(prompt_content).length
-
-      if token_count > PROMPT_MAX_LENGTH
-        raise "Prompt is #{token_count} tokens, max is #{PROMPT_MAX_LENGTH}."
-      end
-    end
 
     def stream_proc
       proc do |chunk, _bytesize|

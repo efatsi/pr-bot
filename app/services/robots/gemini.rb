@@ -11,6 +11,8 @@ module Robots
     end
 
     def conversation(prompt_messages)
+      check_token_limit(prompt_messages)
+
       # Convert from OpenAI format to Gemini format
       prompt_messages = to_gemini(prompt_messages)
 
