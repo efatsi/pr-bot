@@ -1,9 +1,11 @@
 class RoboEvent < ApplicationRecord
   EVENT_TYPES = [
     "start",
-    "enhance_feature",
-    "enhance_files",
-    "generate_actions",
+    "enhance_feature_request",
+    "enhance_contextual_files",
+    "build_instructions",
+    "followup_instructions",
+    "commit_suggestions",
   ]
 
   STATUSES = %w[active ignored]
@@ -20,13 +22,12 @@ class RoboEvent < ApplicationRecord
     case event_type
     when "start"
       "start"
-    when "enhance_feature"
+    when "enhance_feature_request"
       "enhance\nfeature"
-    when "enhance_files"
+    when "enhance_contextual_files"
       "enhance\nfiles"
-    when "generate_actions"
+    when "build_instructions"
       "build\nactions"
-
     end
   end
 end

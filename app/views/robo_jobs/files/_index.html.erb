@@ -1,5 +1,5 @@
 <div class="mb-8">
-  <% contextual_files_request = robo_job.robo_requests.of_type("contextual_files").last %>
+  <% contextual_files_request = robo_job.robo_requests.of_type("enhance_contextual_files").last %>
 
   <% if contextual_files_request || robo_job.contextual_files? %>
     <%= render "robo_jobs/files/finished", robo_request: contextual_files_request %>

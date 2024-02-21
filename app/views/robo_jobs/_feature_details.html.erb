@@ -14,7 +14,7 @@
       </div>
     <% end %>
 
-    <%= link_to conversation_robo_job_path(robo_job, type: ["instructions", "followup_instructions"].join(",")), "data-turbo-frame": "modal" do %>
+    <%= link_to conversation_robo_job_path(robo_job, type: ["build_instructions", "followup_instructions"].join(",")), "data-turbo-frame": "modal" do %>
       <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
         <span>convo</span>
         <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>

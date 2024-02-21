@@ -54,7 +54,7 @@ class RoboJobsController < ApplicationController
   end
 
   def get_contextual_files
-    ConductorJob.perform_later(robo_job.to_global_id.to_s, "contextual_files")
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "enhance_contextual_files")
   end
 
   def enhance_feature_request
@@ -62,7 +62,7 @@ class RoboJobsController < ApplicationController
   end
 
   def build_instructions
-    ConductorJob.perform_later(robo_job.to_global_id.to_s, "instructions")
+    ConductorJob.perform_later(robo_job.to_global_id.to_s, "build_instructions")
   end
 
   private

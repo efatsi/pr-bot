@@ -5,7 +5,7 @@
 <%= render "shared/dropdown", label: "Contextual Files", open_on_load: open_on_load do %>
   <% if robo_request %>
     <div class="flex justify-center gap-1">
-      <%= link_to conversation_robo_job_path(robo_job, type: ["contextual_files"].join(",")), "data-turbo-frame": "modal" do %>
+      <%= link_to conversation_robo_job_path(robo_job, type: ["enhance_contextual_files"].join(",")), "data-turbo-frame": "modal" do %>
         <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
           <span>convo</span>
           <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>

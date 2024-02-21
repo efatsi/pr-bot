@@ -13,9 +13,14 @@
         </div>
       </div>
 
+      <%# event details %>
       <div class="min-w-0 flex-1">
         <div class="mb-8">
-          <%= render "robo_events/types/#{robo_event.event_type}", robo_event: robo_event %>
+          <%= render "robo_events/details/#{robo_event.event_type}", robo_event: robo_event %>
+
+          <% if robo_event.child_robo_events.none? %>
+            <%= render "robo_events/next_steps/#{robo_event.event_type}", robo_event: robo_event %>
+          <% end %>
         </div>
       </div>
     </div>

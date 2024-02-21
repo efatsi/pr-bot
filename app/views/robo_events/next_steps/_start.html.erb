@@ -1,0 +1,18 @@
+<div class="flex justify-center text-center gap-8 mt-8 mb-4">
+  <div>
+    <p>Requires some thinking?</p>
+    <%= button_to "Enhance Feature Prompt", enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-opaque" %>
+  </div>
+  <div>
+    <p>Need better files?</p>
+    <%= button_to "Enhance Contextual Files", enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-opaque" %>
+  </div>
+</div>
+
+
+<div class="flex justify-center text-center gap-8 mt-8 mb-4">
+  <div>
+    <p>Ready to Go?</p>
+    <%= button_to "Build Instructions", build_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
+  </div>
+</div>
