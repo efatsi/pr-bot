@@ -5,7 +5,21 @@
     <div class="flex items-center gap-4">
       <%= f.association :project, collection: Project.by_id, selected: params[:project_id] || robo_job.project_id, prompt: nil, input_html: { class: "!w-96" } %>
     </div>
-    <%= f.input :feature_request, input_html: { rows: 15 }, hint: "optional: use markdown & ``` code blocks for nicer rendering" %>
+
+    <div class="flex gap-2">
+      <div class="w-1/2">
+        <%= f.input :feature_request, input_html: { rows: 10 }, hint: "optional: use markdown & ``` code blocks for nicer rendering" %>
+      </div>
+      <div class="w-1/2">
+        <%= f.input :contextual_files, as: :text,
+          hint: "load files in that you know are relevant, we can build on this later",
+          input_html: {
+            rows: [robo_job.contextual_files.length + 1, 10].max,
+            value: robo_job.contextual_files.join("\n")
+          }
+        %>
+      </div>
+    </div>
   </div>
 
   <div class="form-actions">
