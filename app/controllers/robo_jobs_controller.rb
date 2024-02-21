@@ -9,6 +9,8 @@ class RoboJobsController < ApplicationController
     @robo_job = RoboJob.new(robo_job_params)
 
     if robo_job.save
+      robo_job.robo_events.create(event_type: "start")
+
       redirect_to robo_job_path(robo_job)
     else
       render :new

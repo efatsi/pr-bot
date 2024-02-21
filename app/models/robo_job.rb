@@ -7,6 +7,8 @@ class RoboJob < ApplicationRecord
   has_many :followup_jobs, -> { by_id }, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
   belongs_to :parent_job, class_name: "RoboJob", optional: true
 
+  has_many :robo_events, as: :subject, dependent: :destroy
+
   has_many :git_commits, dependent: :destroy
 
   validates :feature_request, presence: true
@@ -56,6 +58,10 @@ class RoboJob < ApplicationRecord
     end
 
     unpack_paths(filepaths)
+  end
+
+  def start_event
+    robo_events.find_by(event_type: "start")
   end
 
   def stream_key

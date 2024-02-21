@@ -1,6 +1,6 @@
 class RoboEvent < ApplicationRecord
   EVENT_TYPES = [
-    "new_job",
+    "start",
     "enhance_feature",
     "enhance_files",
     "generate_actions",
@@ -9,6 +9,8 @@ class RoboEvent < ApplicationRecord
   STATUSES = %w[active ignored]
 
   belongs_to :parent_robo_event, class_name: "RoboEvent", optional: true
+  has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id
+
   belongs_to :subject, polymorphic: true
 
   validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }

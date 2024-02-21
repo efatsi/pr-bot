@@ -43,3 +43,7 @@ body {
 a.blue-link {
   @apply text-blue-600
 }
+
+.section-label {
+  @apply inline-block font-medium mb-2 border-b border-opacity-10;
+}

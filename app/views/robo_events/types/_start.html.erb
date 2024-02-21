@@ -1,0 +1,22 @@
+<%= render "shared/dropdown", label: "Feature & Files" do %>
+  <div class="mb-4">
+    <div class="section-label">Feature Request:</div>
+    <div>
+      <%= robo_job.feature_request %>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="section-label">Contextual Files:</div>
+    <ul class="list-disc text-left" data-inline-edit-target="content">
+      <% robo_job.contextual_files.each do |filepath| %>
+        <li class="flex items-center gap-1.5">
+          <%= filepath %>
+          <% if robo_job.project.invalid_path?(filepath) %>
+            <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
