@@ -15,6 +15,20 @@ class RoboEvent < ApplicationRecord
 
   validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
   validates :status, presence: true, inclusion: { in: STATUSES }
+
+  def event_keyword
+    case event_type
+    when "start"
+      "start"
+    when "enhance_feature"
+      "enhance\nfeature"
+    when "enhance_files"
+      "enhance\nfiles"
+    when "generate_actions"
+      "build\nactions"
+
+    end
+  end
 end
 
 # == Schema Information
