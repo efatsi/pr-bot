@@ -21,3 +21,7 @@
     </div>
   </div>
 </li>
+
+<% robo_event.child_robo_events.each do |child_event| %>
+  <%= render "robo_events/list_item", robo_event: child_event %>
+<% end %>
