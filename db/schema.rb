@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_09_073723) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_21_001650) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -129,6 +129,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_09_073723) do
     t.string "ignored_files", default: [], array: true
   end
 
+  create_table "robo_events", force: :cascade do |t|
+    t.bigint "parent_robo_event_id"
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.string "event_type", null: false
+    t.string "status", default: "active", null: false
+    t.json "event_data", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_robo_event_id"], name: "index_robo_events_on_parent_robo_event_id"
+    t.index ["subject_type", "subject_id"], name: "index_robo_events_on_subject"
+  end
+
   create_table "robo_jobs", force: :cascade do |t|
     t.text "feature_request", null: false
     t.string "contextual_files", default: [], array: true
@@ -161,6 +174,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_09_073723) do
   add_foreign_key "actions", "robo_jobs"
   add_foreign_key "git_commits", "projects"
   add_foreign_key "git_commits", "robo_jobs"
+  add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"
   add_foreign_key "robo_jobs", "projects"
   add_foreign_key "robo_jobs", "robo_jobs", column: "parent_job_id"
 end
