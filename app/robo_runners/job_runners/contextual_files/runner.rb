@@ -1,5 +1,5 @@
 module JobRunners::ContextualFiles
-  class Runner < JobRunners::BaseJobRunner
+  class Runner < BaseRoboRunner
 
     alias :robo_job :parent
 

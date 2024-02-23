@@ -1,5 +1,5 @@
 module JobRunners::CommitSuggestions
-  class Runner < JobRunners::BaseJobRunner
+  class Runner < BaseRoboRunner
 
     alias :git_commit :parent
 

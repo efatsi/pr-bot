@@ -94,4 +94,14 @@ class BaseRoboRunner
     raise NotImplementedError
   end
 
+  def broadcast_error_state(error)
+    broadcast(
+      partial: "robo_jobs/shared/error",
+      locals: {
+        robo_request: robo_request,
+        error: error,
+        label: primary_label
+      }
+    )
+  end
 end
