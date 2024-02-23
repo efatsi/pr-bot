@@ -1,6 +1,4 @@
-<% label ||= "Build Instructions" %>
-
-<%= render "shared/dropdown", label: label, open_on_load: true do %>
+<%= render "shared/dropdown", label: "Build Instructions", open_on_load: true do %>
   <%= render "shared/dropdown", label: "Prompt" do %>
     <%= render "shared/prompt_conversation", robo_request: robo_request %>
   <% end %>

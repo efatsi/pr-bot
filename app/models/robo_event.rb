@@ -32,6 +32,14 @@ class RoboEvent < ApplicationRecord
       "build\nactions"
     end
   end
+
+  def robo_request
+    robo_requests.first
+  end
+
+  def has_multiple_requests?
+    event_type == "enhance_feature_request"
+  end
 end
 
 # == Schema Information
