@@ -20,7 +20,7 @@ class BaseRoboRunner
     broadcast_event_scaffold
 
     # run LLM request
-    response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages, model: :gemini)
+    response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages, model: :gpt)
     robo_request.update(response: response)
 
     # handle response: save the good stuff to db
@@ -63,8 +63,16 @@ class BaseRoboRunner
     # no op by default, response is already saved to request
   end
 
+  # this replaces the scaffold with the finished state
   def broadcast_finished_state
-    raise NotImplementedError
+    broadcast(
+      partial: "robo_events/list_item",
+      target: "robo-event-scaffold-#{robo_event.id}",
+      locals: {
+        robo_event: robo_event,
+        ding: true
+      }
+    )
   end
 
   def broadcast_error_state(error)

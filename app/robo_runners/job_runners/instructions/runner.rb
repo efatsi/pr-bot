@@ -13,16 +13,6 @@ module JobRunners::Instructions
       process_instructions_to_pending_actions(generated_instructions)
     end
 
-    def broadcast_finished_state
-      broadcast(
-        partial: 'robo_jobs/instructions/finished',
-        locals: {
-          robo_job: robo_job.reload,
-          ding: true
-        }
-      )
-    end
-
     def process_instructions_to_pending_actions(generated_instructions)
       generated_instructions["changes"].each do |changeset|
         action_type = changeset["action"]
