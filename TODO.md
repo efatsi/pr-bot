@@ -1,12 +1,29 @@
-# robo events
+# RoboEvents
 - buttons to create RoboEvents should include the referencing RoboEvent
+  - orrrr, just find the latest active event
+
+## editing UI
+- inline editing of FeatureRequest
+- inline editing of Contextual Files
+- open file viewer/picker from default view
+- inline editing of enhanced feature request
+
+## event actions
+- can "destroy" if it's the last event (and not start)
+- can "rerun from here"
+  - if event has children
+  - save descending active event ids for "re-activating"
+  - mark descending events as ignored
+  - show next_steps since no active children
+
+## event funstuff
+- contextual files request (expand & then contract)
+- run gpt & gemini for `enhance_feature_request`
+  - UI to pick a favorite
+    - hides the other, can still review and favorite
+
 
 # punch list
-- back up / redo
-  - history view down the left side
-  - can click in to back up to that step, or delete the last step
-  - then threads, keep this but fork off from here
-
 - making context better:
   - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
     - iterate through each file
