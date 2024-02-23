@@ -26,12 +26,5 @@ module JobRunners::ContextualFiles
       )
     end
 
-    def primary_target
-      "get-files"
-    end
-
-    def primary_label
-      "Contextual Files"
-    end
   end
 end

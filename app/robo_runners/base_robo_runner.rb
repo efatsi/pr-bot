@@ -30,6 +30,10 @@ class BaseRoboRunner
     broadcast_finished_state
 
   rescue => error
+    if !robo_request.persisted? || !robo_request.response.present?
+      robo_event.destroy
+    end
+
     broadcast_error_state(error)
   end
 
@@ -42,17 +46,6 @@ class BaseRoboRunner
     prompt.generate_prompt_messages
   end
 
-  # available methods, relies on `primary_target`, and `primary_label` defined in subclass
-  def broadcast(target: primary_target, partial: nil, locals: {}, action: :update)
-    ActionCable.server.broadcast(robo_job.stream_key, {
-      turbo_stream: turbo_stream_action(action,
-        target: target,
-        partial: partial,
-        locals: locals
-      )
-    })
-  end
-
   def broadcast_event_scaffold
     broadcast(
       partial: "robo_events/scaffold",
@@ -60,7 +53,6 @@ class BaseRoboRunner
       locals: {
         robo_event: robo_event,
         robo_request: robo_request,
-        label: primary_label
       }
     )
   end
@@ -73,19 +65,27 @@ class BaseRoboRunner
     raise NotImplementedError
   end
 
-  def primary_label
-    raise NotImplementedError
-  end
-
   def broadcast_error_state(error)
     broadcast(
       partial: "robo_jobs/shared/error",
+      target: "modal",
       locals: {
+        robo_event: robo_event,
         robo_request: robo_request,
         error: error,
-        label: primary_label
       }
     )
+  end
+
+
+  def broadcast(target:, partial: nil, locals: {}, action: :update)
+    ActionCable.server.broadcast(robo_job.stream_key, {
+      turbo_stream: turbo_stream_action(action,
+        target: target,
+        partial: partial,
+        locals: locals
+      )
+    })
   end
 
   # TODO: update this to broadcast to robo_request id, for multiple simul streams

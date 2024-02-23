@@ -20,12 +20,5 @@ module JobRunners::CommitSuggestions
       )
     end
 
-    def primary_target
-      "commit-suggestions"
-    end
-
-    def primary_label
-      "Commit Suggestions"
-    end
   end
 end

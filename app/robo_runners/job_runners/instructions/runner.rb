@@ -23,14 +23,6 @@ module JobRunners::Instructions
       )
     end
 
-    def primary_target
-      "get-instructions"
-    end
-
-    def primary_label
-      "Build Instructions"
-    end
-
     def process_instructions_to_pending_actions(generated_instructions)
       generated_instructions["changes"].each do |changeset|
         action_type = changeset["action"]

@@ -17,12 +17,5 @@ module JobRunners::FollowupInstructions
       )
     end
 
-    def primary_target
-      "continue-conversation"
-    end
-
-    def primary_label
-      "Followup Instructions"
-    end
   end
 end

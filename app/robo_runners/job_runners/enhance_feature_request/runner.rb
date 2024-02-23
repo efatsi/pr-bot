@@ -20,9 +20,5 @@ module JobRunners::EnhanceFeatureRequest
       )
     end
 
-    def primary_label
-      "Enhance Feature Request"
-    end
-
   end
 end
