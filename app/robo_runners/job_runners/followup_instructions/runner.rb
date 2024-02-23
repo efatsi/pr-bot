@@ -6,13 +6,6 @@ module JobRunners::FollowupInstructions
 
     private
 
-    def broadcast_processing_state
-      broadcast(
-        partial: 'robo_jobs/followup/processing',
-        locals: { robo_request: robo_request }
-      )
-    end
-
     def broadcast_finished_state
       broadcast(
         target: "actions",

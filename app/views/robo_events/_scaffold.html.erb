@@ -1,4 +1,8 @@
-<div>
+<div
+  id="robo-event-scaffold-<%= robo_event.id %>"
+  data-controller="new-event"
+  data-new-event-parent-id-value="<%= robo_event.parent_robo_event.id %>"
+>
   <div class="relative pb-4">
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
@@ -11,7 +15,10 @@
       <%# processing details %>
       <div class="min-w-0 flex-1">
         <div class="mb-8" id="robo-event-<%= robo_event.id %>">
-          <%= render "robo_events/#{robo_event.event_type}/processing", robo_event: robo_event %>
+          <%= render "robo_events/#{robo_event.event_type}/processing",
+            robo_event: robo_event,
+            robo_request: robo_request
+          %>
         </div>
       </div>
     </div>

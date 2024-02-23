@@ -1,3 +1,6 @@
+# robo events
+- buttons to create RoboEvents should include the referencing RoboEvent
+
 # punch list
 - back up / redo
   - history view down the left side

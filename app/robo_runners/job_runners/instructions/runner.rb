@@ -5,13 +5,6 @@ module JobRunners::Instructions
 
     alias :robo_job :parent
 
-    def broadcast_processing_state
-      broadcast(
-        partial: 'robo_jobs/instructions/processing',
-        locals: { robo_request: robo_request, label: primary_label }
-      )
-    end
-
     def handle_response
       generated_instructions = JSON.parse(robo_request.response.gsub("^```\w*$", ""))
 

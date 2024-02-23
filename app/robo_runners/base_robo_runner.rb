@@ -16,11 +16,8 @@ class BaseRoboRunner
     # save prompt message to robo request
     robo_request.update(prompt_messages: prompt_messages)
 
-    # broadcast the new robo_event scaffold
+    # broadcast the event scaffold with prompt and response container
     broadcast_event_scaffold
-
-    # broadcast the "stuff is happening" update
-    broadcast_processing_state
 
     # run LLM request
     response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages)
@@ -61,16 +58,11 @@ class BaseRoboRunner
       partial: "robo_events/scaffold",
       target: "next-steps",
       locals: {
-        robo_request: robo_request,
         robo_event: robo_event,
+        robo_request: robo_request,
         label: primary_label
       }
     )
-  end
-
-  # methods that need to be defined in subclasses
-  def broadcast_processing_state
-    raise NotImplementedError
   end
 
   def handle_response

@@ -5,13 +5,6 @@ module JobRunners::ContextualFiles
 
     private
 
-    def broadcast_processing_state
-      broadcast(
-        partial: 'robo_jobs/files/processing',
-        locals: { robo_request: robo_request }
-      )
-    end
-
     def handle_response
       robo_job.update(contextual_files: robo_job.dig_out_contextual_files(robo_request))
     end

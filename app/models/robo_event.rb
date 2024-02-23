@@ -33,10 +33,7 @@ class RoboEvent < ApplicationRecord
     end
   end
 
-  def robo_request
-    robo_requests.first
-  end
-
+  # todo, use this in RoboConductor and codify request types
   def has_multiple_requests?
     event_type == "enhance_feature_request"
   end
