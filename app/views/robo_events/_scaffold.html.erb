@@ -11,10 +11,15 @@
       <%# processing details %>
       <div class="min-w-0 flex-1">
         <div class="mb-8">
-          <%= render "robo_events/#{robo_event.event_type}/processing",
-            robo_event: robo_event,
-            robo_request: robo_request
-          %>
+          <%= render "shared/dropdown", label: robo_event.event_type.titleize, open_on_load: true do %>
+            <%= render "shared/dropdown", label: "Prompt" do %>
+              <%= render "shared/prompt_conversation", robo_request: robo_request %>
+            <% end %>
+
+            <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
+              <pre id="ai-response-<%= robo_request.id %>" class="whitespace-pre-wrap"></pre>
+            <% end %>
+          <% end %>
         </div>
       </div>
     </div>
