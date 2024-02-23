@@ -3,12 +3,8 @@
 
 <div id="robo-event-<%= robo_event.id %>">
   <div class="relative pb-4">
-    <%# vertical line, hidden if it's the last one %>
-    <span
-      id="child-event-line-<%= robo_event.id %>"
-      class="<%= 'hidden' unless has_children %> absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50"
-      aria-hidden="true"
-    ></span>
+    <%# vertical line %>
+    <span class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
 
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
@@ -37,7 +33,20 @@
 <% else %>
   <%# we're at the end of the event line, render buttons to enable next steps %>
   <div id="next-steps">
-    <%= render "robo_events/#{robo_event.event_type}/next_steps", robo_event: robo_event %>
+    <div class="relative pb-4">
+      <div class="relative flex items-start space-x-3">
+        <%# event icon %>
+        <div class="relative">
+          <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border border-dashed border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+          </div>
+        </div>
+
+        <%# next step actios %>
+        <div class="min-w-0 flex-1">
+          <%= render "robo_events/#{robo_event.event_type}/next_steps", robo_event: robo_event %>
+        </div>
+      </div>
+    </div>
   </div>
 
 <% end %>
