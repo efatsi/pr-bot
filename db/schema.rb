@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_21_113417) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_23_010340) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -168,7 +168,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_21_113417) do
     t.string "parent_type", null: false
     t.bigint "parent_id", null: false
     t.json "prompt_messages", default: []
+    t.bigint "robo_event_id"
     t.index ["parent_type", "parent_id"], name: "index_robo_requests_on_parent"
+    t.index ["robo_event_id"], name: "index_robo_requests_on_robo_event_id"
   end
 
   add_foreign_key "actions", "robo_jobs"
@@ -177,4 +179,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_21_113417) do
   add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"
   add_foreign_key "robo_jobs", "projects"
   add_foreign_key "robo_jobs", "robo_jobs", column: "parent_job_id"
+  add_foreign_key "robo_requests", "robo_events"
 end

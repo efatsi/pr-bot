@@ -15,7 +15,7 @@ class FollowupJobsController < ApplicationController
     followup_job = robo_job.followup_jobs.new(followup_job_params)
 
     if followup_job.save
-      ConductorJob.perform_later(followup_job.to_global_id.to_s, "followup_instructions")
+      EventConductorJob.perform_later(followup_job.to_global_id.to_s, "followup_instructions")
     else
       render turbo_stream: turbo_stream.update(
         "continue-conversation",

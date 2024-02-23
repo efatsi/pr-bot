@@ -3,9 +3,12 @@ class BaseRoboRunner
 
   attr_reader :parent, :robo_request
 
-  def initialize(parent, request_type)
-    @parent = parent
-    @robo_request = parent.robo_requests.new(request_type: request_type)
+  def initialize(robo_event, request_type)
+    @parent = robo_event.subject
+    @robo_request = parent.robo_requests.new(
+      robo_event: robo_event,
+      request_type: request_type
+    )
   end
 
   def gooo

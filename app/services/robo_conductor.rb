@@ -1,21 +1,19 @@
 class RoboConductor
-  attr_reader :parent, :request_type
+  attr_reader :robo_event
 
-  def initialize(parent, request_type)
-    # RoboJob or GitCommit or Action
-    @parent = parent
-    @request_type = request_type
+  def initialize(robo_event)
+    @robo_event = robo_event
   end
 
   def run_request
-    runner = get_runner_klass.new(parent, request_type)
+    runner = get_runner_klass.new(robo_event, robo_event.event_type)
     runner.gooo
   end
 
   private
 
   def get_runner_klass
-    case request_type
+    case robo_event.event_type
     when "enhance_contextual_files"
       JobRunners::ContextualFiles::Runner
     when "enhance_feature_request"
@@ -27,7 +25,7 @@ class RoboConductor
     when "commit_suggestions"
       JobRunners::CommitSuggestions::Runner
     else
-      raise "Unknown request type: #{request_type}"
+      raise "Unknown request type: #{robo_event.event_type}"
     end
   end
 

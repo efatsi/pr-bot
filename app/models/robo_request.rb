@@ -10,6 +10,7 @@ class RoboRequest < ApplicationRecord
   after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
 
   belongs_to :parent, polymorphic: true
+  belongs_to :robo_event, optional: true
 
   delegate :project, to: :parent
 
@@ -57,8 +58,14 @@ end
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  parent_id            :bigint           not null
+#  robo_event_id        :bigint
 #
 # Indexes
 #
-#  index_robo_requests_on_parent  (parent_type,parent_id)
+#  index_robo_requests_on_parent         (parent_type,parent_id)
+#  index_robo_requests_on_robo_event_id  (robo_event_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (robo_event_id => robo_events.id)
 #
