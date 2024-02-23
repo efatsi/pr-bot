@@ -1,8 +1,22 @@
-<% robo_job = robo_event.subject %>
+<% robo_job ||= robo_event.subject %>
 
-<div class="flex justify-center text-center gap-8 mt-8 mb-4">
-  <div>
-    <p>More?</p>
-    <%= button_to "Followup Conversation", build_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary" %>
-  </div>
+<div id="next-steps-<%= robo_job.id %>">
+  <% if robo_job.actions.executed.exists? %>
+    <div class="flex justify-center text-center gap-8 mb-4">
+      <div>
+        <p>save progress?</p>
+        <%= link_to 'Create Git Commit', new_project_git_commit_path(robo_job.project, robo_job_id: robo_job.id, modal: true),
+          class: "block btn-opaque",
+          "data-turbo-frame": "modal"
+        %>
+      </div>
+    </div>
+
+    <div class="flex justify-center text-center gap-8 mb-4">
+      <div>
+        <p>more actions?</p>
+        <%= button_to "Followup Conversation", new_robo_job_followup_job_path(robo_job), method: :post, class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
 </div>

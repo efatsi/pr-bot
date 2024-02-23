@@ -52,6 +52,7 @@ class BaseRoboRunner
     broadcast(
       partial: "robo_events/scaffold",
       target: "next-steps",
+      action: :replace,
       locals: {
         robo_event: robo_event,
         robo_request: robo_request,
@@ -68,6 +69,7 @@ class BaseRoboRunner
     broadcast(
       partial: "robo_events/list_item",
       target: "robo-event-scaffold-#{robo_event.id}",
+      action: :replace,
       locals: {
         robo_event: robo_event,
         ding: true

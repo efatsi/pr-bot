@@ -23,8 +23,7 @@ class ActionsController < SseApplicationController
     sse.write({
       turbo_stream: [
         turbo_update_fire_all,
-        turbo_update_continue_button,
-        turbo_update_commit_button
+        turbo_update_next_steps
       ]
     })
 
@@ -41,8 +40,7 @@ class ActionsController < SseApplicationController
         locals: { action: action }
       ),
       turbo_update_fire_all,
-      turbo_update_continue_button,
-      turbo_update_commit_button
+      turbo_update_next_steps
     ]
     render turbo_stream: stream_updates
   end
@@ -83,8 +81,7 @@ class ActionsController < SseApplicationController
         locals: { action: action }
       ),
       turbo_update_fire_all,
-      turbo_update_continue_button,
-      turbo_update_commit_button
+      turbo_update_next_steps
     ]
   end
 
@@ -120,18 +117,10 @@ class ActionsController < SseApplicationController
     )
   end
 
-  def turbo_update_continue_button
+  def turbo_update_next_steps
     turbo_stream.update(
-      "continue-#{robo_job.id}",
-      partial: "actions/buttons/continue",
-      locals: { robo_job: robo_job }
-    )
-  end
-
-  def turbo_update_commit_button
-    turbo_stream.update(
-      "commit-#{robo_job.id}",
-      partial: "actions/buttons/commit",
+      "next-steps-#{robo_job.id}",
+      partial: "robo_events/build_instructions/next_steps",
       locals: { robo_job: robo_job }
     )
   end

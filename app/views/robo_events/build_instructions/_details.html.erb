@@ -6,16 +6,4 @@
       <%= render "robo_jobs/instructions/actions", robo_job: robo_job %>
     <% end %>
   </div>
-
-  <div class="mb-1">
-    <%= turbo_frame_tag "continue-#{robo_job.id}" do %>
-      <%= render "actions/buttons/continue", robo_job: robo_job %>
-    <% end %>
-  </div>
 <% end %>
-
-<div class="mt-8 mb-4">
-  <%= turbo_frame_tag "commit-#{robo_job.id}" do %>
-    <%= render "actions/buttons/commit", robo_job: robo_job %>
-  <% end %>
-</div>

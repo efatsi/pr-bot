@@ -1,7 +1,8 @@
 <% has_children = robo_event.child_robo_events.any? %>
-<%= render "shared/ding" if robo_event.just_finished %>
 
 <div id="robo-event-<%= robo_event.id %>">
+  <%= render "shared/ding" if robo_event.just_finished %>
+
   <div class="relative pb-4">
     <%# vertical line %>
     <span class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
