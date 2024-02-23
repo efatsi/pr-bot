@@ -1,9 +1,12 @@
-<div>
+<% has_children = robo_event.child_robo_events.any? %>
+<%= render "shared/ding" if robo_event.just_finished %>
+
+<div id="robo-event-<%= robo_event.id %>">
   <div class="relative pb-4">
     <%# vertical line, hidden if it's the last one %>
     <span
       id="child-event-line-<%= robo_event.id %>"
-      class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50 <%= 'hidden' if robo_event.child_robo_events.none? %>"
+      class="<%= 'hidden' unless has_children %> absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50"
       aria-hidden="true"
     ></span>
 
@@ -25,7 +28,7 @@
   </div>
 </div>
 
-<% if robo_event.child_robo_events.any? %>
+<% if has_children %>
   <%# render the next event in the sequence if it exists %>
   <% robo_event.child_robo_events.each do |child_event| %>
     <%= render "robo_events/list_item", robo_event: child_event %>

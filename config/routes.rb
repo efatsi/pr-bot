@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       post :unskip, on: :member
     end
 
+    resources :robo_events, only: [:destroy]
+
     resources :followup_jobs, only: [:new, :create]
   end
 

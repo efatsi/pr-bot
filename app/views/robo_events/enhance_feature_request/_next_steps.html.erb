@@ -1,2 +1,23 @@
-<%# pass same as start %>
-<%= render "robo_events/start/next_steps" %>
+<% robo_job = robo_event.subject %>
+
+<% if robo_job.robo_events.of_type("enhance_contextual_files").none? %>
+  <div class="flex justify-center text-center gap-8 mb-8">
+    <div>
+      <p>need better files?</p>
+      <%= button_to enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-opaque flex items-center gap-2" do %>
+        <span>Enhance Contextual Files</span>
+        <%= heroicon "clipboard-document-list", options: { class: "!w-4 !h-4" } %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<div class="flex justify-center text-center gap-8 mb-8">
+  <div>
+    <p>looking good?</p>
+    <%= button_to build_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary flex items-center gap-2" do %>
+      <span>Build Instructions</span>
+      <%= heroicon ["cpu-chip", "sparkles", "calculator"].sample %>
+    <% end %>
+  </div>
+</div>

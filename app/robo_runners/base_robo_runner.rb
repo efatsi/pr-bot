@@ -20,11 +20,13 @@ class BaseRoboRunner
     broadcast_event_scaffold
 
     # run LLM request
-    response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages)
+    response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages, model: :gemini)
     robo_request.update(response: response)
 
     # handle response: save the good stuff to db
     handle_response
+
+    robo_event.just_finished = true
 
     # broadcast finished state
     broadcast_finished_state

@@ -1,19 +1,16 @@
 module JobRunners::EnhanceFeatureRequest
-  class Runner < JobRunners::Instructions::Runner
-
-    # similar in every way to the instructions runner except handling response & label
+  class Runner < BaseRoboRunner
 
     private
 
-    def handle_response
-      # no op, the raw response in robo_request will be used
-    end
+    alias :robo_job :parent
 
     def broadcast_finished_state
       broadcast(
-        partial: 'robo_jobs/instructions/enhance_feature_prompt',
+        partial: "robo_events/list_item",
+        target: "robo-event-scaffold-#{robo_event.id}",
         locals: {
-          robo_job: robo_job.reload,
+          robo_event: robo_event,
           open_on_load: true,
           ding: true
         }

@@ -20,6 +20,13 @@ class RoboEvent < ApplicationRecord
   validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
   validates :status, presence: true, inclusion: { in: STATUSES }
 
+  # To temporarily mark an event as "fresh"
+  attr_accessor :just_finished
+
+  def self.of_type(type)
+    where(event_type: type).by_id
+  end
+
   def event_keyword
     case event_type
     when "start"
