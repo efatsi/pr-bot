@@ -77,7 +77,7 @@ class BaseRoboRunner
 
   def broadcast_error_state(error)
     broadcast(
-      partial: "robo_jobs/shared/error",
+      partial: "shared/error_modal",
       target: "modal",
       locals: {
         robo_event: robo_event,
