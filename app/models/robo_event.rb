@@ -17,6 +17,9 @@ class RoboEvent < ApplicationRecord
 
   belongs_to :subject, polymorphic: true
 
+  scope :active, -> { where(status: "active") }
+  scope :with_finished_requests, -> { joins(:robo_requests).where.not(robo_requests: { response: nil }) }
+
   validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
   validates :status, presence: true, inclusion: { in: STATUSES }
 

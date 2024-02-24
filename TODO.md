@@ -1,12 +1,11 @@
 # RoboEvents
-- buttons to create RoboEvents should include the referencing RoboEvent
-  - orrrr, just find the latest active event
+- tippest_event
 
-## editing UI
-- inline editing of FeatureRequest
-- inline editing of Contextual Files
-- open file viewer/picker from default view
-- inline editing of enhanced feature request
+## event funstuff
+- contextual files request (expand & then contract)
+- run gpt & gemini for `enhance_feature_request`
+  - UI to pick a favorite (active)
+    - hides/`ignored`s the other, can still review and activate
 
 ## event actions
 - can "destroy" if it's the last event (and not start)
@@ -16,11 +15,11 @@
   - mark descending events as ignored
   - show next_steps since no active children
 
-## event funstuff
-- contextual files request (expand & then contract)
-- run gpt & gemini for `enhance_feature_request`
-  - UI to pick a favorite
-    - hides the other, can still review and favorite
+## editing UI
+- inline editing of FeatureRequest
+- inline editing of Contextual Files
+- open file viewer/picker from default view
+- inline editing of enhanced feature request
 
 
 # punch list

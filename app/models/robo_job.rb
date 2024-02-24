@@ -60,6 +60,16 @@ class RoboJob < ApplicationRecord
     unpack_paths(filepaths)
   end
 
+  def last_active_event
+    event = start_event
+
+    while event.child_robo_events.active.with_finished_requests.any?
+      event = event.child_robo_events.active.first
+    end
+
+    event
+  end
+
   def start_event
     robo_events.find_by(event_type: "start")
   end
