@@ -29,7 +29,7 @@ class RobotApi
   def get_robot(model)
     if model.to_s == "gpt-4"
       Robots::Gpt4.new(@external_stream_proc)
-    if model.to_s == "gpt-3"
+    elsif model.to_s == "gpt-3"
       Robots::Gpt3.new(@external_stream_proc)
     elsif model.to_s == "gemini"
       Robots::Gemini.new(@external_stream_proc)
