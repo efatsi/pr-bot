@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_23_010340) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_27_185636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -138,6 +138,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_23_010340) do
     t.json "event_data", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "robots", default: [], array: true
     t.index ["parent_robo_event_id"], name: "index_robo_events_on_parent_robo_event_id"
     t.index ["subject_type", "subject_id"], name: "index_robo_events_on_subject"
   end

@@ -56,6 +56,7 @@ end
 #  id                   :bigint           not null, primary key
 #  event_data           :json
 #  event_type           :string           not null
+#  robots               :string           default([]), is an Array
 #  status               :string           default("active"), not null
 #  subject_type         :string           not null
 #  created_at           :datetime         not null
