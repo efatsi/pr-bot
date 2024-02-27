@@ -5,21 +5,19 @@ class RoboConductor
     @robo_event = robo_event
   end
 
-  def run_request
-    if robo_event.event_type == "enhance_contextual_files"
-      # for this event type, run two runners in sequence
-      expand_runner = JobRunners::ExpandContextualFiles::Runner.new(robo_event, "expand_contextual_files")
-      expand_runner.gooo
+  def start_request
+    runner = get_runner_klass.new(robo_event)
+    runner.gooo
+  end
 
-      collapse_runner = JobRunners::CollapseContextualFiles::Runner.new(robo_event, "collapse_contextual_files")
-      collapse_runner.gooo
+  def run_request(robo_request)
+    runner = get_runner_klass.new(robo_event)
+    runner.run_request(robo_request)
+  end
 
-    else
-      # for the rest, run a single runner
-      runner = get_runner_klass.new(robo_event)
-      runner.gooo
-
-    end
+  def finish_request
+    runner = get_runner_klass.new(robo_event)
+    runner.stoooop
   end
 
   private

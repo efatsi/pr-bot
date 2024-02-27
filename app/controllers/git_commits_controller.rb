@@ -41,7 +41,7 @@ class GitCommitsController < SseApplicationController
       event_type: "commit_suggestions"
     )
 
-    EventConductorJob.perform_later(robo_event.id)
+    RoboConductor.new(robo_event).start_request
   end
 
   private

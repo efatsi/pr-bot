@@ -11,7 +11,7 @@ class RoboEventsController < ApplicationController
       parent_robo_event: robo_job.last_active_event
     )
 
-    EventConductorJob.perform_later(robo_event.id)
+    RoboConductor.new(robo_event).start_request
   end
 
   def destroy
