@@ -1,7 +1,6 @@
 module Robots
-  class Gpt < BaseRobot
-    GPT_4_TURBO = "gpt-4-1106-preview"
-    GPT_4 = "gpt-4"
+  class Gpt4 < BaseRobot
+    GPT_4_TURBO = "gpt-4-0125-preview"
 
     def chat(message)
       prompt_messages = [
@@ -20,7 +19,7 @@ module Robots
 
       client.chat(
         parameters: {
-          model: GPT_4_TURBO,
+          model: model_key,
           messages: prompt_messages,
           response_format: { type: json_mode ? "json_object" : "text" },
           temperature: 0.2,
@@ -43,6 +42,10 @@ module Robots
 
     def client
       @client ||= OpenAI::Client.new(access_token: ENV["OPENAI_API_KEY"])
+    end
+
+    def model_key
+      GPT_4_TURBO
     end
   end
 end
