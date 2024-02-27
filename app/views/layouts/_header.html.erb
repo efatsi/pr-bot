@@ -17,33 +17,24 @@
       data-action="click->header#toggleRobots"
     >
       <%= render "custom_svgs/robot_face" %>
-      <span data-header-target="robotCount">1</span>
+      <span data-header-target="robotCount"><%= cookied_robots.count %></span>
     </div>
   </div>
 
   <div class="hidden flex flex-col gap-1 mt-0.5 text-xs" data-header-target="robots">
-    <div>
-      <input
-        data-action="change->header#handleRobotChange"
-        data-header-target="robotInput"
-        type="checkbox"
-        id="gpt"
-        name="gpt"
-        value="gpt"
-        checked
-      >
-      <label for="gpt">gpt</label>
-    </div>
-    <div>
-      <input
-        data-action="change->header#handleRobotChange"
-        data-header-target="robotInput"
-        type="checkbox"
-        id="gemini"
-        name="gemini"
-        value="gemini"
-      >
-      <label for="gemini">gemini</label>
-    </div>
+    <% available_robots.each do |robot| %>
+      <div>
+        <input
+          data-action="change->header#handleRobotChange"
+          data-header-target="robotInput"
+          type="checkbox"
+          id="<%= robot %>"
+          name="<%= robot %>"
+          value="<%= robot %>"
+          <%= "checked" if cookied_robots.include?(robot) %>
+        >
+        <label for="<%= robot %>"><%= robot %></label>
+      </div>
+    <% end %>
   </div>
 </div>
