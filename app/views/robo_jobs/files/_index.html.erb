@@ -7,7 +7,7 @@
   <% else %>
     <div data-controller="toggle">
       <div data-toggle-target="content1" class="flex gap-2">
-        <%= button_to "Step 1: Gather Contextual Files", get_contextual_files_robo_job_path(robo_job), method: "post", class: "btn-primary inline-block" %>
+        <%= button_to "Step 1: Gather Contextual Files", robo_job_robo_events_path(robo_job, event_type: "get_contextual_files"), method: "post", class: "btn-primary inline-block" %>
         <%= link_to "Or, define files manually", "#", class: "btn-opaque", "data-action": "toggle#toggleContent" %>
       </div>
 

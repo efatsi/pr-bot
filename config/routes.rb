@@ -14,10 +14,6 @@ Rails.application.routes.draw do
   end
 
   resources :robo_jobs, except: :destroy do
-    post :get_contextual_files, on: :member
-    post :enhance_feature_request, on: :member
-    post :build_instructions, on: :member
-
     get :conversation, on: :member
     patch :update_files, on: :member
 
@@ -30,7 +26,7 @@ Rails.application.routes.draw do
       post :unskip, on: :member
     end
 
-    resources :robo_events, only: [:destroy]
+    resources :robo_events, only: [:create, :destroy]
 
     resources :followup_jobs, only: [:new, :create]
   end

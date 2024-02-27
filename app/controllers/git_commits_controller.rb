@@ -36,7 +36,12 @@ class GitCommitsController < SseApplicationController
   end
 
   def generate_options
-    EventConductorJob.perform_later(git_commit.to_global_id.to_s, "commit_suggestions")
+    robo_event = RoboEvent.create!(
+      subject: git_commit,
+      event_type: "commit_suggestions"
+    )
+
+    EventConductorJob.perform_later(robo_event.id)
   end
 
   private

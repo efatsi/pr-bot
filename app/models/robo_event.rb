@@ -45,7 +45,7 @@ class RoboEvent < ApplicationRecord
 
   # todo, use this in RoboConductor and codify request types
   def has_multiple_requests?
-    event_type == "enhance_feature_request"
+    event_type == "enhance_contextual_files"
   end
 end
 

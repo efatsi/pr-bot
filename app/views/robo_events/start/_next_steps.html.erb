@@ -1,14 +1,14 @@
 <div class="flex justify-center text-center gap-8 mb-8">
   <div>
     <p>requires some thinking?</p>
-    <%= button_to enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-opaque flex items-center gap-2" do %>
+    <%= button_to robo_job_robo_events_path(robo_job, event_type: "enhance_feature_request"), method: :post, class: "btn-opaque flex items-center gap-2" do %>
       <span>Enhance Feature Prompt</span>
       <%= heroicon "signal" %>
     <% end %>
   </div>
   <div>
     <p>need better files?</p>
-    <%= button_to enhance_feature_request_robo_job_path(robo_job), method: :post, class: "btn-opaque flex items-center gap-2" do %>
+    <%= button_to robo_job_robo_events_path(robo_job, event_type: "enhance_feature_request"), method: :post, class: "btn-opaque flex items-center gap-2" do %>
       <span>Enhance Contextual Files</span>
       <%= heroicon "clipboard-document-list" %>
     <% end %>
@@ -19,7 +19,7 @@
 <div class="flex justify-center text-center gap-8 mb-8">
   <div>
     <p>ready to go?</p>
-    <%= button_to build_instructions_robo_job_path(robo_job), method: :post, class: "btn-primary flex items-center gap-2" do %>
+    <%= button_to robo_job_robo_events_path(robo_job, event_type: "build_instructions"), method: :post, class: "btn-primary flex items-center gap-2" do %>
       <span>Build Instructions</span>
       <%= heroicon ["cpu-chip", "sparkles", "calculator"].sample %>
     <% end %>
