@@ -16,24 +16,15 @@
     <script src="https://unpkg.com/prismjs@1.29.0/plugins/autoloader/prism-autoloader.js"></script>
   </head>
 
-  <body>
+  <body class="bg-gray-800 text-gray-300">
     <%# placeholder for modal targets %>
     <%= turbo_frame_tag "modal" %>
     <%= turbo_frame_tag "turbo_scripts" %>
 
     <main class="p-3">
-      <div class="flex items-center gap-2">
-        <%= link_to root_url do %>
-          <%= heroicon :home %>
-        <% end %>
+      <%= render "layouts/header" %>
 
-        <div data-controller="mute" data-action="click->mute#toggle" class="cursor-pointer">
-          <%= heroicon "speaker-wave", options: { class: "#{'hidden' unless cookies['playSound'] == 'true'}", "data-mute-target": "unmutedIcon" } %>
-          <%= heroicon "speaker-x-mark", options: { class: "#{'hidden' if cookies['playSound'] == 'true'}", "data-mute-target": "mutedIcon" } %>
-        </div>
-      </div>
-
-      <div class="my-8 w-[100%] px-3 lg:max-w-[80%] mx-auto">
+      <div class="my-6 w-[100%] px-3 lg:max-w-[80%] mx-auto">
         <%= turbo_frame_tag "flash" do %>
           <%= render "shared/flash" %>
         <% end %>

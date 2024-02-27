@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body {
-  @apply bg-gray-800 text-gray-300;
-}
-
 .btn-primary {
   @apply py-1.5 px-3 bg-blue-800 hover:bg-blue-700 rounded-md border border-white border-opacity-60;
 }
