@@ -1,7 +1,7 @@
 module JobRunners::EnhanceFeatureRequest
   class Prompt < BasePromptGenerator
 
-    alias :robo_job :parent
+    alias :robo_job :subject
 
     def prompt_messages
       [

@@ -17,6 +17,8 @@ class RoboEvent < ApplicationRecord
 
   belongs_to :subject, polymorphic: true
 
+  delegate :project, to: :subject
+
   scope :active, -> { where(status: "active") }
   scope :with_finished_requests, -> { joins(:robo_requests).where.not(robo_requests: { response: nil }) }
 

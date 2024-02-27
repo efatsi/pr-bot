@@ -1,38 +1,47 @@
 class BaseRoboRunner
   include TurboStreamHelpers
 
-  attr_reader :robo_event, :parent, :robo_request
+  attr_reader :robo_event, :subject, :robo_requests
 
-  def initialize(robo_event, request_type)
+  def initialize(robo_event)
     @robo_event = robo_event
-    @parent = robo_event.subject
-    @robo_request = parent.robo_requests.new(
-      robo_event: robo_event,
-      request_type: request_type
-    )
+    @subject = robo_event.subject
   end
 
   def gooo
-    # save prompt message to robo request
-    robo_request.update(prompt_messages: prompt_messages)
+    @robo_requests = robo_event.robots.map do |robot|
+      RoboRequest.create(
+        parent: subject,
+        robo_event: robo_event,
+        robot: robot,
+        request_type: robo_event.event_type,
+        prompt_messages: prompt_messages
+      )
+    end
 
     # broadcast the event scaffold with prompt and response container
     broadcast_event_scaffold
 
     # run LLM request
-    response = RobotApi.new(stream_proc).conversation(robo_request.prompt_messages, model: :gpt)
-    robo_request.update(response: response)
+    robo_requests.each do |robo_request|
+      robo_stream_proc = stream_proc(robo_request)
+      response = RobotApi.new(robo_stream_proc).conversation(
+        robo_request.prompt_messages,
+        model: robo_request.robot
+      )
+      robo_request.update(response: response)
+    end
 
-    # handle response: save the good stuff to db
-    handle_response
+    # # handle response: save the good stuff to db
+    # handle_response
 
-    robo_event.just_finished = true
+    # robo_event.just_finished = true
 
-    # broadcast finished state
-    broadcast_finished_state
+    # # broadcast finished state
+    # broadcast_finished_state
 
   rescue => error
-    if !robo_request.persisted? || !robo_request.response.present?
+    if robo_requests.none? { |robo_request| robo_request.response.present? }
       robo_event.destroy
     end
 
@@ -43,7 +52,7 @@ class BaseRoboRunner
 
   def prompt_messages
     runner_module = self.class.module_parents[0]
-    prompt = runner_module::Prompt.new(robo_request)
+    prompt = runner_module::Prompt.new(robo_event.project, subject)
 
     prompt.generate_prompt_messages
   end
@@ -55,7 +64,7 @@ class BaseRoboRunner
       action: :replace,
       locals: {
         robo_event: robo_event,
-        robo_request: robo_request,
+        robo_requests: robo_requests,
       }
     )
   end
@@ -83,7 +92,7 @@ class BaseRoboRunner
       target: "modal",
       locals: {
         robo_event: robo_event,
-        robo_request: robo_request,
+        robo_requests: robo_requests,
         error: error,
       }
     )
@@ -100,8 +109,9 @@ class BaseRoboRunner
     })
   end
 
-  # TODO: update this to broadcast to robo_request id, for multiple simul streams
-  def stream_proc
+  def stream_proc(robo_request)
+    stream_proc_target = "ai-response-#{robo_request.id}"
+
     proc do |new_chars|
       ActionCable.server.broadcast(robo_job.stream_key, {
         event_timestamp: {
@@ -115,10 +125,4 @@ class BaseRoboRunner
       })
     end
   end
-
-  # Default this to this key, subclasses can override if need to target multiple at same time
-  def stream_proc_target
-    "ai-response-#{robo_request.id}"
-  end
-
 end

@@ -16,7 +16,7 @@ class RoboConductor
 
     else
       # for the rest, run a single runner
-      runner = get_runner_klass.new(robo_event, robo_event.event_type)
+      runner = get_runner_klass.new(robo_event)
       runner.gooo
 
     end

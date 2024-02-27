@@ -2,10 +2,11 @@
 DUMMY_MODE = false
 
 class BasePromptGenerator
-  attr_reader :robo_request
+  attr_reader :project, :subject
 
-  def initialize(robo_request)
-    @robo_request = robo_request
+  def initialize(project, subject)
+    @project = project
+    @subject = subject
   end
 
   def generate_prompt_messages
@@ -15,14 +16,6 @@ class BasePromptGenerator
   end
 
   private
-
-  def project
-    @project ||= robo_request.project
-  end
-
-  def parent
-    @parent ||= robo_request.parent
-  end
 
   def project_tools
     [

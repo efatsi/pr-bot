@@ -3,7 +3,7 @@ module JobRunners::Instructions
 
     private
 
-    alias :robo_job :parent
+    alias :robo_job :subject
 
     def handle_response
       generated_instructions = JSON.parse(robo_request.response.gsub("^```\w*$", ""))

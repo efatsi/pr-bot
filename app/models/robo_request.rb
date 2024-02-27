@@ -55,6 +55,7 @@ end
 #  request_type         :string           not null
 #  response             :text
 #  response_token_count :integer
+#  robot                :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  parent_id            :bigint           not null

@@ -1,7 +1,7 @@
 module JobRunners::CommitSuggestions
   class Prompt < BasePromptGenerator
 
-    alias :git_commit :parent
+    alias :git_commit :subject
 
     def prompt_messages
       [

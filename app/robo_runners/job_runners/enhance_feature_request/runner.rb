@@ -3,7 +3,7 @@ module JobRunners::EnhanceFeatureRequest
 
     private
 
-    alias :robo_job :parent
+    alias :robo_job :subject
 
   end
 end

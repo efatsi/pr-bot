@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_27_185636) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_27_204746) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -170,6 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_27_185636) do
     t.bigint "parent_id", null: false
     t.json "prompt_messages", default: []
     t.bigint "robo_event_id"
+    t.string "robot"
     t.index ["parent_type", "parent_id"], name: "index_robo_requests_on_parent"
     t.index ["robo_event_id"], name: "index_robo_requests_on_robo_event_id"
   end
