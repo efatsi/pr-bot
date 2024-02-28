@@ -1,4 +1,6 @@
 <% has_children = robo_event.child_robo_events.any? %>
+<% render_just_self ||= false %>
+<% render_next = !render_just_self %>
 
 <div id="robo-event-<%= robo_event.id %>">
   <%= render "shared/ding" if robo_event.just_finished %>
@@ -10,23 +12,27 @@
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
       <div class="relative" data-controller="dropdown-menu">
-        <div data-action="click->dropdown-menu#toggle" class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800 hover:text-gray-300 hover:border-gray-300">
+        <div data-action="click->dropdown-menu#toggle" class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800 hover:text-gray-300 hover:border-gray-300 cursor-pointer">
           <%== robo_event.event_keyword %>
         </div>
 
-        <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1">
+        <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex flex-col items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1 w-32 z-40">
           <% if robo_event.child_robo_events.any? %>
-            <%= button_to reset_to_here_robo_event(robo_event), method: :post, form: { data: { turbo_confirm: "Are you sure?" } }, class: "flex items-center gap-2 hover:bg-gray-700 p-1 px-2" do %>
-              <span>Reset Here</span>
-              <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
-            <% end %>
+            <%= render "robo_events/util/menu_item",
+              path: reset_to_here_robo_event_path(robo_event),
+              method: :post,
+              button_text: "Reset Here",
+              button_icon: "arrow-down-circle"
+            %>
           <% end %>
 
           <% if !robo_event.is_start_event? %>
-            <%= button_to robo_event_path(robo_event), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "flex items-center gap-2 hover:bg-gray-700 p-1 px-2" do %>
-              <span>Delete</span>
-              <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
-            <% end %>
+            <%= render "robo_events/util/menu_item",
+              path: robo_event_path(robo_event),
+              method: :delete,
+              button_text: "Delete",
+              button_icon: "trash"
+            %>
           <% end %>
         </div>
 
@@ -42,29 +48,31 @@
   </div>
 </div>
 
-<% if has_children %>
-  <%# render the next event in the sequence if it exists %>
-  <% robo_event.child_robo_events.each do |child_event| %>
-    <%= render "robo_events/list_item", robo_event: child_event %>
-  <% end %>
+<% if render_next %>
+  <% if has_children %>
+    <%# render the next event in the sequence if it exists %>
+    <% robo_event.child_robo_events.each do |child_event| %>
+      <%= render "robo_events/list_item", robo_event: child_event %>
+    <% end %>
 
-<% else %>
-  <%# we're at the end of the event line, render buttons to enable next steps %>
-  <div id="next-steps">
-    <div class="relative pb-4">
-      <div class="relative flex items-start space-x-3">
-        <%# event icon %>
-        <div class="relative">
-          <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border border-dashed border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+  <% else %>
+    <%# we're at the end of the event line, render buttons to enable next steps %>
+    <div id="next-steps">
+      <div class="relative pb-4">
+        <div class="relative flex items-start space-x-3">
+          <%# event icon %>
+          <div class="relative">
+            <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border border-dashed border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+            </div>
           </div>
-        </div>
 
-        <%# next step actios %>
-        <div class="min-w-0 flex-1">
-          <%= render "robo_events/#{robo_event.event_type}/next_steps", robo_event: robo_event %>
+          <%# next step actios %>
+          <div class="min-w-0 flex-1">
+            <%= render "robo_events/#{robo_event.event_type}/next_steps", robo_event: robo_event %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
+  <% end %>
 <% end %>

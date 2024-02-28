@@ -1,0 +1,13 @@
+<% confirmation_message ||= "Are you sure?" %>
+
+<%= button_to(
+  path,
+  method: method,
+  form: { data: { turbo_confirm: confirmation_message }, class: "w-full" },
+  class: "w-full flex items-center justify-end gap-2 hover:bg-gray-700 p-1 px-2",
+) do %>
+  <span class="text-sm"><%= button_text %></span>
+  <% if button_icon %>
+    <%= heroicon button_icon, options: { class: "!w-4 !h-4" } %>
+  <% end %>
+<% end %>

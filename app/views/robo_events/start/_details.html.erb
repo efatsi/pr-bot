@@ -1,8 +1,10 @@
+<% robo_job = robo_event.subject %>
+
 <%= render "shared/dropdown", label: "Feature & Files" do %>
   <div class="mb-4">
     <div class="section-label">Feature Request:</div>
     <div>
-      <%= robo_job.feature_request %>
+      <%= render "shared/render_md_and_code", body: robo_job.feature_request %>
     </div>
   </div>
 

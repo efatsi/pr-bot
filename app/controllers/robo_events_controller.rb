@@ -20,13 +20,13 @@ class RoboEventsController < ApplicationController
     robo_event = RoboEvent.find(params[:id])
     robo_event.child_robo_events.destroy_all
 
-    redirect_to robo_job_path(robo_job)
+    redirect_to robo_job_path(robo_event.subject.parent_job_or_self)
   end
 
   def destroy
-    robo_event = RoboEvents.find(params[:id])
+    robo_event = RoboEvent.find(params[:id])
     robo_event.destroy
 
-    redirect_to robo_job_path(robo_job)
+    redirect_to robo_job_path(robo_event.subject.parent_job_or_self)
   end
 end

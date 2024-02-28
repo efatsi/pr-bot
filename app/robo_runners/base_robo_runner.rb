@@ -102,10 +102,21 @@ class BaseRoboRunner
         ding: true
       }
     )
+
+    # update the parent event too since it's rendering is dependent on children
+    broadcast(
+      partial: "robo_events/list_item",
+      target: "robo-event-#{robo_event.parent_robo_event_id}",
+      action: :replace,
+      locals: {
+        robo_event: robo_event.parent_robo_event,
+        render_just_self: true
+      }
+    )
   end
 
   def handle_error(error)
-    if robo_requests.none? { |robo_request| robo_request.response.present? }
+    if robo_requests && robo_requests.none? { |robo_request| robo_request.response.present? }
       robo_event.destroy
     end
 

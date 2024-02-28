@@ -82,6 +82,14 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def parent_job_or_self
+    if is_parent_job?
+      self
+    else
+      parent_job.parent_job_or_self
+    end
+  end
+
   private
 
   def unpack_paths(paths)

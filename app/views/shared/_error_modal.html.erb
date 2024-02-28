@@ -1,8 +1,10 @@
 <%= render "shared/modal" do %>
   <%= render "shared/dropdown", label: "Error in event `<code>#{robo_event.event_type}</code>`".html_safe, open_on_load: true do %>
-    <% robo_requests.each do |robo_request| %>
-      <%= render "shared/dropdown", label: "Prompt" do %>
-        <%= render "shared/prompt_conversation", robo_request: robo_request %>
+    <% if robo_requests %>
+      <% robo_requests.each do |robo_request| %>
+        <%= render "shared/dropdown", label: "Prompt" do %>
+          <%= render "shared/prompt_conversation", robo_request: robo_request %>
+        <% end %>
       <% end %>
     <% end %>
 

@@ -13,7 +13,7 @@ class RoboEvent < ApplicationRecord
   belongs_to :parent_robo_event, class_name: "RoboEvent", optional: true
   has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id, dependent: :destroy
 
-  has_many :robo_requests, -> { by_id }
+  has_many :robo_requests, -> { by_id }, dependent: :nullify
 
   belongs_to :subject, polymorphic: true
 
