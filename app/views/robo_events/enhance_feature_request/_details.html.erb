@@ -59,14 +59,4 @@
     <% end %>
   </div>
 
-  <div class="flex justify-end text-center gap-8 mb-6">
-    <div>
-      <p class="float-right">way off?</p>
-      <%= button_to robo_job_robo_event_path(robo_job, robo_event), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn-opaque flex items-center gap-2" do %>
-        <span>Delete</span>
-        <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
-      <% end %>
-    </div>
-  </div>
-
 <% end %>

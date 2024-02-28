@@ -25,9 +25,13 @@ Rails.application.routes.draw do
       post :unskip, on: :member
     end
 
-    resources :robo_events, only: [:create, :destroy]
+    resources :robo_events, only: :create
 
     resources :followup_jobs, only: [:new, :create]
+  end
+
+  resources :robo_events, only: [:create, :destroy] do
+    post :reset_to_here, on: :member
   end
 
   resources :robo_requests, only: [] do

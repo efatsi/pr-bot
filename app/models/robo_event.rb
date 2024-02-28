@@ -11,9 +11,9 @@ class RoboEvent < ApplicationRecord
   STATUSES = %w[active ignored]
 
   belongs_to :parent_robo_event, class_name: "RoboEvent", optional: true
-  has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id
+  has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id, dependent: :destroy
 
-  has_many :robo_requests, -> { by_id }, dependent: :destroy
+  has_many :robo_requests, -> { by_id }
 
   belongs_to :subject, polymorphic: true
 
@@ -48,6 +48,10 @@ class RoboEvent < ApplicationRecord
   # todo, use this in RoboConductor and codify request types
   def has_multiple_requests?
     event_type == "enhance_contextual_files"
+  end
+
+  def is_start_event?
+    event_type == "start"
   end
 end
 

@@ -9,10 +9,27 @@
 
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
-      <div class="relative">
-        <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+      <div class="relative" data-controller="dropdown-menu">
+        <div data-action="click->dropdown-menu#toggle" class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800 hover:text-gray-300 hover:border-gray-300">
           <%== robo_event.event_keyword %>
         </div>
+
+        <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1">
+          <% if robo_event.child_robo_events.any? %>
+            <%= button_to reset_to_here_robo_event(robo_event), method: :post, form: { data: { turbo_confirm: "Are you sure?" } }, class: "flex items-center gap-2 hover:bg-gray-700 p-1 px-2" do %>
+              <span>Reset Here</span>
+              <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
+            <% end %>
+          <% end %>
+
+          <% if !robo_event.is_start_event? %>
+            <%= button_to robo_event_path(robo_event), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "flex items-center gap-2 hover:bg-gray-700 p-1 px-2" do %>
+              <span>Delete</span>
+              <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
+            <% end %>
+          <% end %>
+        </div>
+
       </div>
 
       <%# event details %>
