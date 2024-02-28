@@ -1,19 +1,33 @@
-# RoboEvents
-- tippest_event
+x run gpt & gemini for `enhance_feature_request`
+- UI to pick a favorite (active)
+  - hides/`ignored`s the other
+    - replace `active` scope with lookup of `status` field on RR
+    - when deleting / ignoring robo_events, cascade down `ignored` to RR (never delete, save for cost)
+  - toggle between active / ignored robo_requests
+    - button to `activate/hide_others`
+- roll out to
+  - build_instructions
+  - followup instructions
+  - git_commit (resurrect)
 
-## event funstuff
-- contextual files request (expand & then contract)
-- run gpt & gemini for `enhance_feature_request`
-  - UI to pick a favorite (active)
-    - hides/`ignored`s the other, can still review and activate
+- add "ignore" action if !start
+  - toggle between active / ignored robo_events
 
-## event actions
-- can "destroy" if it's the last event (and not start)
-- can "rerun from here"
-  - if event has children
-  - save descending active event ids for "re-activating"
-  - mark descending events as ignored
-  - show next_steps since no active children
+## contextual files
+- expand
+  - button to "looking at these files, what other files would you want to check out based on request"
+- contract
+  - button to whittle down current list w/ concurrent robo calls
+    - iterate through each file
+      - clean filename (leading slash)
+      - look at file contents
+        - decide if relevant in the sphere of the feature request
+        - decide if want to see new files
+          - compare against cache of known "already looked at" files
+    - collect results, present to user
+      - show ins, show outs (based on robo digging)
+      - ability to add/remove (keep outs bucket for "superfluous / backup" files that might be relevant)
+
 
 ## editing UI
 - inline editing of FeatureRequest
@@ -22,15 +36,11 @@
 - inline editing of enhanced feature request
 
 
+
 # punch list
-- making context better:
-  - button to whittle down current list w/ concurrent (free!) GoogleAI calls based on request
-    - iterate through each file
-      - clean filename (leading slash)
-      - look at file contents
-        - decide if relevant in the sphere of the feature request
-        - decide if want to see new files
-  - button to "looking at these files, what other files would you want to check out based on request"
+- event navigation
+
+- making context better
 
 - image uploads
 
