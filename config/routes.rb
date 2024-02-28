@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   end
 
   resources :robo_jobs, except: :destroy do
-    get :conversation, on: :member
     patch :update_files, on: :member
 
     resources :actions, only: [] do
@@ -29,6 +28,10 @@ Rails.application.routes.draw do
     resources :robo_events, only: [:create, :destroy]
 
     resources :followup_jobs, only: [:new, :create]
+  end
+
+  resources :robo_requests, only: [] do
+    get :conversation, on: :member
   end
 
   mount GoodJob::Engine => 'good_job'

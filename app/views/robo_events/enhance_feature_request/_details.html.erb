@@ -1,47 +1,65 @@
 <% robo_job = robo_event.subject %>
 
 <%= render "shared/dropdown", label: "Enhance Feature Request", open_on_load: robo_event.just_finished do %>
-  <div class="mb-1" data-controller="tabs">
-    <div class="flex justify-center gap-1">
-      <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input" do %>
-        <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-          <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
-          <span>input</span>
-        </div>
-      <% end %>
+  <div class="flex gap-2">
+    <% robo_event.robo_requests.each do |robo_request| %>
+      <div class="w-1/2">
 
-      <%= link_to conversation_robo_job_path(robo_job, type: "enhance_feature_request"), "data-turbo-frame": "modal" do %>
-        <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
-          <span>convo</span>
-          <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
-        </div>
-      <% end %>
-    </div>
+        <div data-controller="tabs" class="mb-1" >
+          <div class="flex justify-between items-end mx-1">
+            <div class="flex flex-col items-center gap-1 mb-1">
+              <%= render "shared/robot_pill", robot: robo_request.robot %>
 
-    <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
-      <div class="whitespace-pre-wrap"><%= robo_job[:feature_request] %></div>
-    </div>
+              <div class="flex justify-center gap-1">
+                <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input" do %>
+                  <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+                    <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
+                    <span>input</span>
+                  </div>
+                <% end %>
+
+                <%= link_to conversation_robo_request_path(robo_request), "data-turbo-frame": "modal" do %>
+                  <div class="inline-flex items-center gap-1 btn-opaque btn-slim text-sm">
+                    <span>convo</span>
+                    <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="flex flex-col items-end gap-1 mb-1 w-[6.5rem]">
+              <%= link_to "#", method: :post, class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
+                <%= heroicon "check", options: { class: "!w-4 !h-4" } %>
+                <span>Accept</span>
+              <% end %>
+
+              <%= link_to "#", method: :post, class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
+                <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
+                <span>Reject</span>
+              <% end %>
+
+              <%= link_to "#", method: :post, class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
+                <%= heroicon "pencil", options: { class: "!w-4 !h-4" } %>
+                <span>Edit</span>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
+            <div class="whitespace-pre-wrap"><%= robo_job[:feature_request] %></div>
+          </div>
+        </div>
+
+        <%= render "shared/dropdown", label: "Updated Prompt", open_on_load: true do %>
+          <div>
+            <%= render "shared/render_md_and_code", body: robo_request.response %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
-  <%= render "shared/dropdown", label: "Updated Prompt", open_on_load: true do %>
-    <% enhance_request = robo_job.robo_requests.of_type("enhance_feature_request").last %>
-
-    <div>
-      <%= turbo_frame_tag "enhance-#{enhance_request.id}" do %>
-        <%= render "shared/render_md_and_code", body: enhance_request.response %>
-      <% end %>
-    </div>
-  <% end %>
-
   <div class="flex justify-end text-center gap-8 mb-6">
-    <div>
-      <p class="float-right">close?</p>
-      <%= button_to "#", method: :post, class: "btn-opaque flex items-center gap-2" do %>
-        <span>Edit</span>
-        <%= heroicon "pencil", options: { class: "!w-4 !h-4" } %>
-      <% end %>
-    </div>
-
     <div>
       <p class="float-right">way off?</p>
       <%= button_to robo_job_robo_event_path(robo_job, robo_event), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn-opaque flex items-center gap-2" do %>

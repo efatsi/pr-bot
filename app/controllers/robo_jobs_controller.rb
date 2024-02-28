@@ -38,10 +38,6 @@ class RoboJobsController < ApplicationController
     end
   end
 
-  # a path that can be hit to load the most recent conversation for a given type
-  def conversation
-  end
-
   def update_files
     file_params = params.require(:robo_job).permit(:contextual_files)
     robo_job.update(file_params)
