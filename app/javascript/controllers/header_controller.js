@@ -13,10 +13,25 @@ export default class HeaderController extends Controller {
     }
 
     this.handleRobotChange()
+
+    this.robotsOpen = false
+
+    // recognize when clicking outside of this.element and close the robots dropdown
+    document.addEventListener('click', (e) => {
+      if (this.robotsOpen && !this.element.contains(e.target)) {
+        this.toggleRobots()
+      }
+    })
   }
 
   toggleRobots() {
-    this.robotsTarget.classList.toggle('hidden')
+    this.robotsOpen = !this.robotsOpen
+
+    if (this.robotsOpen) {
+      this.robotsTarget.classList.remove('hidden')
+    } else {
+      this.robotsTarget.classList.add('hidden')
+    }
   }
 
   handleRobotChange() {
