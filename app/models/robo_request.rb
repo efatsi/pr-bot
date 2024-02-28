@@ -19,6 +19,9 @@ class RoboRequest < ApplicationRecord
 
   validates :request_type, inclusion: { in: REQUEST_TYPES }
 
+  # where has a robo_event and robo_event is active
+  scope :active, -> { joins(:robo_event).merge(RoboEvent.active) }
+
   def self.of_type(type)
     where(request_type: type).by_id
   end

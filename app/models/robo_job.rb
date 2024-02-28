@@ -26,7 +26,7 @@ class RoboJob < ApplicationRecord
   end
 
   def feature_request
-    if enhance_request = robo_requests.of_type("enhance_feature_request").last
+    if enhance_request = robo_requests.active.of_type("enhance_feature_request").last
       enhance_request.response
     else
       super
