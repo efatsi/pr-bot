@@ -21,7 +21,7 @@ class FollowupJobsController < ApplicationController
         parent_robo_event: robo_job.last_active_event
       )
 
-      RoboConductor.new(robo_event).start_request
+      RoboConductor.new(robo_event).start_event
     else
       render turbo_stream: turbo_stream.update(
         "continue-conversation",

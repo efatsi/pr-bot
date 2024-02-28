@@ -15,10 +15,10 @@ class BaseRoboRunner
     # broadcast the event scaffold with prompt and response container
     broadcast_event_scaffold
 
-    # run LLM requests in background, queue finish when done
+    # in background, trip the `run_request` method for each RoboRequest, queue `finish` when done
     GoodJob::Batch.enqueue(on_finish: EventFinishJob, robo_event_id: robo_event.id) do
       robo_requests.each do |robo_request|
-        AskTheRobotJob.perform_later(robo_event.id, robo_request.id)
+        RequestRunnerJob.perform_later(robo_event.id, robo_request.id)
       end
     end
 
@@ -27,17 +27,18 @@ class BaseRoboRunner
   end
 
   def run_request(robo_request)
+    # Pass the prompt to the Robot, stream the response up to UI as it comes
     robo_stream_proc = stream_proc(robo_request)
-
     response = RobotApi.new(robo_stream_proc).conversation(
       robo_request.prompt_messages,
       model: robo_request.robot
     )
 
+    # save the response on RoboRequest
     robo_request.update(response: response)
   end
 
-  def stoooop
+  def finish
     # optionally pull out any structured data if necessary
     handle_response
 

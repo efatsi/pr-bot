@@ -5,7 +5,7 @@ class RoboConductor
     @robo_event = robo_event
   end
 
-  def start_request
+  def start_event
     runner = get_runner_klass.new(robo_event)
     runner.gooo
   end
@@ -15,9 +15,9 @@ class RoboConductor
     runner.run_request(robo_request)
   end
 
-  def finish_request
+  def finish_event
     runner = get_runner_klass.new(robo_event)
-    runner.stoooop
+    runner.finish
   end
 
   private
