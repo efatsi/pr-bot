@@ -27,18 +27,18 @@
 
             <%= render "shared/robot_pill", robot: robo_request.robot %>
 
-            <div class="flex flex-col items-end gap-1 mb-1 w-[6.5rem]">
-              <%= link_to "#", method: :post, class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
-                <%= heroicon "check", options: { class: "!w-4 !h-4" } %>
-                <span>Accept</span>
-              <% end %>
+            <div class="flex flex-col items-end gap-1 mb-1 w-24">
+              <span class="isolate inline-flex rounded-md shadow-sm w-full">
+                <%= button_to "#", method: :post, form_class: "w-full", class: "w-full btn-opaque !rounded-none !rounded-l-md flex items-center justify-around gap-2" do %>
+                  <%= heroicon "check", options: { class: "!w-4 !h-4 my-1" } %>
+                <% end %>
 
-              <%= link_to "#", method: :post, class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
-                <%= heroicon "trash", options: { class: "!w-4 !h-4" } %>
-                <span>Reject</span>
-              <% end %>
+                <%= button_to "#", method: :post, form_class: "w-full", class: "w-full btn-opaque !rounded-none !rounded-r-md flex items-center justify-around gap-2" do %>
+                  <%= heroicon "trash", options: { class: "!w-4 !h-4 my-1" } %>
+                <% end %>
+              </span>
 
-              <%= link_to "#", method: :post, class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
+              <%= link_to "#", class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
                 <%= heroicon "pencil", options: { class: "!w-4 !h-4" } %>
                 <span>Edit</span>
               <% end %>
