@@ -36,6 +36,8 @@ Rails.application.routes.draw do
 
   resources :robo_requests, only: [] do
     get :conversation, on: :member
+    post :accept, on: :member
+    post :ignore, on: :member
   end
 
   mount GoodJob::Engine => 'good_job'

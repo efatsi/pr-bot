@@ -7,6 +7,8 @@ class RoboRequest < ApplicationRecord
     "commit_suggestions",
   ]
 
+  STATUSES = %w[active ignored]
+
   after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
 
   belongs_to :parent, polymorphic: true
@@ -19,8 +21,9 @@ class RoboRequest < ApplicationRecord
 
   validates :request_type, inclusion: { in: REQUEST_TYPES }
 
-  # where has a robo_event and robo_event is active
-  scope :active, -> { joins(:robo_event).merge(RoboEvent.active) }
+  validates :status, inclusion: { in: STATUSES }
+
+  scope :active, -> { where(status: "active") }
 
   def self.of_type(type)
     where(request_type: type).by_id
@@ -38,6 +41,14 @@ class RoboRequest < ApplicationRecord
     if prompt_messages.present?
       prompt_messages.last["content"]
     end
+  end
+
+  def has_active_siblings?
+    sibling_requests.active.any?
+  end
+
+  def sibling_requests
+    robo_event.robo_requests.where.not(id: self.id)
   end
 
   def inspect
@@ -59,6 +70,7 @@ end
 #  response             :text
 #  response_token_count :integer
 #  robot                :string
+#  status               :string           default("active")
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  parent_id            :bigint           not null

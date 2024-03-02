@@ -4,6 +4,30 @@ class RoboRequestsController < ApplicationController
   def conversation
   end
 
+  def accept
+    robo_request.sibling_requests.update_all(status: "ignored")
+
+    render turbo_stream: [
+      turbo_stream.update(
+        "robo-event-details-#{ robo_request.robo_event.id }",
+        partial: "robo_events/enhance_feature_request/details",
+        locals: { robo_event: robo_request.robo_event, open_on_load: true }
+      ),
+    ]
+  end
+
+  def ignore
+    robo_request.update(status: "ignored")
+
+    render turbo_stream: [
+      turbo_stream.update(
+        "robo-event-details-#{ robo_request.robo_event.id }",
+        partial: "robo_events/enhance_feature_request/details",
+        locals: { robo_event: robo_request.robo_event, open_on_load: true }
+      ),
+    ]
+  end
+
   private
 
   helper_method :robo_request
