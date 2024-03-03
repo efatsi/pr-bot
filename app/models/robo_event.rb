@@ -13,7 +13,8 @@ class RoboEvent < ApplicationRecord
   belongs_to :parent_robo_event, class_name: "RoboEvent", optional: true
   has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id, dependent: :destroy
 
-  has_many :robo_requests, -> { by_id }, dependent: :nullify
+  has_many :robo_requests, -> { by_id }
+  before_destroy :disconnect_and_ignore_requests
 
   belongs_to :subject, polymorphic: true
 
@@ -52,6 +53,15 @@ class RoboEvent < ApplicationRecord
 
   def is_start_event?
     event_type == "start"
+  end
+
+  private
+
+  def disconnect_and_ignore_requests
+    robo_requests.update_all(
+      robo_event_id: nil,
+      status: "ignored"
+    )
   end
 end
 
