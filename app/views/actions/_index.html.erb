@@ -1,4 +1,4 @@
-<%= render "robo_jobs/feature_details", robo_job: robo_job %>
+<%= render "actions/feature_details", robo_job: robo_job %>
 
 <% robo_job.actions.each do |action| %>
   <%= turbo_frame_tag "action-#{action.id}" do %>
