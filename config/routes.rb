@@ -14,7 +14,10 @@ Rails.application.routes.draw do
   end
 
   resources :robo_jobs, except: :destroy do
-    patch :update_files, on: :member
+    get :edit_feature_and_files, on: :member
+    patch :update_feature_and_files, on: :member
+
+    resources :robo_events, only: :create
 
     resources :actions, only: [] do
       get :execute_all, on: :collection
@@ -25,12 +28,10 @@ Rails.application.routes.draw do
       post :unskip, on: :member
     end
 
-    resources :robo_events, only: :create
-
     resources :followup_jobs, only: [:new, :create]
   end
 
-  resources :robo_events, only: [:create, :destroy] do
+  resources :robo_events, only: [:destroy] do
     post :reset_to_here, on: :member
   end
 

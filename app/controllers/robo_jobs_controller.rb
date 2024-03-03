@@ -23,29 +23,17 @@ class RoboJobsController < ApplicationController
     end
   end
 
-  def edit
+  def edit_feature_and_files
   end
 
-  def update
-    if robo_job.update(robo_job_params)
-      if robo_job_params[:contextual_files].present?
-        session[:show_files] = true
-      end
-
-      redirect_to robo_job_path(robo_job)
-    else
-      render :edit
-    end
-  end
-
-  def update_files
-    file_params = params.require(:robo_job).permit(:contextual_files)
+  def update_feature_and_files
+    file_params = params.require(:robo_job).permit(:feature_request, :contextual_files)
     robo_job.update(file_params)
 
     render turbo_stream: turbo_stream.update(
-      "files-and-form",
-      partial: "robo_jobs/files/files_and_form",
-      locals: { robo_job: robo_job }
+      "robo-job-start",
+      partial: "robo_events/start/details",
+      locals: { robo_event: robo_job.start_event, open_on_load: true }
     )
   end
 
