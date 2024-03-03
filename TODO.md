@@ -1,12 +1,14 @@
 x run gpt & gemini for `enhance_feature_request`
-- UI to pick a favorite (active)
-  - hides/`ignored`s the other
-    - replace `active` scope with lookup of `status` field on RR
-    - when deleting / ignoring robo_events, cascade down `ignored` to RR (never delete, save for cost)
-  - toggle between active / ignored robo_requests
-    - button to `activate/hide_others`
+x UI to pick a favorite (active)
+  x hides/`ignored`s the other
+    x replace `active` scope with lookup of `status` field on RR
+    x when deleting / ignoring robo_events, cascade down `ignored` to RR (never delete, save for cost)
+  - toggle between active / ignored requests
+    - button to `activate` ignored requests
+  - inline editing of EnhancedFeatureRequest
 - roll out to
   - build_instructions
+    - actions related to RoboRequests
   - followup instructions
   - git_commit (resurrect)
 
