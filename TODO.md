@@ -3,9 +3,10 @@ x UI to pick a favorite (active)
   x hides/`ignored`s the other
     x replace `active` scope with lookup of `status` field on RR
     x when deleting / ignoring robo_events, cascade down `ignored` to RR (never delete, save for cost)
+  - inline editing of EnhancedFeatureRequest
   - toggle between active / ignored requests
     - button to `activate` ignored requests
-  - inline editing of EnhancedFeatureRequest
+
 - roll out to
   - build_instructions
     - actions related to RoboRequests
