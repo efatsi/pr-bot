@@ -24,6 +24,7 @@ class RoboRequest < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
 
   scope :active, -> { where(status: "active") }
+  scope :ignored, -> { where(status: "ignored") }
 
   def self.of_type(type)
     where(request_type: type).by_id
@@ -55,12 +56,12 @@ class RoboRequest < ApplicationRecord
     sibling_requests.active.any?
   end
 
-  def has_younger_sibling?
-    all_siblings.where("id < ?", id).any?
+  def younger_siblings
+    all_siblings.where("id < ?", id)
   end
 
-  def has_older_sibling?
-    all_siblings.where("id > ?", id).any?
+  def older_siblings
+    all_siblings.where("id > ?", id)
   end
 
   def inspect

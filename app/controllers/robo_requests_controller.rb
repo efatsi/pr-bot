@@ -1,10 +1,24 @@
 class RoboRequestsController < ApplicationController
 
+  def show
+    event_type = robo_request.robo_event.event_type
+
+    render(
+      partial: "robo_events/#{event_type}/details",
+      locals: {
+        robo_event: robo_request.robo_event,
+        focused_robo_request: robo_request,
+        open_on_load: true,
+      }
+    )
+  end
+
   # a path that can be hit to load the most recent conversation for a given type
   def conversation
   end
 
   def accept
+    robo_request.update(status: "active")
     robo_request.sibling_requests.update_all(status: "ignored")
 
     render turbo_stream: [

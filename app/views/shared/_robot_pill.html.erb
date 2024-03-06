@@ -6,22 +6,24 @@
     <% sibling_count = robo_request.all_siblings.count %>
 
     <div class="flex gap-1">
-      <% if robo_request.has_younger_sibling? %>
-        <%= link_to "#robo_request", "turbo_frame_tag": "robo-request-#{robo_request.id}" do %>
+      <% if robo_request.younger_siblings.any? %>
+        <%= link_to robo_request_path(robo_request.younger_siblings.last), "data-turbo-frame": "robo-event-details-#{robo_request.robo_event.id}" do %>
           <%= heroicon "chevron-left", options: { class: "!w-4 !h-4 text-gray-200" } %>
         <% end %>
       <% else %>
-        <div class="w-3"><%# mimic space of link %></div>
+        <%# mimic space of chevron link %>
+        <div class="w-4"></div>
       <% end %>
 
       <code class="text-xs text-gray-400"><%= self_index %>/<%= sibling_count %></code>
 
-      <% if robo_request.has_older_sibling? %>
-        <%= link_to "#robo_request", "turbo_frame_tag": "robo-request-#{robo_request.id}" do %>
+      <% if robo_request.older_siblings.any? %>
+        <%= link_to robo_request_path(robo_request.older_siblings.first), "data-turbo-frame": "robo-event-details-#{robo_request.robo_event.id}" do %>
           <%= heroicon "chevron-right", options: { class: "!w-4 !h-4 text-gray-200" } %>
         <% end %>
       <% else %>
-        <div class="w-3"><%# mimic space of link %></div>
+        <%# mimic space of chevron link %>
+        <div class="w-4"></div>
       <% end %>
     </div>
   <% end %>

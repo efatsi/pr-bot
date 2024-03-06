@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "robo-request-#{robo_request.id}" do %>
   <%= simple_form_for robo_request, url: robo_request_update_enhanced_feature_request_path(robo_request) do |f| %>
     <div class="flex justify-end gap-2 my-2">
-      <%= link_to "Cancel", :back, class: "btn-opaque leading-6 inline-block" %>
+      <%= link_to "Cancel", robo_request_path(robo_request), class: "btn-opaque leading-6 inline-block" %>
     </div>
 
     <%= f.input :response,
@@ -10,7 +10,7 @@
     %>
 
     <div class="flex justify-end gap-2 my-2">
-      <%= link_to "Cancel", :back, class: "btn-opaque leading-6 inline-block" %>
+      <%= link_to "Cancel", robo_request_path(robo_request), class: "btn-opaque leading-6 inline-block" %>
       <%= f.button :submit, "Update", class: "btn-primary" %>
     </div>
   <% end %>

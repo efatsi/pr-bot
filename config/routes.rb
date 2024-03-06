@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     post :reset_to_here, on: :member
   end
 
-  resources :robo_requests, only: [] do
+  resources :robo_requests, only: [:show] do
     get :conversation, on: :member
     post :accept, on: :member
     post :ignore, on: :member
