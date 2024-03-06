@@ -43,12 +43,24 @@ class RoboRequest < ApplicationRecord
     end
   end
 
+  def all_siblings
+    robo_event.robo_requests
+  end
+
+  def sibling_requests
+    all_siblings.where.not(id: self.id)
+  end
+
   def has_active_siblings?
     sibling_requests.active.any?
   end
 
-  def sibling_requests
-    robo_event.robo_requests.where.not(id: self.id)
+  def has_younger_sibling?
+    all_siblings.where("id < ?", id).any?
+  end
+
+  def has_older_sibling?
+    all_siblings.where("id > ?", id).any?
   end
 
   def inspect

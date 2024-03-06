@@ -1,3 +1,32 @@
-<span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400">
-  <%= robot %>
-</span>
+<% show_switcher = !showing_many_siblings && robo_request.sibling_requests.any? %>
+
+<div class="flex flex-col items-center gap-2">
+  <% if show_switcher %>
+    <% self_index = robo_request.all_siblings.index(robo_request) + 1 %>
+    <% sibling_count = robo_request.all_siblings.count %>
+
+    <div class="flex gap-1">
+      <% if robo_request.has_younger_sibling? %>
+        <%= link_to "#robo_request", "turbo_frame_tag": "robo-request-#{robo_request.id}" do %>
+          <%= heroicon "chevron-left", options: { class: "!w-4 !h-4 text-gray-200" } %>
+        <% end %>
+      <% else %>
+        <div class="w-3"><%# mimic space of link %></div>
+      <% end %>
+
+      <code class="text-xs text-gray-400"><%= self_index %>/<%= sibling_count %></code>
+
+      <% if robo_request.has_older_sibling? %>
+        <%= link_to "#robo_request", "turbo_frame_tag": "robo-request-#{robo_request.id}" do %>
+          <%= heroicon "chevron-right", options: { class: "!w-4 !h-4 text-gray-200" } %>
+        <% end %>
+      <% else %>
+        <div class="w-3"><%# mimic space of link %></div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400">
+    <%= robo_request.robot %>
+  </span>
+</div>

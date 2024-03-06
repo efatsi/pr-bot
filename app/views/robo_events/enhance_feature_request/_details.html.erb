@@ -1,12 +1,12 @@
 <% open_on_load ||= robo_event.just_finished %>
 <% robo_job = robo_event.subject %>
-<% many_siblings = robo_event.robo_requests.active.many? %>
+<% showing_many_siblings = robo_event.robo_requests.active.many? %>
 
 <div id="robo-event-details-<%= robo_event.id %>">
   <%= render "shared/dropdown", label: "Enhance Feature Request", open_on_load: open_on_load do %>
     <div class="flex gap-2">
       <% robo_event.robo_requests.active.each do |robo_request| %>
-        <div class="<%= many_siblings ? 'w-1/2 min-w-[50%]' : 'w-full' %>">
+        <div class="<%= showing_many_siblings ? 'w-1/2 min-w-[50%]' : 'w-full' %>">
           <%= turbo_frame_tag "robo-request-#{robo_request.id}" do %>
             <div data-controller="tabs" class="m-1 mb-2" >
               <div class="flex justify-between items-end mb-2">
@@ -26,7 +26,10 @@
                   <% end %>
                 </div>
 
-                <%= render "shared/robot_pill", robot: robo_request.robot %>
+                <%= render "shared/robot_pill",
+                  robo_request: robo_request,
+                  showing_many_siblings: showing_many_siblings
+                %>
 
                 <div class="flex flex-col items-end gap-1 w-20">
                   <% if robo_request.has_active_siblings? %>
