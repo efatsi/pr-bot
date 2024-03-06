@@ -28,10 +28,27 @@ class RoboRequestsController < ApplicationController
     ]
   end
 
+  def edit_enhanced_feature_request
+  end
+
+  def update_enhanced_feature_request
+    feature_params = params.require(:robo_request).permit(:response)
+    robo_request.update(feature_params)
+
+    render(
+      partial: "robo_events/enhance_feature_request/details",
+      locals: { robo_event: robo_request.robo_event, open_on_load: true }
+    )
+  end
+
   private
 
   helper_method :robo_request
   def robo_request
-    @robo_request ||= RoboRequest.find(params[:id])
+    @robo_request ||= if params[:id]
+      RoboRequest.find(params[:id])
+    elsif params[:robo_request_id]
+      RoboRequest.find(params[:robo_request_id])
+    end
   end
 end

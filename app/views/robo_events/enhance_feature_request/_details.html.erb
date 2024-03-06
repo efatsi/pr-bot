@@ -6,54 +6,59 @@
   <%= render "shared/dropdown", label: "Enhance Feature Request", open_on_load: open_on_load do %>
     <div class="flex gap-2">
       <% robo_event.robo_requests.active.each do |robo_request| %>
-        <div class="<%= many_siblings ? 'w-1/2 min-w-[50%]' : 'w-full' %>" id="robo-request-<%= robo_request.id %>">
-          <div data-controller="tabs" class="m-1 mb-2" >
-            <div class="flex justify-between items-end mb-2">
-              <div class="flex flex-col justify-center gap-1 w-20">
-                <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input", class: "w-full" do %>
-                  <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
-                    <span>input</span>
-                    <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
-                  </div>
-                <% end %>
+        <div class="<%= many_siblings ? 'w-1/2 min-w-[50%]' : 'w-full' %>">
+          <%= turbo_frame_tag "robo-request-#{robo_request.id}" do %>
+            <div data-controller="tabs" class="m-1 mb-2" >
+              <div class="flex justify-between items-end mb-2">
+                <div class="flex flex-col justify-center gap-1 w-20">
+                  <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input", class: "w-full" do %>
+                    <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
+                      <span>input</span>
+                      <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
+                    </div>
+                  <% end %>
 
-                <%= link_to conversation_robo_request_path(robo_request), "data-turbo-frame": "modal", class: "w-full" do %>
-                  <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
-                    <span>convo</span>
-                    <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
-                  </div>
-                <% end %>
+                  <%= link_to conversation_robo_request_path(robo_request), "data-turbo-frame": "modal", class: "w-full" do %>
+                    <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
+                      <span>convo</span>
+                      <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <%= render "shared/robot_pill", robot: robo_request.robot %>
+
+                <div class="flex flex-col items-end gap-1 w-20">
+                  <% if robo_request.has_active_siblings? %>
+                    <span class="isolate inline-flex rounded-md shadow-sm w-full">
+                      <%= button_to accept_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "w-full !px-2 btn-opaque !rounded-none !rounded-l-md flex items-center justify-around gap-2" do %>
+                        <%= heroicon "check", options: { class: "!w-4 !h-4 my-1" } %>
+                      <% end %>
+
+                      <%= button_to ignore_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "w-full !px-2 btn-opaque !rounded-none !rounded-r-md flex items-center justify-around gap-2" do %>
+                        <%= heroicon "x-mark", options: { class: "!w-4 !h-4 my-1" } %>
+                      <% end %>
+                    </span>
+                  <% end %>
+
+                  <%= link_to robo_request_edit_enhanced_feature_request_path(robo_request),
+                    "data-turbo-frame": "robo-request-#{robo_request.id}",
+                    class: "btn-opaque flex items-center justify-around gap-2 w-full" do
+                  %>
+                    <%= heroicon "pencil", options: { class: "!w-4 !h-4" } %>
+                    <span>Edit</span>
+                  <% end %>
+                </div>
               </div>
 
-              <%= render "shared/robot_pill", robot: robo_request.robot %>
-
-              <div class="flex flex-col items-end gap-1 w-20">
-                <% if robo_request.has_active_siblings? %>
-                  <span class="isolate inline-flex rounded-md shadow-sm w-full">
-                    <%= button_to accept_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "w-full !px-2 btn-opaque !rounded-none !rounded-l-md flex items-center justify-around gap-2" do %>
-                      <%= heroicon "check", options: { class: "!w-4 !h-4 my-1" } %>
-                    <% end %>
-
-                    <%= button_to ignore_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "w-full !px-2 btn-opaque !rounded-none !rounded-r-md flex items-center justify-around gap-2" do %>
-                      <%= heroicon "x-mark", options: { class: "!w-4 !h-4 my-1" } %>
-                    <% end %>
-                  </span>
-                <% end %>
-
-                <%= link_to "#", class: "btn-opaque flex items-center justify-around gap-2 w-full" do %>
-                  <%= heroicon "pencil", options: { class: "!w-4 !h-4" } %>
-                  <span>Edit</span>
-                <% end %>
+              <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
+                <div class="whitespace-pre-wrap"><%= robo_job[:feature_request] %></div>
               </div>
             </div>
 
-            <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
-              <div class="whitespace-pre-wrap"><%= robo_job[:feature_request] %></div>
-            </div>
-          </div>
-
-          <%= render "shared/dropdown", label: "Updated Prompt", open_on_load: true do %>
-            <%= render "shared/render_md_and_code", body: robo_request.response %>
+            <%= render "shared/dropdown", label: "Expanded Prompt", open_on_load: true do %>
+              <%= render "shared/render_md_and_code", body: robo_request.response %>
+            <% end %>
           <% end %>
         </div>
       <% end %>

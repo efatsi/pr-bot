@@ -39,6 +39,9 @@ Rails.application.routes.draw do
     get :conversation, on: :member
     post :accept, on: :member
     post :ignore, on: :member
+
+    get :edit_enhanced_feature_request
+    patch :update_enhanced_feature_request
   end
 
   mount GoodJob::Engine => 'good_job'
