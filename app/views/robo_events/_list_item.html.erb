@@ -41,7 +41,10 @@
       <%# event details %>
       <div class="min-w-0 flex-1">
         <div class="mb-8">
-          <%= render "robo_events/#{robo_event.event_type}/details", robo_event: robo_event %>
+          <%= render "robo_events/#{robo_event.event_type}/details",
+            robo_event: robo_event,
+            open_on_load: !has_children
+          %>
         </div>
       </div>
     </div>
