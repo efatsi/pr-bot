@@ -1,12 +1,12 @@
 class RoboRequestsController < ApplicationController
 
   def show
-    event_type = robo_request.robo_event.event_type
+    event_type = robo_event.event_type
 
     render(
       partial: "robo_events/#{event_type}/details",
       locals: {
-        robo_event: robo_request.robo_event,
+        robo_event: robo_event,
         focused_robo_request: robo_request,
         open_on_load: true,
       }
@@ -23,9 +23,9 @@ class RoboRequestsController < ApplicationController
 
     render turbo_stream: [
       turbo_stream.update(
-        "robo-event-details-#{ robo_request.robo_event.id }",
-        partial: "robo_events/enhance_feature_request/details",
-        locals: { robo_event: robo_request.robo_event, open_on_load: true }
+        "robo-event-details-#{robo_event.id}",
+        partial: "robo_events/#{robo_event.event_type}/details",
+        locals: { robo_event: robo_event, open_on_load: true }
       ),
     ]
   end
@@ -35,9 +35,9 @@ class RoboRequestsController < ApplicationController
 
     render turbo_stream: [
       turbo_stream.update(
-        "robo-event-details-#{ robo_request.robo_event.id }",
-        partial: "robo_events/enhance_feature_request/details",
-        locals: { robo_event: robo_request.robo_event, open_on_load: true }
+        "robo-event-details-#{robo_event.id}",
+        partial: "robo_events/#{robo_event.event_type}/details",
+        locals: { robo_event: robo_event, open_on_load: true }
       ),
     ]
   end
@@ -51,7 +51,7 @@ class RoboRequestsController < ApplicationController
 
     render(
       partial: "robo_events/enhance_feature_request/details",
-      locals: { robo_event: robo_request.robo_event, open_on_load: true }
+      locals: { robo_event: robo_event, open_on_load: true }
     )
   end
 
@@ -64,5 +64,9 @@ class RoboRequestsController < ApplicationController
     elsif params[:robo_request_id]
       RoboRequest.find(params[:robo_request_id])
     end
+  end
+
+  def robo_event
+    @robo_event ||= robo_request.robo_event
   end
 end
