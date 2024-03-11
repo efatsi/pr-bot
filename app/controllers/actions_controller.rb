@@ -113,6 +113,10 @@ class ActionsController < SseApplicationController
     end
   end
 
+  def robo_event
+    @robo_event ||= robo_request.robo_event
+  end
+
   def turbo_update_fire_all
     turbo_stream.update(
       "fire-all-#{robo_request.id}",
@@ -123,9 +127,9 @@ class ActionsController < SseApplicationController
 
   def turbo_update_next_steps
     turbo_stream.update(
-      "next-steps-#{robo_request.id}",
+      "next-steps-#{robo_event.id}",
       partial: "robo_events/build_instructions/next_steps",
-      locals: { robo_event: robo_request.robo_event }
+      locals: { robo_event: robo_event }
     )
   end
 end

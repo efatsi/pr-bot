@@ -1,6 +1,6 @@
 <% robo_job ||= robo_event.subject %>
 
-<div id="next-steps-<%= robo_job.id %>">
+<div id="next-steps-<%= robo_event.id %>">
   <% if robo_event.actions.executed.exists? %>
     <div class="flex justify-center text-center gap-8 mb-4">
       <div>
@@ -10,9 +10,7 @@
           "data-turbo-frame": "modal"
         %>
       </div>
-    </div>
 
-    <div class="flex justify-center text-center gap-8 mb-4">
       <div>
         <p>more actions?</p>
         <%= button_to "Followup Conversation", new_robo_job_followup_job_path(robo_job), method: :post, class: "btn-primary" %>
