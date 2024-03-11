@@ -1,6 +1,6 @@
 <% if robo_request.actions.pending.count >= 1 %>
   <%= render "shared/stream_button",
-    path: execute_all_robo_request_actions_path(request),
+    path: execute_all_robo_request_actions_path(robo_request),
     label: "Fire All!",
     class_name: "btn-opaque"
   %>
