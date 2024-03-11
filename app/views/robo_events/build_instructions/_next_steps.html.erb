@@ -1,8 +1,8 @@
 <% robo_job ||= robo_event.subject %>
 
 <div id="next-steps-<%= robo_event.id %>">
-  <% if robo_event.actions.executed.exists? %>
-    <div class="flex justify-center text-center gap-8 mb-4">
+  <div class="flex justify-center text-center gap-8 mb-4">
+    <% if robo_event.actions.executed.exists? %>
       <div>
         <p>save progress?</p>
         <%= link_to 'Create Git Commit', new_project_git_commit_path(robo_job.project, robo_job_id: robo_job.parent_job_or_self.id, modal: true),
@@ -10,11 +10,11 @@
           "data-turbo-frame": "modal"
         %>
       </div>
+    <% end %>
 
-      <div>
-        <p>more actions?</p>
-        <%= button_to "Followup Conversation", new_robo_job_followup_job_path(robo_job), method: :post, class: "btn-primary" %>
-      </div>
+    <div>
+      <p>ready for more?</p>
+      <%= button_to "Followup Conversation", new_robo_job_followup_job_path(robo_job), method: :post, class: "btn-primary" %>
     </div>
-  <% end %>
+  </div>
 </div>
