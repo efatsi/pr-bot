@@ -1,11 +1,8 @@
 - roll out to
-  - build_instructions
-    - actions related to RoboRequests
   - followup instructions
   - git_commit (resurrect)
 
-- add "ignore" action if !start
-  - toggle between active / ignored robo_events + dotted "next event" UI
+- contextual files
 
 ## contextual files
 - expand
@@ -22,13 +19,13 @@
       - show ins, show outs (based on robo digging)
       - ability to add/remove (keep outs bucket for "superfluous / backup" files that might be relevant)
 
+- add "ignore" action if !start
+  - button "rerun from here"
+  - toggle between active / ignored robo_events + dotted "next event" UI
 
 ## editing UI
-- inline editing of FeatureRequest
-- inline editing of Contextual Files
 - open file viewer/picker from default view
 - inline editing of enhanced feature request
-
 
 
 # punch list
