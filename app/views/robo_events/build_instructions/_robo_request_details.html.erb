@@ -4,17 +4,17 @@
   <div data-controller="tabs" class="m-1 mb-2" >
     <div class="flex justify-between items-end mb-2">
       <div class="flex flex-col justify-center gap-1 w-20">
-        <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input", class: "w-full" do %>
-          <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
-            <span>input</span>
-            <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
-          </div>
-        <% end %>
-
         <%= link_to conversation_robo_request_path(robo_request), "data-turbo-frame": "modal", class: "w-full" do %>
           <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
             <span>convo</span>
             <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+          </div>
+        <% end %>
+
+        <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input", class: "w-full" do %>
+          <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
+            <span>input</span>
+            <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
           </div>
         <% end %>
       </div>
@@ -49,9 +49,9 @@
 
     <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
       <div class="flex gap-4">
-        <div class="w-3/5 border-r border-white border-opacity-20 pr-4">
+        <div class="w-3/5 border-r border-dashed border-white border-opacity-20 pr-4">
           <div class="section-label">Feature Request:</div>
-          <div class="whitespace-pre-wrap"><%= robo_request.parent.enhanced_feature_request %></div>
+          <%= render "shared/render_md_and_code", body: robo_request.parent.enhanced_feature_request %>
         </div>
 
         <div class="w-2/5">
