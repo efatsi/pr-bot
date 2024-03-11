@@ -1,11 +1,11 @@
 <% robo_job ||= robo_event.subject %>
 
 <div id="next-steps-<%= robo_job.id %>">
-  <% if robo_job.actions.executed.exists? %>
+  <% if robo_event.actions.executed.exists? %>
     <div class="flex justify-center text-center gap-8 mb-4">
       <div>
         <p>save progress?</p>
-        <%= link_to 'Create Git Commit', new_project_git_commit_path(robo_job.project, robo_job_id: robo_job.id, modal: true),
+        <%= link_to 'Create Git Commit', new_project_git_commit_path(robo_job.project, robo_job_id: robo_job.parent_job_or_self.id, modal: true),
           class: "block btn-opaque",
           "data-turbo-frame": "modal"
         %>

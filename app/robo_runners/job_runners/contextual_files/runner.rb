@@ -1,29 +1,17 @@
 module JobRunners::ContextualFiles
   class Runner < BaseRoboRunner
 
-    alias :robo_job :subject
-
     private
 
+    alias :robo_job :subject
+
     def handle_response
-      robo_job.update(contextual_files: robo_job.dig_out_contextual_files(robo_request))
+      # robo_job.update(contextual_files: robo_job.dig_out_contextual_files(robo_request))
+      # leave the robo_job alone, stash structured content on robo_request instead
     end
 
     def broadcast_finished_state
-      broadcast(
-        partial: 'robo_jobs/files/finished',
-        locals: {
-          robo_job: robo_job.reload,
-          robo_request: robo_request,
-          ding: true,
-          open_on_load: true
-        }
-      )
-      broadcast(
-        target: "get-instructions",
-        partial: "robo_jobs/instructions/index",
-        locals: { robo_job: robo_job }
-      )
+      # TODO: implement
     end
 
   end

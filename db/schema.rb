@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_02_134731) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_11_154504) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
-    t.bigint "robo_job_id", null: false
     t.string "status", default: "pending", null: false
     t.json "arguments", default: {}
     t.json "history", default: []
@@ -24,7 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_02_134731) do
     t.text "summary"
     t.text "error"
     t.string "type"
-    t.index ["robo_job_id"], name: "index_actions_on_robo_job_id"
+    t.bigint "robo_request_id"
+    t.index ["robo_request_id"], name: "index_actions_on_robo_request_id"
   end
 
   create_table "git_commits", force: :cascade do |t|
@@ -150,7 +150,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_02_134731) do
     t.datetime "updated_at", null: false
     t.bigint "project_id"
     t.bigint "parent_job_id"
-    t.json "generated_instructions", default: {}
     t.boolean "include_last_convo", default: false
     t.boolean "include_all_convos", default: false
     t.index ["parent_job_id"], name: "index_robo_jobs_on_parent_job_id"
@@ -172,11 +171,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_02_134731) do
     t.bigint "robo_event_id"
     t.string "robot"
     t.string "status", default: "active"
+    t.text "error"
     t.index ["parent_type", "parent_id"], name: "index_robo_requests_on_parent"
     t.index ["robo_event_id"], name: "index_robo_requests_on_robo_event_id"
   end
 
-  add_foreign_key "actions", "robo_jobs"
+  add_foreign_key "actions", "robo_requests"
   add_foreign_key "git_commits", "projects"
   add_foreign_key "git_commits", "robo_jobs"
   add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"

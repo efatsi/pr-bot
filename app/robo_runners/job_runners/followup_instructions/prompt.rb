@@ -18,6 +18,7 @@ module JobRunners::FollowupInstructions
     private
 
     def previous_convo_messages
+      # TODO: update these to use active robo_request convos
       parent_job = robo_job.parent_job
 
       if robo_job.include_last_convo?

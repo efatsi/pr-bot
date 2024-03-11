@@ -1,8 +1,7 @@
 class Action < ApplicationRecord
   include FileHelpers
 
-  belongs_to :robo_job
-  has_many :robo_requests, as: :parent, dependent: :destroy
+  belongs_to :robo_request
 
   STATUSES = [
     "pending",   # ready to be executed
@@ -84,22 +83,22 @@ end
 #
 # Table name: actions
 #
-#  id          :bigint           not null, primary key
-#  arguments   :json
-#  error       :text
-#  history     :json
-#  status      :string           default("pending"), not null
-#  summary     :text
-#  type        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  robo_job_id :bigint           not null
+#  id              :bigint           not null, primary key
+#  arguments       :json
+#  error           :text
+#  history         :json
+#  status          :string           default("pending"), not null
+#  summary         :text
+#  type            :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  robo_request_id :bigint
 #
 # Indexes
 #
-#  index_actions_on_robo_job_id  (robo_job_id)
+#  index_actions_on_robo_request_id  (robo_request_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (robo_job_id => robo_jobs.id)
+#  fk_rails_...  (robo_request_id => robo_requests.id)
 #

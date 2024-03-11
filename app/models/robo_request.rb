@@ -7,12 +7,14 @@ class RoboRequest < ApplicationRecord
     "commit_suggestions",
   ]
 
-  STATUSES = %w[active ignored]
+  STATUSES = %w[active ignored error]
 
   after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
 
   belongs_to :parent, polymorphic: true
   belongs_to :robo_event, optional: true
+
+  has_many :actions, -> { by_id }, dependent: :destroy
 
   delegate :project, to: :parent
 
@@ -23,8 +25,11 @@ class RoboRequest < ApplicationRecord
 
   validates :status, inclusion: { in: STATUSES }
 
-  scope :active, -> { where(status: "active") }
-  scope :ignored, -> { where(status: "ignored") }
+  STATUSES.each do |status|
+    scope status, -> { where(status: status) }
+
+    define_method("#{status}?") { self.status == status }
+  end
 
   def self.of_type(type)
     where(request_type: type).by_id
@@ -65,7 +70,7 @@ class RoboRequest < ApplicationRecord
   end
 
   def inspect
-    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, request_type: #{request_type}, created_at: #{created_at}, updated_at: #{updated_at}, parent_type: #{parent_type}, parent_id: #{parent_id}>"
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, request_type: '#{request_type}', created_at: #{created_at}, updated_at: #{updated_at}, parent_type: #{parent_type}, parent_id: #{parent_id}, robot: '#{robot}'>"
   end
 end
 
@@ -75,6 +80,7 @@ end
 #
 #  id                   :bigint           not null, primary key
 #  cost                 :decimal(8, 2)
+#  error                :text
 #  parent_type          :string           not null
 #  prompt_messages      :json
 #  prompt_token_count   :integer

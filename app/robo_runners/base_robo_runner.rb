@@ -6,12 +6,15 @@ class BaseRoboRunner
   def initialize(robo_event)
     @robo_event = robo_event
     @subject = robo_event.subject
+
+    if robo_event.robo_requests.any?
+      @robo_requests = robo_event.robo_requests
+    else
+      build_robo_requests
+    end
   end
 
   def gooo
-    # save the prompt messages to the requests (one for each robot we're pinging)
-    build_robo_requests
-
     # broadcast the event scaffold with prompt and response container
     broadcast_event_scaffold
 

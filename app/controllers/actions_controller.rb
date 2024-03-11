@@ -2,8 +2,8 @@ class ActionsController < SseApplicationController
   before_action :set_sse_headers, only: :execute_all
 
   def execute_all
-    pending_count = robo_job.actions.pending.count
-    robo_job.actions.pending.each_with_index do |action, i|
+    pending_count = robo_request.actions.pending.count
+    robo_request.actions.pending.each_with_index do |action, i|
       action.fire!
 
       sse.write({
@@ -102,26 +102,30 @@ class ActionsController < SseApplicationController
 
   helper_method :action
   def action
-    @action ||= robo_job.actions.find_by(id: params[:id])
+    @action ||= Action.find_by(id: params[:id])
   end
 
-  def robo_job
-    @robo_job ||= RoboJob.find_by(id: params[:robo_job_id])
+  def robo_request
+    @robo_request ||= if params[:robo_request_id]
+      RoboRequest.find_by(id: params[:robo_request_id])
+    else
+      action.robo_request
+    end
   end
 
   def turbo_update_fire_all
     turbo_stream.update(
-      "fire-all-#{robo_job.id}",
+      "fire-all-#{robo_request.id}",
       partial: "actions/buttons/fire_all",
-      locals: { robo_job: robo_job }
+      locals: { robo_request: robo_request }
     )
   end
 
   def turbo_update_next_steps
     turbo_stream.update(
-      "next-steps-#{robo_job.id}",
+      "next-steps-#{robo_request.id}",
       partial: "robo_events/build_instructions/next_steps",
-      locals: { robo_job: robo_job }
+      locals: { robo_event: robo_request.robo_event }
     )
   end
 end

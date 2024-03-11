@@ -6,14 +6,31 @@ module JobRunners::Instructions
     alias :robo_job :subject
 
     def handle_response
-      generated_instructions = JSON.parse(robo_request.response.gsub("^```\w*$", ""))
+      robo_requests.each do |robo_request|
+        raw_response = robo_request.response
 
-      robo_job.update(generated_instructions: generated_instructions)
-      robo_job.actions.destroy_all
-      process_instructions_to_pending_actions(generated_instructions)
+        if raw_response && raw_response.include?("```")
+          # remove anything before the first ``` line (including language key)
+          raw_response.gsub!(/^.*?```\w*\n/m, "")
+
+          # remove anything after the last ``` line
+          raw_response.gsub!(/```.*$/m, "")
+        end
+
+        begin
+          # by now, it _should_ be a workable JSON string
+          generated_instructions = JSON.parse(raw_response)
+
+          process_instructions_to_pending_actions(generated_instructions, robo_request)
+
+        rescue => e
+          # might not be though, capture as error
+          robo_request.update(status: "error", error: e.message)
+        end
+      end
     end
 
-    def process_instructions_to_pending_actions(generated_instructions)
+    def process_instructions_to_pending_actions(generated_instructions, robo_request)
       generated_instructions["changes"].each do |changeset|
         action_type = changeset["action"]
         summary = changeset["summary"]
@@ -27,8 +44,9 @@ module JobRunners::Instructions
           end
         end
 
-        robo_job.actions.create!(
+        Action.create!(
           type: "Actions::#{action_type.camelize}",
+          robo_request: robo_request,
           status: "pending",
           summary: summary,
           arguments: new_arguments,

@@ -2,7 +2,6 @@ class RoboJob < ApplicationRecord
   belongs_to :project
 
   has_many :robo_requests, -> { by_id }, as: :parent, dependent: :destroy
-  has_many :actions, -> { by_id }, dependent: :destroy
 
   has_many :followup_jobs, -> { by_id }, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
   belongs_to :parent_job, class_name: "RoboJob", optional: true
@@ -121,16 +120,15 @@ end
 #
 # Table name: robo_jobs
 #
-#  id                     :bigint           not null, primary key
-#  contextual_files       :string           default([]), is an Array
-#  feature_request        :text             not null
-#  generated_instructions :json
-#  include_all_convos     :boolean          default(FALSE)
-#  include_last_convo     :boolean          default(FALSE)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  parent_job_id          :bigint
-#  project_id             :bigint
+#  id                 :bigint           not null, primary key
+#  contextual_files   :string           default([]), is an Array
+#  feature_request    :text             not null
+#  include_all_convos :boolean          default(FALSE)
+#  include_last_convo :boolean          default(FALSE)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  parent_job_id      :bigint
+#  project_id         :bigint
 #
 # Indexes
 #

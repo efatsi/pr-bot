@@ -19,15 +19,6 @@ Rails.application.routes.draw do
 
     resources :robo_events, only: :create
 
-    resources :actions, only: [] do
-      get :execute_all, on: :collection
-      post :execute, on: :member
-      post :reset, on: :member
-      post :skip, on: :member
-      post :unexecute, on: :member
-      post :unskip, on: :member
-    end
-
     resources :followup_jobs, only: [:new, :create]
   end
 
@@ -42,6 +33,18 @@ Rails.application.routes.draw do
 
     get :edit_enhanced_feature_request
     patch :update_enhanced_feature_request
+
+    resources :actions, only: [] do
+      get :execute_all, on: :collection
+    end
+  end
+
+  resources :actions, only: [] do
+    post :execute, on: :member
+    post :reset, on: :member
+    post :skip, on: :member
+    post :unexecute, on: :member
+    post :unskip, on: :member
   end
 
   mount GoodJob::Engine => 'good_job'

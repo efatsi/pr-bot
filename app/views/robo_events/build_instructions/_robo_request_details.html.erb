@@ -1,0 +1,67 @@
+<% robo_request_width = showing_many_siblings ? "w-1/2 min-w-[50%]" : "w-full" %>
+
+<%= turbo_frame_tag "robo-request-#{robo_request.id}", class: robo_request_width do %>
+  <div data-controller="tabs" class="m-1 mb-2" >
+    <div class="flex justify-between items-end mb-2">
+      <div class="flex flex-col justify-center gap-1 w-20">
+        <%= link_to "#", "data-action": "tabs#showTab", "data-tab-key": "input", class: "w-full" do %>
+          <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
+            <span>input</span>
+            <%= heroicon "microphone", options: { class: "!w-4 !h-4" } %>
+          </div>
+        <% end %>
+
+        <%= link_to conversation_robo_request_path(robo_request), "data-turbo-frame": "modal", class: "w-full" do %>
+          <div class="w-full inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
+            <span>convo</span>
+            <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+          </div>
+        <% end %>
+      </div>
+
+      <%= render "shared/robot_pill",
+        robo_request: robo_request,
+        showing_many_siblings: showing_many_siblings
+      %>
+
+      <div class="flex flex-col items-end gap-1 w-20">
+        <% if robo_request.has_active_siblings? && !robo_request.error? %>
+          <% if showing_many_siblings %>
+            <span class="isolate inline-flex rounded-md shadow-sm w-full">
+              <%= button_to accept_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "w-full !px-2 btn-opaque !rounded-none !rounded-l-md flex items-center justify-around gap-2" do %>
+                <%= heroicon "check", options: { class: "!w-4 !h-4 my-1" } %>
+              <% end %>
+
+              <%= button_to ignore_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "w-full !px-2 btn-opaque !rounded-none !rounded-r-md flex items-center justify-around gap-2" do %>
+                <%= heroicon "x-mark", options: { class: "!w-4 !h-4 my-1" } %>
+              <% end %>
+            </span>
+
+          <% else %>
+            <%= button_to accept_robo_request_path(robo_request), method: :post, form_class: "w-full", class: "btn-opaque  w-full flex items-center justify-around gap-2" do %>
+              <%= heroicon "check", options: { class: "!w-4 !h-4 my-1" } %> Use
+            <% end %>
+
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="border border-white border-opacity-20 rounded p-2 hidden" data-tabs-target="tab" data-tab="input">
+      <div class="whitespace-pre-wrap"><%= robo_request.parent.enhanced_feature_request %></div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-1 mb-2">
+    <% robo_request.actions.each do |action| %>
+      <%= turbo_frame_tag "action-#{action.id}" do %>
+        <%= render "actions/show", action: action %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="flex flex-col items-end" id="fire-all-<%= robo_request.id %>">
+    <%= render "actions/buttons/fire_all", robo_request: robo_request %>
+  </div>
+
+<% end %>

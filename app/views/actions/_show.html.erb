@@ -12,5 +12,7 @@
     </div>
   <% end %>
 
-  <%= render "actions/type_details/#{action.action_type}", action: action %>
+  <div class="z-50">
+    <%= render "actions/type_details/#{action.action_type}", action: action %>
+  </div>
 <% end %>

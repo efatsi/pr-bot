@@ -14,6 +14,8 @@ class RoboEvent < ApplicationRecord
   has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id, dependent: :destroy
 
   has_many :robo_requests, -> { by_id }
+  has_many :actions, -> { by_id }, through: :robo_requests
+
   before_destroy :disconnect_and_ignore_requests
 
   belongs_to :subject, polymorphic: true
