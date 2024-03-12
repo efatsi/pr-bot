@@ -47,6 +47,7 @@ export default class FuzzyFinderController extends Controller {
     this.finalInput = document.getElementById(this.inputIdValue);
     this.previewedFile = null;
     this.lastUrl = null;
+    this.allFiles = [];
     this.abortController = null
 
     this.loadSelectedFiles();
@@ -198,14 +199,24 @@ export default class FuzzyFinderController extends Controller {
       this.contentSearchTargets.forEach(el => el.classList.add('hidden'));
     }
 
-    // check if query is empty or unchanged
+    // check if query is empty
     if (query.trim() === '' && this.searchMode() !== 'all_files') {
       this.displayFiles = new Set();
       this.renderFileList()
       return;
+
+    // then check if query is unchanged (or back to all files)
     } else if (this.lastUrl === url) {
+      // if going back to all files, reset the data and refresh
+      if (this.searchMode() === 'all_files') {
+        this.displayFiles = this.allFiles;
+        this.renderFileList()
+      }
+      // otherwise, nothing changed, return
       return;
+
     } else {
+      // if here, query is new, stash the url and fetch data
       this.lastUrl = url;
     }
 
@@ -216,6 +227,11 @@ export default class FuzzyFinderController extends Controller {
       .then(response => response.json())
       .then(data => {
         this.abortController = null;
+
+        if (this.searchMode() === 'all_files' && this.allFiles.length === 0) {
+          this.allFiles = data;
+        }
+
         this.displayFiles = data
         this.renderFileList();
       })
