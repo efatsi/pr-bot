@@ -2,7 +2,7 @@ class RoboJobsController < ApplicationController
   after_action :clear_show_files, only: [:show]
 
   def new
-    @robo_job = RoboJob.new
+    @robo_job = RoboJob.new(project_id: params[:project_id])
   end
 
   def create

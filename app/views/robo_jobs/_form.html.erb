@@ -8,7 +8,7 @@
     input_html: { class: "!w-96" }
   %>
 
-  <%= render "robo_jobs/feature_and_files_inputs", f: f %>
+  <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: robo_job %>
 
   <%= f.button :submit, button_text, class: "btn-primary" %>
   <%= link_to "Cancel", :back, class: "btn-opaque leading-6 inline-block" %>

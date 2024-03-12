@@ -34,7 +34,7 @@ class RoboJob < ApplicationRecord
 
   def last_contextual_files
     last_job = followup_jobs.last || self
-    (last_job.contextual_files + last_job.actions.map(&:file).compact).uniq
+    (last_job.contextual_files + last_job.active_actions.map(&:file).compact).uniq
   end
 
   def includes_past_convo?
@@ -87,6 +87,10 @@ class RoboJob < ApplicationRecord
     else
       parent_job.parent_job_or_self
     end
+  end
+
+  def active_actions
+    robo_requests.active.of_type(["build_instructions", "followup_instructions"]).flat_map(&:actions)
   end
 
   private

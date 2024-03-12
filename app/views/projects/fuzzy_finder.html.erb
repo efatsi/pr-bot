@@ -26,10 +26,10 @@
             <%= f.label :mode_all_files, "Show All Files", class: "mr-4" %>
 
             <%= f.radio_button :mode, "file_name", checked: true, class: "mr-2" %>
-            <%= f.label :mode_file_name, "File Name", class: "mr-4" %>
+            <%= f.label :mode_file_name, "Search Name", class: "mr-4" %>
 
             <%= f.radio_button :mode, "file_content", class: "mr-2" %>
-            <%= f.label :mode_file_content, "File Content" %>
+            <%= f.label :mode_file_content, "Search Content" %>
 
             <%= f.check_box :regex, class: "ml-4 hidden", "data-fuzzy-finder-target": "contentSearch" %>
             <%= f.label :regex, "Regex Search", class: "ml-1 hidden", "data-fuzzy-finder-target": "contentSearch" %>

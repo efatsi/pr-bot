@@ -1,12 +1,13 @@
 class FollowupJobsController < ApplicationController
   def new
     followup_job = robo_job.followup_jobs.new(
+      project: project,
       contextual_files: robo_job.last_contextual_files
     )
 
     render turbo_stream: turbo_stream.update(
-      "continue-conversation",
-      partial: "robo_jobs/followup/form",
+      "next-steps",
+      partial: "robo_events/build_instructions/followup_scaffold",
       locals: { robo_job: robo_job, followup_job: followup_job }
     )
   end

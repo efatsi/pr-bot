@@ -1,0 +1,59 @@
+<div id="followup-scaffold">
+  <div class="relative pb-4">
+    <div class="relative flex items-start space-x-3">
+      <%# event icon %>
+      <div class="relative">
+        <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+          <%== "followup\nconvo" %>
+        </div>
+      </div>
+
+      <%# processing details %>
+      <div class="min-w-0 flex-1">
+        <div class="mb-8">
+          <%= render "shared/dropdown", label: "Followup Conversation", open_on_load: true do %>
+
+
+            <% input_id = "contextual-file-input-#{followup_job.id}" %>
+            <div class="mb-4" data-controller="followup conversation">
+              <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
+
+                <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: followup_job,
+                  feature_label: "Followup",
+                  feature_hint: "eg: “the spacing looks all messed up, please fix that”",
+                  files_hint: "select a subset of files from the previous job, or add new ones"
+                %>
+
+                <div class="mt-2">
+                  <%= f.input :include_last_convo,
+                    as: :boolean,
+                    label: 'Include Last Convo',
+                    input_html: {
+                      'data-conversation-target': 'lastConvo', 'data-action': 'change->conversation#toggleCheckboxes'
+                    }
+                  %>
+                  <% if followup_job.parent_job.followup_jobs.any? {|a| a.actions.any? } %>
+                    <%= f.input :include_all_convos,
+                      as: :boolean,
+                      label: 'Include All Convos',
+                      input_html: {
+                        'data-conversation-target': 'allConvos', 'data-action': 'change->conversation#toggleCheckboxes'
+                      }
+                    %>
+                  <% end %>
+                </div>
+
+                <div class="mb-2 flex gap-2 self-end">
+                  <%= link_to "Cancel", "#", "data-action": "followup#remove", class: "btn-opaque" %>
+                  <%= f.submit "Submit", class: "btn-primary" %>
+                </div>
+              <% end %>
+            </div>
+
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

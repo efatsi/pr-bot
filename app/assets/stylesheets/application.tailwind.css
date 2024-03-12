@@ -42,3 +42,7 @@ a.blue-link {
 .section-label {
   @apply inline-block font-medium mb-2 border-b border-white border-opacity-50;
 }
+
+.input-label {
+  @apply block text-sm font-medium text-gray-300;
+}

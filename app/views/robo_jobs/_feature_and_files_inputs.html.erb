@@ -1,19 +1,41 @@
+<% feature_label ||= "Feature Request" %>
+<% feature_hint ||= "optional: use markdown & ``` code blocks for nicer rendering" %>
+<% files_hint ||= "load files in that you know are relevant, we can build on this later" %>
+
 <div class="flex gap-4">
   <div class="w-3/5">
+    <%= f.label :feature_request, feature_label, required: false, class: "input-label" %>
     <%= f.input :feature_request,
-      input_html: { rows: 10 },
-      hint: "optional: use markdown & ``` code blocks for nicer rendering"
+      label: false,
+      input_html: {
+        rows: 8,
+        "data-controller": "autofocus"
+      },
+      hint: feature_hint
     %>
   </div>
 
   <div class="w-2/5">
-    <%= f.input :contextual_files,
-      as: :text,
-      input_html: {
-        rows: [robo_job.contextual_files.length + 1, 10].max,
-        value: robo_job.contextual_files.join("\n")
-      },
-      hint: "load files in that you know are relevant, we can build on this later"
-    %>
+    <% files_input_id = "contextual-file-input-#{robo_job.id}" %>
+
+    <%= f.label files_input_id, "Contextual files", class: "input-label" %>
+    <div class="flex flex-col">
+      <%= f.input :contextual_files, as: :text, label: false,
+        hint: files_hint,
+        wrapper_html: { class: "!mb-2" },
+        input_html: {
+          id: files_input_id,
+          rows: [robo_job.contextual_files.length + 1, 8].max,
+          value: robo_job.contextual_files.join("\n")
+        }
+      %>
+
+      <% if robo_job.project %>
+        <%= link_to fuzzy_finder_project_path(robo_job.project, input_id: files_input_id), class: "btn-opaque whitespace-nowrap self-end flex items-center gap-2", "data-turbo-frame": "modal" do %>
+          <%= heroicon "magnifying-glass-plus", options: { class: "inline" } %>
+          <span>File Finder</span>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
