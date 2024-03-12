@@ -18,7 +18,7 @@ module FileHelpers
   end
 
   def full_filepath
-    robo_job = robo_request.parent
+    robo_job = robo_request.robo_job
 
     if file.downcase.start_with?(robo_job.project.filepath.downcase)
       file

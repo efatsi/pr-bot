@@ -51,16 +51,16 @@
       <div class="flex gap-4">
         <div class="w-3/5 border-r border-dashed border-white border-opacity-20 pr-4">
           <div class="section-label">Feature Request:</div>
-          <%= render "shared/render_md_and_code", body: robo_request.parent.enhanced_feature_request %>
+          <%= render "shared/render_md_and_code", body: robo_request.robo_job.enhanced_feature_request %>
         </div>
 
         <div class="w-2/5">
           <div class="section-label">Contextual Files:</div>
           <ul class="list-disc text-left" data-inline-edit-target="content">
-            <% robo_job.contextual_files.each do |filepath| %>
+            <% robo_request.robo_job.contextual_files.each do |filepath| %>
               <li class="flex items-center gap-1.5">
                 <%= filepath %>
-                <% if robo_job.project.invalid_path?(filepath) %>
+                <% if robo_request.robo_job.project.invalid_path?(filepath) %>
                   <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
                 <% end %>
               </li>

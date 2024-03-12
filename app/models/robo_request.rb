@@ -11,8 +11,10 @@ class RoboRequest < ApplicationRecord
 
   after_save :calculate_token_usage_and_cost, if: :saved_change_to_response?
 
-  belongs_to :parent, polymorphic: true
   belongs_to :robo_event, optional: true
+
+  belongs_to :parent, polymorphic: true
+  alias_attribute :robo_job, :parent
 
   has_many :actions, -> { by_id }, dependent: :destroy
 
