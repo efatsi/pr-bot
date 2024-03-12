@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   resources :robo_events, only: [:destroy] do
     post :reset_to_here, on: :member
+    get :show_next_steps, on: :member
   end
 
   resources :robo_requests, only: [:show] do

@@ -1,0 +1,16 @@
+<div id="next-steps">
+  <div class="relative pb-4">
+    <div class="relative flex items-start space-x-3">
+      <%# event icon %>
+      <div class="relative">
+        <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border border-dashed border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+        </div>
+      </div>
+
+      <%# next step actions %>
+      <div class="min-w-0 flex-1">
+        <%= render "robo_events/#{robo_event.event_type}/next_steps", robo_event: robo_event %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,18 @@
 class RoboEventsController < ApplicationController
 
+  def show_next_steps
+    robo_event = RoboEvent.find(params[:id])
+
+    # depends on params[:turbo_replace]
+    render turbo_stream: turbo_stream.replace(
+      params[:turbo_replace],
+      partial: "robo_events/next_steps",
+      locals: {
+        robo_event: robo_event
+      }
+    )
+  end
+
   def create
     # join available w/ cookied to ensure valid and selected robots
     selected_robots = available_robots & cookied_robots
