@@ -1,4 +1,4 @@
-<div id="followup-scaffold">
+<div id="followup-scaffold" data-controller="followup">
   <div class="relative pb-4">
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
@@ -15,7 +15,7 @@
 
 
             <% input_id = "contextual-file-input-#{followup_job.id}" %>
-            <div class="mb-4" data-controller="followup conversation">
+            <div class="mb-2">
               <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
 
                 <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: followup_job,
@@ -29,7 +29,7 @@
                     as: :boolean,
                     label: 'Include Last Convo',
                     input_html: {
-                      'data-conversation-target': 'lastConvo', 'data-action': 'change->conversation#toggleCheckboxes'
+                      'data-followup-target': 'lastConvo', 'data-action': 'change->followup#toggleCheckboxes'
                     }
                   %>
                   <% if followup_job.parent_job.followup_jobs.any? {|a| a.actions.any? } %>
@@ -37,14 +37,14 @@
                       as: :boolean,
                       label: 'Include All Convos',
                       input_html: {
-                        'data-conversation-target': 'allConvos', 'data-action': 'change->conversation#toggleCheckboxes'
+                        'data-followup-target': 'allConvos', 'data-action': 'change->followup#toggleCheckboxes'
                       }
                     %>
                   <% end %>
                 </div>
 
                 <div class="mb-2 flex gap-2 self-end">
-                  <%= link_to "Cancel", "#", "data-action": "followup#remove", class: "btn-opaque" %>
+                  <%= link_to "Cancel", show_next_steps_robo_event_path(robo_job.last_active_event, turbo_replace: "followup-scaffold"), class: "btn-opaque" %>
                   <%= f.submit "Submit", class: "btn-primary" %>
                 </div>
               <% end %>
