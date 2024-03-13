@@ -21,6 +21,7 @@ class FollowupJobsController < ApplicationController
     if followup_job.save
       robo_event = RoboEvent.create!(
         subject: followup_job,
+        robots: selected_robots,
         event_type: "followup_instructions",
         parent_robo_event: robo_job.last_active_event
       )

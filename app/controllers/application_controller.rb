@@ -1,5 +1,10 @@
 class ApplicationController < ActionController::Base
 
+  def selected_robots
+    # join available w/ cookied to ensure valid and selected robots
+    available_robots & cookied_robots
+  end
+
   helper_method :available_robots
   def available_robots
     ["gpt-4", "gpt-3", "gemini"]

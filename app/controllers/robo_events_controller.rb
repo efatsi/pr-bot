@@ -14,9 +14,6 @@ class RoboEventsController < ApplicationController
   end
 
   def create
-    # join available w/ cookied to ensure valid and selected robots
-    selected_robots = available_robots & cookied_robots
-
     subject = RoboJob.find(params[:robo_job_id])
 
     robo_event = RoboEvent.create!(
