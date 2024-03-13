@@ -43,7 +43,7 @@ class RoboEvent < ApplicationRecord
       "enhance\nfeature"
     when "enhance_contextual_files"
       "enhance\nfiles"
-    when "build_instructions"
+    when "build_instructions", "followup_instructions"
       "build\nactions"
     end
   end

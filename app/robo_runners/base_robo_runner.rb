@@ -59,7 +59,7 @@ class BaseRoboRunner
 
   def build_robo_requests
     @robo_requests = robo_event.robots.map do |robot|
-      RoboRequest.create(
+      RoboRequest.create!(
         parent: subject,
         robo_event: robo_event,
         robot: robot,

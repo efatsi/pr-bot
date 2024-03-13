@@ -14,7 +14,7 @@
 
     <div>
       <p>more to automate?</p>
-      <%= link_to "Followup Conversation", new_robo_job_followup_job_path(robo_job), class: "btn-primary block" %>
+      <%= link_to "Followup Conversation", new_robo_job_followup_job_path(robo_job.parent_job_or_self), class: "btn-primary block" %>
     </div>
   </div>
 </div>
