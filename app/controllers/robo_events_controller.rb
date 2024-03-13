@@ -17,9 +17,9 @@ class RoboEventsController < ApplicationController
     subject = RoboJob.find(params[:robo_job_id])
 
     robo_event = RoboEvent.create!(
-      subject: subject,
-      robots: selected_robots,
       event_type: params[:event_type],
+      robots: selected_robots,
+      subject: subject,
       parent_robo_event: subject.last_active_event
     )
 

@@ -37,8 +37,10 @@ class GitCommitsController < SseApplicationController
 
   def generate_options
     robo_event = RoboEvent.create!(
+      event_type: "commit_suggestions",
+      robots: selected_robots,
       subject: git_commit,
-      event_type: "commit_suggestions"
+      parent_robo_event: robo_job.last_active_event
     )
 
     RoboConductor.new(robo_event).start_event
@@ -69,7 +71,11 @@ class GitCommitsController < SseApplicationController
 
   # Sometimes have a robo_job
   def robo_job
-    @robo_job ||= RoboJob.find_by(id: params[:robo_job_id])
+    @robo_job ||= if params[:robo_job_id]
+      RoboJob.find_by(id: params[:robo_job_id])
+    elsif git_commit
+      git_commit.robo_job
+    end
   end
   helper_method :robo_job
 end
