@@ -37,6 +37,10 @@ class RoboRequest < ApplicationRecord
     where(request_type: type).by_id
   end
 
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, request_type: '#{request_type}', created_at: #{created_at}, updated_at: #{updated_at}, parent_type: #{parent_type}, parent_id: #{parent_id}, robot: '#{robot}'>"
+  end
+
   def calculate_token_usage_and_cost
     encoder = Tiktoken.encoding_for_model('gpt-4')
     self.prompt_token_count = encoder.encode(prompt_messages.map{|a| a["content"]}.join(" ")).length
@@ -71,9 +75,6 @@ class RoboRequest < ApplicationRecord
     all_siblings.where("id > ?", id)
   end
 
-  def inspect
-    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, request_type: '#{request_type}', created_at: #{created_at}, updated_at: #{updated_at}, parent_type: #{parent_type}, parent_id: #{parent_id}, robot: '#{robot}'>"
-  end
 end
 
 # == Schema Information

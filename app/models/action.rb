@@ -32,6 +32,10 @@ class Action < ApplicationRecord
     end
   end
 
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, status: #{status}, created_at: #{created_at}, updated_at: #{updated_at}>"
+  end
+
   def action_type
     self.class.name.demodulize.underscore
   end
@@ -73,10 +77,6 @@ class Action < ApplicationRecord
   # def history
   #   (super || []).map(&:with_indifferent_access)
   # end
-
-  def inspect
-    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, status: #{status}, created_at: #{created_at}, updated_at: #{updated_at}>"
-  end
 end
 
 # == Schema Information

@@ -93,6 +93,10 @@ class RoboJob < ApplicationRecord
     robo_requests.active.of_type(["build_instructions", "followup_instructions"]).flat_map(&:actions)
   end
 
+  def inspect
+    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, feature_request: #{feature_request&.truncate(50)}, created_at: #{created_at}, updated_at: #{updated_at}, parent_job_id: #{parent_job_id}, project_id: #{project_id}>"
+  end
+
   private
 
   def unpack_paths(paths)
@@ -113,10 +117,6 @@ class RoboJob < ApplicationRecord
 
   def is_parent_job?
     parent_job_id.nil?
-  end
-
-  def inspect
-    "#<#{self.class}:0x#{object_id.to_s(16)} id: #{id}, feature_request: #{feature_request.truncate(50)}, created_at: #{created_at}, updated_at: #{updated_at}, parent_job_id: #{parent_job_id}, project_id: #{project_id}>"
   end
 end
 
