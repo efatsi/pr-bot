@@ -1,8 +1,8 @@
 - roll out to
-  - followup instructions
-  - git_commit (resurrect)
-
-- contextual files
+  - git_commit
+    - don't use modal
+    - replace next_steps instead
+    - handle response better and show it
 
 ## contextual files
 - expand
@@ -25,18 +25,13 @@
 
 ## editing UI
 - open file viewer/picker from default view
-- inline editing of enhanced feature request
 
 
 # punch list
-- event navigation
-
+x event navigation
 - making context better
-
 - image uploads
-
 - open one file, or batch of files, in vs code
-
 
 
 # TODO
