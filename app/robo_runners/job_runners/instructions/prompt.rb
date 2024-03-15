@@ -39,10 +39,7 @@ module JobRunners::Instructions
     end
 
     def final_request_prompt
-      [
-        "How would you implement this feature request?",
-        robo_job.feature_request,
-      ].join("\n")
+      robo_job.feature_request
     end
 
     IMPLEMENTATION_JSON_EXAMPLE = JSON.pretty_generate({

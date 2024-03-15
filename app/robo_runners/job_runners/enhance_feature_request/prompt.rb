@@ -29,10 +29,7 @@ module JobRunners::EnhanceFeatureRequest
     end
 
     def final_request_prompt
-      [
-        "How would you implement this feature request?",
-        robo_job.feature_request,
-      ].join("\n")
+      robo_job.feature_request,
     end
 
     def previous_convo_messages
