@@ -41,12 +41,6 @@ class RoboJob < ApplicationRecord
     include_last_convo? || include_all_convos?
   end
 
-  def implementation_overview
-    if generated_instructions?
-      generated_instructions["implementation_overview"]
-    end
-  end
-
   def total_cost
     robo_requests.sum(:cost)
   end
@@ -91,6 +85,10 @@ class RoboJob < ApplicationRecord
 
   def active_actions
     robo_requests.active.of_type(["build_instructions", "followup_instructions"]).flat_map(&:actions)
+  end
+
+  def generated_instructions
+    robo_requests.active.of_type(["build_instructions", "followup_instructions"]).last&.response
   end
 
   def inspect

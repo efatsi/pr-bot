@@ -22,7 +22,7 @@ module JobRunners::FollowupInstructions
       parent_job = robo_job.parent_job
 
       if robo_job.include_last_convo?
-        last_job = parent_job.followup_jobs.to_a.reverse.detect{|a| a.actions.any?} || parent_job
+        last_job = parent_job.followup_jobs.to_a.reverse.detect{|a| a.active_actions.any?} || parent_job
         [
           { role: "user", content: last_job.feature_request },
           { role: "system", content: last_job.generated_instructions.to_s },
