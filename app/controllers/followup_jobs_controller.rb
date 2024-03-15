@@ -29,8 +29,8 @@ class FollowupJobsController < ApplicationController
       RoboConductor.new(robo_event).start_event
     else
       render turbo_stream: turbo_stream.update(
-        "continue-conversation",
-        partial: "robo_jobs/followup/form",
+        "followup-scaffold",
+        partial: "robo_events/build_instructions/followup_scaffold",
         locals: { robo_job: robo_job, followup_job: followup_job }
       )
     end
