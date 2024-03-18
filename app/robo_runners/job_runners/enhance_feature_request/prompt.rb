@@ -29,7 +29,7 @@ module JobRunners::EnhanceFeatureRequest
     end
 
     def final_request_prompt
-      robo_job.feature_request,
+      robo_job.feature_request
     end
 
     def previous_convo_messages
