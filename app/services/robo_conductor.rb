@@ -30,7 +30,7 @@ class RoboConductor
       JobRunners::Instructions::Runner
     when "followup_instructions"
       JobRunners::FollowupInstructions::Runner
-    when "commit_suggestions"
+    when "git_commit"
       JobRunners::CommitSuggestions::Runner
     else
       raise "Unknown request type: #{robo_event.event_type}"

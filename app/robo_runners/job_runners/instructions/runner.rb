@@ -9,6 +9,7 @@ module JobRunners::Instructions
       robo_requests.each do |robo_request|
         raw_response = robo_request.response
 
+        # TODO: move this logic closer to gemini client
         if raw_response && raw_response.include?("```")
           # remove anything before the first ``` line (including language key)
           raw_response.gsub!(/^.*?```\w*\n/m, "")

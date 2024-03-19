@@ -5,7 +5,7 @@ class RoboEvent < ApplicationRecord
     "enhance_contextual_files",
     "build_instructions",
     "followup_instructions",
-    "commit_suggestions",
+    "git_commit",
   ]
 
   STATUSES = %w[active ignored]
@@ -45,6 +45,8 @@ class RoboEvent < ApplicationRecord
       "enhance\nfiles"
     when "build_instructions", "followup_instructions"
       "build\nactions"
+    when "git_commit"
+      "commit"
     end
   end
 
@@ -55,6 +57,15 @@ class RoboEvent < ApplicationRecord
 
   def is_start_event?
     event_type == "start"
+  end
+
+  def robo_job
+    case subject
+    when RoboJob
+      subject.parent_job_or_self
+    when GitCommit
+      subject.robo_job
+    end
   end
 
   private

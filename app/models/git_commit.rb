@@ -6,6 +6,7 @@ class GitCommit < ApplicationRecord
   ]
 
   belongs_to :robo_job
+  delegate :project, to: :robo_job
 
   has_many :robo_requests, as: :parent, dependent: :destroy
 
@@ -45,8 +46,9 @@ class GitCommit < ApplicationRecord
     end
   end
 
-  def stream_key
-    robo_job.stream_key
+  def robo_event
+    # look this up based on RoboEvent#subject
+    RoboEvent.find_by(subject: self)
   end
 end
 

@@ -13,12 +13,5 @@ module JobRunners::CommitSuggestions
       git_commit.update(message_options: JSON.parse(robo_request.response))
     end
 
-    def broadcast_finished_state
-      broadcast(
-        partial: 'git_commits/suggestions/finished',
-        locals: { robo_request: robo_request, git_commit: git_commit }
-      )
-    end
-
   end
 end

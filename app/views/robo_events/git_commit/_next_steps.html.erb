@@ -1,0 +1,3 @@
+<% if robo_event.subject.message? %>
+  <%= render "robo_events/build_instructions/next_steps", robo_event: robo_event, robo_job: robo_event.subject.robo_job %>
+<% end %>

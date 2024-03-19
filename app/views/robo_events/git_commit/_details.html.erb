@@ -1,0 +1,10 @@
+<% git_commit ||= robo_event.subject %>
+
+<% if git_commit.message? %>
+  <div class="details">
+    <h3>Message</h3>
+    <p><%= git_commit.message %></p>
+  </div>
+<% else %>
+  <%= render "robo_events/git_commit/input", git_commit: git_commit %>
+<% end %>

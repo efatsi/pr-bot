@@ -1,15 +1,19 @@
 class GitCommitsController < SseApplicationController
   def new
-    if params[:robo_job_id]
-      @git_commit = (
-        project.git_commits.pending.find_by(robo_job_id: params[:robo_job_id]) ||
-        project.git_commits.create(robo_job_id: params[:robo_job_id])
-      )
-    else
-      @git_commit = project.git_commits.pending.last || project.git_commits.create
-    end
+    @git_commit = robo_job.git_commits.create
 
-    redirect_to edit_project_git_commit_path(project, @git_commit, modal: params[:modal], robo_job_id: params[:robo_job_id])
+    robo_event = RoboEvent.create!(
+      event_type: "git_commit",
+      robots: selected_robots,
+      subject: @git_commit,
+      parent_robo_event: robo_job.last_active_event
+    )
+
+    render turbo_stream: turbo_stream.update(
+      "next-steps",
+      partial: "robo_events/list_item",
+      locals: { robo_event: robo_event }
+    )
   end
 
   def edit
@@ -36,40 +40,22 @@ class GitCommitsController < SseApplicationController
   end
 
   def generate_options
-    robo_event = RoboEvent.create!(
-      event_type: "commit_suggestions",
-      robots: selected_robots,
-      subject: git_commit,
-      parent_robo_event: robo_job.last_active_event
-    )
-
-    RoboConductor.new(robo_event).start_event
+    RoboConductor.new(git_commit.robo_event).start_event
   end
 
   private
 
   def git_commit
-    @git_commit ||= project.git_commits.find_by!(id: params[:id])
+    @git_commit ||= GitCommit.find(params[:id])
   end
   helper_method :git_commit
 
   def git_commit_params
-    gc_params = params.require(:git_commit).permit(:message, :branch, :new_branch).merge(project_id: project.id)
-
-    if robo_job.present?
-      gc_params.merge(robo_job_id: robo_job.id)
-    else
-      gc_params
-    end
+    params.require(:git_commit).
+      permit(:message, :branch, :new_branch).
+      merge(robo_job_id: robo_job.id)
   end
 
-  # Should always have a project
-  def project
-    @project ||= Project.find_by!(id: params[:project_id])
-  end
-  helper_method :project
-
-  # Sometimes have a robo_job
   def robo_job
     @robo_job ||= if params[:robo_job_id]
       RoboJob.find_by(id: params[:robo_job_id])

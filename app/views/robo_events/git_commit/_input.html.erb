@@ -1,0 +1,20 @@
+<%= simple_form_for git_commit, url: robo_job_git_commit_path(git_commit.robo_job, git_commit) do |f| %>
+  <div class="flex gap-4 items-start">
+    <div class="w-3/5">
+      <%= f.label :message, "Commit Message", required: false, class: "input-label" %>
+      <%= f.input :message,
+        label: false,
+        input_html: {
+          rows: 4
+        }
+      %>
+    </div>
+
+    <div class="mt-5">
+      <%= f.submit "Submit", class: "btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+
+<%= button_to "Cancel", robo_event_path(git_commit.robo_event), method: :delete, class: "btn-opaque" %>
