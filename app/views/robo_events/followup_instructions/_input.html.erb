@@ -1,4 +1,4 @@
-<div id="followup-scaffold" data-controller="followup">
+<div id="followup-input" data-controller="followup">
   <div class="relative pb-4">
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="mb-2 flex gap-2 self-end">
-                  <%= link_to "Cancel", show_next_steps_robo_event_path(robo_job.last_active_event, turbo_replace: "followup-scaffold"), class: "btn-opaque" %>
+                  <%= link_to "Cancel", show_next_steps_robo_event_path(robo_job.last_active_event, turbo_replace: "followup-input"), class: "btn-opaque" %>
                   <%= f.submit "Submit", class: "btn-primary" %>
                 </div>
               <% end %>

@@ -7,7 +7,7 @@ class FollowupJobsController < ApplicationController
 
     render turbo_stream: turbo_stream.update(
       "next-steps",
-      partial: "robo_events/followup_instructions/scaffold",
+      partial: "robo_events/followup_instructions/input",
       locals: {
         robo_job: robo_job,
         followup_job: followup_job
@@ -29,8 +29,8 @@ class FollowupJobsController < ApplicationController
       RoboConductor.new(robo_event).start_event
     else
       render turbo_stream: turbo_stream.update(
-        "followup-scaffold",
-        partial: "robo_events/followup_instructions/scaffold",
+        "followup-input",
+        partial: "robo_events/followup_instructions/input",
         locals: { robo_job: robo_job, followup_job: followup_job }
       )
     end
