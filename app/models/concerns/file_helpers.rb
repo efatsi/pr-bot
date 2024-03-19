@@ -5,8 +5,11 @@ module FileHelpers
   end
 
   def save_filename
-    # in case timestampe is being swapped out
-    update(file: timestamped_file) if timestamped_file != file
+    # in case 'timestamp' key is being swapped out
+    if file != timestamped_file
+      updated_arguments = arguments.merge(file: timestamped_file)
+      update(arguments: updated_arguments)
+    end
   end
 
   def timestamped_file
