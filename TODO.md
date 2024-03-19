@@ -19,8 +19,10 @@
       - show ins, show outs (based on robo digging)
       - ability to add/remove (keep outs bucket for "superfluous / backup" files that might be relevant)
 
+## RoboEvent actions
+- add "stop" to running job (rename scaffold to processing)
+- add "edit input" if editable type
 - add "ignore" action if !start
-  - button "rerun from here"
   - toggle between active / ignored robo_events + dotted "next event" UI
 
 ## editing UI

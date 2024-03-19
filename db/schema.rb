@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_11_154504) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_19_052555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,8 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_154504) do
   create_table "git_commits", force: :cascade do |t|
     t.string "commit_hash"
     t.text "message"
-    t.bigint "project_id", null: false
-    t.bigint "robo_job_id"
+    t.bigint "robo_job_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "message_options", default: {}
@@ -40,7 +39,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_154504) do
     t.string "branch"
     t.text "response"
     t.index ["commit_hash"], name: "index_git_commits_on_commit_hash", unique: true
-    t.index ["project_id"], name: "index_git_commits_on_project_id"
     t.index ["robo_job_id"], name: "index_git_commits_on_robo_job_id"
   end
 
@@ -177,7 +175,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_154504) do
   end
 
   add_foreign_key "actions", "robo_requests"
-  add_foreign_key "git_commits", "projects"
   add_foreign_key "git_commits", "robo_jobs"
   add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"
   add_foreign_key "robo_jobs", "projects"

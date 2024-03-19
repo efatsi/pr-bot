@@ -7,10 +7,6 @@ Rails.application.routes.draw do
     get :file_content_search, on: :member
     get :file_preview, on: :member
     get :full_directory_listing, on: :member
-
-    resources :git_commits, only: [:new, :edit, :update] do
-      get :generate_options, on: :member
-    end
   end
 
   resources :robo_jobs, except: :destroy do
@@ -20,6 +16,8 @@ Rails.application.routes.draw do
     resources :robo_events, only: :create
 
     resources :followup_jobs, only: [:new, :create]
+
+    resources :git_commits, only: [:new, :update]
   end
 
   resources :robo_events, only: [:destroy] do
@@ -46,6 +44,10 @@ Rails.application.routes.draw do
     post :skip, on: :member
     post :unexecute, on: :member
     post :unskip, on: :member
+  end
+
+  resources :git_commits, only: [] do
+    get :generate_options, on: :member
   end
 
   mount GoodJob::Engine => 'good_job'

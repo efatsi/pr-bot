@@ -5,8 +5,7 @@ class GitCommit < ApplicationRecord
     "failed"
   ]
 
-  belongs_to :project
-  belongs_to :robo_job, optional: true
+  belongs_to :robo_job
 
   has_many :robo_requests, as: :parent, dependent: :destroy
 
@@ -65,17 +64,14 @@ end
 #  status          :string           default("pending")
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  project_id      :bigint           not null
-#  robo_job_id     :bigint
+#  robo_job_id     :bigint           not null
 #
 # Indexes
 #
 #  index_git_commits_on_commit_hash  (commit_hash) UNIQUE
-#  index_git_commits_on_project_id   (project_id)
 #  index_git_commits_on_robo_job_id  (robo_job_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (project_id => projects.id)
 #  fk_rails_...  (robo_job_id => robo_jobs.id)
 #
