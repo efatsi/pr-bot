@@ -2,10 +2,10 @@ class GitCommitsController < SseApplicationController
   def new
     @git_commit = robo_job.git_commits.create
 
-    robo_event = RoboEvent.create!(
+    @robo_event = RoboEvent.create!(
       event_type: "git_commit",
       robots: selected_robots,
-      subject: @git_commit,
+      subject: git_commit,
       parent_robo_event: robo_job.last_active_event
     )
 
@@ -24,23 +24,28 @@ class GitCommitsController < SseApplicationController
 
   def update
     if git_commit.update(git_commit_params) && git_commit.fire!
-      if robo_job
-        flash[:notice] = "Git commit saved"
+      flash[:notice] = "Git commit saved"
 
-        render turbo_stream: [
-          turbo_stream.update("turbo_scripts", partial: "shared/close_modal"),
-          turbo_stream.update("flash", partial: "shared/flash", locals: { flash: flash })
-        ]
-      else
-        redirect_to project, notice: 'Git commit saved'
-      end
+      render turbo_stream: [
+        turbo_stream.update(
+          "robo-event-#{robo_event.id}",
+          partial: "robo_events/list_item",
+          locals: { robo_event: robo_event }
+        ),
+        turbo_stream.update(
+          "flash",
+          partial: "shared/flash",
+          locals: { flash: flash }
+        )
+      ]
+
     else
-      render :edit, status: :unprocessable_entity, alert: "Git commit failed: #{git_commit.error}"
+      render "robo_events/git_commit/input", status: :unprocessable_entity, alert: "Git commit failed: #{git_commit.error}"
     end
   end
 
   def generate_options
-    RoboConductor.new(git_commit.robo_event).start_event
+    RoboConductor.new(robo_event).start_event
   end
 
   private
@@ -49,6 +54,10 @@ class GitCommitsController < SseApplicationController
     @git_commit ||= GitCommit.find(params[:id])
   end
   helper_method :git_commit
+
+  def robo_event
+    @robo_event ||= git_commit.robo_event
+  end
 
   def git_commit_params
     params.require(:git_commit).
