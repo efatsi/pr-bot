@@ -1,8 +1,7 @@
 - roll out to
   - git_commit
-    - don't use modal
-    - replace next_steps instead
-    - handle response better and show it
+    - rebuild the "Fetch Suggestions" button
+    - remove all the old partials
 
 ## contextual files
 - expand
@@ -20,14 +19,16 @@
       - ability to add/remove (keep outs bucket for "superfluous / backup" files that might be relevant)
 
 ## RoboEvent actions
-- add "stop" to running job (rename scaffold to processing)
-- add "edit input" if editable type
+- add "edit input" if editable type (build_instructions / followup_instructions)
 - add "ignore" action if !start
   - toggle between active / ignored robo_events + dotted "next event" UI
+- add "stop" to running job (rename scaffold to processing)
 
 ## editing UI
 - open file viewer/picker from default view
 
+## commit
+- show diff in dropdown
 
 # punch list
 x event navigation
