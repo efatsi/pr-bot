@@ -1,6 +1,5 @@
 <% git_commit ||= robo_event.subject %>
 
-
 <% open_on_load ||= robo_event.just_finished %>
 <% showing_many_siblings = robo_event.robo_requests.active.many? %>
 <% focused_robo_request ||= nil %>
@@ -8,11 +7,19 @@
 <%= render "shared/dropdown", label: "Git Commit", open_on_load: open_on_load do %>
   <% if git_commit.message? %>
     <div class="details">
-      <p class="mb-2">
-        <code><%= git_commit.message %></code>
-      </p>
+      <div class="flex gap-2">
+        <div class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400">
+          <%= git_commit.branch %>
+        </div>
+        <div class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400">
+          <%= git_commit.commit_hash %>
+        </div>
+      </div>
+      <div class="mt-2">
+        <code class="mb-2"><%== git_commit.message.gsub("\n", "<br>") %></code>
+      </div>
     </div>
   <% else %>
-    <%= render "robo_events/git_commit/input", git_commit: git_commit %>
+    <%= render "robo_events/git_commit/input", git_commit: git_commit, robo_event: robo_event %>
   <% end %>
 <% end %>

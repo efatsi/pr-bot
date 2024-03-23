@@ -1,21 +1,63 @@
-<%= simple_form_for git_commit, url: robo_job_git_commit_path(git_commit.robo_job, git_commit) do |f| %>
-  <div class="flex gap-4 items-start">
-    <div class="w-3/5">
-      <%= f.label :message, "Commit Message", required: false, class: "input-label" %>
-      <%= f.input :message,
-        label: false,
-        input_html: {
-          rows: 4,
-          "data-controller": "autofocus",
-        }
-      %>
+<% project = git_commit.project %>
+
+<div data-controller="commit-copy">
+
+  <%= simple_form_for git_commit,
+    url: robo_job_git_commit_path(git_commit.robo_job, git_commit),
+    html: { "data-controller": "branch-select" } do |f|
+  %>
+    <div class="flex gap-4 items-start">
+      <div class="w-3/5">
+       <%= f.label :message, "Commit Message", required: false, class: "input-label" %>
+        <%= f.input :message,
+          label: false,
+          input_html: {
+            rows: 4,
+            "data-controller": "autofocus",
+            "data-commit-copy-target": "source"
+          }
+        %>
+      </div>
+
+      <div>
+        <div class="mb-4 w-[180px]">
+          <%= f.label :branch, required: false, class: "input-label" %>
+          <%= f.input :branch,
+            label: false,
+            collection: project.all_branches + ["+ new branch"],
+            selected: project.current_branch,
+            wrapper_html: { "data-branch-select-target": "selectWrapper", class: "w-[200px] mb-6" },
+            input_html: { "data-action": "change->branch-select#checkInputs" }
+          %>
+
+          <div data-branch-select-target="newBranchWrapper" class="flex w-full items-start gap-3 hidden">
+            <%= f.input :new_branch,
+              label: false,
+              as: :string,
+              hint: "this will overwrite existing branches with the same name",
+              placeholder: "new branch name...",
+              input_html: { class: "w-[180px]" }
+            %>
+
+            <%= link_to "Cancel", "#", class: "btn-opaque leading-6 mt-0.5", "data-action": "click->branch-select#revertInputs" %>
+          </div>
+        </div>
+
+        <%= f.submit "Submit", class: "btn-primary" %>
+      </div>
     </div>
+  <% end %>
 
-    <div class="mt-5">
-      <%= f.submit "Submit", class: "btn-primary" %>
+  <% if robo_event.robo_requests.active.any? %>
+    <%= render "robo_events/git_commit/suggestions", robo_event: robo_event %>
+  <% else %>
+    <div id="commit-suggestions-<%= git_commit.id %>" class="mb-2">
+      <%= button_to generate_options_git_commit_path(git_commit), method: :post, class: "btn-primary flex items-center gap-2" do %>
+        <span>Fetch Suggestions</span>
+        <%= heroicon ["cpu-chip", "sparkles", "calculator"].sample %>
+      <% end %>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-
-<%= button_to "Cancel", robo_event_path(git_commit.robo_event), method: :delete, class: "btn-opaque" %>
+  <%= button_to "Cancel", robo_event_path(git_commit.robo_event), method: :delete, class: "btn-opaque" %>
+</div>

@@ -68,6 +68,14 @@ class RoboEvent < ApplicationRecord
     end
   end
 
+  def request_event_type
+    if event_type == "git_commit"
+      "commit_suggestions"
+    else
+      event_type
+    end
+  end
+
   private
 
   def disconnect_and_ignore_requests

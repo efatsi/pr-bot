@@ -1,4 +1,4 @@
-class GitCommitsController < SseApplicationController
+class GitCommitsController < ApplicationController
   def new
     @git_commit = robo_job.git_commits.create
 
@@ -14,12 +14,6 @@ class GitCommitsController < SseApplicationController
       partial: "robo_events/list_item",
       locals: { robo_event: robo_event }
     )
-  end
-
-  def edit
-    if params[:modal]
-      render layout: "modal_wrapper"
-    end
   end
 
   def update
@@ -58,6 +52,7 @@ class GitCommitsController < SseApplicationController
   def robo_event
     @robo_event ||= git_commit.robo_event
   end
+  helper_method :robo_event
 
   def git_commit_params
     params.require(:git_commit).

@@ -9,12 +9,12 @@ class BaseRoboRunner
 
     if robo_event.robo_requests.any?
       @robo_requests = robo_event.robo_requests
-    else
-      build_robo_requests
     end
   end
 
   def gooo
+    build_robo_requests
+
     # broadcast the event scaffold with prompt and response container
     broadcast_event_scaffold
 
@@ -63,7 +63,7 @@ class BaseRoboRunner
         parent: subject,
         robo_event: robo_event,
         robot: robot,
-        request_type: robo_event.event_type,
+        request_type: robo_event.request_event_type,
         prompt_messages: prompt_messages
       )
     end
@@ -102,7 +102,6 @@ class BaseRoboRunner
       action: :replace,
       locals: {
         robo_event: robo_event,
-        ding: true
       }
     )
 

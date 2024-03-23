@@ -23,6 +23,7 @@
 - add "ignore" action if !start
   - toggle between active / ignored robo_events + dotted "next event" UI
 - add "stop" to running job (rename scaffold to processing)
+- add "copy" to Action renderings
 
 ## editing UI
 - open file viewer/picker from default view

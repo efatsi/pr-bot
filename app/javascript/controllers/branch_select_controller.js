@@ -12,10 +12,13 @@ export default class extends Controller {
     }
   }
 
-  revertInputs() {
+  revertInputs(e) {
+    e.preventDefault();
+
     this.newBranchWrapperTarget.classList.add('hidden');
 
     this.selectWrapperTarget.classList.remove('hidden');
     this.selectWrapperTarget.querySelector("select").focus();
+    this.selectWrapperTarget.querySelector("select").selectedIndex = 0;
   }
 }

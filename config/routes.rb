@@ -47,7 +47,7 @@ Rails.application.routes.draw do
   end
 
   resources :git_commits, only: [] do
-    get :generate_options, on: :member
+    post :generate_options, on: :member
   end
 
   mount GoodJob::Engine => 'good_job'

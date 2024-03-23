@@ -1,0 +1,19 @@
+<%= render "shared/dropdown", label: robo_event.event_type.titleize, open_on_load: true do %>
+  <div class="flex gap-2">
+    <% robo_requests.each do |robo_request| %>
+      <div class="w-full">
+        <span class="inline-block rounded-md p-2 px-4 mb-2 border border-white border-opacity-50"><%= robo_request.robot %></span>
+
+        <div class="w-full flex flex-col gap-1">
+          <%= render "shared/dropdown", label: "Prompt" do %>
+            <%= render "shared/prompt_conversation", robo_request: robo_request %>
+          <% end %>
+
+          <%= render "shared/dropdown", label: "Response", open_on_load: true do %>
+            <pre id="ai-response-<%= robo_request.id %>" class="whitespace-pre-wrap"></pre>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

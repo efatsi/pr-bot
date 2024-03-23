@@ -50,23 +50,26 @@ class GitCommit < ApplicationRecord
     # look this up based on RoboEvent#subject
     RoboEvent.find_by(subject: self)
   end
+
+  def stream_key
+    robo_job.stream_key
+  end
 end
 
 # == Schema Information
 #
 # Table name: git_commits
 #
-#  id              :bigint           not null, primary key
-#  branch          :string
-#  commit_hash     :string
-#  error           :string
-#  message         :text
-#  message_options :json
-#  response        :text
-#  status          :string           default("pending")
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  robo_job_id     :bigint           not null
+#  id          :bigint           not null, primary key
+#  branch      :string
+#  commit_hash :string
+#  error       :string
+#  message     :text
+#  response    :text
+#  status      :string           default("pending")
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  robo_job_id :bigint           not null
 #
 # Indexes
 #
