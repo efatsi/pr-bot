@@ -54,6 +54,10 @@ module MarkdownHelper
     # replace double newlines with a newline and a non-breaking space
     cleaned_text = source_text.gsub(/\n\z/, "").gsub("\n\n", "\n&nbsp;\n")
 
+    # escape html tags
+    cleaned_text.gsub!(/</, "&lt;")
+    cleaned_text.gsub!(/>/, "&gt;")
+
     options = [:hard_wrap, :autolink, :no_intra_emphasis, :fenced_code_blocks]
     Markdown.new(cleaned_text, *options).to_html.html_safe
   end

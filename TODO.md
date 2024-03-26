@@ -1,8 +1,3 @@
-- roll out to
-  - git_commit
-    - rebuild the "Fetch Suggestions" button
-    - remove all the old partials
-
 ## contextual files
 - expand
   - button to "looking at these files, what other files would you want to check out based on request"
@@ -29,7 +24,7 @@
 - open file viewer/picker from default view
 
 ## commit
-- show diff in dropdown
+- can open diff in modal like conversations
 
 # punch list
 x event navigation
