@@ -1,17 +1,27 @@
 ## contextual files
 - expand
-  - button to "looking at these files, what other files would you want to check out based on request"
+  - prompt "looking at these files, what other files would you want to check out based on request"
+  - can ask different robots
+  - can ask different questions
+    - what files to see given file tree
+    - what project-wide searches to run in what subdirectories to find more context
+      - then run those searches and present files
+    - options to add, pocket, or remove
 - contract
-  - button to whittle down current list w/ concurrent robo calls
+  - prompt: "is this file actually relevant?"
     - iterate through each file
       - clean filename (leading slash)
       - look at file contents
-        - decide if relevant in the sphere of the feature request
-        - decide if want to see new files
+        - decide if relevant in the context of the feature request
+        - give it a score 1-10 and a justification
+        - ? decide if want to see new files
           - compare against cache of known "already looked at" files
     - collect results, present to user
-      - show ins, show outs (based on robo digging)
-      - ability to add/remove (keep outs bucket for "superfluous / backup" files that might be relevant)
+      - each file line / directory
+        - description of why important
+        - options to add, pocket, or remove
+          - adding directory unpacks into files
+          - or can toggle into directory to choose files
 
 ## RoboEvent actions
 - add "edit input" if editable type (build_instructions / followup_instructions)
