@@ -46,3 +46,15 @@ a.blue-link {
 .input-label {
   @apply block text-sm font-medium text-gray-300;
 }
+
+.md-template ul {
+  @apply list-disc list-inside;
+}
+
+.md-template li {
+  @apply ml-4;
+}
+
+.md-template code {
+  @apply bg-blue-900 rounded-md px-1;
+}
