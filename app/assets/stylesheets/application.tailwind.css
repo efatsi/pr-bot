@@ -58,3 +58,23 @@ a.blue-link {
 .md-template code {
   @apply bg-blue-900 rounded-md px-1;
 }
+
+.md-template h1 {
+  @apply text-2xl font-bold mb-2;
+}
+
+.md-template h2 {
+  @apply text-xl font-bold mb-2;
+}
+
+.md-template h3 {
+  @apply text-lg font-bold mb-1;
+}
+
+.md-template h4 {
+  @apply text-base font-bold mb-1;
+}
+
+.md-template pre {
+  @apply bg-gray-800 text-white p-2 rounded-md overflow-x-auto;
+}
