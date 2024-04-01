@@ -28,7 +28,7 @@ module JobRunners::Instructions
         "  - action: one of `#{Action.action_templates.map{|a| a[:name]}.join('`, `')}`",
         "  - file: source file path",
         "  - new_file: destination file path (only required for `rename_file` action)",
-        "  - original_content: the exact text which needs to be replaced by the new_content. Do not summarize. Return full existing snippets of code from the source file.",
+        "  - original_content: exact text which needs to be replaced by the new_content. Do not summarize. Return full existing snippets of code from the source file. Do not return blank here. For new text, return a small snippet of existing code to 'anchor' the change to (eg: a function definition).",
         "  - new_content: the new content required for the feature",
         "",
         "When generating the array of changes, prefer lots of individual changes for distinct functional updates instead of one big one.",
