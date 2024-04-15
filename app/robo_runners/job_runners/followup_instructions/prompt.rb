@@ -30,7 +30,7 @@ module JobRunners::FollowupInstructions
 
       elsif robo_job.include_all_convos?
         [parent_job, *parent_job.followup_jobs].flat_map do |job|
-          if job.actions.any?
+          if job.active_actions.any?
             [
               { role: "user", content: job.feature_request },
               { role: "system", content: job.generated_instructions.to_s },

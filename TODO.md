@@ -5,7 +5,7 @@
   - can ask different questions
     - what files to see given file tree
     - what project-wide searches to run in what subdirectories to find more context
-      - then run those searches and present files
+      - then run those searches and consider files
     - options to add, pocket, or remove
 - contract
   - prompt: "is this file actually relevant?"
@@ -26,6 +26,7 @@
 ## punch list
 - protect against OG Content being empty
 - slider for the width between the feature and the contextual files
+- add gpt-4 ♨️ / 🌡️ (increased temperature)
 
 
 ## RoboEvent actions
