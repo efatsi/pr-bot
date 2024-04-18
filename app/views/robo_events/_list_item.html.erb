@@ -43,7 +43,7 @@
         <div class="mb-8">
           <%= render "robo_events/#{robo_event.event_type}/details",
             robo_event: robo_event,
-            open_on_load: !has_children
+            open_on_load: robo_event.is_start_event? && !has_children
           %>
         </div>
       </div>
