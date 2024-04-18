@@ -93,6 +93,10 @@ class Project < ApplicationRecord
     end
   end
 
+  def any_diff_available?
+    current_diff.present?
+  end
+
   def scrub_pending_commits
     git_commits.pending.destroy_all
   end

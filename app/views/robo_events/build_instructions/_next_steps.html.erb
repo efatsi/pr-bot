@@ -2,7 +2,7 @@
 
 <div id="next-steps-<%= robo_event.id %>">
   <div class="flex justify-center text-center gap-8 mb-4">
-    <% if robo_event.actions.executed.exists? %>
+    <% if robo_event.project.any_diff_available? %>
       <div>
         <p>save progress?</p>
         <%= link_to 'Create Git Commit', new_robo_job_git_commit_path(robo_job), class: "btn-opaque block"
