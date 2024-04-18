@@ -23,12 +23,21 @@
           - adding directory unpacks into files
           - or can toggle into directory to choose files
 
-## punch list
-- protect against OG Content being empty
+
+## big punch list
+x event navigation
+- making context better
+- image uploads
+- open one file, or batch of files, in vs code
+
+## lil punch list
 - slider for the width between the feature and the contextual files
 - add gpt-4 ♨️ / 🌡️ (increased temperature)
+- expand_all actions button
+- editing UI: open file viewer/picker from default view
+- can revert commits
 
-
+# Event Navigation
 ## RoboEvent actions
 - add "edit input" if editable type (build_instructions / followup_instructions)
 - add "ignore" action if !start
@@ -36,18 +45,15 @@
 - add "stop" to running job (rename scaffold to processing)
 - add "copy" to Action renderings
 
-## editing UI
-- open file viewer/picker from default view
-
-## commit
-- can open diff in modal like conversations
-
-# punch list
-x event navigation
-- making context better
-- image uploads
-- open one file, or batch of files, in vs code
-
+## commit mode
+- aka attributable robo collab
+  - helpful for scanning & catching robo blunders
+- Better Fire All button
+  - runs changes
+  - opens new commit as sub-event
+  - auto generates prompt based on your last input and diff
+  - commits as a different github user
+- prompts to commit your stuff for you if you have in progress changes
 
 # TODO
 ## Context Files
