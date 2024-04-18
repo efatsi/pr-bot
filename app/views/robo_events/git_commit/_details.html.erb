@@ -15,8 +15,16 @@
           <%= git_commit.commit_hash %>
         </div>
       </div>
-      <div class="mt-2">
+
+      <div class="mt-2 ml-1">
         <code class="mb-2"><%== git_commit.message.gsub("\n", "<br>") %></code>
+      </div>
+
+      <div class="mt-2 ml-1">
+        <div
+          data-controller="diff-view"
+          class="inline-block text-sm p-2 px-4 border rounded-md border-white border-opacity-30 bg-gray-950 whitespace-pre-wrap text-red"
+        ><code><%== git_commit.commit_diff %></code></div>
       </div>
     </div>
   <% else %>

@@ -54,6 +54,18 @@ class GitCommit < ApplicationRecord
   def stream_key
     robo_job.stream_key
   end
+
+  def commit_diff
+    diff_output = Dir.chdir(project.filepath) do
+      `git show --oneline #{commit_hash}^..#{commit_hash}`
+    end
+
+    diff_index_regex = /^diff --git .+\nindex .+/
+    slimmed_diff = diff_output.gsub(diff_index_regex, "\n")
+
+    # and now, remove the first 3 lines, which are the commit message (and padding from first diff_index)
+    slimmed_diff.split("\n")[3..].join("\n")
+  end
 end
 
 # == Schema Information
