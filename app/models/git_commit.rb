@@ -57,7 +57,13 @@ class GitCommit < ApplicationRecord
 
   def commit_diff
     diff_output = Dir.chdir(project.filepath) do
-      `git show --oneline #{commit_hash}^..#{commit_hash}`
+      git_diff_output, status = Open3.capture2e("git show --oneline #{commit_hash}")
+
+      if !status.success?
+        raise "git show error:\n\n#{git_diff_output}"
+      end
+
+      git_diff_output
     end
 
     diff_index_regex = /^diff --git .+\nindex .+/
@@ -65,6 +71,8 @@ class GitCommit < ApplicationRecord
 
     # and now, remove the first 3 lines, which are the commit message (and padding from first diff_index)
     slimmed_diff.split("\n")[3..].join("\n")
+  rescue => e
+    e.message
   end
 end
 
