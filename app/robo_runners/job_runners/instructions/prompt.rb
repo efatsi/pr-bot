@@ -39,7 +39,7 @@ module JobRunners::Instructions
     end
 
     def final_request_prompt
-      robo_job.feature_request
+      robo_job.enhanced_feature_request
     end
 
     IMPLEMENTATION_JSON_EXAMPLE = JSON.pretty_generate({
