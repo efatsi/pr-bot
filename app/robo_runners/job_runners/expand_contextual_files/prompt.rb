@@ -1,4 +1,4 @@
-module JobRunners::ContextualFiles
+module JobRunners::ExpandContextualFiles
   class Prompt < BasePromptGenerator
 
     alias :robo_job :subject
@@ -14,6 +14,7 @@ module JobRunners::ContextualFiles
     private
 
     def contextual_files_prompt
+      # TODO: return as JSON
       [
         project_tools,
         "",
@@ -22,7 +23,7 @@ module JobRunners::ContextualFiles
         project.fetch_directory_tree.join("\n"),
         "",
         "Feature request:",
-        robo_job.feature_request,
+        robo_job.enhanced_feature_request,
         "",
         "Return paths for files that would provide helpful context #{PromptHub::RETURN_AS_JSON}",
         "- files: An array of files worth investigating:",

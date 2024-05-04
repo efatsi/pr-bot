@@ -2,7 +2,8 @@ class RoboEvent < ApplicationRecord
   EVENT_TYPES = [
     "start",
     "enhance_feature_request",
-    "enhance_contextual_files",
+    "expand_contextual_files",
+    "examine_contextual_files",
     "build_instructions",
     "followup_instructions",
     "git_commit",
@@ -41,18 +42,15 @@ class RoboEvent < ApplicationRecord
       "start"
     when "enhance_feature_request"
       "enhance\nfeature"
-    when "enhance_contextual_files"
-      "enhance\nfiles"
+    when "expand_contextual_files"
+      "expand\nfiles"
+    when "examine_contextual_files"
+      "examine\nfiles"
     when "build_instructions", "followup_instructions"
       "build\nactions"
     when "git_commit"
       "commit"
     end
-  end
-
-  # todo, use this in RoboConductor and codify request types
-  def has_multiple_requests?
-    event_type == "enhance_contextual_files"
   end
 
   def is_start_event?

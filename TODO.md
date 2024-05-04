@@ -1,4 +1,11 @@
 ## contextual files
+- todo:
+  - prompts
+  - templates
+    - scaffold
+    - processing
+    - finished
+
 - expand
   - prompt "looking at these files, what other files would you want to check out based on request"
   - can ask different robots
@@ -8,6 +15,15 @@
       - then run those searches and consider files
     - options to add, pocket, or remove
 - contract
+  - modeling
+    - ContextualFile model
+      - robo_job
+      - path
+      - :project
+      - ~robo_attributes~
+        - relevance (1-5)
+        - explanation
+        - nth: key line numbers []
   - prompt: "is this file actually relevant?"
     - iterate through each file
       - clean filename (leading slash)
@@ -22,6 +38,7 @@
         - options to add, pocket, or remove
           - adding directory unpacks into files
           - or can toggle into directory to choose files
+  - option to auto fire contract
 
 
 ## big punch list

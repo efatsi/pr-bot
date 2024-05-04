@@ -1,11 +1,11 @@
 <% robo_job = robo_event.subject %>
 
-<% if robo_job.robo_events.of_type("enhance_contextual_files").none? %>
+<% if robo_job.robo_events.of_type("expand_contextual_files").none? %>
   <div class="flex justify-center text-center gap-8 mb-8">
     <div>
-      <p>need better files?</p>
-      <%= button_to robo_job_robo_events_path(robo_job, event_type: "enhance_feature_request"), method: :post, class: "btn-opaque flex items-center gap-2" do %>
-        <span>Enhance Contextual Files</span>
+      <p>need more files?</p>
+      <%= button_to robo_job_robo_events_path(robo_job, event_type: "expand_contextual_files"), method: :post, class: "btn-opaque flex items-center gap-2" do %>
+        <span>Expand Contextual Files</span>
         <%= heroicon "clipboard-document-list" %>
       <% end %>
     </div>

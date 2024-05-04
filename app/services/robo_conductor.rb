@@ -26,6 +26,10 @@ class RoboConductor
     case robo_event.event_type
     when "enhance_feature_request"
       JobRunners::EnhanceFeatureRequest::Runner
+    when "expand_contextual_files"
+      JobRunners::ExpandContextualFiles::Runner
+    when "examine_contextual_files"
+      JobRunners::ExamineContextualFiles::Runner
     when "build_instructions"
       JobRunners::Instructions::Runner
     when "followup_instructions"

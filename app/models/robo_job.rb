@@ -45,14 +45,6 @@ class RoboJob < ApplicationRecord
     robo_requests.sum(:cost)
   end
 
-  def dig_out_contextual_files(robo_request)
-    filepaths = JSON.parse(robo_request.response)["files"].map do |f|
-      f["filepath"]
-    end
-
-    unpack_paths(filepaths)
-  end
-
   def last_active_event
     event = start_event
 
@@ -96,22 +88,6 @@ class RoboJob < ApplicationRecord
   end
 
   private
-
-  def unpack_paths(paths)
-    paths.map do |f|
-      full_filepath = project.full_path(f)
-
-      if File.file?(full_filepath)
-        f
-      elsif File.directory?(full_filepath)
-        glob_path = File.join(full_filepath, "*")
-        subpaths = Dir.glob(glob_path).map do |subpath|
-          subpath.gsub(project.filepath, "")
-        end
-        unpack_paths(subpaths)
-      end
-    end.flatten.uniq
-  end
 
   def is_parent_job?
     parent_job_id.nil?

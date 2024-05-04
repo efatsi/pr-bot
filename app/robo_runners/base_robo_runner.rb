@@ -1,10 +1,11 @@
 class BaseRoboRunner
   include TurboStreamHelpers
 
-  attr_reader :robo_event, :subject, :robo_requests
+  attr_reader :robo_event, :project, :subject, :robo_requests
 
   def initialize(robo_event)
     @robo_event = robo_event
+    @project = robo_event.project
     @subject = robo_event.subject
 
     if robo_event.robo_requests.any?
@@ -72,7 +73,7 @@ class BaseRoboRunner
   def prompt_messages
     @prompt_messages ||= begin
       runner_module = self.class.module_parents[0]
-      prompt = runner_module::Prompt.new(robo_event.project, subject)
+      prompt = runner_module::Prompt.new(project, subject)
 
       prompt.generate_prompt_messages
     end

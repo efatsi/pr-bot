@@ -1,7 +1,8 @@
 class RoboRequest < ApplicationRecord
   REQUEST_TYPES = [
     "enhance_feature_request",
-    "enhance_contextual_files",
+    "expand_contextual_files",
+    "examine_contextual_file",
     "build_instructions",
     "followup_instructions",
     "commit_suggestions",
