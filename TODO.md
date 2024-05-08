@@ -2,28 +2,32 @@
 - todo:
   - prompts
   - templates
-    - scaffold
-    - processing
     - finished
+- cleanup
+  - `# TODO: move this logic closer to gemini client`
+    in `job_runners/instructions/runner.rb`
 
 - expand
   - prompt "looking at these files, what other files would you want to check out based on request"
-  - can ask different robots
-  - can ask different questions
-    - what files to see given file tree
-    - what project-wide searches to run in what subdirectories to find more context
-      - then run those searches and consider files
-    - options to add, pocket, or remove
+  - human options on hover to accept, table, or ignore
 - contract
   - modeling
     - ContextualFile model
-      - robo_job
+      - robo_request
       - path
-      - :project
+      - status
+        - pending
+        - accepted
+        - tabled
+        - ignore
+        - (auto accepted if defined in robo_job contextual_files)
       - ~robo_attributes~
         - relevance (1-5)
         - explanation
         - nth: key line numbers []
+        - nth: request_more_supporting_files
+    - RoboJob `contextual_files` changes
+      - db-backed string array + accepted ContFile records (of active requests)
   - prompt: "is this file actually relevant?"
     - iterate through each file
       - clean filename (leading slash)
@@ -38,7 +42,18 @@
         - options to add, pocket, or remove
           - adding directory unpacks into files
           - or can toggle into directory to choose files
-  - option to auto fire contract
+- config options
+  - auto fire contract after expand
+  - auto accept relevance: default 4
+
+- phase2
+  - ask more questions in expansion
+    - eg: what project-wide searches to run in what subdirectories to find more context?
+          then run those searches and consider files
+    - followup on `request_more_supporting_files`
+    - maybe RoboConductor can do some orchestrating?!
+      - starting different robo_request batches tied to the same event
+      - wrapping them in it's own `on_finish` logic, to queue follow ons (through itself? 😬)
 
 
 ## big punch list
