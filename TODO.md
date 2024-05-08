@@ -1,47 +1,46 @@
 ## contextual files
-- todo:
-  - prompts
-  - templates
-    - finished
-- cleanup
-  - `# TODO: move this logic closer to gemini client`
-    in `job_runners/instructions/runner.rb`
-
 - expand
   - prompt "looking at these files, what other files would you want to check out based on request"
   - human options on hover to accept, table, or ignore
+  - (auto ignore if in ignored list defined on project)
 - contract
   - modeling
     - ContextualFile model
-      - robo_request
+      - robo_job
       - path
       - status
         - pending
+        - robo_reviewed
         - accepted
         - tabled
         - ignore
         - (auto accepted if defined in robo_job contextual_files)
-      - ~robo_attributes~
+      - robo_analysis: json
         - relevance (1-5)
         - explanation
         - nth: key line numbers []
         - nth: request_more_supporting_files
-    - RoboJob `contextual_files` changes
+    - RoboJob `contextual_files` changes (used in `robo_job_context_files`)
       - db-backed string array + accepted ContFile records (of active requests)
   - prompt: "is this file actually relevant?"
     - iterate through each file
       - clean filename (leading slash)
       - look at file contents
         - decide if relevant in the context of the feature request
-        - give it a score 1-10 and a justification
+        - give it a score 1-5 and a justification
         - ? decide if want to see new files
           - compare against cache of known "already looked at" files
+      - pass in list of files that we know are already relevant
+        - prompt knows that it needs some examples to support the implementation, but no more than 3
     - collect results, present to user
       - each file line / directory
         - description of why important
         - options to add, pocket, or remove
           - adding directory unpacks into files
           - or can toggle into directory to choose files
+- cleanup
+  - `# TODO: move this logic closer to gemini client`
+    in `job_runners/instructions/runner.rb`
 - config options
   - auto fire contract after expand
   - auto accept relevance: default 4

@@ -20,9 +20,7 @@ module JobRunners::EnhanceFeatureRequest
 
     def instructions_prompt
       [
-        project_tools,
-        "",
-        "Your job is to talk about the incoming feature request and a solution plan to implement it, no code.",
+        "Talk about the incoming feature request and a solution plan to implement it, no code required in this early planning stage.",
         "For solutions that involves complex execution paths, take time to talk them out when explaining your reasoning.",
         "Describe the problem and solution in thorough technical detail. Don't write code.",
       ].join("\n")

@@ -15,7 +15,7 @@ module JobRunners::ExamineContextualFile
 
     def examine_file_prompt
       [
-        project_tools,
+        project_tools(solutioning: false),
         "",
         # TODO: update all this to ask about the file
         # request JSON back w/ ranking & explanation

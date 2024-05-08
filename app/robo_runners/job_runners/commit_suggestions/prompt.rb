@@ -15,7 +15,7 @@ module JobRunners::CommitSuggestions
 
     def commit_suggestions_prompt
       [
-        project_tools,
+        project_tools(solutioning: false),
         "",
         include_job_requests? ? feature_requests : nil,
         "",

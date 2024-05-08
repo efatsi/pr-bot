@@ -7,6 +7,8 @@ module JobRunners::ExpandContextualFiles
       [
         { role: "user", content: PromptHub::SYSTEM_SETUP },
         { role: "system", content: PromptHub::ROGER_THAT },
+        { role: "user", content: robo_job_context_files(solutioning: false) },
+        { role: "system", content: PromptHub::UNDERSTAND_FILES_FOR_SEARCH },
         { role: "user", content: contextual_files_prompt },
       ]
     end
@@ -16,8 +18,6 @@ module JobRunners::ExpandContextualFiles
     def contextual_files_prompt
       # TODO: return as JSON
       [
-        project_tools,
-        "",
         "What files from the Directory Tree should I review to implement the following feature request in this project?",
         "Directory Tree:",
         project.fetch_directory_tree.join("\n"),

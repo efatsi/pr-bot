@@ -19,8 +19,6 @@ module JobRunners::Instructions
 
     def instructions_prompt
       [
-        project_tools,
-        "",
         "Return the details of the implementation change #{PromptHub::RETURN_AS_JSON}",
         "- implementation_overview: Describe the steps involved to implement the feature, and any follow-up steps to take afterwards",
         "- changes: An array of all the file changes required, following this structure:",
