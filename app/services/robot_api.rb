@@ -13,6 +13,10 @@ class RobotApi
     robot.chat(message)
   end
 
+  def vision_chat(message, image_file)
+    robot = Robots::Gpt4Vision.new(@external_stream_proc)
+    robot.chat(message, image_file)
+
   def code_chat(message, model: "gpt-4")
     prompt_messages = [
       { role: "user", content: PromptHub::SYSTEM_SETUP },
