@@ -9,6 +9,18 @@ class ImageUpload < ApplicationRecord
 
   def image_path
     if self.image.present?
+      ActiveStorage::Blob.service.path_for(image.key)
+    end
+  end
+
+  def image_content_type
+    if self.image.present?
+      image.content_type
+    end
+  end
+
+  def image_url
+    if self.image.present?
       rails_blob_path(image, host: "http://localhost:3069")
     end
   end

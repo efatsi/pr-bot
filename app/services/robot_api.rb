@@ -13,10 +13,6 @@ class RobotApi
     robot.chat(message)
   end
 
-  def vision_chat(message, image_file)
-    robot = Robots::Gpt4Vision.new(@external_stream_proc)
-    robot.chat(message, image_file)
-
   def code_chat(message, model: "gpt-4")
     prompt_messages = [
       { role: "user", content: PromptHub::SYSTEM_SETUP },
@@ -31,15 +27,19 @@ class RobotApi
   private
 
   def get_robot(model)
-    if model.to_s == "gpt-4"
-      Robots::Gpt4.new(@external_stream_proc)
+    klass = if model.to_s == "gpt-4"
+      Robots::Gpt4
+    if model.to_s == "gpt-4-vision"
+      Robots::Gpt4Vision
     elsif model.to_s == "gpt-3"
-      Robots::Gpt3.new(@external_stream_proc)
+      Robots::Gpt3
     elsif model.to_s == "gemini"
-      Robots::Gemini.new(@external_stream_proc)
+      Robots::Gemini
     else
       raise "Invalid model key: #{model}. Must be one of ['gpt-4', 'gpt-3', 'gemini']"
     end
+
+    klass.new(@external_stream_proc)
   end
 
   # have this here as a default for testing

@@ -22,7 +22,14 @@ module Robots
     def check_token_limit(prompt_messages)
       # first check prompt length is less than PROMPT_MAX_LENGTH
       encoder = Tiktoken.encoding_for_model('gpt-4')
-      prompt_content = prompt_messages.map{|a| a["content"]}.join(" ")
+      prompt_content = prompt_messages.map{|a| a["content"]}.map do |content|
+        # handle raw strings as well as array of hashes
+        if content.is_a?(String)
+          content
+        elsif content.is_a?(Array)
+          content.select { |sc| sc["type"] == "text" }.map { |sc| sc["text"] }.join(" ")
+        end
+      end.compact.join(" ")
       token_count = encoder.encode(prompt_content).length
 
       if token_count > PROMPT_MAX_LENGTH

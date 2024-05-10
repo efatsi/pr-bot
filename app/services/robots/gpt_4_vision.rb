@@ -2,18 +2,23 @@ module Robots
   class Gpt4Vision < BaseRobot
     GPT_4_VISION = "gpt-4-vision-preview"
 
-    def chat(message, image_file)
-      file_type = File.extname(image_file)
-
+    def chat(message, image_upload)
       # Convert image to base64
-      base64_image = Base64.strict_encode64(File.read(image_file))
+      base64_image = Base64.strict_encode64(File.read(image_upload.image_path))
 
-      prompt_messages = [
-        { role: "user", content: [
+      prompt_messages = [{
+        role: "user",
+        content: [
           { type: "text", text: message },
-          { type: "image_url", image_url: { url: "data:image/#{file_type};base64,#{base64_image}" } }
-        ] }
-      ]
+          {
+            type: "image_url",
+            image_url: {
+              url: "data:#{image_upload.image_content_type};base64,#{base64_image}",
+              # detail: "low"
+            }
+          }
+        ]
+      }].map(&:with_indifferent_access)
 
       conversation(prompt_messages)
     end
