@@ -15,6 +15,7 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "bootsnap", require: false
 gem "dotenv-rails"
+gem "image_processing"
 
 gem "awesome_print"
 gem "ruby-openai"
