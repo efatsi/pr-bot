@@ -4,6 +4,13 @@ x event navigation
 ~ image uploads
 - open contextual files list in VSCode
 
+## image uploads
+- option when providing context
+- creates ImageUpload, related to the RoboJob
+- update `JobRunners::Instructions::Prompt` to slot in the image file
+  - hopefully no problem amidst the existing user/system back-n-forth
+- if image, inject into `robo_event.robots` to `gpt-4-vision`
+
 ## contextual files
 - examine display
   - :mag: button to open file viewer w/ file
@@ -24,6 +31,8 @@ x event navigation
   - later: `hit_the_internet` & `summarize_results`
 
 ## lil punch list
+- open one file, or batch of files, in vs code
+  - OR file viewer (config setting)
 - slider for the width between the feature and the contextual files
 - add gpt-4 ♨️ / 🌡️ (increased temperature)
 - buttons
