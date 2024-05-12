@@ -27,7 +27,7 @@ class RoboJobsController < ApplicationController
   end
 
   def update_feature_and_files
-    file_params = params.require(:robo_job).permit(:feature_request, :contextual_files)
+    file_params = params.require(:robo_job).permit(:feature_request, :seed_contextual_files)
     robo_job.update(file_params)
 
     render turbo_stream: turbo_stream.update(
@@ -50,7 +50,7 @@ class RoboJobsController < ApplicationController
   end
 
   def robo_job_params
-    params.require(:robo_job).permit(:feature_request, :project_id, :contextual_files)
+    params.require(:robo_job).permit(:feature_request, :project_id, :seed_contextual_files)
   end
 
   def clear_show_files

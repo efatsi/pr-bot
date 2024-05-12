@@ -6,35 +6,44 @@ module JobRunners::ExpandContextualFiles
     alias :robo_job :subject
 
     def handle_response
-      # TODO: create related ContextualFile records instead
-      # robo_job.update(contextual_files: dig_out_contextual_files(robo_request))
+      robo_requests.each do |robo_request|
+        raw_response = robo_request.response
+
+        begin
+          # by now, it _should_ be a workable JSON string
+          generated_file_data = JSON.parse(raw_response)["files"]
+
+          process_file_list_to_contextual_files(generated_file_data, robo_request)
+
+        rescue => e
+          # might not be though, capture as error
+          robo_request.update(status: "error", error: e.message)
+        end
+      end
     end
 
     # extra private
 
-    def dig_out_contextual_files(robo_request)
-      filepaths = JSON.parse(robo_request.response)["files"].map do |f|
-        f["filepath"]
-      end
+    def process_file_list_to_contextual_files(generated_file_data, robo_request)
+      generated_file_data.each do |file_data|
+        file_robo_analysis = {
+          robo_request.robot => { why: file_data["why"] }
+        }
 
-      unpack_paths(filepaths)
-    end
+        if existing = robo_job.contextual_files.find_by(filepath: file_data["filepath"])
+          # add to existing file analysis
+          existing.update(robo_analysis: existing.robo_analysis.merge(
+            file_robo_analysis
+          ))
 
-    def unpack_paths(filepaths)
-      filepaths.map do |f|
-        full_filepath = project.full_path(f)
-
-        if File.file?(full_filepath)
-          f
-        elsif File.directory?(full_filepath)
-          glob_path = File.join(full_filepath, "*")
-          subpaths = Dir.glob(glob_path).map do |subpath|
-            subpath.gsub(project.filepath, "")
-          end
-          unpack_paths(subpaths)
+        else
+          # create new contextual file
+          robo_job.contextual_files.create(
+            filepath: file_data["filepath"],
+            robo_analysis: file_robo_analysis
+          )
         end
-      end.flatten.uniq
+      end
     end
-
   end
 end

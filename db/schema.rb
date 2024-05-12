@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_23_030711) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_12_004409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,44 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_23_030711) do
     t.string "type"
     t.bigint "robo_request_id"
     t.index ["robo_request_id"], name: "index_actions_on_robo_request_id"
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "contextual_files", force: :cascade do |t|
+    t.bigint "robo_job_id", null: false
+    t.string "filepath"
+    t.string "status"
+    t.json "robo_analysis"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["robo_job_id"], name: "index_contextual_files_on_robo_job_id"
   end
 
   create_table "git_commits", force: :cascade do |t|
@@ -118,6 +156,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_23_030711) do
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
+  create_table "image_uploads", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "filepath", null: false
     t.text "project_context", null: false
@@ -142,7 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_23_030711) do
 
   create_table "robo_jobs", force: :cascade do |t|
     t.text "feature_request", null: false
-    t.string "contextual_files", default: [], array: true
+    t.string "seed_contextual_files", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "project_id"
@@ -174,6 +217,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_23_030711) do
   end
 
   add_foreign_key "actions", "robo_requests"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contextual_files", "robo_jobs"
   add_foreign_key "git_commits", "robo_jobs"
   add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"
   add_foreign_key "robo_jobs", "projects"

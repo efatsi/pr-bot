@@ -2,12 +2,13 @@
 - expand
   - prompt "looking at these files, what other files would you want to check out based on request"
   - human options on hover to accept, table, or ignore
+    - unpack if accepting directory
   - (auto ignore if in ignored list defined on project)
 - contract
   - modeling
     - ContextualFile model
       - robo_job
-      - path
+      - filepath
       - status
         - pending
         - robo_reviewed
@@ -45,6 +46,33 @@
   - auto fire contract after expand
   - auto accept relevance: default 4
 
+- unpack
+```rb
+def dig_out_contextual_files(robo_request)
+  filepaths = JSON.parse(robo_request.response)["files"].map do |f|
+    f["filepath"]
+  end
+
+  unpack_paths(filepaths)
+end
+
+def unpack_paths(filepaths)
+  filepaths.map do |f|
+    full_filepath = project.full_path(f)
+
+    if File.file?(full_filepath)
+      f
+    elsif File.directory?(full_filepath)
+      glob_path = File.join(full_filepath, "*")
+      subpaths = Dir.glob(glob_path).map do |subpath|
+        subpath.gsub(project.filepath, "")
+      end
+      unpack_paths(subpaths)
+    end
+  end.flatten.uniq
+end
+```
+
 - phase2
   - ask more questions in expansion
     - eg: what project-wide searches to run in what subdirectories to find more context?
@@ -71,6 +99,8 @@ x event navigation
 - editing UI: open file viewer/picker from default view
 - rename project.filepath to project.repository_path
 - inspect, fix or kill, git commit on project
+- remove skipped actions when followup
+  - option to do so if any skipped, checked by default
 
 # Event Navigation
 ## RoboEvent actions

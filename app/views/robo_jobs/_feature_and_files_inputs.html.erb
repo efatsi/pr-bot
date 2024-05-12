@@ -20,13 +20,13 @@
 
     <%= f.label files_input_id, "Contextual files", class: "input-label" %>
     <div class="flex flex-col">
-      <%= f.input :contextual_files, as: :text, label: false,
+      <%= f.input :seed_contextual_files, as: :text, label: false,
         hint: files_hint,
         wrapper_html: { class: "!mb-2" },
         input_html: {
           id: files_input_id,
-          rows: [robo_job.contextual_files.length + 1, 8].max,
-          value: robo_job.contextual_files.join("\n")
+          rows: [robo_job.seed_contextual_files.length + 1, 8].max,
+          value: robo_job.seed_contextual_files.join("\n")
         }
       %>
 

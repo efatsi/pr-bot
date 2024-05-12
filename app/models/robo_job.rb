@@ -12,7 +12,7 @@ class RoboJob < ApplicationRecord
 
   validates :feature_request, presence: true
 
-  array_field :contextual_files
+  array_field :seed_contextual_files
 
   scope :parent_jobs, -> { where(parent_job_id: nil) }
 
@@ -34,7 +34,11 @@ class RoboJob < ApplicationRecord
 
   def last_contextual_files
     last_job = followup_jobs.last || self
-    (last_job.contextual_files + last_job.active_actions.map(&:file).compact).uniq
+    (last_job.final_contextual_files + last_job.active_actions.map(&:file).compact).uniq
+  end
+
+  def final_contextual_files
+    (seed_contextual_files + contextual_files.select(&:accepted?).map(&:filepath)).uniq
   end
 
   def includes_past_convo?
@@ -98,15 +102,15 @@ end
 #
 # Table name: robo_jobs
 #
-#  id                 :bigint           not null, primary key
-#  contextual_files   :string           default([]), is an Array
-#  feature_request    :text             not null
-#  include_all_convos :boolean          default(FALSE)
-#  include_last_convo :boolean          default(FALSE)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  parent_job_id      :bigint
-#  project_id         :bigint
+#  id                    :bigint           not null, primary key
+#  feature_request       :text             not null
+#  include_all_convos    :boolean          default(FALSE)
+#  include_last_convo    :boolean          default(FALSE)
+#  seed_contextual_files :string           default([]), is an Array
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  parent_job_id         :bigint
+#  project_id            :bigint
 #
 # Indexes
 #

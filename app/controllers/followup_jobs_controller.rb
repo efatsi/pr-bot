@@ -2,7 +2,7 @@ class FollowupJobsController < ApplicationController
   def new
     followup_job = robo_job.followup_jobs.new(
       project: project,
-      contextual_files: robo_job.last_contextual_files
+      seed_contextual_files: robo_job.last_contextual_files
     )
 
     render turbo_stream: turbo_stream.update(
@@ -49,7 +49,7 @@ class FollowupJobsController < ApplicationController
   end
 
   def followup_job_params
-    params.require(:followup_job).permit(:feature_request, :contextual_files, :include_last_convo, :include_all_convos).merge(
+    params.require(:followup_job).permit(:feature_request, :seed_contextual_files, :include_last_convo, :include_all_convos).merge(
       project: project
     )
   end

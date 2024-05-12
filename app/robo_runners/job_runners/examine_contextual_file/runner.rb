@@ -21,7 +21,7 @@ module JobRunners::ExamineContextualFile
 
     def handle_response
       # TODO: update passed in ContextualFile records with structured response
-      # robo_job.update(contextual_files: dig_out_contextual_files(robo_request))
+      # robo_job.all_contextual_files.each do |file|
     end
 
     # extra private
