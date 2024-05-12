@@ -26,6 +26,11 @@ module JobRunners::ExpandContextualFiles
 
     def process_file_list_to_contextual_files(generated_file_data, robo_request)
       generated_file_data.each do |file_data|
+        if file_data["filepath"].in? robo_job.seed_contextual_files
+          # skip seed files
+          next
+        end
+
         file_robo_analysis = {
           robo_request.robot => { why: file_data["why"] }
         }
