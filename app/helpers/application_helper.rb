@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def dropdown_label_bg_for(action)
+  def action_dropdown_label_bg(action)
     if action.skipped?
       nil
     elsif action.failed?
@@ -10,6 +10,14 @@ module ApplicationHelper
       "bg-[#523823]"
     else
       "bg-[#65533e]"
+    end
+  end
+
+  def contextual_file_dropdown_label_bg(contextual_file)
+    if contextual_file.tabled? || contextual_file.ignored?
+      "bg-gray-700"
+    else
+      "bg-[#263141]"
     end
   end
 end

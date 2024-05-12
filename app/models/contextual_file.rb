@@ -6,7 +6,7 @@ class ContextualFile < ApplicationRecord
     "robo_reviewed",
     "accepted",
     "tabled",
-    "ignore"
+    "ignored"
   ]
 
   validates :status, presence: true, inclusion: { in: STATUSES }

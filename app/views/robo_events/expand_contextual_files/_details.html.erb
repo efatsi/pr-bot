@@ -1,8 +1,47 @@
-<% focused_robo_request ||= nil %>
+<% open_on_load ||= robo_event.just_finished %>
+<% robo_job = robo_event.robo_job %>
 
-<%= render "robo_events/util/multi_request_details",
-  robo_event: robo_event,
-  focused_robo_request: focused_robo_request,
-  dropdown_label: "Expand Contextual Files",
-  detail_partial: "robo_events/expand_contextual_files/robo_request_details"
-%>
+<%= turbo_frame_tag "robo-event-details-#{robo_event.id}" do %>
+  <%= render "shared/dropdown", label: "Expand Contextual Files", open_on_load: open_on_load do %>
+    <div class="mb-4">
+      <div class="font-semibold mb-1">Seed Files</div>
+
+      <ul class="list-disc text-left">
+        <% robo_job.seed_contextual_files.each do |filepath| %>
+          <li class="flex items-center gap-1.5">
+            <%= filepath %>
+            <% if robo_job.project.invalid_path?(filepath) %>
+              <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-1 mb-2">
+      <% robo_job.contextual_files.each do |contextual_file| %>
+        <% label_class = contextual_file_dropdown_label_bg(contextual_file) %>
+        <% label_buttons = render "robo_events/expand_contextual_files/label_buttons/pending",
+          contextual_file: contextual_file
+        %>
+
+        <%= render "shared/dropdown", label: contextual_file.filepath, label_class: label_class, label_buttons: label_buttons, open_on_load: true do %>
+          <div class="z-50">
+            <div class="mb-2 flex flex-col gap-4">
+              <% contextual_file.robo_analysis.each do |robot, explanation| %>
+                <div class="flex items-center gap-3 text-sm mr-[25%]">
+                  <span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+                    <%= robot %>
+                  </span>
+
+                  <div><%= explanation["why"] %></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

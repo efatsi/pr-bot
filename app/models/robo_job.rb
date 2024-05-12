@@ -42,6 +42,10 @@ class RoboJob < ApplicationRecord
     (seed_contextual_files + contextual_files.accepted.map(&:filepath)).uniq
   end
 
+  def contextual_files
+    super.where.not(filepath: seed_contextual_files)
+  end
+
   def includes_past_convo?
     include_last_convo? || include_all_convos?
   end
