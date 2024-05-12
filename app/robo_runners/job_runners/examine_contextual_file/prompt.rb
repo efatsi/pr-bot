@@ -17,8 +17,9 @@ module JobRunners::ExamineContextualFile
       [
         project_tools(solutioning: false),
         "",
-        # TODO: update all this to ask about the file
-        # request JSON back w/ ranking & explanation
+        "Return the relevance of the provided file in relation to the feature request #{PromptHub::RETURN_AS_JSON}",
+        "- relevance: on a scale of 1-5, how important the file's is to the feature implementation",
+        "- explanation: a brief explanation for your ranking",
       ].join("\n")
     end
 
