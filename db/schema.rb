@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_12_004409) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_12_005750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_004409) do
   create_table "contextual_files", force: :cascade do |t|
     t.bigint "robo_job_id", null: false
     t.string "filepath"
-    t.string "status"
+    t.string "status", default: "pending"
     t.json "robo_analysis"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

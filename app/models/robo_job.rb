@@ -2,6 +2,7 @@ class RoboJob < ApplicationRecord
   belongs_to :project
 
   has_many :robo_requests, -> { by_id }, as: :parent, dependent: :destroy
+  has_many :contextual_files, dependent: :destroy
 
   has_many :followup_jobs, -> { by_id }, class_name: "RoboJob", foreign_key: :parent_job_id, dependent: :destroy
   belongs_to :parent_job, class_name: "RoboJob", optional: true
@@ -38,7 +39,7 @@ class RoboJob < ApplicationRecord
   end
 
   def final_contextual_files
-    (seed_contextual_files + contextual_files.select(&:accepted?).map(&:filepath)).uniq
+    (seed_contextual_files + contextual_files.accepted.map(&:filepath)).uniq
   end
 
   def includes_past_convo?

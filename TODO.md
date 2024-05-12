@@ -1,6 +1,7 @@
 ## contextual files
 - expand
   - prompt "looking at these files, what other files would you want to check out based on request"
+  - runner "stash into db"
   - human options on hover to accept, table, or ignore
     - unpack if accepting directory
   - (auto ignore if in ignored list defined on project)
