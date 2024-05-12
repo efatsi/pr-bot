@@ -27,6 +27,11 @@ class ContextualFilesController < ApplicationController
           robo_event: robo_event,
           open_on_load: true
         }
+      ),
+      turbo_stream.update(
+        "next-steps-#{robo_event.id}",
+        partial: "robo_events/expand_contextual_files/next_steps",
+        locals: { robo_event: robo_event }
       )
     ]
   end

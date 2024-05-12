@@ -1,28 +1,13 @@
 ## contextual files
 - expand
-  - prompt "looking at these files, what other files would you want to check out based on request"
-  - runner "stash into db"
-  - human options on hover to accept, table, or ignore
-    - unpack if accepting directory
-  - (auto ignore if in ignored list defined on project)
+  - auto ignore if in ignored list defined on project
 - contract
   - modeling
-    - ContextualFile model
-      - robo_job
-      - filepath
-      - status
-        - pending
-        - robo_reviewed
-        - accepted
-        - ignore
-        - (auto accepted if defined in robo_job contextual_files)
-      - robo_analysis: json
-        - relevance (1-5)
-        - explanation
-        - nth: key line numbers []
-        - nth: request_more_supporting_files
-    - RoboJob `contextual_files` changes (used in `robo_job_context_files`)
-      - db-backed string array + accepted ContFile records (of active requests)
+    - robo_analysis: json
+      - relevance (1-5)
+      - explanation
+      - nth: key line numbers []
+      - nth: request_more_supporting_files
   - prompt: "is this file actually relevant?"
     - iterate through each file
       - clean filename (leading slash)
