@@ -1,1 +1,8 @@
-heyyy
+<% focused_robo_request ||= nil %>
+
+<%= render "robo_events/util/multi_request_details",
+  robo_event: robo_event,
+  focused_robo_request: focused_robo_request,
+  dropdown_label: "Expand Contextual Files",
+  detail_partial: "robo_events/expand_contextual_files/robo_request_details"
+%>

@@ -1,0 +1,25 @@
+<% showing_many_siblings = robo_event.robo_requests.active.many? %>
+
+<%= turbo_frame_tag "robo-event-details-#{robo_event.id}" do %>
+  <%= render "shared/dropdown", label: dropdown_label, open_on_load: open_on_load do %>
+    <div class="flex gap-2">
+      <% if !focused_robo_request %>
+        <%# by default, show all active requests (letting you choose from multiple, or view the only one) %>
+        <% robo_event.robo_requests.active.each do |robo_request| %>
+          <%= render detail_partial,
+            robo_request: robo_request,
+            showing_many_siblings: showing_many_siblings
+          %>
+        <% end %>
+
+      <% else %>
+        <%# if focused_robo_request, just show that (eg: viewing an ignored one) %>
+        <%= render detail_partial,
+          robo_request: focused_robo_request,
+          showing_many_siblings: false
+        %>
+
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

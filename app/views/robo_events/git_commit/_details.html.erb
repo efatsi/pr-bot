@@ -1,8 +1,5 @@
 <% git_commit ||= robo_event.subject %>
-
 <% open_on_load ||= robo_event.just_finished %>
-<% showing_many_siblings = robo_event.robo_requests.active.many? %>
-<% focused_robo_request ||= nil %>
 
 <%= render "shared/dropdown", label: "Git Commit", open_on_load: open_on_load do %>
   <% if git_commit.message? %>

@@ -1,27 +1,10 @@
 <% open_on_load ||= robo_event.just_finished %>
-<% showing_many_siblings = robo_event.robo_requests.active.many? %>
 <% focused_robo_request ||= nil %>
 
-<%= turbo_frame_tag "robo-event-details-#{robo_event.id}" do %>
-  <%= render "shared/dropdown", label: "Enhance Feature Request", open_on_load: open_on_load do %>
-    <div class="flex gap-2">
-      <% if !focused_robo_request %>
-        <%# by default, show all active requests (letting you choose from multiple, or view the only one) %>
-        <% robo_event.robo_requests.active.each do |robo_request| %>
-          <%= render "robo_events/enhance_feature_request/robo_request_details",
-            robo_request: robo_request,
-            showing_many_siblings: showing_many_siblings
-          %>
-        <% end %>
-
-      <% else %>
-        <%# if focused_robo_request, just show that (eg: viewing an ignored one) %>
-        <%= render "robo_events/enhance_feature_request/robo_request_details",
-          robo_request: focused_robo_request,
-          showing_many_siblings: false
-        %>
-
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
+<%= render "robo_events/util/multi_request_details",
+  robo_event: robo_event,
+  focused_robo_request: focused_robo_request,
+  open_on_load: open_on_load,
+  dropdown_label: "Enhance Feature Request",
+  detail_partial: "robo_events/enhance_feature_request/robo_request_details"
+%>
