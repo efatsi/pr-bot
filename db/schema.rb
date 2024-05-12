@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_12_005750) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_12_034208) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_005750) do
     t.json "robo_analysis"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "robo_event_id", null: false
+    t.index ["robo_event_id"], name: "index_contextual_files_on_robo_event_id"
     t.index ["robo_job_id"], name: "index_contextual_files_on_robo_job_id"
   end
 
@@ -219,6 +221,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_005750) do
   add_foreign_key "actions", "robo_requests"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contextual_files", "robo_events"
   add_foreign_key "contextual_files", "robo_jobs"
   add_foreign_key "git_commits", "robo_jobs"
   add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"

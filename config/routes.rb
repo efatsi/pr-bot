@@ -15,6 +15,12 @@ Rails.application.routes.draw do
 
     resources :robo_events, only: :create
 
+    resources :contextual_files, only: [] do
+      post :accept, on: :member
+      post :ignore, on: :member
+      post :reset, on: :member
+    end
+
     resources :followup_jobs, only: [:new, :create]
 
     resources :git_commits, only: [:new, :update]

@@ -4,10 +4,10 @@
 <%= turbo_frame_tag "robo-event-details-#{robo_event.id}" do %>
   <%= render "shared/dropdown", label: "Expand Contextual Files", open_on_load: open_on_load do %>
     <div class="mb-4">
-      <div class="font-semibold mb-1">Seed Files</div>
+      <div class="font-semibold mb-1">Contextual Files</div>
 
       <ul class="list-disc text-left">
-        <% robo_job.seed_contextual_files.each do |filepath| %>
+        <% robo_job.final_contextual_files.sort.each do |filepath| %>
           <li class="flex items-center gap-1.5">
             <%= filepath %>
             <% if robo_job.project.invalid_path?(filepath) %>
@@ -19,13 +19,12 @@
     </div>
 
     <div class="flex flex-col gap-1 mb-2">
-      <% robo_job.contextual_files.each do |contextual_file| %>
-        <% label_class = contextual_file_dropdown_label_bg(contextual_file) %>
-        <% label_buttons = render "robo_events/expand_contextual_files/label_buttons/pending",
+      <% robo_job.contextual_files.pending.order(:filepath).each do |contextual_file| %>
+        <% label_buttons = render("robo_events/expand_contextual_files/label_buttons/#{contextual_file.status}",
           contextual_file: contextual_file
-        %>
+        )%>
 
-        <%= render "shared/dropdown", label: contextual_file.filepath, label_class: label_class, label_buttons: label_buttons, open_on_load: true do %>
+        <%= render "shared/dropdown", label: contextual_file.filepath, label_class: "bg-[#263141]", label_buttons: label_buttons, open_on_load: true do %>
           <div class="z-50">
             <div class="mb-2 flex flex-col gap-4">
               <% contextual_file.robo_analysis.each do |robot, explanation| %>
@@ -40,7 +39,37 @@
             </div>
           </div>
         <% end %>
+      <% end %>
 
+      <% ignored = robo_job.contextual_files.ignored %>
+      <% if ignored.any? %>
+        <div class="mt-6">
+          <div class="font-semibold mb-2">Ignored</div>
+
+          <div class="flex flex-col gap-1 mb-2">
+            <% ignored.order(:filepath).each do |contextual_file| %>
+              <% label_buttons = render("robo_events/expand_contextual_files/label_buttons/#{contextual_file.status}",
+                contextual_file: contextual_file
+              )%>
+
+              <%= render "shared/dropdown", label: contextual_file.filepath, label_class: "bg-[#263141]", label_buttons: label_buttons do %>
+                <div class="z-50">
+                  <div class="mb-2 flex flex-col gap-4">
+                    <% contextual_file.robo_analysis.each do |robot, explanation| %>
+                      <div class="flex items-center gap-3 text-sm mr-[25%]">
+                        <span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+                          <%= robot %>
+                        </span>
+
+                        <div><%= explanation["why"] %></div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
       <% end %>
     </div>
   <% end %>

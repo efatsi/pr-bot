@@ -40,6 +40,7 @@ module JobRunners::ExpandContextualFiles
           # create new contextual file
           robo_job.contextual_files.create(
             filepath: file_data["filepath"],
+            robo_event: robo_event,
             robo_analysis: file_robo_analysis
           )
         end

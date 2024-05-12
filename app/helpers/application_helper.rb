@@ -12,12 +12,4 @@ module ApplicationHelper
       "bg-[#65533e]"
     end
   end
-
-  def contextual_file_dropdown_label_bg(contextual_file)
-    if contextual_file.tabled? || contextual_file.ignored?
-      "bg-gray-700"
-    else
-      "bg-[#263141]"
-    end
-  end
 end

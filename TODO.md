@@ -14,7 +14,6 @@
         - pending
         - robo_reviewed
         - accepted
-        - tabled
         - ignore
         - (auto accepted if defined in robo_job contextual_files)
       - robo_analysis: json
