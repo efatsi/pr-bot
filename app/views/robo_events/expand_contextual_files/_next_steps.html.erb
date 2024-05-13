@@ -15,7 +15,7 @@
     <% if robo_job.contextual_files.pending.any? %>
       <div>
         <p>robo review files?</p>
-        <%= button_to robo_job_robo_events_path(robo_job, event_type: "expand_contextual_files"), method: :post, class: "btn-opaque flex items-center gap-2" do %>
+        <%= button_to robo_job_robo_events_path(robo_job, event_type: "examine_contextual_files"), method: :post, class: "btn-opaque flex items-center gap-2" do %>
           <span>Examine Contextual Files</span>
           <%= heroicon "folder-open" %>
         <% end %>

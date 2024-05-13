@@ -2,6 +2,8 @@ class ContextualFile < ApplicationRecord
   belongs_to :robo_job
   belongs_to :robo_event
 
+  delegate :project, to: :robo_job
+
   STATUSES = [
     "pending",
     "robo_reviewed",
@@ -17,6 +19,10 @@ class ContextualFile < ApplicationRecord
     define_method("#{status}?") do
       self.status == status
     end
+  end
+
+  def file_content
+    File.read(project.full_path(filepath))
   end
 end
 

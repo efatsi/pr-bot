@@ -17,6 +17,8 @@ class RoboEvent < ApplicationRecord
   has_many :robo_requests, -> { by_id }
   has_many :actions, -> { by_id }, through: :robo_requests
 
+  has_many :contextual_files, dependent: :destroy
+
   before_destroy :disconnect_and_ignore_requests
 
   belongs_to :subject, polymorphic: true
@@ -66,9 +68,11 @@ class RoboEvent < ApplicationRecord
     end
   end
 
-  def request_event_type
+  def event_request_type
     if event_type == "git_commit"
       "commit_suggestions"
+    elsif event_type == "examine_contextual_files"
+      "examine_contextual_file"
     else
       event_type
     end

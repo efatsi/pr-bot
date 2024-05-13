@@ -64,7 +64,7 @@ class BaseRoboRunner
         parent: subject,
         robo_event: robo_event,
         robot: robot,
-        request_type: robo_event.request_event_type,
+        request_type: robo_event.event_request_type,
         prompt_messages: prompt_messages
       )
     end

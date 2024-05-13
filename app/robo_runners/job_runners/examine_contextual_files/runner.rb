@@ -1,4 +1,4 @@
-module JobRunners::ExamineContextualFile
+module JobRunners::ExamineContextualFiles
   class Runner < BaseRoboRunner
 
     private
@@ -27,7 +27,7 @@ module JobRunners::ExamineContextualFile
     # extra private
 
     def prompt_message_for(contextual_file)
-      JobRunners::ExamineContextualFile::Prompt.new(project, contextual_file)
+      JobRunners::ExamineContextualFiles::Prompt.new(project, contextual_file)
 
       prompt.generate_prompt_messages
     end

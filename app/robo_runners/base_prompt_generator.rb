@@ -19,11 +19,13 @@ class BasePromptGenerator
 
   def robo_job_context_files(solutioning: false)
     contextual_file_data = robo_job.final_contextual_files.map do |filepath|
-      {
-        name: filepath,
-        content: File.read(project.full_path(filepath))
-      }
-    end
+      [
+        "<file>",
+        "- filepath: #{filepath}",
+        "- content: #{File.read(project.full_path(filepath))}",
+        "</file>"
+      ].join("\n")
+    end.join("\n")
 
     [
       project_tools(solutioning: solutioning),
