@@ -6,17 +6,15 @@ module JobRunners::ExamineContextualFiles
     alias :robo_job :subject
 
     def build_robo_requests
-      # TODO: loop over project's files and create robo_request for each one
-      #
-      # @robo_requests = robo_job.contextual_files.map do |file|
-      #   RoboRequest.create!(
-      #     parent: subject,
-      #     robo_event: robo_event,
-      #     robot: "gpt-3",
-      #     request_type: robo_event.request_event_type,
-      #     prompt_messages: prompt_message_for(file)
-      #   )
-      # end
+      @robo_requests = robo_job.contextual_files.pending.map do |contextual_file|
+        RoboRequest.create!(
+          parent: robo_job,
+          robo_event: robo_event,
+          robot: "gpt-3",  # or "gemini" here?
+          request_type: robo_event.event_request_type,
+          prompt_messages: prompt_message_for(contextual_file)
+        )
+      end
     end
 
     def handle_response
@@ -27,7 +25,10 @@ module JobRunners::ExamineContextualFiles
     # extra private
 
     def prompt_message_for(contextual_file)
-      JobRunners::ExamineContextualFiles::Prompt.new(project, contextual_file)
+      prompt = JobRunners::ExamineContextualFiles::Prompt.new(
+        project,
+        contextual_file
+      )
 
       prompt.generate_prompt_messages
     end
