@@ -1,6 +1,6 @@
 module Robots
   class Gpt4 < BaseRobot
-    GPT_4_TURBO = "gpt-4-0125-preview"
+    GPT_4_OMNI = "gpt-4o"
 
     def chat(message)
       prompt_messages = [
@@ -45,7 +45,7 @@ module Robots
     end
 
     def model_key
-      GPT_4_TURBO
+      GPT_4_OMNI
     end
   end
 end
