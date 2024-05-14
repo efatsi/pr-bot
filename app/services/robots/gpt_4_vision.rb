@@ -1,6 +1,6 @@
 module Robots
   class Gpt4Vision < BaseRobot
-    GPT_4_VISION = "gpt-4-turbo"
+    GPT_4_VISION = "gpt-4o"
 
     def chat(message, image_upload)
       # Convert image to base64
