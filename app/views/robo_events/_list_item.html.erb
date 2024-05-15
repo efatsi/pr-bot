@@ -1,4 +1,4 @@
-<% has_children = robo_event.child_robo_events.any? %>
+<% has_children = robo_event.child_robo_events.visible.any? %>
 <% render_just_self ||= false %>
 <% render_next = !render_just_self %>
 
@@ -17,7 +17,7 @@
         </div>
 
         <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex flex-col items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1 w-32 z-40">
-          <% if robo_event.child_robo_events.any? %>
+          <% if robo_event.child_robo_events.visible.any? %>
             <%= render "robo_events/util/menu_item",
               path: reset_to_here_robo_event_path(robo_event),
               method: :post,
@@ -54,9 +54,7 @@
 <% if render_next %>
   <% if has_children %>
     <%# render the next event in the sequence if it exists %>
-    <% robo_event.child_robo_events.each do |child_event| %>
-      <%= render "robo_events/list_item", robo_event: child_event %>
-    <% end %>
+    <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.visible.first %>
 
   <% else %>
     <%# we're at the end of the event line, render buttons to enable next steps %>

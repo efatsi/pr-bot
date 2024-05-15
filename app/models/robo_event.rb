@@ -27,6 +27,7 @@ class RoboEvent < ApplicationRecord
 
   scope :active, -> { where(status: "active") }
   scope :with_finished_requests, -> { joins(:robo_requests).where.not(robo_requests: { response: nil }) }
+  scope :visible, -> { where.not(event_type: "examine_contextual_files") }
 
   validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
   validates :status, presence: true, inclusion: { in: STATUSES }
