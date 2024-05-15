@@ -7,13 +7,17 @@ x event navigation
 ## contextual files
 - update broadcast events to update parent "expand" event
   - scaffold -> put spinners in all pending c_files
-    - placeholder ? relevance boxes, then spinner, then result
-  - handle_response -> re-render details for c_file
-    - color green - orange - red for 5-1 relevance
+  - finish -> rerender whole list
+  x handle_response -> re-render details for c_file
+  - color green - orange - red for 5-1 relevance
 
 - expand
   - auto ignore if in ignored list defined on project
   - put relevance "--" and explanation "could not find file" if file missing
+
+- config options
+  - auto fire examine after expand
+  - auto accept 4+, auto reject 2-
 
 - contract / examine display
   - :mag: button to open file viewer w/ file
@@ -29,10 +33,6 @@ x event navigation
   - remove Edit link in "Expand" detail
   - default dropdowns to closed, button to toggle all
     - new controller to inspect children for all dropdowns and close em from the outside
-
-- config options
-  - auto fire examine after expand
-  - auto accept 4+, auto reject 2-
 
 - phase2 / experimental
   - ask for key line numbers in prompt

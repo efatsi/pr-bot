@@ -18,6 +18,8 @@ module JobRunners::ExamineContextualFiles
     end
 
     def handle_response(robo_request)
+      contextual_file = robo_request.parent
+
       relevance_analysis = JSON.parse(robo_request.response)
       new_robo_analysis = contextual_file.robo_analysis.deep_merge(
         {robo_request.robot => relevance_analysis}
@@ -26,10 +28,11 @@ module JobRunners::ExamineContextualFiles
       contextual_file = robo_request.parent
       contextual_file.update(robo_analysis: new_robo_analysis)
 
-      # TODO: re-render contextual file
-    rescue => e
-      # might not be though, capture as error
-      robo_request.update(status: "error", error: e.message)
+      broadcast_updated_contextual_file(contextual_file)
+    end
+
+    def broadcast_finished_state
+      # reload the whole expand detail to get reordered list
     end
 
     # extra private
@@ -41,6 +44,18 @@ module JobRunners::ExamineContextualFiles
       )
 
       prompt.generate_prompt_messages
+    end
+
+    def broadcast_updated_contextual_file(contextual_file)
+      broadcast(
+        partial: "robo_events/expand_contextual_files/contextual_file",
+        target: "contextual-file-#{contextual_file.id}",
+        action: :replace,
+        locals: {
+          robo_job: robo_job,
+          contextual_file: contextual_file
+        }
+      )
     end
   end
 end

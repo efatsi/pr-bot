@@ -26,7 +26,6 @@ module JobRunners::Instructions
       # might not be though, capture as error
       robo_request.update(status: "error", error: e.message)
     end
-  end
 
     def process_instructions_to_pending_actions(generated_instructions, robo_request)
       generated_instructions["changes"].each do |changeset|
