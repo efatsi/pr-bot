@@ -32,13 +32,15 @@ class ContextualFile < ApplicationRecord
         return robo_analysis[key]["relevance"]
       end
     end
+
+    return nil
   end
 
   def relevance_order_key
     if relevance.nil?
       return "999-#{filepath}"
     else
-      inverted_relevance = 5-relevance # since this is 1-5, this will make it 5-1 for sorting
+      inverted_relevance = 6-relevance # since this is 1-5, this will make it 5-1 for sorting
       return "#{inverted_relevance}-#{filepath}"
     end
   end
