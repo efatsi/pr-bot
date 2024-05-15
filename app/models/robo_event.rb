@@ -59,6 +59,13 @@ class RoboEvent < ApplicationRecord
     event_type == "start"
   end
 
+  def is_instruction_event?
+    event_type.in? [
+      "build_instructions",
+      "followup_instructions"
+    ]
+  end
+
   def robo_job
     case subject
     when RoboJob
