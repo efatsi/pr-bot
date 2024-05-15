@@ -1,54 +1,51 @@
-
+## BIG PUNCH LIST
+x event navigation
+~ making context better
+~ image uploads
+- open contextual files list in VSCode
 
 ## contextual files
-- fix Accept link in "Examine" detail
+- examine event should be "hidden"
+  - make sure these are removed from scoped lookups (has_children)
+- update broadcast events to update parent "expand" event
+  - scaffold -> put spinners in all pending c_files
+    - placeholder ? relevance boxes, then spinner, then result
+  - handle_response -> re-render details for c_file
+    - color green - orange - red for 5-1 relevance
+- on accept
+  - don't move into final list, keep in dropdown form
+  - default dropdowns to closed, button to toggle all
+    - new controller to inspect children for all dropdowns and close em from the outside
+
+
 - expand
   - auto ignore if in ignored list defined on project
-  - put relevance ? and explanation "could not find file" if file missing
+  - put relevance "--" and explanation "could not find file" if file missing
+
 - contract / examine display
   - :mag: button to open file viewer w/ file
     - config to change those links to open in VSCode
   - handle directories one day maybe
+
 - cleanup
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
   - bonus request to highlight the key words
     - can load it in the background, skip the stream, and replace when it's done
     - https://chatgpt.com/c/ecb250e3-44ef-44b2-8b02-7107e76efaa7, highlighting w/ italics and bold oohhhhh
+  - fix Accept link in "Examine" detail
+  - remove Edit link in "Expand" detail
+
 - config options
   - auto fire examine after expand
   - auto accept 4+, auto reject 2-
-- experimental, just line numbers:
+
+- phase2 / experimental
   - ask for key line numbers in prompt
-  - modeling
-    - nth: key line numbers []
-    - nth: request_more_supporting_files
-
-- unpack
-```rb
-def dig_out_contextual_files(robo_request)
-  filepaths = JSON.parse(robo_request.response)["files"].map do |f|
-    f["filepath"]
-  end
-
-  unpack_paths(filepaths)
-end
-
-def unpack_paths(filepaths)
-  filepaths.map do |f|
-    full_filepath = project.full_path(f)
-
-    if File.file?(full_filepath)
-      f
-    elsif File.directory?(full_filepath)
-      glob_path = File.join(full_filepath, "*")
-      subpaths = Dir.glob(glob_path).map do |subpath|
-        subpath.gsub(project.filepath, "")
-      end
-      unpack_paths(subpaths)
-    end
-  end.flatten.uniq
-end
-```
+    - modeling
+      - nth: key line numbers []
+      - nth: request_more_supporting_files
+  - second pass at expand / examine after first
+    - or, asking "any more files you want to see after each file
 
 - phase2
   - ask more questions in expansion
@@ -61,17 +58,11 @@ end
   - later: `hit_the_internet` & `summarize_results`
   - human input: make vscode helper to output file name w/ line numbers from selection
 
-## big punch list
-x event navigation
-- making context better
-- image uploads
-- open one file, or batch of files, in vs code
-
 ## lil punch list
 - slider for the width between the feature and the contextual files
 - add gpt-4 ♨️ / 🌡️ (increased temperature)
 - buttons
-  - expand_all actions button
+  - expand_all child dropdown (put on actions)
   - to display "implementation overview" from robot
 - editing UI: open file viewer/picker from default view
 - rename project.filepath to project.repository_path
