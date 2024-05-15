@@ -10,10 +10,6 @@ x event navigation
     - placeholder ? relevance boxes, then spinner, then result
   - handle_response -> re-render details for c_file
     - color green - orange - red for 5-1 relevance
-- on accept
-  - default dropdowns to closed, button to toggle all
-    - new controller to inspect children for all dropdowns and close em from the outside
-
 
 - expand
   - auto ignore if in ignored list defined on project
@@ -31,6 +27,8 @@ x event navigation
     - https://chatgpt.com/c/ecb250e3-44ef-44b2-8b02-7107e76efaa7, highlighting w/ italics and bold oohhhhh
   - fix Accept link in "Examine" detail
   - remove Edit link in "Expand" detail
+  - default dropdowns to closed, button to toggle all
+    - new controller to inspect children for all dropdowns and close em from the outside
 
 - config options
   - auto fire examine after expand
@@ -41,14 +39,11 @@ x event navigation
     - modeling
       - nth: key line numbers []
       - nth: request_more_supporting_files
-  - second pass at expand / examine after first
-    - or, asking "any more files you want to see after each file
-
-- phase2
   - ask more questions in expansion
+    - second pass at expand / examine after first
+      - or, asking "any more files you want to see after each file"
     - eg: what project-wide searches to run in what subdirectories to find more context?
           then run those searches and consider files
-    - followup on `request_more_supporting_files`
     - maybe RoboConductor can do some orchestrating?!
       - starting different robo_request batches tied to the same event
       - wrapping them in it's own `on_finish` logic, to queue follow ons (through itself? 😬)
