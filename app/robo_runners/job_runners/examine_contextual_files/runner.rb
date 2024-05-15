@@ -17,6 +17,14 @@ module JobRunners::ExamineContextualFiles
       end
     end
 
+    def broadcast_event_scaffold
+      # instead of broadcasting new scaffold, update each examined file w/ a spinner
+      robo_event.robo_requests.each do |robo_request|
+        contextual_file = robo_request.parent
+        broadcast_processing_contextual_file(contextual_file)
+      end
+    end
+
     def handle_response(robo_request)
       contextual_file = robo_request.parent
 
@@ -54,6 +62,19 @@ module JobRunners::ExamineContextualFiles
         locals: {
           robo_job: robo_job,
           contextual_file: contextual_file
+        }
+      )
+    end
+
+    def broadcast_processing_contextual_file(contextual_file)
+      broadcast(
+        partial: "robo_events/expand_contextual_files/contextual_file",
+        target: "contextual-file-#{contextual_file.id}",
+        action: :replace,
+        locals: {
+          robo_job: robo_job,
+          contextual_file: contextual_file,
+          is_processing: true
         }
       )
     end

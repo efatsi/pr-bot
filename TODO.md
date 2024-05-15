@@ -6,23 +6,21 @@ x event navigation
 
 ## contextual files
 - update broadcast events to update parent "expand" event
-  - scaffold -> put spinners in all pending c_files
   - finish -> rerender whole list
   x handle_response -> re-render details for c_file
   - color green - orange - red for 5-1 relevance
 
 - expand
-  - auto ignore if in ignored list defined on project
-  - put relevance "--" and explanation "could not find file" if file missing
+  - auto ignore if in ignored list defined on project, or not valid
+
+- examine display
+  - :mag: button to open file viewer w/ file
 
 - config options
-  - auto fire examine after expand
   - auto accept 4+, auto reject 2-
-
-- contract / examine display
-  - :mag: button to open file viewer w/ file
-    - config to change those links to open in VSCode
-  - handle directories one day maybe
+  - auto fire examine after expand
+  - auto fire highlight after examine
+  - change open file links to open in VSCode
 
 - cleanup
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`

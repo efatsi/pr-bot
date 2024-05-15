@@ -1,11 +1,19 @@
+<% is_processing ||= false %>
+
 <div id="contextual-file-<%= contextual_file.id %>">
   <% label_buttons = render("robo_events/expand_contextual_files/label_buttons/#{contextual_file.status}",
     contextual_file: contextual_file
   )%>
 
+  <% if is_processing %>
+    <% label_icon = render("shared/contextual_file_icon", spinner: true) %>
+  <% else %>
+    <% label_icon = render("shared/contextual_file_icon", contextual_file: contextual_file) %>
+  <% end %>
+
   <%= render "shared/dropdown",
     label: render("shared/file_path_presence", project: robo_job.project, filepath: contextual_file.filepath),
-    label_icon: render("shared/contextual_file_icon", contextual_file: contextual_file),
+    label_icon: label_icon,
     label_class: contextual_file.accepted? ? "bg-[#264131]" : "bg-[#263141]",
     label_buttons: label_buttons,
     open_on_load: contextual_file.pending? do
