@@ -1,3 +1,5 @@
-<span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
-  <%= contextual_file.relevance %>
-</span>
+<% if contextual_file.relevance %>
+  <span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+    <%= contextual_file.relevance %>
+  </span>
+<% end %>

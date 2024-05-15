@@ -29,6 +29,7 @@
 
         <%= render "shared/dropdown",
           label: render("shared/file_path_presence", project: robo_job.project, filepath: contextual_file.filepath),
+          label_icon: render("shared/contextual_file_icon", contextual_file: contextual_file),
           label_class: "bg-[#263141]",
           label_buttons: label_buttons,
           open_on_load: true do
@@ -36,7 +37,16 @@
           <div class="z-50">
             <div class="mb-2 flex flex-col gap-4">
               <% contextual_file.robo_analysis.each do |robot, robo_analysis| %>
-                <% if robo_analysis["why"] %>
+                <% if robo_analysis["explanation"] %>
+                  <div class="flex items-center justify-between text-sm mr-[25%]">
+                    <div><%= robo_analysis["explanation"] %></div>
+
+                    <span class="ml-8 inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+                      <%= robot %>
+                    </span>
+                  </div>
+
+                <% elsif robo_analysis["why"] %>
                   <div class="flex items-center justify-between text-sm mr-[25%]">
                     <div><%= robo_analysis["why"] %></div>
 
@@ -44,6 +54,7 @@
                       <%= robot %>
                     </span>
                   </div>
+
                 <% end %>
               <% end %>
             </div>
@@ -63,18 +74,33 @@
               contextual_file: contextual_file
             )%>
 
-            <%= render "shared/dropdown", label: contextual_file.filepath, label_class: "bg-[#263141]", label_buttons: label_buttons do %>
+            <%= render "shared/dropdown",
+              label: render("shared/file_path_presence", project: robo_job.project, filepath: contextual_file.filepath),
+              label_icon: render("shared/contextual_file_icon", contextual_file: contextual_file),
+              label_class: "bg-[#263141]",
+              label_buttons: label_buttons do
+            %>
               <div class="z-50">
                 <div class="mb-2 flex flex-col gap-4">
                   <% contextual_file.robo_analysis.each do |robot, robo_analysis| %>
-                    <% if robo_analysis["why"] %>
+                    <% if robo_analysis["explanation"] %>
                       <div class="flex items-center justify-between text-sm mr-[25%]">
-                        <div><%= robo_analysis["why"] %></div>
+                        <div><%= robo_analysis["explanation"] %></div>
 
-                        <span class="mr-8 inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+                        <span class="ml-8 inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
                           <%= robot %>
                         </span>
                       </div>
+
+                    <% elsif robo_analysis["why"] %>
+                      <div class="flex items-center justify-between text-sm mr-[25%]">
+                        <div><%= robo_analysis["why"] %></div>
+
+                        <span class="ml-8 inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+                          <%= robot %>
+                        </span>
+                      </div>
+
                     <% end %>
                   <% end %>
                 </div>

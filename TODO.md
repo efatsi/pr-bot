@@ -5,8 +5,6 @@ x event navigation
 - open contextual files list in VSCode
 
 ## contextual files
-- examine event should be "hidden"
-  - make sure these are removed from scoped lookups (has_children)
 - update broadcast events to update parent "expand" event
   - scaffold -> put spinners in all pending c_files
     - placeholder ? relevance boxes, then spinner, then result
