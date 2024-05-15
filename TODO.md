@@ -11,7 +11,6 @@ x event navigation
   - handle_response -> re-render details for c_file
     - color green - orange - red for 5-1 relevance
 - on accept
-  - don't move into final list, keep in dropdown form
   - default dropdowns to closed, button to toggle all
     - new controller to inspect children for all dropdowns and close em from the outside
 

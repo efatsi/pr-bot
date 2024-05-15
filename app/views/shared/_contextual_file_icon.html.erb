@@ -1,5 +1,7 @@
 <% if contextual_file.relevance %>
-  <span class="inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
+  <span class="inline-flex items-center justify-center text-center rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap w-7 h-8">
     <%= contextual_file.relevance %>
   </span>
+<% elsif contextual_file.accepted? %>
+  <div class="inline-flex items-center justify-center text-center rounded-md p-1 px-2 border border-white text-gray-400 border-opacity-30 w-7 h-8">✓</div>
 <% end %>

@@ -21,6 +21,7 @@ class ContextualFile < ApplicationRecord
       self.status == status
     end
   end
+  scope :not_ignored, -> { where.not(status: "ignored") }
 
   def file_content
     File.read(project.full_path(filepath))
@@ -37,12 +38,36 @@ class ContextualFile < ApplicationRecord
   end
 
   def relevance_order_key
-    if relevance.nil?
-      return "999-#{filepath}"
-    else
+    if relevance.present?
       inverted_relevance = 6-relevance # since this is 1-5, this will make it 5-1 for sorting
-      return "#{inverted_relevance}-#{filepath}"
+      relevance_key = "#{inverted_relevance}-#{filepath}"
+
+      if accepted?
+        return "0-#{relevance_key}"
+      else
+        return relevance_key
+      end
+    else
+      if accepted?
+        return "0-0-#{filepath}"
+      else
+        # probably ignored
+        return "999-#{filepath}"
+      end
     end
+  end
+
+  def robo_reasoning
+    # explanation is set in context-aware examine event, why is set in blind expand event
+    ["explanation", "why"].each do |key|
+      robo_analysis.keys.each do |robot|
+        if robo_analysis[robot].key?(key)
+          return robot, robo_analysis[robot][key]
+        end
+      end
+    end
+
+    return nil
   end
 end
 
