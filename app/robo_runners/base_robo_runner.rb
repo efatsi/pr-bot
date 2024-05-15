@@ -148,7 +148,7 @@ class BaseRoboRunner
     stream_proc_target = "ai-response-#{robo_request.id}"
 
     proc do |new_chars|
-      ActionCable.server.broadcast(robo_request.parent.stream_key, {
+      ActionCable.server.broadcast(robo_job.stream_key, {
         event_timestamp: {
           target: stream_proc_target,
           time: Time.now.strftime('%s%L')
@@ -159,5 +159,9 @@ class BaseRoboRunner
         )
       })
     end
+  end
+
+  def robo_job
+    # defined in subclasses
   end
 end

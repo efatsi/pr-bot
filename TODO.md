@@ -1,35 +1,27 @@
+
+
 ## contextual files
+- fix Accept link in "Examine" detail
 - expand
   - auto ignore if in ignored list defined on project
-- contract
-  - modeling
-    - robo_analysis: json
-      - relevance (1-5)
-      - explanation
-      - nth: key line numbers []
-      - nth: request_more_supporting_files
-  - prompt: "is this file actually relevant?"
-    - iterate through each file
-      - clean filename (leading slash)
-      - look at file contents
-        - decide if relevant in the context of the feature request
-        - give it a score 1-5 and a justification
-        - ? decide if want to see new files
-          - compare against cache of known "already looked at" files
-      - pass in list of files that we know are already relevant
-        - prompt knows that it needs some examples to support the implementation, but no more than 3
-    - collect results, present to user
-      - each file line / directory
-        - description of why important
-        - options to add, pocket, or remove
-          - adding directory unpacks into files
-          - or can toggle into directory to choose files
+  - put relevance ? and explanation "could not find file" if file missing
+- contract / examine display
+  - :mag: button to open file viewer w/ file
+    - config to change those links to open in VSCode
+  - handle directories one day maybe
 - cleanup
-  - `# TODO: move this logic closer to gemini client`
-    in `job_runners/instructions/runner.rb`
+  - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
+  - bonus request to highlight the key words
+    - can load it in the background, skip the stream, and replace when it's done
+    - https://chatgpt.com/c/ecb250e3-44ef-44b2-8b02-7107e76efaa7, highlighting w/ italics and bold oohhhhh
 - config options
-  - auto fire contract after expand
-  - auto accept relevance: default 4
+  - auto fire examine after expand
+  - auto accept 4+, auto reject 2-
+- experimental, just line numbers:
+  - ask for key line numbers in prompt
+  - modeling
+    - nth: key line numbers []
+    - nth: request_more_supporting_files
 
 - unpack
 ```rb

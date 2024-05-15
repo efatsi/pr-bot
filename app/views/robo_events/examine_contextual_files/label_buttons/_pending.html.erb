@@ -1,0 +1,6 @@
+<% robo_job = contextual_file.robo_job %>
+
+<div class="flex gap-2">
+  <%= button_to "Accept", accept_robo_job_contextual_file_path(robo_job, contextual_file), class: "btn-opaque btn-slim inline" %>
+  <%= button_to "Ignore", ignore_robo_job_contextual_file_path(robo_job, contextual_file), class: "btn-opaque btn-slim inline" %>
+</div>

@@ -46,7 +46,7 @@ module JobRunners::ExamineContextualFiles
         "",
         "Return the relevance of the provided file #{PromptHub::RETURN_AS_JSON}",
         "- relevance: on a scale of 1-5, how important the file's is to the feature implementation",
-        "- explanation: a brief explanation for your ranking. Keep this between 50 and 70 words",
+        "- explanation: a brief explanation for your ranking. Keep this between 20 words if it's easy to explain, or 50 words if there are a few relevant concepts worth mentioning.",
       ].join("\n")
     end
 

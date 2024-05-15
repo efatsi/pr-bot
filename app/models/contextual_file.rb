@@ -2,11 +2,12 @@ class ContextualFile < ApplicationRecord
   belongs_to :robo_job
   belongs_to :robo_event
 
+  has_many :robo_requests, -> { by_id }, as: :parent, dependent: :destroy
+
   delegate :project, to: :robo_job
 
   STATUSES = [
     "pending",
-    "robo_reviewed",
     "accepted",
     "ignored"
   ]
@@ -23,6 +24,23 @@ class ContextualFile < ApplicationRecord
 
   def file_content
     File.read(project.full_path(filepath))
+  end
+
+  def relevance
+    robo_analysis.keys.each do |key|
+      if robo_analysis[key].key?("relevance")
+        return robo_analysis[key]["relevance"]
+      end
+    end
+  end
+
+  def relevance_order_key
+    if relevance.nil?
+      return "999-#{filepath}"
+    else
+      inverted_relevance = 5-relevance # since this is 1-5, this will make it 5-1 for sorting
+      return "#{inverted_relevance}-#{filepath}"
+    end
   end
 end
 
