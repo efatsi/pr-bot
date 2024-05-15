@@ -3,6 +3,19 @@
 
 <%= turbo_frame_tag "robo-event-details-#{robo_event.id}" do %>
   <%= render "shared/dropdown", label: "Expand Contextual Files", open_on_load: open_on_load do %>
+    <div class="flex flex-col justify-center gap-1 w-20 float-right mr-4">
+      <% robo_event.robo_requests.each do |robo_request| %>
+        <div class="flex flex-col items-center">
+          <%= link_to conversation_robo_request_path(robo_request), "data-turbo-frame": "modal", class: "w-20" do %>
+            <div class="inline-flex items-center justify-around gap-1 btn-opaque btn-slim text-sm">
+              <span>convo</span>
+              <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
     <div class="mb-8">
       <div class="font-semibold mb-0.5">Seed Contextual Files</div>
 
@@ -23,31 +36,10 @@
 
       <div class="flex flex-col gap-1">
         <% robo_job.contextual_files.not_ignored.sort_by(&:relevance_order_key).each do |contextual_file| %>
-          <% label_buttons = render("robo_events/expand_contextual_files/label_buttons/#{contextual_file.status}",
+          <%= render "robo_events/expand_contextual_files/contextual_file",
+            robo_job: robo_job,
             contextual_file: contextual_file
-          )%>
-
-          <%= render "shared/dropdown",
-            label: render("shared/file_path_presence", project: robo_job.project, filepath: contextual_file.filepath),
-            label_icon: render("shared/contextual_file_icon", contextual_file: contextual_file),
-            label_class: contextual_file.accepted? ? "bg-[#264131]" : "bg-[#263141]",
-            label_buttons: label_buttons,
-            open_on_load: contextual_file.pending? do
           %>
-            <div class="z-50">
-              <div class="mb-2 flex flex-col gap-4">
-                <% if (robot, reasoning = contextual_file.robo_reasoning) %>
-                  <div class="flex items-center justify-between text-sm mr-[25%]">
-                    <div><%= reasoning %></div>
-
-                    <span class="ml-8 inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
-                      <%= robot %>
-                    </span>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
         <% end %>
       </div>
     </div>
@@ -59,29 +51,10 @@
 
         <div class="flex flex-col gap-1 mb-2">
           <% ignored.sort_by(&:relevance_order_key).each do |contextual_file| %>
-            <% label_buttons = render("robo_events/expand_contextual_files/label_buttons/#{contextual_file.status}",
+            <%= render "robo_events/expand_contextual_files/contextual_file",
+              robo_job: robo_job,
               contextual_file: contextual_file
-            )%>
-
-            <%= render "shared/dropdown",
-              label: render("shared/file_path_presence", project: robo_job.project, filepath: contextual_file.filepath),
-              label_class: "bg-[#263141]",
-              label_buttons: label_buttons do
             %>
-              <div class="z-50">
-                <div class="mb-2 flex flex-col gap-4">
-                  <% if (robot, reasoning = contextual_file.robo_reasoning) %>
-                    <div class="flex items-center justify-between text-sm mr-[25%]">
-                      <div><%= reasoning %></div>
-
-                      <span class="ml-8 inline-block rounded-md p-1 px-2 border border-white border-opacity-30 text-gray-400 whitespace-nowrap">
-                        <%= robot %>
-                      </span>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
           <% end %>
         </div>
       </div>
