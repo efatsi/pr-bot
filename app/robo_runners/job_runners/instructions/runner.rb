@@ -5,31 +5,28 @@ module JobRunners::Instructions
 
     alias :robo_job :subject
 
-    def handle_response
-      robo_requests.each do |robo_request|
-        raw_response = robo_request.response
+    def handle_response(robo_request)
+      raw_response = robo_request.response
 
-        # TODO: move this logic closer to gemini client
-        if raw_response && raw_response.include?("```")
-          # remove anything before the first ``` line (including language key)
-          raw_response.gsub!(/^.*?```\w*\n/m, "")
+      # TODO: move this logic closer to gemini client
+      if raw_response && raw_response.include?("```")
+        # remove anything before the first ``` line (including language key)
+        raw_response.gsub!(/^.*?```\w*\n/m, "")
 
-          # remove anything after the last ``` line
-          raw_response.gsub!(/```.*$/m, "")
-        end
-
-        begin
-          # by now, it _should_ be a workable JSON string
-          generated_instructions = JSON.parse(raw_response)
-
-          process_instructions_to_pending_actions(generated_instructions, robo_request)
-
-        rescue => e
-          # might not be though, capture as error
-          robo_request.update(status: "error", error: e.message)
-        end
+        # remove anything after the last ``` line
+        raw_response.gsub!(/```.*$/m, "")
       end
+
+      # by now, it _should_ be a workable JSON string
+      generated_instructions = JSON.parse(raw_response)
+
+      process_instructions_to_pending_actions(generated_instructions, robo_request)
+
+    rescue => e
+      # might not be though, capture as error
+      robo_request.update(status: "error", error: e.message)
     end
+  end
 
     def process_instructions_to_pending_actions(generated_instructions, robo_request)
       generated_instructions["changes"].each do |changeset|

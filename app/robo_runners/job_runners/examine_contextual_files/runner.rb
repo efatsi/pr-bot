@@ -17,22 +17,19 @@ module JobRunners::ExamineContextualFiles
       end
     end
 
-    def handle_response
-      robo_requests.each do |robo_request|
-        raw_response = robo_request.response
+    def handle_response(robo_request)
+      relevance_analysis = JSON.parse(robo_request.response)
+      new_robo_analysis = contextual_file.robo_analysis.deep_merge(
+        {robo_request.robot => relevance_analysis}
+      )
 
-        begin
-          contextual_file = robo_request.parent
+      contextual_file = robo_request.parent
+      contextual_file.update(robo_analysis: new_robo_analysis)
 
-          new_robo_analysis = contextual_file.robo_analysis.deep_merge(
-            {robo_request.robot => JSON.parse(raw_response)}
-          )
-          contextual_file.update(robo_analysis: new_robo_analysis)
-        rescue => e
-          # might not be though, capture as error
-          robo_request.update(status: "error", error: e.message)
-        end
-      end
+      # TODO: re-render contextual file
+    rescue => e
+      # might not be though, capture as error
+      robo_request.update(status: "error", error: e.message)
     end
 
     # extra private

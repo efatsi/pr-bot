@@ -40,12 +40,12 @@ class BaseRoboRunner
 
     # save the response on RoboRequest
     robo_request.update(response: response)
+
+    # optionally pull out any structured data if necessary
+    handle_response(robo_request)
   end
 
   def finish
-    # optionally pull out any structured data if necessary
-    handle_response
-
     # set this for the ding
     robo_event.just_finished = true
 
@@ -91,7 +91,7 @@ class BaseRoboRunner
     )
   end
 
-  def handle_response
+  def handle_response(robo_request)
     # no op by default, response is already saved to request
   end
 

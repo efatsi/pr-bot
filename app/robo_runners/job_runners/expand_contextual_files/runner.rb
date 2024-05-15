@@ -5,21 +5,15 @@ module JobRunners::ExpandContextualFiles
 
     alias :robo_job :subject
 
-    def handle_response
-      robo_requests.each do |robo_request|
-        raw_response = robo_request.response
+    def handle_response(robo_request)
+      raw_response = robo_request.response
+      generated_file_data = JSON.parse(raw_response)["files"]
 
-        begin
-          # by now, it _should_ be a workable JSON string
-          generated_file_data = JSON.parse(raw_response)["files"]
+      process_file_list_to_contextual_files(generated_file_data, robo_request)
 
-          process_file_list_to_contextual_files(generated_file_data, robo_request)
-
-        rescue => e
-          # might not be though, capture as error
-          robo_request.update(status: "error", error: e.message)
-        end
-      end
+    rescue => e
+      # might not be though, capture as error
+      robo_request.update(status: "error", error: e.message)
     end
 
     # extra private
