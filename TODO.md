@@ -6,12 +6,11 @@ x event navigation
 
 ## contextual files
 - update broadcast events to update parent "expand" event
-  - finish -> rerender whole list
   x handle_response -> re-render details for c_file
   - color green - orange - red for 5-1 relevance
 
 - expand
-  - auto ignore if in ignored list defined on project, or not valid
+  - auto ignore if not valid
 
 - examine display
   - :mag: button to open file viewer w/ file

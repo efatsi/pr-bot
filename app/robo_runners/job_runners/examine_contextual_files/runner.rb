@@ -40,7 +40,18 @@ module JobRunners::ExamineContextualFiles
     end
 
     def broadcast_finished_state
-      # reload the whole expand detail to get reordered list
+      # fetch the parent `expand` event
+      parent_event = robo_event.parent_robo_event
+
+      broadcast(
+        partial: "robo_events/expand_contextual_files/details",
+        target: "robo-event-details-#{robo_event.id}",
+        action: :replace,
+        locals: {
+          robo_event: robo_event,
+          open_on_load: true
+        }
+      )
     end
 
     # extra private
