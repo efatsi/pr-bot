@@ -39,10 +39,9 @@ module JobRunners::ExamineContextualFiles
     def examine_file_prompt
       [
         "Examine the following file:",
-        "<file>",
-        "- filepath: #{contextual_file.filepath}",
-        "- content: #{contextual_file.file_content}",
-        "</file>",
+        "<file:#{contextual_file.filepath}>",
+        contextual_file.file_content,
+        "</file:#{contextual_file.filepath}>",
         "",
         "Return the relevance of the provided file #{PromptHub::RETURN_AS_JSON}",
         "- relevance: on a scale of 1-5, how important the file's is to the feature implementation",

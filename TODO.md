@@ -11,17 +11,18 @@ x event navigation
 
 - expand
   - auto ignore if not valid
+  - auto examine
+  - auto accept 4+, auto reject 2-
+  - auto fire highlight after examine
 
 - examine display
   - :mag: button to open file viewer w/ file
 
 - config options
-  - auto accept 4+, auto reject 2-
-  - auto fire examine after expand
-  - auto fire highlight after examine
   - change open file links to open in VSCode
 
 - cleanup
+  - button to display "implementation overview" explanation from robot
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
   - bonus request to highlight the key words
     - can load it in the background, skip the stream, and replace when it's done
@@ -52,11 +53,10 @@ x event navigation
 - add gpt-4 ♨️ / 🌡️ (increased temperature)
 - buttons
   - expand_all child dropdown (put on actions)
-  - to display "implementation overview" from robot
 - editing UI: open file viewer/picker from default view
 - rename project.filepath to project.repository_path
 - inspect, fix or kill, git commit on project
-- remove skipped actions when followup
+- remove skipped actions from prompt when followup
   - option to do so if any skipped, checked by default
 
 # Event Navigation
