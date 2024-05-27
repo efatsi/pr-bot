@@ -6,10 +6,12 @@ x event navigation
 
 ## contextual files
 - expand
-  - auto ignore if not valid
-  - auto examine
-  - auto accept 4+, auto reject 2-
+  x auto examine
+  x auto ignore if not valid
+  x auto reject 2-
   - auto fire highlight after examine
+
+- add examples to expand
 
 - examine display
   - :mag: button to open file viewer w/ file
@@ -18,15 +20,10 @@ x event navigation
   - change open file links to open in VSCode
 
 - cleanup
+  - show seed files as accepted but w/ person icon instead of check / score
   - button to display "implementation overview" explanation from robot
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
-  - bonus request to highlight the key words
-    - can load it in the background, skip the stream, and replace when it's done
-    - https://chatgpt.com/c/ecb250e3-44ef-44b2-8b02-7107e76efaa7, highlighting w/ italics and bold oohhhhh
-  - fix Accept link in "Examine" detail
-  - remove Edit link in "Expand" detail
-  - default dropdowns to closed, button to toggle all
-    - new controller to inspect children for all dropdowns and close em from the outside
+
 
 - phase2 / experimental
   - ask for key line numbers in prompt

@@ -33,6 +33,11 @@ module JobRunners::ExamineContextualFiles
         {robo_request.robot => relevance_analysis}
       )
 
+      # if relevance is <= 2, mark as ignored
+      if relevance_analysis["relevance"] <= 2
+        contextual_file.update(status: "ignored")
+      end
+
       contextual_file = robo_request.parent
       contextual_file.update(robo_analysis: new_robo_analysis)
 

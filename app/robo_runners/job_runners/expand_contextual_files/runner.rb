@@ -39,6 +39,17 @@ module JobRunners::ExpandContextualFiles
           next
         end
 
+        # Check for invalid filepaths or relevance < 2
+        if project.invalid_path?(file_data["filepath"])
+          robo_job.contextual_files.create(
+            filepath: file_data["filepath"],
+            robo_event: robo_event,
+            robo_analysis: { robo_request.robot => { why: file_data["why"] } },
+            status: "ignored"
+          )
+          next
+        end
+
         file_robo_analysis = {
           robo_request.robot => { why: file_data["why"] }
         }
