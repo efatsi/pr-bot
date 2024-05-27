@@ -5,10 +5,6 @@ x event navigation
 - open contextual files list in VSCode
 
 ## contextual files
-- update broadcast events to update parent "expand" event
-  x handle_response -> re-render details for c_file
-  - color green - orange - red for 5-1 relevance
-
 - expand
   - auto ignore if not valid
   - auto examine

@@ -43,12 +43,13 @@ module JobRunners::ExamineContextualFiles
       # fetch the parent `expand` event
       parent_event = robo_event.parent_robo_event
 
+      # update it so files are ordered by relevance
       broadcast(
         partial: "robo_events/expand_contextual_files/details",
-        target: "robo-event-details-#{robo_event.id}",
+        target: "robo-event-details-#{parent_event.id}",
         action: :replace,
         locals: {
-          robo_event: robo_event,
+          robo_event: parent_event,
           open_on_load: true
         }
       )

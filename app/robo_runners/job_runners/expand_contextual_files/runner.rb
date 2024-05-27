@@ -1,6 +1,20 @@
 module JobRunners::ExpandContextualFiles
   class Runner < BaseRoboRunner
 
+    def finish
+      # render the broken out files
+      super
+
+      # then, immeditialy start the next event
+      next_event = RoboEvent.create!(
+        event_type: "examine_contextual_files",
+        subject: subject,
+        parent_robo_event: robo_event
+      )
+
+      RoboConductor.new(next_event).start_event
+    end
+
     private
 
     alias :robo_job :subject
