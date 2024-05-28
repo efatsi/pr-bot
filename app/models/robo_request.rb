@@ -6,6 +6,7 @@ class RoboRequest < ApplicationRecord
     "build_instructions",
     "followup_instructions",
     "commit_suggestions",
+    "highlight_text"
   ]
 
   STATUSES = %w[active ignored error]

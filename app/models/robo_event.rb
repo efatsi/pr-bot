@@ -7,6 +7,7 @@ class RoboEvent < ApplicationRecord
     "build_instructions",
     "followup_instructions",
     "commit_suggestions",
+    "highlight_text"
   ]
 
   STATUSES = %w[active ignored]
@@ -27,7 +28,7 @@ class RoboEvent < ApplicationRecord
 
   scope :active, -> { where(status: "active") }
   scope :with_finished_requests, -> { joins(:robo_requests).where.not(robo_requests: { response: nil }) }
-  scope :visible, -> { where.not(event_type: "examine_contextual_files") }
+  scope :visible, -> { where.not(event_type: ["examine_contextual_files", "highlight_text"]) }
 
   validates :event_type, presence: true, inclusion: { in: EVENT_TYPES }
   validates :status, presence: true, inclusion: { in: STATUSES }
@@ -47,8 +48,6 @@ class RoboEvent < ApplicationRecord
       "enhance\nfeature"
     when "expand_contextual_files"
       "expand\nfiles"
-    when "examine_contextual_files"
-      "examine\nfiles"
     when "build_instructions", "followup_instructions"
       "build\nactions"
     when "commit_suggestions"

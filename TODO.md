@@ -9,7 +9,7 @@ x event navigation
   x auto examine
   x auto ignore if not valid
   x auto reject 2-
-  - auto fire highlight after examine
+  x auto fire highlight after examine (if not ignored)
 
 - add examples to expand
 
@@ -20,6 +20,7 @@ x event navigation
   - change open file links to open in VSCode
 
 - cleanup
+  - inline edit of seed files
   - show seed files as accepted but w/ person icon instead of check / score
   - button to display "implementation overview" explanation from robot
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`

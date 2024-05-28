@@ -1,6 +1,20 @@
 module JobRunners::ExamineContextualFiles
   class Runner < BaseRoboRunner
 
+    def finish
+      # re-render the expand details
+      super
+
+      # then, immeditialy start the highlight event
+      next_event = RoboEvent.create!(
+        event_type: "highlight_text",
+        subject: subject,
+        parent_robo_event: robo_event
+      )
+
+      RoboConductor.new(next_event).start_event
+    end
+
     private
 
     alias :robo_job :subject
@@ -38,7 +52,6 @@ module JobRunners::ExamineContextualFiles
         contextual_file.update(status: "ignored")
       end
 
-      contextual_file = robo_request.parent
       contextual_file.update(robo_analysis: new_robo_analysis)
 
       broadcast_updated_contextual_file(contextual_file)

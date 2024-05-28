@@ -30,6 +30,8 @@ class RoboConductor
       JobRunners::ExpandContextualFiles::Runner
     when "examine_contextual_files"
       JobRunners::ExamineContextualFiles::Runner
+    when "highlight_text"
+      JobRunners::HighlightText::Runner
     when "build_instructions"
       JobRunners::Instructions::Runner
     when "followup_instructions"

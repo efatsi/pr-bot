@@ -22,7 +22,7 @@
       <div class="mb-2 flex flex-col gap-4">
         <% if reasoning = contextual_file.robo_reasoning %>
           <div class="flex items-center text-sm mr-[25%]">
-            <div><%= reasoning %></div>
+            <div><%= markdown_to_html(reasoning) %></div>
           </div>
         <% end %>
       </div>
