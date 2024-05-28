@@ -6,7 +6,7 @@ class RoboEvent < ApplicationRecord
     "examine_contextual_files",
     "build_instructions",
     "followup_instructions",
-    "git_commit",
+    "commit_suggestions",
   ]
 
   STATUSES = %w[active ignored]
@@ -51,7 +51,7 @@ class RoboEvent < ApplicationRecord
       "examine\nfiles"
     when "build_instructions", "followup_instructions"
       "build\nactions"
-    when "git_commit"
+    when "commit_suggestions"
       "commit"
     end
   end
@@ -77,9 +77,8 @@ class RoboEvent < ApplicationRecord
   end
 
   def event_request_type
-    if event_type == "git_commit"
-      "commit_suggestions"
-    elsif event_type == "examine_contextual_files"
+    if event_type == "examine_contextual_files"
+      # singularize this
       "examine_contextual_file"
     else
       event_type

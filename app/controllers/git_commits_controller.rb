@@ -3,7 +3,7 @@ class GitCommitsController < ApplicationController
     @git_commit = robo_job.git_commits.create
 
     @robo_event = RoboEvent.create!(
-      event_type: "git_commit",
+      event_type: "commit_suggestions",
       robots: selected_robots,
       subject: git_commit,
       parent_robo_event: robo_job.last_active_event
