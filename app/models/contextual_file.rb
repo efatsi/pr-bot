@@ -62,7 +62,7 @@ class ContextualFile < ApplicationRecord
     ["explanation", "why"].each do |key|
       robo_analysis.keys.each do |robot|
         if robo_analysis[robot].key?(key)
-          return robot, robo_analysis[robot][key]
+          return robo_analysis[robot][key]
         end
       end
     end
