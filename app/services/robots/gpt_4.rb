@@ -7,7 +7,7 @@ module Robots
         { role: "user", content: message }
       ]
 
-      conversation(prompt_messages)
+      conversation(prompt_messages.map(&:stringify_keys))
     end
 
     def conversation(prompt_messages)

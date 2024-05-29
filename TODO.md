@@ -5,42 +5,23 @@ x event navigation
 - open contextual files list in VSCode
 
 ## contextual files
-- expand
-  x auto examine
-  x auto ignore if not valid
-  x auto reject 2-
-  x auto fire highlight after examine (if not ignored)
-
-- add examples to expand
-
 - examine display
   - :mag: button to open file viewer w/ file
-
-- config options
-  - change open file links to open in VSCode
+    - config: change open file links to open in VSCode
 
 - cleanup
   - inline edit of seed files
   - show seed files as accepted but w/ person icon instead of check / score
   - button to display "implementation overview" explanation from robot
+  - move followon orchestration to RoboConductor out of runner's finish+super
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
 
-
 - phase2 / experimental
-  - ask for key line numbers in prompt
-    - modeling
-      - nth: key line numbers []
-      - nth: request_more_supporting_files
   - ask more questions in expansion
     - second pass at expand / examine after first
-      - or, asking "any more files you want to see after each file"
-    - eg: what project-wide searches to run in what subdirectories to find more context?
-          then run those searches and consider files
-    - maybe RoboConductor can do some orchestrating?!
-      - starting different robo_request batches tied to the same event
-      - wrapping them in it's own `on_finish` logic, to queue follow ons (through itself? 😬)
+    - what project-wide searches to run in what subdirectories to find more context?
+      - then run those searches and consider files
   - later: `hit_the_internet` & `summarize_results`
-  - human input: make vscode helper to output file name w/ line numbers from selection
 
 ## lil punch list
 - slider for the width between the feature and the contextual files
