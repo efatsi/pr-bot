@@ -8,6 +8,11 @@ class Project < ApplicationRecord
 
   array_field :ignored_files
 
+  # by_recency class method
+  def self.by_recency
+    all.sort_by { |p| p.robo_jobs.map(&:created_at).max || p.created_at }.reverse
+  end
+
   def to_s
     filepath
   end

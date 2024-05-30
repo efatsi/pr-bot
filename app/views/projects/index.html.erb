@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <% Project.all.each do |project| %>
+  <% Project.by_recency.each do |project| %>
     <%= render "project_details", project: project %>
   <% end %>
 </div>
