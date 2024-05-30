@@ -5,11 +5,8 @@ x event navigation
 - open contextual files list in VSCode
 
 ## image uploads
-- option when providing context
-- creates ImageUpload, related to the RoboJob
-- update `JobRunners::Instructions::Prompt` to slot in the image file
-  - hopefully no problem amidst the existing user/system back-n-forth
-- if image, inject into `robo_event.robots` to `gpt-4-vision`
+- cleanup
+  - UI to allow having many (maybe just move association to RoboJob, leave ImageUpload for manual queries. Would be easier than cacoon probly...)
 
 ## contextual files
 - examine display
