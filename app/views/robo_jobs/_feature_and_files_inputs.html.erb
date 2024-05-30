@@ -39,3 +39,15 @@
     </div>
   </div>
 </div>
+
+<div>
+  <% robo_job.image_uploads.build %>
+  <%= f.simple_fields_for :image_uploads do |image_upload_form| %>
+    <div class="mb-2 w-1/2">
+      <%= image_upload_form.input :image %>
+      <% if image_upload_form.object.image.present? %>
+        <%= image_upload_form.object.image.filename %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

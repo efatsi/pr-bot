@@ -29,7 +29,7 @@ class RobotApi
   def get_robot(model)
     klass = if model.to_s == "gpt-4"
       Robots::Gpt4
-    if model.to_s == "gpt-4-vision"
+    elsif model.to_s == "gpt-4-vision"
       Robots::Gpt4Vision
     elsif model.to_s == "gpt-3"
       Robots::Gpt3

@@ -33,7 +33,16 @@ end
 #
 # Table name: image_uploads
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  robo_job_id :bigint
+#
+# Indexes
+#
+#  index_image_uploads_on_robo_job_id  (robo_job_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (robo_job_id => robo_jobs.id)
 #

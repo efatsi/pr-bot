@@ -12,6 +12,7 @@ class RoboJob < ApplicationRecord
   has_many :git_commits, dependent: :destroy
 
   has_many :image_uploads
+  accepts_nested_attributes_for :image_uploads, reject_if: :all_blank
 
   validates :feature_request, presence: true
 

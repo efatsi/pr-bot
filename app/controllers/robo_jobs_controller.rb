@@ -27,7 +27,10 @@ class RoboJobsController < ApplicationController
   end
 
   def update_feature_and_files
-    file_params = params.require(:robo_job).permit(:feature_request, :seed_contextual_files)
+    file_params = params.require(:robo_job).permit(:feature_request, :seed_contextual_files, image_uploads_attributes: [:image])
+    # remove image_uploads_attributes if no image is present
+    file_params[:image_uploads_attributes].delete_if { |_, v| v[:image].blank? }
+
     robo_job.update(file_params)
 
     render turbo_stream: turbo_stream.update(

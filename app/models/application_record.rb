@@ -10,7 +10,7 @@ class ApplicationRecord < ActiveRecord::Base
         files = files.split("\n")
       end
 
-      files = files.compact
+      files = files.compact.map(&:strip)
       super(files.sort)
     end
   end

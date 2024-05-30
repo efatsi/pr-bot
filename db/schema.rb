@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_12_034208) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_30_182137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -161,6 +161,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_034208) do
   create_table "image_uploads", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "robo_job_id"
+    t.index ["robo_job_id"], name: "index_image_uploads_on_robo_job_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -224,6 +226,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_034208) do
   add_foreign_key "contextual_files", "robo_events"
   add_foreign_key "contextual_files", "robo_jobs"
   add_foreign_key "git_commits", "robo_jobs"
+  add_foreign_key "image_uploads", "robo_jobs"
   add_foreign_key "robo_events", "robo_events", column: "parent_robo_event_id"
   add_foreign_key "robo_jobs", "projects"
   add_foreign_key "robo_jobs", "robo_jobs", column: "parent_job_id"
