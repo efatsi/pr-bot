@@ -59,6 +59,18 @@ module MarkdownHelper
     cleaned_text.gsub!(/>/, "&gt;")
 
     options = [:hard_wrap, :autolink, :no_intra_emphasis, :fenced_code_blocks]
-    Markdown.new(cleaned_text, *options).to_html.html_safe
+    html_content = Markdown.new(cleaned_text, *options).to_html
+
+    html_content = replace_tags_with_dropdowns(html_content)
+    html_content.html_safe
+  end
+
+  def replace_tags_with_dropdowns(input)
+    # look for escaped html tags, replace w/ dropdowns
+    input.gsub(/^&lt;(\w+)&gt;(.*?)^&lt;\/\1&gt;/m) do
+      tag = $1
+      content = $2.strip
+      "<details><summary>&lt;#{tag}&gt;</summary>#{content}</details>"
+    end
   end
 end
