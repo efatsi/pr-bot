@@ -1,11 +1,9 @@
 class ImageUpload < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  has_one_attached :image
+  belongs_to :robo_job, optional: true
 
-  def attach_local_file(path)
-    self.image.attach(io: File.open(path), filename: File.basename(path))
-  end
+  has_one_attached :image
 
   def image_path
     if self.image.present?
@@ -23,6 +21,11 @@ class ImageUpload < ApplicationRecord
     if self.image.present?
       rails_blob_path(image, host: "http://localhost:3069")
     end
+  end
+
+  # dev utility
+  def attach_local_file(path)
+    self.image.attach(io: File.open(path), filename: File.basename(path))
   end
 end
 

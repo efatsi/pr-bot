@@ -36,8 +36,30 @@ module JobRunners::Instructions
       ].join("\n")
     end
 
+    # This method can return a string or an array of of typed messages
     def final_request_prompt
-      robo_job.enhanced_feature_request
+      if robo_job.has_image_upload?
+        prompt_data = [{ type: "text", text: robo_job.enhanced_feature_request }]
+
+        image_uploads = robo_job.image_uploads
+
+        image_uploads.each do |image_upload|
+          base64_image = Base64.strict_encode64(File.read(image_upload.image_path))
+          content_type = image_upload.image_content_type
+
+          prompt_data << {
+            type: "image_url",
+            image_url: {
+              url: "data:#{content_type};base64,#{base64_image}",
+              # detail: "low"
+            }
+          }
+        end
+
+        prompt_data
+      else
+        robo_job.enhanced_feature_request
+      end
     end
 
     IMPLEMENTATION_JSON_EXAMPLE = JSON.pretty_generate({
