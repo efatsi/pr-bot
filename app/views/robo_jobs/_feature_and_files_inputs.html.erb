@@ -1,5 +1,5 @@
 <% feature_label ||= "Feature Request" %>
-<% feature_hint ||= "optional: use markdown & ``` code blocks for nicer rendering<br>use <docs> ... </docs> tags for collapsed rendering".html_safe %>
+<% feature_hint ||= "basic markdown & ``` code blocks supported<br>use &lt;docs&gt; ... &lt;/docs&gt; tags for collapsed rendering".html_safe %>
 <% files_hint ||= "load files in that you know are relevant, we can build on this later" %>
 
 <div class="flex gap-4">
@@ -42,12 +42,16 @@
 
 <div>
   <% robo_job.image_uploads.build %>
-  <%= f.simple_fields_for :image_uploads do |image_upload_form| %>
-    <div class="mb-2 w-1/2">
-      <%= image_upload_form.input :image %>
-      <% if image_upload_form.object.image.present? %>
-        <%= image_upload_form.object.image.filename %>
-      <% end %>
-    </div>
-  <% end %>
+
+  <div class="mb-4">
+    <label class="block file optional text-sm font-medium text-gray-300">Upload Image (optional)</label>
+    <%= f.simple_fields_for :image_uploads do |image_upload_form| %>
+      <div class="mb-2 w-1/2">
+        <%= image_upload_form.input :image, label: false %>
+        <% if image_upload_form.object.image.present? %>
+          <%= image_upload_form.object.image.filename %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

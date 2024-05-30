@@ -1,1 +1,18 @@
-<%= render "form", label: "Set up new RoboJob", button_text: "Create RoboJob" %>
+<div class="font-semibold mb-4">Set up new RoboJob</div>
+
+<%= simple_form_for robo_job do |f| %>
+  <%= f.association :project,
+    collection: Project.by_id,
+    selected: params[:project_id] || robo_job.project_id,
+    prompt: nil,
+    input_html: { class: "!w-96" }
+  %>
+
+  <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: robo_job %>
+
+  <div class="mt-8 flex justify-end gap-2">
+    <%= link_to "Cancel", :back, class: "btn-opaque leading-6 inline-block" %>
+    <%= f.button :submit, "Create RoboJob", class: "btn-primary" %>
+  </div>
+<% end %>
+
