@@ -6,7 +6,9 @@ x event navigation
 
 ## image uploads
 - cleanup
-  - UI to allow having many (maybe just move association to RoboJob, leave ImageUpload for manual queries. Would be easier than cacoon probly...)
+  - refactor to RoboJob and have many attachments, cut the attributes fields_for
+    - update strong_params in RoboJob#create
+  - space out images
 
 ## contextual files
 - examine display
