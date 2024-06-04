@@ -14,7 +14,6 @@ module Robots
             type: "image_url",
             image_url: {
               url: "data:#{image_upload.image_content_type};base64,#{base64_image}",
-              # detail: "low"
             }
           }
         ]

@@ -44,7 +44,7 @@ a.blue-link {
 }
 
 .input-label {
-  @apply block text-sm font-medium text-gray-300;
+  @apply block text-sm font-medium text-gray-300 mb-0.5;
 }
 
 .md-template ul {

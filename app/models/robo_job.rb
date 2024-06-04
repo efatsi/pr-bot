@@ -11,8 +11,9 @@ class RoboJob < ApplicationRecord
 
   has_many :git_commits, dependent: :destroy
 
-  has_many :image_uploads
-  accepts_nested_attributes_for :image_uploads, reject_if: :all_blank
+  has_many_attached :images do |attachable|
+    attachable.variant :thumb, resize_to_fill: [200, 200]
+  end
 
   validates :feature_request, presence: true
 
@@ -89,10 +90,6 @@ class RoboJob < ApplicationRecord
 
   def generated_instructions
     robo_requests.active.of_type(["build_instructions", "followup_instructions"]).last&.response
-  end
-
-  def has_image_upload?
-    image_uploads.any?
   end
 
   def inspect

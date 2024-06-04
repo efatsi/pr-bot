@@ -1,5 +1,6 @@
 module JobRunners::Instructions
   class Prompt < BasePromptGenerator
+    include ImageAttachmentHelpers
 
     alias :robo_job :subject
 
@@ -38,20 +39,17 @@ module JobRunners::Instructions
 
     # This method can return a string or an array of of typed messages
     def final_request_prompt
-      if robo_job.has_image_upload?
+      if robo_job.images.any?
         prompt_data = [{ type: "text", text: robo_job.enhanced_feature_request }]
 
-        image_uploads = robo_job.image_uploads
-
-        image_uploads.each do |image_upload|
-          base64_image = Base64.strict_encode64(File.read(image_upload.image_path))
-          content_type = image_upload.image_content_type
+        robo_job.images.each do |image|
+          base64_image = Base64.strict_encode64(File.read(image_path(image)))
+          content_type = image_content_type(image)
 
           prompt_data << {
             type: "image_url",
             image_url: {
               url: "data:#{content_type};base64,#{base64_image}",
-              # detail: "low"
             }
           }
         end

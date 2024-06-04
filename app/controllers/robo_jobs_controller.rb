@@ -27,9 +27,7 @@ class RoboJobsController < ApplicationController
   end
 
   def update
-    file_params = params.require(:robo_job).permit(:feature_request, :seed_contextual_files, image_uploads_attributes: [:image])
-    # remove image_uploads_attributes if no image is present
-    file_params[:image_uploads_attributes]&.delete_if { |_, v| v[:image].blank? }
+    file_params = params.require(:robo_job).permit(:feature_request, :seed_contextual_files, images: [])
 
     robo_job.update(file_params)
 
@@ -53,7 +51,7 @@ class RoboJobsController < ApplicationController
   end
 
   def robo_job_params
-    params.require(:robo_job).permit(:feature_request, :project_id, :seed_contextual_files)
+    params.require(:robo_job).permit(:feature_request, :project_id, :seed_contextual_files, images: [])
   end
 
   def clear_show_files

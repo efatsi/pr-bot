@@ -121,7 +121,13 @@ x event navigation
 
 ## cost updates
 - toggle on project / index
-- count up all the tokens better
+- `RoboRequestCostCalculator`
+  - count up all the tokens better
+    - make a single request w/o images, simple
+    - wait for API usage to report it
+    - count it
+    - then, do one w/ images, can sum up based on size
+  - per-robot cost hash
 - cached on robo_job
   - counts all requests, parent_job aggregates self requests + children job counts
 - toggle on RoboJob to show per-request cost

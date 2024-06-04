@@ -31,7 +31,7 @@ SimpleForm.setup do |config|
 
   # add validation classes to `input_field`
   config.input_field_error_class = 'border-red-500'
-  config.label_class = 'text-sm font-medium text-gray-300'
+  config.label_class = 'text-sm font-medium text-gray-300 mb-0.5'
 
 
   # vertical forms
@@ -70,7 +70,7 @@ SimpleForm.setup do |config|
   config.wrappers :vertical_collection, item_wrapper_class: 'flex items-center', item_label_class: 'my-1 ml-3 block text-sm font-medium text-gray-700', tag: 'div', class: 'my-4' do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper :legend_tag, tag: 'legend', class: 'text-sm font-medium text-gray-300', error_class: 'text-red-500' do |ba|
+    b.wrapper :legend_tag, tag: 'legend', class: 'text-sm font-medium text-gray-300 mb-0.5', error_class: 'text-red-500' do |ba|
       ba.use :label_text
     end
     b.use :input, class: 'focus:ring-2 focus:ring-indigo-500 ring-offset-2 h-4 w-4 text-indigo-600 border-gray-300 rounded', error_class: 'text-red-500', valid_class: 'text-green-400'
@@ -85,7 +85,7 @@ SimpleForm.setup do |config|
     b.optional :maxlength
     b.optional :minlength
     b.optional :readonly
-    b.use :label, class: 'text-sm font-medium text-gray-300 block', error_class: 'text-red-500'
+    b.use :label, class: 'text-sm font-medium text-gray-300 mb-0.5 block', error_class: 'text-red-500'
     b.use :input, class: 'w-full text-gray-500 px-3 py-2 border rounded', error_class: 'text-red-500 border-red-500', valid_class: 'text-green-400'
     b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-500 text-xs italic' }
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-1 text-grey-700 text-xs italic' }
@@ -95,7 +95,7 @@ SimpleForm.setup do |config|
   config.wrappers :vertical_multi_select, tag: 'div', class: 'my-4', error_class: 'f', valid_class: '' do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper :legend_tag, tag: 'legend', class: 'text-sm font-medium text-gray-300', error_class: 'text-red-500' do |ba|
+    b.wrapper :legend_tag, tag: 'legend', class: 'text-sm font-medium text-gray-300 mb-0.5', error_class: 'text-red-500' do |ba|
       ba.use :label_text
     end
     b.wrapper tag: 'div', class: 'inline-flex space-x-1' do |ba|
@@ -112,7 +112,7 @@ SimpleForm.setup do |config|
     b.use :placeholder
     b.optional :readonly
     b.optional :step
-    b.use :label, class: 'text-sm font-medium text-gray-300 block', error_class: 'text-red-500'
+    b.use :label, class: 'text-sm font-medium text-gray-300 mb-0.5 block', error_class: 'text-red-500'
     b.wrapper tag: 'div', class: 'flex items-center h-5' do |ba|
       ba.use :input, class: 'rounded-lg overflow-hidden appearance-none bg-gray-400 h-3 w-full text-gray-300', error_class: 'text-red-500', valid_class: 'text-green-400'
     end

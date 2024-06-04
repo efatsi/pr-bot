@@ -11,7 +11,7 @@
   <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: robo_job %>
 
   <div class="mt-8 flex justify-end gap-2">
-    <%= link_to "Cancel", :back, class: "btn-opaque leading-6 inline-block" %>
+    <%= link_to "Cancel", root_url, class: "btn-opaque leading-6 inline-block" %>
     <%= f.button :submit, "Create RoboJob", class: "btn-primary" %>
   </div>
 <% end %>

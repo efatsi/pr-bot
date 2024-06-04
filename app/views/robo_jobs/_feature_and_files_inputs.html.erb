@@ -40,17 +40,25 @@
   </div>
 </div>
 
-<div>
-  <% robo_job.image_uploads.build %>
+<div class="mb-4">
+  <div class="w-1/2">
+    <label class="input-label">Upload Images (optional)</label>
+    <%= f.input :images, as: :file, input_html: { multiple: true }, label: false %>
 
-  <div class="mb-4">
-    <label class="block file optional text-sm font-medium text-gray-300">Upload Image (optional)</label>
-    <%= f.simple_fields_for :image_uploads do |image_upload_form| %>
-      <div class="mb-2 w-1/2">
-        <%= image_upload_form.input :image, label: false %>
-        <% if image_upload_form.object.image.present? %>
-          <%= image_upload_form.object.image.filename %>
-        <% end %>
+    <% if robo_job.images.any? %>
+      <div class="my-4">
+        <p class="input-label">Existing Images:</p>
+        <div class="flex flex-wrap gap-2">
+          <% robo_job.images.each do |image| %>
+            <div class="hover:opacity-50 relative group" data-controller="image-edit">
+              <button class="hidden group-hover:inline-block absolute right-1 top-2" data-action="click->image-edit#destroy">
+                <%= heroicon "trash", options: { class: "text-red-500" } %>
+              </button>
+              <%= image_tag(image.variant(:thumb)) %>
+              <%= f.hidden_field :images, multiple: true, value: image.signed_id %>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>
