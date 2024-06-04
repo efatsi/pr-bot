@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "robo-job-start-details" do %>
-  <%= simple_form_for robo_job, url: update_feature_and_files_robo_job_path(robo_job) do |f| %>
+  <%= simple_form_for robo_job do |f| %>
     <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: robo_job %>
 
     <div class="flex justify-end gap-2 my-2">

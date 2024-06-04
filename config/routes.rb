@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   resources :robo_jobs, except: :destroy do
     get :edit_feature_and_files, on: :member
-    patch :update_feature_and_files, on: :member
 
     resources :robo_events, only: :create
 

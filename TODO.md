@@ -6,8 +6,10 @@ x event navigation
 
 ## image uploads
 - cleanup
-  - refactor to RoboJob and have many attachments, cut the attributes fields_for
-    - update strong_params in RoboJob#create
+  - instead of RoboJobs having many ImageUpload relations, change it so a RoboJob has many ActiveStorage attachments straight on itself.
+    - update the RoboJob model
+    - update the RoboJob form
+    - update strong_params in RoboJob#create/update
   - space out images
 
 ## contextual files
