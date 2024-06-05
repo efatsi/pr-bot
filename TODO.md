@@ -1,16 +1,8 @@
 ## BIG PUNCH LIST
 x event navigation
+x image uploads
 ~ making context better
-~ image uploads
 - open contextual files list in VSCode
-
-## image uploads
-- cleanup
-  - instead of RoboJobs having many ImageUpload relations, change it so a RoboJob has many ActiveStorage attachments straight on itself.
-    - update the RoboJob model
-    - update the RoboJob form
-    - update strong_params in RoboJob#create/update
-  - space out images
 
 ## contextual files
 - examine display
