@@ -1,4 +1,5 @@
 <% robo_request_width = showing_many_siblings ? "w-1/2 min-w-[50%]" : "w-full" %>
+<% robo_job = robo_request.robo_job %>
 
 <%= turbo_frame_tag "robo-request-#{robo_request.id}", class: robo_request_width do %>
   <div data-controller="tabs" class="m-1 mb-2" >
@@ -51,16 +52,28 @@
       <div class="flex gap-4">
         <div class="w-3/5 border-r border-dashed border-white border-opacity-20 pr-4">
           <div class="section-label">Feature Request:</div>
-          <%= render "shared/render_md_and_code", body: robo_request.robo_job.enhanced_feature_request %>
+          <%= render "shared/render_md_and_code", body: robo_job.enhanced_feature_request %>
+
+          <% if robo_job.images.any? %>
+            <div class="section-label mt-6 !mb-3">Image Uploads:</div>
+            <div class="flex flex-wrap gap-2">
+              <% robo_job.images.each do |image| %>
+                <%= link_to robo_job_image_preview_path(robo_job, image), "data-turbo-frame": "modal" do %>
+                  <%= image_tag(image.variant(:thumb)) %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+
         </div>
 
         <div class="w-2/5">
           <div class="section-label">Contextual Files:</div>
           <ul class="list-disc text-left" data-inline-edit-target="content">
-            <% robo_request.robo_job.final_contextual_files.each do |filepath| %>
+            <% robo_job.final_contextual_files.each do |filepath| %>
               <li class="flex items-center gap-1.5">
                 <%= filepath %>
-                <% if robo_request.robo_job.project.invalid_path?(filepath) %>
+                <% if robo_job.project.invalid_path?(filepath) %>
                   <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
                 <% end %>
               </li>
@@ -68,6 +81,7 @@
           </ul>
         </div>
       </div>
+
     </div>
   </div>
 
