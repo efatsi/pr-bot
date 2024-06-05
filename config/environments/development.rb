@@ -69,4 +69,6 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.active_job.queue_adapter = :good_job
+
+  config.action_controller.default_url_options = { host: "http://localhost", port: ENV.fetch('RAILS_PORT', 3000) }
 end

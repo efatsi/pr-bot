@@ -19,7 +19,7 @@ class ImageUpload < ApplicationRecord
 
   def image_url
     if self.image.present?
-      rails_blob_path(image, host: "http://localhost:3069")
+      rails_blob_path(image, host: "http://localhost:#{ENV.fetch('RAILS_PORT', 3000)}")
     end
   end
 
