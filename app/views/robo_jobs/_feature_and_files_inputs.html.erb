@@ -50,8 +50,8 @@
         <p class="input-label">Existing Images:</p>
         <div class="flex flex-wrap gap-2">
           <% robo_job.images.each do |image| %>
-            <div class="hover:opacity-50 relative group" data-controller="image-edit">
-              <button class="hidden group-hover:inline-block absolute right-1 top-2" data-action="click->image-edit#destroy">
+            <div class="hover:opacity-70 relative group" data-controller="image-edit">
+              <button class="hidden group-hover:inline-block absolute right-1 top-2 p-1 bg-white bg-opacity-70 hover:bg-opacity-100 rounded-md" data-action="click->image-edit#destroy">
                 <%= heroicon "trash", options: { class: "text-red-500" } %>
               </button>
               <%= image_tag(image.variant(:thumb)) %>
