@@ -8,9 +8,9 @@
     <div class="inline-block font-medium mb-1">Filepath:</div>
     <br>
     <% if request.path == project_path(project) %>
-      <%= project.filepath %>
+      <%= project.repo_path %>
     <% else %>
-      <%= link_to project.filepath, project_path(project) %>
+      <%= link_to project.repo_path, project_path(project) %>
     <% end %>
   </div>
 

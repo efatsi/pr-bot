@@ -4,7 +4,7 @@ class Project < ApplicationRecord
 
   has_many :git_commits, dependent: :destroy
 
-  validates :filepath, :project_context, presence: true
+  validates :repo_path, :project_context, presence: true
 
   array_field :ignored_files
 
@@ -14,7 +14,7 @@ class Project < ApplicationRecord
   end
 
   def to_s
-    filepath
+    repo_path
   end
 
   def parent_jobs
@@ -22,21 +22,21 @@ class Project < ApplicationRecord
   end
 
   def all_branches
-    Dir.chdir(filepath) do
+    Dir.chdir(repo_path) do
       branches_output = `git branch`
       branches_output.split("\n").map { |b| b.strip.delete_prefix('* ') }
     end
   end
 
   def current_branch
-    Dir.chdir(filepath) do
+    Dir.chdir(repo_path) do
       branches_output = `git branch`
       branches_output.match(/\* (.+)/)[1]
     end
   end
 
   def fetch_directory_tree(include_ignored_files: false)
-    gitignore_path = File.join(filepath, '.gitignore')
+    gitignore_path = File.join(repo_path, '.gitignore')
     ignore_patterns = []
 
     # Read the .gitignore file and build ignore patterns, if it exists
@@ -51,43 +51,43 @@ class Project < ApplicationRecord
         ignore_line = ignore_line.gsub(%r{^/}, '')
 
         # Add glob pattern for root, subdirectory, and recursive subdirectory
-        ignore_patterns << File.join(filepath, ignore_line)
-        ignore_patterns << File.join(filepath, ignore_line, "*")
-        ignore_patterns << File.join(filepath, "**", ignore_line)
-        ignore_patterns << File.join(filepath, "**", ignore_line, "*")
+        ignore_patterns << File.join(repo_path, ignore_line)
+        ignore_patterns << File.join(repo_path, ignore_line, "*")
+        ignore_patterns << File.join(repo_path, "**", ignore_line)
+        ignore_patterns << File.join(repo_path, "**", ignore_line, "*")
       end
     end
 
     # Find all files and reject directories and files matching ignore patterns
-    files = Dir.glob("#{filepath}/**/*").reject do |file|
+    files = Dir.glob("#{repo_path}/**/*").reject do |file|
       File.directory?(file) || ignore_patterns.any? do |pattern|
         File.fnmatch(pattern, file)
       end || (
-        !include_ignored_files && ignored_files.any? { |i| File.fnmatch("#{filepath}/#{i}", file) }
+        !include_ignored_files && ignored_files.any? { |i| File.fnmatch("#{repo_path}/#{i}", file) }
       )
     end
 
-    # Remove the filepath from the beginning of each file path
-    files.map { |f| f.gsub(filepath + "/", "") }
+    # Remove the repo_path from the beginning of each file path
+    files.map { |f| f.gsub(repo_path + "/", "") }
   end
 
   def full_path(f)
-    if f.downcase.start_with?(filepath.downcase)
+    if f.downcase.start_with?(repo_path.downcase)
       f
     else
-      File.join(filepath.downcase, f)
+      File.join(repo_path.downcase, f)
     end
   end
 
   def invalid_path?(path)
-    path = File.join(filepath, path)
+    path = File.join(repo_path, path)
     !File.exist?(path) || File.directory?(path)
   end
 
   require 'open3'
 
   def current_diff
-    Dir.chdir(filepath) do
+    Dir.chdir(repo_path) do
       git_diff_output, status = Open3.capture2e('git diff')
       raise 'Failed to fetch git diff' unless status.success?
 
@@ -108,9 +108,9 @@ end
 # Table name: projects
 #
 #  id              :bigint           not null, primary key
-#  filepath        :string           not null
 #  ignored_files   :string           default([]), is an Array
 #  project_context :text             not null
+#  repo_path       :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

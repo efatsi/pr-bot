@@ -14,7 +14,7 @@ module Actions
 
     def fire
       save_filename
-      new_full_filepath = File.join(robo_job.project.filepath, new_file)
+      new_full_filepath = File.join(robo_job.project.repo_path, new_file)
 
       if File.exist?(full_filepath) || Dir.exist?(full_filepath)
         FileUtils.mv(full_filepath, new_full_filepath)
@@ -24,7 +24,7 @@ module Actions
     end
 
     def unfire
-      new_full_filepath = File.join(robo_job.project.filepath, new_file)
+      new_full_filepath = File.join(robo_job.project.repo_path, new_file)
       if File.exist?(new_full_filepath) || Dir.exist?(new_full_filepath)
         FileUtils.mv(new_full_filepath, full_filepath)
       else

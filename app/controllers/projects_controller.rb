@@ -66,7 +66,7 @@ class ProjectsController < ApplicationController
 
     file_list = project.fetch_directory_tree
     matching_files = file_list.each_with_object([]) do |file, acc|
-      file_path = File.join(project.filepath, file)
+      file_path = File.join(project.repo_path, file)
       content_lines = (File.read(file_path)
         .force_encoding('UTF-8')
         .encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
@@ -107,7 +107,7 @@ class ProjectsController < ApplicationController
   end
 
   def file_preview
-    full_filepath = File.join(project.filepath, params[:file])
+    full_filepath = File.join(project.repo_path, params[:file])
     file_contents = File.read(full_filepath)
 
     render plain: file_contents

@@ -23,10 +23,10 @@ module FileHelpers
   def full_filepath
     robo_job = robo_request.robo_job
 
-    if file.downcase.start_with?(robo_job.project.filepath.downcase)
+    if file.downcase.start_with?(robo_job.project.repo_path.downcase)
       file
     else
-      File.join(robo_job.project.filepath.downcase, file)
+      File.join(robo_job.project.repo_path.downcase, file)
     end
   end
 

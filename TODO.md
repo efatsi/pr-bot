@@ -16,23 +16,10 @@ x image uploads
   - move followon orchestration to RoboConductor out of runner's finish+super
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
 
-- phase2 / experimental
-  - ask more questions in expansion
-    - second pass at expand / examine after first
-    - what project-wide searches to run in what subdirectories to find more context?
-      - then run those searches and consider files
-  - later: `hit_the_internet` & `summarize_results`
-
 ## lil punch list
 - open one file, or batch of files, in vs code
   - OR file viewer (config setting)
-- slider for the width between the feature and the contextual files
-- add gpt-4 ♨️ / 🌡️ (increased temperature)
-- buttons
-  - expand_all child dropdown (put on actions)
-- editing UI: open file viewer/picker from default view
-- rename project.filepath to project.repository_path
-- inspect, fix or kill, git commit on project
+- expand_all actions button
 - remove skipped actions from prompt when followup
   - option to do so if any skipped, checked by default
 
@@ -53,17 +40,22 @@ x image uploads
 - search results
   - clicking should navigate to text
   - highlight the search text?
-- hover code pops up options
+- select & hover code pops up options
   - search by this
   - ask AI to lookup based on this blob (maybe redundant)
 
-## internet search
-- ask AI for a few internet searches given the prompt
-- hit some API somehow, LangChain has examples
-  - https://python.langchain.com/docs/integrations/tools/ddg
-  - https://python.langchain.com/docs/integrations/tools/tavily_search
-  - maybe pop out of Ruby for this one, pass to Python via Redis and use off-the-shelf tooling
-- summarize responses into condense information useful for the implementation
+## better context expansion
+- ask more questions then "what files to see"
+  - second pass at expand / examine after first
+  - what project-wide searches to run in what subdirectories to find more context?
+    - then run those searches and consider files
+- `hit_the_internet` & `summarize_results`
+  - ask AI for a few internet searches given the prompt
+  - hit some API somehow, LangChain has examples
+    - https://python.langchain.com/docs/integrations/tools/ddg
+    - https://python.langchain.com/docs/integrations/tools/tavily_search
+    - maybe pop out of Ruby for this one, pass to Python via Redis and use off-the-shelf tooling
+  - summarize responses into condense information useful for the implementation
 
 ## git history
 - can work against a specific diff
@@ -97,19 +89,10 @@ x image uploads
   - git diff
   - copy of full files
   - prompt asking to check for syntax errors, logic bugs, whitespace
-  - example shows a couple things i want it to hit
+  - example shows a couple things i want it to hit (cleaning up whitespace would be sweeeeet)
 - generate new RoboChanges
   - render w/ light blue
   - maybe icon everything up (plus / pencil / broom)
-
-## different changeset format
-- ask for lines to replace instead of content
-  - less tokens
-  - potentially more accurate
-- ask for changes in git-diff mode instead of find-replace mode
-  - it's way better, so says the Aider team
-    - https://aider.chat/docs/unified-diffs.html
-  - but... what about when it fucks up?
 
 ## cost updates
 - toggle on project / index

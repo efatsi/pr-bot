@@ -21,7 +21,7 @@ class GitCommit < ApplicationRecord
   end
 
   def fire!
-    Dir.chdir(project.filepath) do
+    Dir.chdir(project.repo_path) do
       if new_branch.present?
         `git branch -D #{new_branch}; git checkout -b #{new_branch}`
         update(branch: new_branch)
@@ -56,7 +56,7 @@ class GitCommit < ApplicationRecord
   end
 
   def commit_diff
-    diff_output = Dir.chdir(project.filepath) do
+    diff_output = Dir.chdir(project.repo_path) do
       git_diff_output, status = Open3.capture2e("git show --oneline #{commit_hash}")
 
       if !status.success?

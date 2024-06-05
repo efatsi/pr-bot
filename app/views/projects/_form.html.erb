@@ -11,7 +11,7 @@
       <% end %>
     <% end %>
 
-    <% if project.filepath %>
+    <% if project.repo_path %>
       <% label = project.ignored_files.any? ? "Directory Tree + ignored files" : "Full Directory Tree" %>
       <%= render "shared/dropdown", label: label do %>
         <pre class="ml-2"><% project.fetch_directory_tree(include_ignored_files: true).map do |fp| %><%= fp %><br><% end %></pre>
