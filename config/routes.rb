@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resources :followup_jobs, only: [:new, :create]
 
     resources :git_commits, only: [:new, :update]
+
+    resources :image_previews, only: [:show]
   end
 
   resources :robo_events, only: [:destroy] do

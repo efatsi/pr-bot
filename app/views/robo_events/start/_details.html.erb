@@ -22,7 +22,9 @@
             <div class="section-label mt-4">Image Uploads:</div>
             <div class="flex flex-wrap gap-2">
               <% robo_job.images.each do |image| %>
-                <%= image_tag(image.variant(:thumb)) %>
+                <%= link_to robo_job_image_preview_path(robo_job, image), "data-turbo-frame": "modal" do %>
+                  <%= image_tag(image.variant(:thumb)) %>
+                <% end %>
               <% end %>
             </div>
           <% end %>
