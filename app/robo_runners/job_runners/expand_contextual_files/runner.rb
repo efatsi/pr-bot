@@ -25,6 +25,11 @@ module JobRunners::ExpandContextualFiles
 
       process_file_list_to_contextual_files(generated_file_data, robo_request)
 
+      search_terms = JSON.parse(raw_response)["search_terms"]
+      search_terms.each do |term|
+
+      end
+
     rescue => e
       # might not be though, capture as error
       robo_request.update(status: "error", error: e.message)

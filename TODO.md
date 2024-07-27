@@ -6,8 +6,7 @@ x image uploads
 
 ## contextual files
 - examine display
-  - :mag: button to open file viewer w/ file
-    - config: change open file links to open in VSCode
+  - config: change open file links to open in VSCode
 
 - cleanup
   - inline edit of seed files
