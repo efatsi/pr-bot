@@ -2,7 +2,7 @@
 
 <%= simple_form_for project do |f| %>
   <div class="form-inputs">
-    <%= f.input :filepath, input_html: { class: "!w-96" } %>
+    <%= f.input :repo_path, input_html: { class: "!w-96" } %>
     <%= f.input :project_context %>
 
     <% if project.ignored_files.any? %>
