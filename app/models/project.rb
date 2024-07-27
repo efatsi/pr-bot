@@ -101,6 +101,47 @@ class Project < ApplicationRecord
   def any_diff_available?
     current_diff.present?
   end
+
+  def file_content_search(query:, regex: false, case_sensitive: false)
+    return [] if query.blank?
+
+    file_list = fetch_directory_tree
+    matching_files = file_list.each_with_object([]) do |file, acc|
+      file_path = File.join(repo_path, file)
+      content_lines = (File.read(file_path)
+        .force_encoding('UTF-8')
+        .encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+        .split("\n")
+      )
+
+      matching_lines = content_lines.map.with_index do |line, index|
+        match = if regex
+          regex_pattern = case_sensitive ? Regexp.new(query) : Regexp.new(query, Regexp::IGNORECASE)
+          line.match(regex_pattern)
+        else
+          case_sensitive ? line.include?(query) : line.downcase.include?(query.downcase)
+        end
+
+        index if match
+      end.compact
+
+      if matching_lines.any?
+        buffered_matching_lines = matching_lines.flat_map { |line| [(line - 2), (line - 1), line, (line + 1), (line + 2)] }.uniq.sort
+        buffered_matching_lines.reject! { |l| l < 0 || l >= content_lines.length }
+
+        grouped_lines = buffered_matching_lines.slice_when { |i, j| i + 1 != j }.to_a
+        grouped_line_content = grouped_lines.map do |group|
+          # Remove the first and last line of each group unless it's the top or bottom of the file
+          group.shift unless group.first == 0
+          group.pop unless group.last == content_lines.length - 1
+          group.map { |line_number| { line: line_number, content: content_lines[line_number] } }.compact
+        end
+        acc << { file: file, line_groups: grouped_line_content }
+      end
+    end
+
+    matching_files
+  end
 end
 
 # == Schema Information
