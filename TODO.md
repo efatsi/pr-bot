@@ -2,6 +2,8 @@
 x event navigation
 x image uploads
 ~ making context better
+  - search terms
+  - push AI suggestions to new input box that opens up to rm / modify
 - open contextual files list in VSCode
 
 ## contextual files
