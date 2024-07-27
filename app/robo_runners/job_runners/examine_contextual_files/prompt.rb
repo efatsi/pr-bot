@@ -8,8 +8,6 @@ module JobRunners::ExamineContextualFiles
       [
         { role: "user", content: file_examiner_setup },
         { role: "system", content: PromptHub::ROGER_THAT },
-        { role: "user", content: feature_and_files_prompt },
-        { role: "system", content: PromptHub::UNDERSTAND_FILES_FOR_EXAMINE },
         { role: "user", content: examine_file_prompt },
       ]
     end
@@ -20,7 +18,7 @@ module JobRunners::ExamineContextualFiles
       [
         PromptHub::SYSTEM_SETUP,
         "Your task is to help narrow down the list of files that are relevant to the feature request.",
-        "First you will review the feature request and known relevant files.",
+        "First you will review the feature request.",
         "Then you will examine a single file and return its relevance to the and possible solution."
       ].join("\n")
     end
@@ -38,7 +36,8 @@ module JobRunners::ExamineContextualFiles
 
     def examine_file_prompt
       [
-        "Examine the following file:",
+        "Examine the following file, which came with the reasoning:",
+        "#{contextual_file.robo_reasoning}",
         "<file:#{contextual_file.filepath}>",
         contextual_file.file_content,
         "</file:#{contextual_file.filepath}>",
