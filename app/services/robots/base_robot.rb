@@ -3,7 +3,7 @@ module Robots
     # ~70k = $1
     PROMPT_MAX_LENGTH = 30_000
 
-    def initialize(external_stream_proc=print_proc)
+    def initialize(external_stream_proc = print_proc)
       @external_stream_proc = external_stream_proc
     end
 

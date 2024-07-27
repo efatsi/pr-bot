@@ -7,10 +7,12 @@ module Robots
         { role: "user", content: message }
       ]
 
-      conversation(prompt_messages.map(&:stringify_keys))
+      conversation(prompt_messages)
     end
 
     def conversation(prompt_messages)
+      prompt_messages.map(&:stringify_keys!)
+
       check_token_limit(prompt_messages)
 
       @response = ""
