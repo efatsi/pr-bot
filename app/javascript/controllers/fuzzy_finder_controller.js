@@ -18,6 +18,7 @@ export default class FuzzyFinderController extends Controller {
     allFilesUrl: String,
     fileNameSearchUrl: String,
     fileContentSearchUrl: String,
+    filePreview: String,
   }
 
   static targets = [
@@ -50,10 +51,14 @@ export default class FuzzyFinderController extends Controller {
     this.allFiles = [];
     this.abortController = null
 
-    this.loadSelectedFiles();
-    this.renderFileList()
+    if (this.filePreviewValue) {
+      this.openFile(this.filePreviewValue);
+    }
 
     this.element.addEventListener('keydown', this.handleKeyDown.bind(this));
+
+    this.loadSelectedFiles();
+    this.renderFileList()
   }
 
   handleKeyDown(event) {
@@ -94,8 +99,7 @@ export default class FuzzyFinderController extends Controller {
         case 'ArrowRight':
           event.preventDefault();
           if (event.target.classList.contains('file-item')) {
-            event.params = { file: event.target.textContent.trim() };
-            this.openFile(event);
+            this.openFile(event.target.textContent.trim())
           }
           break;
         case 'ArrowLeft':
@@ -259,7 +263,7 @@ export default class FuzzyFinderController extends Controller {
     const selectedClass = this.selectedFiles.has(file.file) ? '!bg-green-700' : '';
     const selectFileAttrs = `data-action="click->fuzzy-finder#toggleFileSelection" data-fuzzy-finder-file-param="${file.file}"`
     const showLinkClass = `px-6 py-0.5 rounded hover:text-white ${this.selectedFiles.has(file.file) ? 'hover:bg-green-800' : 'hidden group-hover:block hover:bg-blue-800'}`
-    const showFileAction = `data-action="click->fuzzy-finder#openFile" data-fuzzy-finder-file-param="${file.file}"`
+    const showFileAction = `data-action="click->fuzzy-finder#openFileEvent" data-fuzzy-finder-file-param="${file.file}"`
 
     let toReturn = `<div class="${rowClass} ${selectedClass} file-item" tabindex="0">
     <span class="flex-grow" >${file.file}</span>
@@ -287,11 +291,14 @@ export default class FuzzyFinderController extends Controller {
     selectedFiles.forEach(file => this.selectedFiles.add(file));
   }
 
-  openFile(e) {
+  openFileEvent(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
-    const file = e.params.file
 
+    this.openFile(e.params.file);
+  }
+
+  openFile(file) {
     fetch(`${this.filePreviewUrlValue}?file=${file}`)
       .then(response => response.text())
       .then(data => {

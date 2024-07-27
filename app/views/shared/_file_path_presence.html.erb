@@ -1,6 +1,13 @@
-<div class="flex items-center gap-1">
-  <%= filepath %>
-  <% if project.invalid_path?(filepath) %>
+<% if project.invalid_path?(filepath) %>
+  <div class="flex items-center gap-1">
+    <%= filepath %>
     <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
+  </div>
+<% else %>
+  <%= link_to fuzzy_finder_project_path(project, input_id: "files_input_id", file: filepath), "data-turbo-frame": "modal" do %>
+    <div class="flex items-center gap-1">
+      <%= filepath %>
+      <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
+    </div>
   <% end %>
-</div>
+<% end %>

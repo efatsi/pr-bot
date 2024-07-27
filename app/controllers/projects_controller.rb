@@ -31,6 +31,9 @@ class ProjectsController < ApplicationController
   end
 
   def fuzzy_finder
+    if params[:file].present?
+      @file_preview = params[:file]
+    end
   end
 
   def file_name_search
