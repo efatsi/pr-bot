@@ -17,24 +17,28 @@ class BasePromptGenerator
 
   private
 
-  def robo_job_context_files(solutioning: false)
-    contextual_file_data = robo_job.final_contextual_files.map do |filepath|
-      [
-        "<file:#{filepath}>",
-        File.read(project.full_path(filepath)),
-        "</file:#{filepath}>",
-        "",
-      ].join("\n")
-    end.join("\n")
+  def robo_job_tools_and_files(solutioning: false)
+    if robo_job.final_contextual_files.empty?
+      project_tools(solutioning: solutioning)
+    else
+      contextual_file_data = robo_job.final_contextual_files.map do |filepath|
+        [
+          "<file:#{filepath}>",
+          File.read(project.full_path(filepath)),
+          "</file:#{filepath}>",
+          "",
+        ].join("\n")
+      end.join("\n")
 
-    [
-      project_tools(solutioning: solutioning),
-      "",
-      "Here are relevant files to the feature request:",
-      "<contextual_source_files>",
-      contextual_file_data,
-      "</contextual_source_files>"
-    ].join("\n")
+      [
+        project_tools(solutioning: solutioning),
+        "",
+        "Here are relevant files to the feature request:",
+        "<contextual_source_files>",
+        contextual_file_data,
+        "</contextual_source_files>"
+      ].join("\n")
+    end
   end
 
   def project_tools(solutioning: true)

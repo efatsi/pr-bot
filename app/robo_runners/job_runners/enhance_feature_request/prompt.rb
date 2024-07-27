@@ -9,7 +9,7 @@ module JobRunners::EnhanceFeatureRequest
         { role: "system", content: PromptHub::ROGER_THAT },
         { role: "user", content: instructions_prompt },
         { role: "system", content: PromptHub::ROGER_THAT },
-        { role: "user", content: robo_job_context_files },
+        { role: "user", content: robo_job_tools_and_files },
         { role: "system", content: PromptHub::UNDERSTAND_FILES },
         *previous_convo_messages,
         { role: "user", content: final_request_prompt }

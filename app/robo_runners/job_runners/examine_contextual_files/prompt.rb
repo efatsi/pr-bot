@@ -8,6 +8,8 @@ module JobRunners::ExamineContextualFiles
       [
         { role: "user", content: file_examiner_setup },
         { role: "system", content: PromptHub::ROGER_THAT },
+        { role: "user", content: feature_and_files_prompt },
+        { role: "system", content: understand_feature_request },
         { role: "user", content: examine_file_prompt },
       ]
     end
@@ -30,8 +32,16 @@ module JobRunners::ExamineContextualFiles
         robo_job.enhanced_feature_request,
         "</feature_request>",
         "",
-        robo_job_context_files,
+        robo_job_tools_and_files,
       ].join("\n")
+    end
+
+    def understand_feature_request
+      if robo_job.final_contextual_files.any?
+        "I understand this feature request and these existing relevant files will inform my next examination."
+      else
+        "I understand this feature request and will use it to inform my next examination."
+      end
     end
 
     def examine_file_prompt

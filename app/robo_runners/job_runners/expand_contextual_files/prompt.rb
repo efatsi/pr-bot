@@ -7,7 +7,7 @@ module JobRunners::ExpandContextualFiles
       [
         { role: "user", content: PromptHub::SYSTEM_SETUP },
         { role: "system", content: PromptHub::ROGER_THAT },
-        { role: "user", content: robo_job_context_files(solutioning: false) },
+        { role: "user", content: robo_job_tools_and_files },
         { role: "system", content: PromptHub::UNDERSTAND_FILES_FOR_SEARCH },
         { role: "user", content: contextual_files_prompt },
       ]
