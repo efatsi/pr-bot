@@ -1,5 +1,5 @@
 <div
-  class="inline-flex items-start gap-2 p-2 px-3 bg-gray-800 text-gray-300 rounded-lg border border-white border-opacity-40"
+  class=" w-fit flex-col items-start gap-2 p-2 px-3 bg-gray-800 text-gray-300 rounded-lg border border-white border-opacity-40"
   data-controller="header"
 >
   <div class="inline-flex items-center gap-2">
@@ -13,28 +13,55 @@
     </div>
 
     <div
-      class="ml-2 flex items-center gap-1 cursor-pointer fill-[#b8bdc2] text-gray-300 hover:fill-gray-200 hover:text-gray-200"
-      data-action="click->header#toggleRobots"
+      class="ml-2 flex items-center gap-1 fill-[#b8bdc2] text-gray-300"
     >
       <%= render "custom_svgs/robot_face" %>
       <span data-header-target="robotCount" class="w-3"><%= cookied_robots.count %></span>
     </div>
+
+    <div
+      class="cursor-pointer fill-[#b8bdc2] text-gray-300 hover:fill-gray-200 hover:text-gray-200"
+      data-action="click->header#toggleSettings"
+    >
+      <%= heroicon :"cog-8-tooth" %>
+    </div>
   </div>
 
-  <div class="hidden flex flex-col gap-1 mt-0.5 text-xs" data-header-target="robots">
-    <% available_robots.each do |robot| %>
-      <div>
-        <input
-          data-action="change->header#handleRobotChange"
-          data-header-target="robotInput"
-          type="checkbox"
-          id="<%= robot %>"
-          name="<%= robot %>"
-          value="<%= robot %>"
-          <%= "checked" if cookied_robots.include?(robot) %>
-        >
-        <label for="<%= robot %>"><%= robot %></label>
-      </div>
-    <% end %>
+  <div class="hidden flex py-2 flex-col gap-2 mt-0.5 text-xs w-fit" data-header-target="settings">
+    <div>
+      <div class="font-semibold mb-0.5">Robots:</div>
+      <% available_robots.each do |robot| %>
+        <div>
+          <input
+            data-action="change->header#handleRobotChange"
+            data-header-target="robotInput"
+            type="checkbox"
+            name="robot"
+            id="<%= robot %>"
+            value="<%= robot %>"
+            <%= "checked" if cookied_robots.include?(robot) %>
+          >
+          <label for="<%= robot %>"><%= robot %></label>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <div class="font-semibold mb-0.5">File Opener:</div>
+      <% file_openers.each do |file_opener| %>
+        <div>
+          <input
+            data-action="change->header#handleFileOpenerChange"
+            data-header-target="fileOpenerInput"
+            type="radio"
+            name="file_opener"
+            id="<%= file_opener %>"
+            value="<%= file_opener %>"
+            <%= "checked" if file_opener == cookied_file_opener %>
+          >
+          <label for="<%= file_opener %>"><%= file_opener.titleize %></label>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
