@@ -4,7 +4,15 @@
     <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
   </div>
 <% else %>
-  <%= link_to fuzzy_finder_project_path(project, input_id: "files_input_id", file: filepath), "data-turbo-frame": "modal" do %>
+  <% in_app_path = fuzzy_finder_project_path(project, input_id: "files_input_id", file: filepath) %>
+  <% vs_code_path = "vscode://file#{project.full_path(filepath)}" %>
+
+  <%= link_to in_app_path,
+    "data-turbo-frame": "modal",
+    "data-in-app-path": in_app_path,
+    "data-vs-code-path": vs_code_path,
+    "data-controller": "file-opener" do
+  %>
     <div class="flex items-center gap-1">
       <%= filepath %>
       <%= heroicon "arrow-top-right-on-square", options: { class: "!w-4 !h-4" } %>
