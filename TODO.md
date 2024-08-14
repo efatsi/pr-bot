@@ -2,13 +2,13 @@
 x event navigation
 x image uploads
 ~ making context better
-  - search terms
-  - push AI suggestions to new input box that opens up to rm / modify
-- open contextual files list in VSCode
+  x search terms
+    - human review of terms
+  - one more round of file checking after the first
+- retry instruction events
 
 ## contextual files
-- examine display
-  - config: change open file links to open in VSCode
+- open full input list in VSCode
 
 - cleanup
   - inline edit of seed files
@@ -18,11 +18,10 @@ x image uploads
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
 
 ## lil punch list
-- open one file, or batch of files, in vs code
-  - OR file viewer (config setting)
+- if can't find edit apply, try reversing the string (' -> ")
 - expand_all actions button
+- only copy over acted on actions to followup file inputs
 - remove skipped actions from prompt when followup
-  - option to do so if any skipped, checked by default
 
 # Event Navigation
 ## RoboEvent actions
