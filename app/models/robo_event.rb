@@ -20,6 +20,7 @@ class RoboEvent < ApplicationRecord
 
   has_many :contextual_files, dependent: :destroy
 
+  after_create :deactivate_siblings_if_active
   before_destroy :disconnect_and_ignore_requests
 
   belongs_to :subject, polymorphic: true
@@ -84,7 +85,27 @@ class RoboEvent < ApplicationRecord
     end
   end
 
+  def all_sibling_events
+    parent_robo_event ? parent_robo_event.child_robo_events : RoboEvent.where(id: id)
+  end
+
+  def sibling_events
+    @sibling_events ||= if parent_robo_event
+      parent_robo_event.child_robo_events.where.not(id: id)
+    end
+  end
+
+  def sibling_position
+    all_sibling_events.order(:created_at).pluck(:id).index(id) + 1
+  end
+
   private
+
+  def deactivate_siblings_if_active
+    if status == "active" && parent_robo_event
+      sibling_events.update_all(status: "ignored")
+    end
+  end
 
   def disconnect_and_ignore_requests
     robo_requests.update_all(
