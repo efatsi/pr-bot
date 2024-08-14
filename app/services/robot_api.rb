@@ -27,19 +27,19 @@ class RobotApi
   private
 
   def get_robot(model)
-    klass = if model.to_s == "gpt-4"
-      Robots::Gpt4
-    elsif model.to_s == "gpt-4-vision"
-      Robots::Gpt4Vision
-    elsif model.to_s == "gpt-3"
-      Robots::Gpt3
-    elsif model.to_s == "gemini"
-      Robots::Gemini
-    else
-      raise "Invalid model key: #{model}. Must be one of ['gpt-4', 'gpt-3', 'gemini']"
-    end
+    # eg: "gpt-4-mini" => "Gpt4Mini"
+    class_name = model.to_s.split('-').map(&:capitalize).join
+    klass = "Robots::#{class_name}".constantize
 
     klass.new(@external_stream_proc)
+  rescue NameError
+    available_robots = Robots::BaseRobot.descendants.map(&:name)
+    robot_keys = available_robots.map do |robot|
+      # replace word/number boundaries with dashes
+      robot.split('::').last.gsub(/(?<!^)([A-Z0-9])/, '-\1').downcase
+    end
+
+    raise "Invalid model key: #{model}. Must be one of [#{robot_keys.join(', ')}]"
   end
 
   # have this here as a default for testing
