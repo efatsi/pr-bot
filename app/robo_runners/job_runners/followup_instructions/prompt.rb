@@ -6,11 +6,11 @@ module JobRunners::FollowupInstructions
       [
         { role: "user", content: PromptHub::SYSTEM_SETUP },
         { role: "system", content: PromptHub::ROGER_THAT },
-        { role: "user", content: robo_job_tools_and_files(solutioning: true) },
-        { role: "system", content: PromptHub::UNDERSTAND_FILES },
         { role: "user", content: instructions_prompt },
         { role: "system", content: PromptHub::ROGER_THAT },
         *previous_convo_messages,
+        { role: "user", content: robo_job_tools_and_files(solutioning: true) },
+        { role: "system", content: PromptHub::UNDERSTAND_FILES },
         { role: "user", content: final_request_prompt }
       ]
     end
