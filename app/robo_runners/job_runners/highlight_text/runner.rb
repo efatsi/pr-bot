@@ -18,7 +18,7 @@ module JobRunners::HighlightText
           RoboRequest.create!(
             parent: contextual_file,
             robo_event: robo_event,
-            robot: "gpt-3",
+            robot: "gpt-4-mini",
             request_type: robo_event.event_request_type,
             prompt_messages: prompt_message_for(contextual_file)
           )

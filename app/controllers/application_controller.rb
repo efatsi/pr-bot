@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :available_robots
   def available_robots
-    ["gpt-4", "gpt-3", "gemini"]
+    ["gpt-4", "gpt-4-mini", "gemini"]
   end
 
   helper_method :cookied_robots

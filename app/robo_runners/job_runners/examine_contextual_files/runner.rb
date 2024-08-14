@@ -24,7 +24,7 @@ module JobRunners::ExamineContextualFiles
         RoboRequest.create!(
           parent: contextual_file,
           robo_event: robo_event,
-          robot: "gpt-3",  # or "gemini" here?
+          robot: "gpt-4-mini",
           request_type: robo_event.event_request_type,
           prompt_messages: prompt_message_for(contextual_file)
         )
