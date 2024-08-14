@@ -1,5 +1,5 @@
 <% has_children = robo_event.child_robo_events.visible.active.any? %>
-<% has_siblings = robo_event.parent_robo_event && robo_event.parent_robo_event.child_robo_events.visible.any? %>
+<% has_siblings = robo_event.sibling_events.any? %>
 <% render_just_self ||= false %>
 <% render_next = !render_just_self %>
 
@@ -8,13 +8,45 @@
 
   <div class="relative pb-4">
     <%# vertical line %>
-    <span class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
+    <% if has_siblings %>
+      <span class="absolute left-6 top-[4.3rem] -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
+    <% else %>
+      <span class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
+    <% end %>
 
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
       <div class="relative" data-controller="dropdown-menu">
-        <div data-action="click->dropdown-menu#toggle" class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800 hover:text-gray-300 hover:border-gray-300 cursor-pointer">
-          <%== robo_event.event_keyword %>
+        <div class="flex flex-col items-center">
+          <div data-action="click->dropdown-menu#toggle" class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800 hover:text-gray-300 hover:border-gray-300 cursor-pointer">
+            <%== robo_event.event_keyword %>
+          </div>
+
+          <% if has_siblings %>
+            <div class="flex gap-1">
+              <% if robo_event.younger_siblings.any? %>
+                <%= link_to "TODO", "data-turbo-frame": "robo-event-#{robo_event.id}" do %>
+                  <%= heroicon "chevron-left", options: { class: "!w-4 !h-4 text-gray-200" } %>
+                <% end %>
+              <% else %>
+                <%# mimic space of chevron link %>
+                <div class="w-4"></div>
+              <% end %>
+
+              <code class="text-xs text-gray-400 my-0.5">
+                <%= robo_event.sibling_position %>/<%= robo_event.all_sibling_events.count %>
+              </code>
+
+              <% if robo_event.older_siblings.any? %>
+                <%= link_to "TODO" do %>
+                  <%= heroicon "chevron-right", options: { class: "!w-4 !h-4 text-gray-200" } %>
+                <% end %>
+              <% else %>
+                <%# mimic space of chevron link %>
+                <div class="w-4"></div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
 
         <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex flex-col items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1 w-32 z-40">

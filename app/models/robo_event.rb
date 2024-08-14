@@ -21,6 +21,7 @@ class RoboEvent < ApplicationRecord
   has_many :contextual_files, dependent: :destroy
 
   after_create :deactivate_siblings_if_active
+  before_destroy :reactivate_siblings_if_active
   before_destroy :disconnect_and_ignore_requests
 
   belongs_to :subject, polymorphic: true
@@ -86,12 +87,18 @@ class RoboEvent < ApplicationRecord
   end
 
   def all_sibling_events
-    parent_robo_event ? parent_robo_event.child_robo_events : RoboEvent.where(id: id)
+    if parent_robo_event
+      parent_robo_event.child_robo_events
+    else
+      RoboEvent.where(id: id)
+    end
   end
 
   def sibling_events
-    @sibling_events ||= if parent_robo_event
+    if parent_robo_event
       parent_robo_event.child_robo_events.where.not(id: id)
+    else
+      RoboEvent.none
     end
   end
 
@@ -99,11 +106,25 @@ class RoboEvent < ApplicationRecord
     all_sibling_events.order(:created_at).pluck(:id).index(id) + 1
   end
 
+  def younger_siblings
+    all_sibling_events.where("id < ?", id)
+  end
+
+  def older_siblings
+    all_sibling_events.where("id > ?", id)
+  end
+
   private
 
   def deactivate_siblings_if_active
-    if status == "active" && parent_robo_event
+    if status == "active" && sibling_events.any?
       sibling_events.update_all(status: "ignored")
+    end
+  end
+
+  def reactivate_siblings_if_active
+    if status == "active" && sibling_events.any?
+      sibling_events.first.update(status: "active")
     end
   end
 
