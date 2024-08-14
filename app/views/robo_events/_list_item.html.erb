@@ -61,16 +61,17 @@
       </div>
     </div>
   </div>
-</div>
 
-<% if render_next %>
-  <% if has_children %>
-    <%# render the next event in the sequence if it exists %>
-    <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.visible.active.first %>
+  <%# render children within the robo-event-id div so turbo updates update children events as well %>
+  <% if render_next %>
+    <% if has_children %>
+      <%# render the next event in the sequence if it exists %>
+      <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.visible.active.first %>
 
-  <% else %>
-    <%# we're at the end of the event line, render buttons to enable next steps %>
-    <%= render "robo_events/next_steps", robo_event: robo_event %>
+    <% else %>
+      <%# we're at the end of the event line, render buttons to enable next steps %>
+      <%= render "robo_events/next_steps", robo_event: robo_event %>
 
+    <% end %>
   <% end %>
-<% end %>
+</div>
