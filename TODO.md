@@ -1,3 +1,9 @@
+## retry instruction events
+- link to retry
+  - to new form w/ duplicated data from last (job/event)
+  - from instructions or followup
+- nest child list items under parents so can wipe HTML cleanly
+
 ## BIG PUNCH LIST
 x event navigation
 x image uploads
@@ -5,7 +11,9 @@ x image uploads
   x search terms
     - human review of terms
   - one more round of file checking after the first
-- retry instruction events
+  - adding ability to bump context on a followup job
+    - nest the context polishing visually so you can see what a "RoboJob" is
+    - convert followup job pointers to just point up to the conversation, which tracks events (at last, RoboJob and RoboRequest are fully wrapped in a layer of UI modeling)
 
 ## contextual files
 - open full input list in VSCode
@@ -18,14 +26,16 @@ x image uploads
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
 
 ## lil punch list
-- if can't find edit apply, try reversing the string (' -> ")
+- if can't find edit apply
+  - try reversing the string (' -> ")
+  - try a hidden robo_event to get the correct search
 - expand_all actions button
 - only copy over acted on actions to followup file inputs
 - remove skipped actions from prompt when followup
+- rm RoboJob + FollowonJob, replace w/ WorkSession + RoboJobs
 
 # Event Navigation
 ## RoboEvent actions
-- add "edit input" if editable type (build_instructions / followup_instructions)
 - add "ignore" action if !start
   - toggle between active / ignored robo_events + dotted "next event" UI
 - add "stop" to running job (rename scaffold to processing)

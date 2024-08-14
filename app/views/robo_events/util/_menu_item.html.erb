@@ -1,9 +1,10 @@
-<% confirmation_message ||= "Are you sure?" %>
+<% confirmation ||= false %>
+<% form_data = confirmation ? { turbo_confirm: "Are you sure?" } : {} %>
 
 <%= button_to(
   path,
   method: method,
-  form: { data: { turbo_confirm: confirmation_message }, class: "w-full" },
+  form: { data: form_data, class: "w-full" },
   class: "w-full flex items-center justify-end gap-2 hover:bg-gray-700 p-1 px-2",
 ) do %>
   <span class="text-sm"><%= button_text %></span>

@@ -1,4 +1,5 @@
-<% has_children = robo_event.child_robo_events.visible.any? %>
+<% has_children = robo_event.child_robo_events.visible.active.any? %>
+<% has_siblings = robo_event.parent_robo_event && robo_event.parent_robo_event.child_robo_events.visible.any? %>
 <% render_just_self ||= false %>
 <% render_next = !render_just_self %>
 
@@ -17,12 +18,22 @@
         </div>
 
         <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex flex-col items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1 w-32 z-40">
-          <% if robo_event.child_robo_events.visible.any? %>
+          <% if has_children %>
             <%= render "robo_events/util/menu_item",
               path: reset_to_here_robo_event_path(robo_event),
               method: :post,
               button_text: "Reset Here",
-              button_icon: "arrow-down-circle"
+              button_icon: "arrow-down-circle",
+              confirmation: true
+            %>
+          <% end %>
+
+          <% if robo_event.is_instruction_event? %>
+            <%= render "robo_events/util/menu_item",
+              path: new_retry_robo_event_path(robo_event),
+              method: :post,
+              button_text: "Retry Input",
+              button_icon: "arrow-path"
             %>
           <% end %>
 
@@ -31,7 +42,8 @@
               path: robo_event_path(robo_event),
               method: :delete,
               button_text: "Delete",
-              button_icon: "trash"
+              button_icon: "trash",
+              confirmation: true
             %>
           <% end %>
         </div>
@@ -54,7 +66,7 @@
 <% if render_next %>
   <% if has_children %>
     <%# render the next event in the sequence if it exists %>
-    <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.visible.first %>
+    <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.visible.active.first %>
 
   <% else %>
     <%# we're at the end of the event line, render buttons to enable next steps %>
