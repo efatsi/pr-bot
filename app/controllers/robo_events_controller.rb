@@ -23,13 +23,14 @@ class RoboEventsController < ApplicationController
     end
 
     # # replace the event to retry with the new multi-event UI
-    # render turbo_stream: turbo_stream.replace(
-    #   "robo-event-#{event_to_retry.id}",
-    #   partial: "robo_events/multi_event",
-    #   locals: {
-    #     robo_event: new_event
-    #   }
-    # )
+    render turbo_stream: turbo_stream.replace(
+      "robo-event-#{event_to_retry.id}",
+      partial: "robo_events/followup_instructions/input",
+      locals: {
+        robo_job: event_to_retry.subject.parent_job_or_self,
+        followup_job: new_event.subject
+      }
+    )
   end
 
   def show_next_steps
