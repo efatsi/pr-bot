@@ -59,6 +59,16 @@ class RoboEventsController < ApplicationController
     redirect_to robo_job_path(robo_event.robo_job)
   end
 
+  def show_sibling
+    sibling_event = RoboEvent.find(params[:id])
+
+    render turbo_stream: turbo_stream.replace(
+      "robo-event-#{params[:current_event_id]}",
+      partial: "robo_events/list_item",
+      locals: { robo_event: sibling_event }
+    )
+  end
+
   private
 
   def create_instructions_retry_event(event_to_retry)

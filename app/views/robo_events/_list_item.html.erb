@@ -25,7 +25,7 @@
           <% if has_siblings %>
             <div class="flex gap-1">
               <% if robo_event.younger_siblings.any? %>
-                <%= link_to "TODO", "data-turbo-frame": "robo-event-#{robo_event.id}" do %>
+                <%= link_to show_sibling_robo_event_path(robo_event.younger_siblings.last, current_event_id: robo_event.id) do %>
                   <%= heroicon "chevron-left", options: { class: "!w-4 !h-4 text-gray-200" } %>
                 <% end %>
               <% else %>
@@ -38,7 +38,7 @@
               </code>
 
               <% if robo_event.older_siblings.any? %>
-                <%= link_to "TODO" do %>
+                <%= link_to show_sibling_robo_event_path(robo_event.older_siblings.first, current_event_id: robo_event.id) do %>
                   <%= heroicon "chevron-right", options: { class: "!w-4 !h-4 text-gray-200" } %>
                 <% end %>
               <% else %>

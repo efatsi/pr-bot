@@ -96,7 +96,7 @@ class RoboEvent < ApplicationRecord
 
   def sibling_events
     if parent_robo_event
-      parent_robo_event.child_robo_events.where.not(id: id)
+      parent_robo_event.child_robo_events.visible.where.not(id: id)
     else
       RoboEvent.none
     end

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   resources :robo_events, only: [:destroy] do
     post :new_retry, on: :member
+    get :show_sibling, on: :member
     post :reset_to_here, on: :member
     get :show_next_steps, on: :member
   end

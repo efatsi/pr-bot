@@ -4,6 +4,12 @@
   - from instructions or followup
 - nest child list items under parents so can wipe HTML cleanly
 
+# QA
+x fix up robo_event parent linking
+- all events fail to render their last thing, html nesting perhaps
+- markdown rendering stopped working
+
+
 ## BIG PUNCH LIST
 x event navigation
 x image uploads
@@ -14,6 +20,7 @@ x image uploads
   - adding ability to bump context on a followup job
     - nest the context polishing visually so you can see what a "RoboJob" is
     - convert followup job pointers to just point up to the conversation, which tracks events (at last, RoboJob and RoboRequest are fully wrapped in a layer of UI modeling)
+  - hooking up file finder when reviewing examined files
 
 ## contextual files
 - open full input list in VSCode
