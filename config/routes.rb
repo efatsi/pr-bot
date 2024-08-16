@@ -61,5 +61,9 @@ Rails.application.routes.draw do
     post :generate_options, on: :member
   end
 
+  namespace :api do
+    resources :robo_jobs, only: [:create]
+  end
+
   mount GoodJob::Engine => 'good_job'
 end
