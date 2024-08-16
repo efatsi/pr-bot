@@ -57,8 +57,8 @@ class RoboJob < ApplicationRecord
   def last_active_event
     event = start_event
 
-    while event.child_robo_events.visible.active.with_finished_requests.any?
-      event = event.child_robo_events.visible.active.first
+    while event.child_robo_events.active.with_finished_requests.any?
+      event = event.child_robo_events.active.first
     end
 
     event

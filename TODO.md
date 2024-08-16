@@ -2,7 +2,6 @@
 - link to retry
   - to new form w/ duplicated data from last (job/event)
   - from instructions or followup
-- nest child list items under parents so can wipe HTML cleanly
 
 # QA
 x fix up robo_event parent linking
@@ -27,7 +26,8 @@ x image uploads
 
 - cleanup
   - inline edit of seed files
-  - show seed files as accepted but w/ person icon instead of check / score
+  - display accepted in list next to seed, only have pending / ignored in table
+  - button to display "input" when prompt is running
   - button to display "implementation overview" explanation from robot
   - move followon orchestration to RoboConductor out of runner's finish+super
   - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`

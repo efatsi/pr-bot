@@ -13,7 +13,10 @@ class RoboEvent < ApplicationRecord
   STATUSES = %w[active ignored]
 
   belongs_to :parent_robo_event, class_name: "RoboEvent", optional: true
-  has_many :child_robo_events, class_name: "RoboEvent", foreign_key: :parent_robo_event_id, dependent: :destroy
+  has_many :child_robo_events, -> { visible },
+    class_name: "RoboEvent",
+    foreign_key: :parent_robo_event_id,
+    dependent: :destroy
 
   has_many :robo_requests, -> { by_id }
   has_many :actions, -> { by_id }, through: :robo_requests
@@ -96,7 +99,7 @@ class RoboEvent < ApplicationRecord
 
   def sibling_events
     if parent_robo_event
-      parent_robo_event.child_robo_events.visible.where.not(id: id)
+      parent_robo_event.child_robo_events.where.not(id: id)
     else
       RoboEvent.none
     end
