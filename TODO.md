@@ -5,7 +5,7 @@
 
 # QA
 x fix up robo_event parent linking
-- all events fail to render their last thing, html nesting perhaps
+x all events fail to render their last thing, html nesting perhaps
 - markdown rendering stopped working
 
 
