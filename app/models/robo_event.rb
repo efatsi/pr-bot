@@ -23,7 +23,8 @@ class RoboEvent < ApplicationRecord
 
   has_many :contextual_files, dependent: :destroy
 
-  after_create :deactivate_siblings_if_active
+  after_save :deactivate_siblings_if_active
+
   before_destroy :reactivate_siblings_if_active
   before_destroy :disconnect_and_ignore_requests
 

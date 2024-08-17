@@ -61,6 +61,7 @@ class RoboEventsController < ApplicationController
 
   def show_sibling
     sibling_event = RoboEvent.find(params[:id])
+    sibling_event.update(status: "active")
 
     render turbo_stream: turbo_stream.replace(
       "robo-event-#{params[:current_event_id]}",
