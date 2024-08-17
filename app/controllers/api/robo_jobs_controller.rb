@@ -3,8 +3,9 @@ class Api::RoboJobsController < ApplicationController
 
   def create
     input_string = params[:input_string]
-    pathnames = input_string.scan(/django\/[^\s:]+/).map { |path| path.sub('django/', '') }
-    feature_request = input_string.gsub(/django\/[^\s:]+/, '').strip
+    pathnames = input_string.scan(/django\/[^\s:]+/).map { |path| path.sub("django/", "") }
+    # strip out django/ prefix, leave rest of path
+    feature_request = input_string.gsub(/django\//, "").strip
 
     robo_job = RoboJob.new(
       feature_request: feature_request,
@@ -13,9 +14,17 @@ class Api::RoboJobsController < ApplicationController
     )
 
     if robo_job.save
-      render json: { status: 'success', robo_job: robo_job }, status: :created
+      start_event = robo_job.robo_events.create(event_type: "start")
+      build_event = robo_job.robo_events.create(
+        event_type: "build_instructions",
+        robots: ["gpt-4"],
+        parent_robo_event: start_event
+      )
+      RoboConductor.new(build_event).start_event
+
+      render json: { status: "success", robo_job: robo_job.id, build_event: build_event.id }, status: :created
     else
-      render json: { status: 'error', errors: robo_job.errors.full_messages }, status: :unprocessable_entity
+      render json: { status: "error", errors: robo_job.errors.full_messages }, status: :unprocessable_entity
     end
   end
 end

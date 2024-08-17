@@ -25,6 +25,7 @@ gem "simple_form-tailwind"
 gem "heroicon"
 gem "tiktoken_ruby"
 gem "redcarpet"
+gem "httparty"
 
 group :development, :test do
   gem "better_errors"
