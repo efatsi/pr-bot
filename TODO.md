@@ -3,11 +3,8 @@
   - to new form w/ duplicated data from last (job/event)
   - from instructions or followup
 
-# QA
-x fix up robo_event parent linking
-x all events fail to render their last thing, html nesting perhaps
-- markdown rendering stopped working
-
+- cleanup
+  - markdown rendering stopped working
 
 ## BIG PUNCH LIST
 x event navigation
@@ -15,18 +12,19 @@ x image uploads
 ~ making context better
   x search terms
     - human review of terms
-  - one more round of file checking after the first
+    - option for one more round of file checking after the first, iterative over each file
   - adding ability to bump context on a followup job
     - nest the context polishing visually so you can see what a "RoboJob" is
-    - convert followup job pointers to just point up to the conversation, which tracks events (at last, RoboJob and RoboRequest are fully wrapped in a layer of UI modeling)
-  - hooking up file finder when reviewing examined files
 
 ## contextual files
-- open full input list in VSCode
+- inline edit of seed files
+- hooking up file finder when reviewing examined files
+  - always render a hidden input form
+  - selections in the modal update the input form, which auto submits, which auto updates all seed_contextual_files for that robojob
 
 - cleanup
-  - inline edit of seed files
   - display accepted in list next to seed, only have pending / ignored in table
+  - open full input list in VSCode
   - button to display "input" when prompt is running
   - button to display "implementation overview" explanation from robot
   - move followon orchestration to RoboConductor out of runner's finish+super
@@ -37,9 +35,8 @@ x image uploads
   - try reversing the string (' -> ")
   - try a hidden robo_event to get the correct search
 - expand_all actions button
-- only copy over acted on actions to followup file inputs
-- remove skipped actions from prompt when followup
-- rm RoboJob + FollowonJob, replace w/ WorkSession + RoboJobs
+- remove pending/skipped actions from prompt when followup
+- rm RoboJob + FollowupJob, replace w/ WorkSession + RoboJobs
 
 # Event Navigation
 ## RoboEvent actions
@@ -62,10 +59,6 @@ x image uploads
   - ask AI to lookup based on this blob (maybe redundant)
 
 ## better context expansion
-- ask more questions then "what files to see"
-  - second pass at expand / examine after first
-  - what project-wide searches to run in what subdirectories to find more context?
-    - then run those searches and consider files
 - `hit_the_internet` & `summarize_results`
   - ask AI for a few internet searches given the prompt
   - hit some API somehow, LangChain has examples
