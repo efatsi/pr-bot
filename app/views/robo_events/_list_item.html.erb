@@ -1,109 +1,18 @@
 <% has_children = robo_event.child_robo_events.active.any? %>
-<% has_siblings = robo_event.sibling_events.any? %>
-<% render_just_self ||= false %>
-<% render_next = !render_just_self %>
 
 <div id="robo-event-<%= robo_event.id %>">
   <%= render "shared/ding" if robo_event.just_finished %>
 
-  <div class="relative pb-4">
-    <%# vertical line %>
-    <% if has_siblings %>
-      <span class="absolute left-6 top-[4.3rem] -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
-    <% else %>
-      <span class="absolute left-6 top-6 -ml-px h-full w-0.5 bg-gray-400 bg-opacity-50" aria-hidden="true"></span>
-    <% end %>
-
-    <div class="relative flex items-start space-x-3">
-      <%# event icon %>
-      <div class="relative" data-controller="dropdown-menu">
-        <div class="flex flex-col items-center">
-          <div data-action="click->dropdown-menu#toggle" class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800 hover:text-gray-300 hover:border-gray-300 cursor-pointer">
-            <%== robo_event.event_keyword %>
-          </div>
-
-          <% if has_siblings %>
-            <div class="flex gap-1">
-              <% if robo_event.younger_siblings.any? %>
-                <%= link_to show_sibling_robo_event_path(robo_event.younger_siblings.last, current_event_id: robo_event.id) do %>
-                  <%= heroicon "chevron-left", options: { class: "!w-4 !h-4 text-gray-200" } %>
-                <% end %>
-              <% else %>
-                <%# mimic space of chevron link %>
-                <div class="w-4"></div>
-              <% end %>
-
-              <code class="text-xs text-gray-400 my-0.5">
-                <%= robo_event.sibling_position %>/<%= robo_event.all_sibling_events.count %>
-              </code>
-
-              <% if robo_event.older_siblings.any? %>
-                <%= link_to show_sibling_robo_event_path(robo_event.older_siblings.first, current_event_id: robo_event.id) do %>
-                  <%= heroicon "chevron-right", options: { class: "!w-4 !h-4 text-gray-200" } %>
-                <% end %>
-              <% else %>
-                <%# mimic space of chevron link %>
-                <div class="w-4"></div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-
-        <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex flex-col items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1 w-32 z-40">
-          <% if has_children %>
-            <%= render "robo_events/util/menu_item",
-              path: reset_to_here_robo_event_path(robo_event),
-              method: :post,
-              button_text: "Reset Here",
-              button_icon: "arrow-down-circle",
-              confirmation: true
-            %>
-          <% end %>
-
-          <% if robo_event.is_instruction_event? %>
-            <%= render "robo_events/util/menu_item",
-              path: new_retry_robo_event_path(robo_event),
-              method: :post,
-              button_text: "Retry Input",
-              button_icon: "arrow-path"
-            %>
-          <% end %>
-
-          <% if !robo_event.is_start_event? %>
-            <%= render "robo_events/util/menu_item",
-              path: robo_event_path(robo_event),
-              method: :delete,
-              button_text: "Delete",
-              button_icon: "trash",
-              confirmation: true
-            %>
-          <% end %>
-        </div>
-
-      </div>
-
-      <%# event details %>
-      <div class="min-w-0 flex-1">
-        <div class="mb-8">
-          <%= render "robo_events/#{robo_event.event_type}/details",
-            robo_event: robo_event,
-            open_on_load: (robo_event.is_start_event? || robo_event.is_instruction_event?) && !has_children
-          %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render "robo_events/event_body", robo_event: robo_event %>
 
   <%# render children within the robo-event-id div so turbo updates update children events as well %>
-  <% if render_next %>
-    <% if has_children %>
-      <%# render the next event in the sequence if it exists %>
-      <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.active.first %>
+  <% if has_children %>
+    <%# render the next event in the sequence if it exists %>
+    <%= render "robo_events/list_item", robo_event: robo_event.child_robo_events.active.first %>
 
-    <% else %>
-      <%# we're at the end of the event line, render buttons to enable next steps %>
-      <%= render "robo_events/next_steps", robo_event: robo_event %>
+  <% else %>
+    <%# we're at the end of the event line, render buttons to enable next steps %>
+    <%= render "robo_events/next_steps", robo_event: robo_event %>
 
-    <% end %>
   <% end %>
 </div>

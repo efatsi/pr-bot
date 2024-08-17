@@ -108,8 +108,8 @@ class BaseRoboRunner
 
     # update the parent event too since it's rendering is dependent on children
     broadcast(
-      partial: "robo_events/list_item",
-      target: "robo-event-#{robo_event.parent_robo_event_id}",
+      partial: "robo_events/event_body",
+      target: "robo-event-body-#{robo_event.parent_robo_event_id}",
       action: :replace,
       locals: {
         robo_event: robo_event.parent_robo_event,
