@@ -1,3 +1,9 @@
+## Edit apply bugfix
+if match not found, start iterating
+  grab first line and look for space-ambivilant one-line matches
+    collect list of uniq space indentations for each match
+    iterate through those looking for full matches
+
 ## retry instruction events
 - link to retry
   - to new form w/ duplicated data from last (job/event)
