@@ -14,21 +14,9 @@ module Actions
     end
 
     def fire
-      text = File.read(full_filepath)
+      new_content = new_file_content
 
-      new_file_content = if original_content.blank?
-        # throw new content at the end
-        text + "\n" + new_content
-
-      elsif text.include?(original_content.strip)
-        # find and replace
-        text.sub(original_content.strip, new_content.strip)
-
-      else
-        raise "Original content not found in file"
-      end
-
-      File.open(full_filepath, "w") { |f| f.puts new_file_content }
+      File.open(full_filepath, "w") { |f| f.puts new_content }
     end
 
     def unfire
@@ -45,6 +33,32 @@ module Actions
 
     private
 
+    def new_file_content
+      text = File.read(full_filepath)
+
+      if original_content.blank?
+        # throw new content at the end
+        return text + "\n" + new_content
+
+      elsif text.include?(original_content.strip)
+        # simple find and replace
+        return text.sub(original_content.strip, new_content.strip)
+
+      else
+        # checking if the original content is there but indented
+        matched_indentation_amounts(text).each do |indentation|
+          indented_original_content = original_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
+          indented_new_content = new_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
+          if text.include?(indented_original_content)
+            return text.sub(indented_original_content, indented_new_content)
+          end
+        end
+
+        # made it down here, couldn't find a match
+        raise "Original content not found in file"
+      end
+    end
+
     def original_content
       arguments[:original_content]
     end
@@ -53,6 +67,20 @@ module Actions
       arguments[:new_content]
     end
 
+    def matched_indentation_amounts(text)
+      first_line = original_content.strip.split("\n").first
+
+      indentation_amounts = []
+
+      text.lines.each do |line|
+        if line.strip == first_line
+          line_indentation = line.match(/^\s*/)[0].size
+          indentation_amounts << line_indentation
+        end
+      end
+
+      indentation_amounts.uniq
+    end
   end
 end
 
