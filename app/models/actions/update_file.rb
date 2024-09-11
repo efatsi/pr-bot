@@ -39,30 +39,31 @@ module Actions
       if original_content.blank?
         # throw new content at the end
         return text + "\n" + new_content
+      end
 
-      elsif text.include?(original_content)
+      if text.include?(original_content)
         # simple find and replace
         return text.sub(original_content, new_content)
 
       elsif text.include?(original_content.gsub("'", "\""))
         # then try with quotations swapped
         return text.sub(original_content.gsub("'", "\""), new_content.gsub("'", "\""))
-
-      else
-        # checking if the original content is there but indented
-        matched_indentation_amounts(text).each do |indentation|
-          indented_original_content = original_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
-          indented_new_content = new_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
-          if text.include?(indented_original_content)
-            return text.sub(indented_original_content, indented_new_content)
-          elsif text.include?(indented_original_content.gsub("'", "\""))
-            return text.sub(indented_original_content.gsub("'", "\""), indented_new_content.gsub("'", "\""))
-          end
-        end
-
-        # made it down here, couldn't find a match
-        raise "Original content not found in file"
       end
+
+      # last effort, check if the original content is there but indented
+      matched_indentation_amounts(text).each do |indentation|
+        indented_original_content = original_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
+        indented_new_content = new_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
+
+        if text.include?(indented_original_content)
+          return text.sub(indented_original_content, indented_new_content)
+        elsif text.include?(indented_original_content.gsub("'", "\""))
+          return text.sub(indented_original_content.gsub("'", "\""), indented_new_content.gsub("'", "\""))
+        end
+      end
+
+      # made it down here, couldn't find a match
+      raise "Original content not found in file"
     end
 
     def original_content
