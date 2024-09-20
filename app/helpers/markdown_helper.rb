@@ -67,7 +67,7 @@ module MarkdownHelper
 
   def replace_tags_with_dropdowns(input)
     # look for escaped html tags, replace w/ dropdowns
-    input.gsub(/^&lt;(\w+)&gt;(.*?)^&lt;\/\1&gt;/m) do
+    input.gsub(/&lt;(\w+)&gt;(.*?)^&lt;\/\1&gt;/m) do
       tag = $1
       content = $2.strip
       "<details><summary>&lt;#{tag}&gt;</summary>#{content}</details>"
