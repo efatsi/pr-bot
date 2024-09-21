@@ -8,17 +8,8 @@ module JobRunners::Instructions
     def handle_response(robo_request)
       raw_response = robo_request.response
 
-      # TODO: move this logic closer to gemini client
-      if raw_response && raw_response.include?("```")
-        # remove anything before the first ``` line (including language key)
-        raw_response.gsub!(/^.*?```\w*\n/m, "")
-
-        # remove anything after the last ``` line
-        raw_response.gsub!(/```.*$/m, "")
-      end
-
-      # by now, it _should_ be a workable JSON string
-      generated_instructions = JSON.parse(raw_response)
+      # the response  _should_ be a workable JSON string
+      generated_instructions = JSON.parse(robo_request.response)
 
       process_instructions_to_pending_actions(generated_instructions, robo_request)
 

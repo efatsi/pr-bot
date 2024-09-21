@@ -31,7 +31,6 @@ module JobRunners::EnhanceFeatureRequest
     end
 
     def previous_convo_messages
-      # TODO: implement
       []
     end
   end

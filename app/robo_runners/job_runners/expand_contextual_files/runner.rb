@@ -25,9 +25,9 @@ module JobRunners::ExpandContextualFiles
       generated_file_data = JSON.parse(raw_response)["files"]
       process_file_list_to_contextual_files(generated_file_data, robo_request)
 
-      # just grab the first two, TODO: user input to vet / change these
-      search_terms = JSON.parse(raw_response)["search_terms"][0..1]
-      process_search_terms_to_contextual_files(search_terms, robo_request)
+      # TODO: user input to vet / change these
+      # search_terms = JSON.parse(raw_response)["search_terms"][0..1]
+      # process_search_terms_to_contextual_files(search_terms, robo_request)
 
     rescue => e
       # might not be though, capture as error

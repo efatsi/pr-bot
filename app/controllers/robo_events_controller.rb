@@ -22,7 +22,7 @@ class RoboEventsController < ApplicationController
       raise "Unsupported event type: #{event_to_retry.event_type}"
     end
 
-    # # replace the event to retry with the new multi-event UI
+    # TODO replace the event to retry with the new multi-event UI
     render turbo_stream: turbo_stream.replace(
       "robo-event-#{event_to_retry.id}",
       partial: "robo_events/list_item",

@@ -23,6 +23,14 @@ module Robots
         handle_streamed_content(new_content)
       end
 
+      if @response.include?("```")
+        # remove anything before the first ``` line (including language key)
+        @response.gsub!(/^.*?```\w*\n/m, "")
+
+        # remove anything after the last ``` line
+        @response.gsub!(/```.*$/m, "")
+      end
+
       puts
       @response
     end

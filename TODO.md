@@ -34,7 +34,6 @@ x image uploads
   - button to display "input" when prompt is running
   - button to display "implementation overview" explanation from robot
   - move followon orchestration to RoboConductor out of runner's finish+super
-  - `# TODO: move this logic closer to gemini client` in `job_runners/instructions/runner.rb`
 
 ## lil punch list
 - if can't find edit apply
