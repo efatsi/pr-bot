@@ -3,7 +3,7 @@ input_string = ARGV[0]
 franklin_project_id = 1
 
 if input_string.nil?
-  puts "Usage: franklin_commit_cleaner.rb <input_string>"
+  puts "franklin_commit_cleaner.rb: No input string found"
   exit 1
 end
 
@@ -50,9 +50,6 @@ if action_count > 0
   end
 
   puts "All actions have fired."
-  # go back and open up `gitx` for review
-  system("cd -")
-  system("gitx")
 else
   puts "No actions were created. Check at http://localhost:3069/robo_jobs/#{response["robo_job"]}"
   exit 1
