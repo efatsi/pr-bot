@@ -1,0 +1,18 @@
+<div class="mt-2" data-controller="followup">
+  <%= f.input :include_last_convo,
+    as: :boolean,
+    label: 'Include Last Convo',
+    input_html: {
+      'data-followup-target': 'lastConvo', 'data-action': 'change->followup#toggleCheckboxes'
+    }
+  %>
+  <% if followup_job.parent_job.followup_jobs.any? {|a| a.active_actions.any? } %>
+    <%= f.input :include_all_convos,
+      as: :boolean,
+      label: 'Include All Convos',
+      input_html: {
+        'data-followup-target': 'allConvos', 'data-action': 'change->followup#toggleCheckboxes'
+      }
+    %>
+  <% end %>
+</div>
