@@ -107,15 +107,27 @@ class RoboEvent < ApplicationRecord
   end
 
   def sibling_position
-    all_sibling_events.order(:created_at).pluck(:id).index(id) + 1
+    if persisted?
+      all_sibling_events.order(:created_at).pluck(:id).index(id) + 1
+    else
+      all_sibling_events.count + 1
+    end
   end
 
   def younger_siblings
-    all_sibling_events.where("id < ?", id)
+    if persisted?
+      all_sibling_events.where("id < ?", id)
+    else
+      all_sibling_events
+    end
   end
 
   def older_siblings
-    all_sibling_events.where("id > ?", id)
+    if persisted?
+      all_sibling_events.where("id > ?", id)
+    else
+      []
+    end
   end
 
   private

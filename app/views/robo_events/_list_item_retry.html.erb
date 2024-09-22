@@ -1,0 +1,10 @@
+<% robo_event.id = -1 %>
+
+<div id="robo-event-<%= robo_event.id %>">
+  <%= render "robo_events/event_body",
+    robo_event: robo_event,
+    has_children: false,
+    has_siblings: true,
+    detail_partial: "robo_events/#{robo_event.event_type}/retry_input"
+  %>
+</div>

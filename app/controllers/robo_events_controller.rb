@@ -17,7 +17,7 @@ class RoboEventsController < ApplicationController
     event_to_retry = RoboEvent.find(params[:id])
 
     if event_to_retry.is_instruction_event?
-      new_event = create_instructions_retry_event(event_to_retry)
+      new_event = build_instructions_retry_event(event_to_retry)
     else
       raise "Unsupported event type: #{event_to_retry.event_type}"
     end
@@ -25,7 +25,7 @@ class RoboEventsController < ApplicationController
     # TODO replace the event to retry with the new multi-event UI
     render turbo_stream: turbo_stream.replace(
       "robo-event-#{event_to_retry.id}",
-      partial: "robo_events/list_item",
+      partial: "robo_events/list_item_retry",
       locals: {
         robo_event: new_event
       }
@@ -72,11 +72,11 @@ class RoboEventsController < ApplicationController
 
   private
 
-  def create_instructions_retry_event(event_to_retry)
+  def build_instructions_retry_event(event_to_retry)
     job_to_retry = event_to_retry.subject
     parent_job = job_to_retry.parent_job_or_self
 
-    followup_job = parent_job.followup_jobs.create!(
+    followup_job = parent_job.followup_jobs.new(
       project: job_to_retry.project,
       seed_contextual_files: job_to_retry.final_contextual_files,
       include_last_convo: job_to_retry.includes_past_convo?,
@@ -85,7 +85,7 @@ class RoboEventsController < ApplicationController
       images: job_to_retry.images
     )
 
-    robo_event = RoboEvent.create!(
+    robo_event = RoboEvent.new(
       event_type: "followup_instructions",
       robots: selected_robots,
       subject: followup_job,

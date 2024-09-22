@@ -8,21 +8,30 @@
   %>
 <% end %>
 
-<% if robo_event.is_instruction_event? %>
-  <%= render "robo_events/util/menu_item",
-    path: new_retry_robo_event_path(robo_event),
-    method: :post,
-    button_text: "Retry Input",
-    button_icon: "arrow-path"
-  %>
-<% end %>
+<% if robo_event.persisted? %>
+  <% if robo_event.is_instruction_event? %>
+    <%= render "robo_events/util/menu_item",
+      path: new_retry_robo_event_path(robo_event),
+      method: :post,
+      button_text: "Retry Input",
+      button_icon: "arrow-path"
+    %>
+  <% end %>
 
-<% if !robo_event.is_start_event? %>
+  <% if !robo_event.is_start_event? %>
+    <%= render "robo_events/util/menu_item",
+      path: robo_event_path(robo_event),
+      method: :delete,
+      button_text: "Delete",
+      button_icon: "trash",
+      confirmation: true
+    %>
+  <% end %>
+<% else %>
   <%= render "robo_events/util/menu_item",
-    path: robo_event_path(robo_event),
-    method: :delete,
-    button_text: "Delete",
-    button_icon: "trash",
-    confirmation: true
+    path: request.original_url,
+    method: :get,
+    button_text: "Cancel",
+    button_icon: "no-symbol"
   %>
 <% end %>

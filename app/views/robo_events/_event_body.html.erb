@@ -1,5 +1,6 @@
-<% has_children = robo_event.child_robo_events.active.any? %>
-<% has_siblings = robo_event.sibling_events.any? %>
+<% has_children ||= robo_event.child_robo_events.active.any? %>
+<% has_siblings ||= robo_event.sibling_events.any? %>
+<% detail_partial ||= "robo_events/#{robo_event.event_type}/details" %>
 
 <div class="relative pb-4" id="robo-event-body-<%= robo_event.id %>">
   <%# vertical line %>
@@ -32,7 +33,7 @@
     <%# event details %>
     <div class="min-w-0 flex-1">
       <div class="mb-8">
-        <%= render "robo_events/#{robo_event.event_type}/details",
+        <%= render detail_partial,
           robo_event: robo_event,
           open_on_load: !has_children && (robo_event.is_start_event? || robo_event.is_instruction_event?)
         %>

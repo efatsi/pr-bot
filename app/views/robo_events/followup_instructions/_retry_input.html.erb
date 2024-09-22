@@ -1,0 +1,30 @@
+<% followup_job = robo_event.subject %>
+<% robo_job = followup_job.parent_job %>
+
+<div class="relative pb-4">
+  <%# form %>
+  <div class="min-w-0 flex-1">
+    <div class="mb-8">
+      <%= render "shared/dropdown", label: "Retry Request", open_on_load: true do %>
+
+        <div class="mb-2">
+          <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job, retry: true) do |f| %>
+
+            <%= render "robo_jobs/feature_and_files_inputs", f: f, robo_job: followup_job,
+              feature_label: "Feature Request",
+              files_hint: "select a subset of files from the previous job, or add new ones"
+            %>
+
+            <%= render "robo_jobs/followup_checkboxes", f: f, followup_job: followup_job %>
+
+            <div class="mb-2 flex gap-2 self-end">
+              <%= link_to "Cancel", show_sibling_robo_event_path(robo_event.younger_siblings.last, current_event_id: robo_event.id), class: "btn-opaque" %>
+              <%= f.submit "Submit", class: "btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
