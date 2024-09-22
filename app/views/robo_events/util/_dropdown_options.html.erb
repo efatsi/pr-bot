@@ -1,0 +1,28 @@
+<% if has_children %>
+  <%= render "robo_events/util/menu_item",
+    path: reset_to_here_robo_event_path(robo_event),
+    method: :post,
+    button_text: "Reset Here",
+    button_icon: "arrow-down-circle",
+    confirmation: true
+  %>
+<% end %>
+
+<% if robo_event.is_instruction_event? %>
+  <%= render "robo_events/util/menu_item",
+    path: new_retry_robo_event_path(robo_event),
+    method: :post,
+    button_text: "Retry Input",
+    button_icon: "arrow-path"
+  %>
+<% end %>
+
+<% if !robo_event.is_start_event? %>
+  <%= render "robo_events/util/menu_item",
+    path: robo_event_path(robo_event),
+    method: :delete,
+    button_text: "Delete",
+    button_icon: "trash",
+    confirmation: true
+  %>
+<% end %>

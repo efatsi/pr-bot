@@ -17,6 +17,7 @@
           <%== robo_event.event_keyword %>
         </div>
 
+        <%# sibling pagination %>
         <% if has_siblings %>
           <div class="flex gap-0.5 items-center mt-0.5">
             <% if robo_event.younger_siblings.any? %>
@@ -24,8 +25,7 @@
                 <%= heroicon "chevron-left", options: { class: "!w-3 !h-3 text-gray-400" } %>
               <% end %>
             <% else %>
-              <%# mimic space of chevron link %>
-              <div class="w-3"></div>
+              <div class="w-3"><%# mimic space of chevron link %></div>
             <% end %>
 
             <code class="text-[10px] text-gray-400 my-0.5">
@@ -37,44 +37,16 @@
                 <%= heroicon "chevron-right", options: { class: "!w-3 !h-3 text-gray-400" } %>
               <% end %>
             <% else %>
-              <%# mimic space of chevron link %>
-              <div class="w-3"></div>
+              <div class="w-3"><%# mimic space of chevron link %></div>
             <% end %>
           </div>
         <% end %>
       </div>
 
+      <%# hidden dropdown options %>
       <div data-dropdown-menu-target="dropdown" class="hidden absolute top-10 left-10 flex flex-col items-center justify-center bg-gray-800 border-2 border-gray-400 border-opacity-60 rounded-md py-1 w-32 z-40">
-        <% if has_children %>
-          <%= render "robo_events/util/menu_item",
-            path: reset_to_here_robo_event_path(robo_event),
-            method: :post,
-            button_text: "Reset Here",
-            button_icon: "arrow-down-circle",
-            confirmation: true
-          %>
-        <% end %>
-
-        <% if robo_event.is_instruction_event? %>
-          <%= render "robo_events/util/menu_item",
-            path: new_retry_robo_event_path(robo_event),
-            method: :post,
-            button_text: "Retry Input",
-            button_icon: "arrow-path"
-          %>
-        <% end %>
-
-        <% if !robo_event.is_start_event? %>
-          <%= render "robo_events/util/menu_item",
-            path: robo_event_path(robo_event),
-            method: :delete,
-            button_text: "Delete",
-            button_icon: "trash",
-            confirmation: true
-          %>
-        <% end %>
+        <%= render "robo_events/util/dropdown_options", robo_event: robo_event, has_children: has_children %>
       </div>
-
     </div>
 
     <%# event details %>
@@ -82,7 +54,7 @@
       <div class="mb-8">
         <%= render "robo_events/#{robo_event.event_type}/details",
           robo_event: robo_event,
-          open_on_load: (robo_event.is_start_event? || robo_event.is_instruction_event?) && !has_children
+          open_on_load: !has_children && (robo_event.is_start_event? || robo_event.is_instruction_event?)
         %>
       </div>
     </div>
