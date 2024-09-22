@@ -1,10 +1,19 @@
-<div id="robo-event-scaffold-<%= robo_event.id %>">
+<% has_siblings ||= robo_event.sibling_events.any? %>
+
+<div id="robo-event-<%= robo_event.id %>">
   <div class="relative pb-4">
     <div class="relative flex items-start space-x-3">
       <%# event icon %>
       <div class="relative">
-        <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800">
-          <%== robo_event.event_keyword %>
+        <div class="flex flex-col items-center">
+          <div class="flex h-12 w-12 leading-3 items-center justify-center rounded-full text-center text-[10px] text-gray-400 bg-gray-800 border-2 border-gray-400 border-opacity-60 ring-8 ring-gray-800">
+            <%== robo_event.event_keyword %>
+          </div>
+
+          <%# sibling pagination %>
+          <% if has_siblings %>
+            <%= render "robo_events/util/sibling_pagination", robo_event: robo_event %>
+          <% end %>
         </div>
       </div>
 
