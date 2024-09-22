@@ -12,7 +12,6 @@
       <div class="mb-8">
         <%= render "shared/dropdown", label: "Followup Conversation", open_on_load: true do %>
 
-          <% input_id = "contextual-file-input-#{followup_job.id}" %>
           <div class="mb-2">
             <%= simple_form_for followup_job, as: :followup_job, url: robo_job_followup_jobs_path(robo_job) do |f| %>
 
