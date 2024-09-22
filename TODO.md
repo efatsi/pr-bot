@@ -1,26 +1,10 @@
-## Edit apply bugfix
-if match not found, start iterating
-  grab first line and look for space-ambivilant one-line matches
-    collect list of uniq space indentations for each match
-    iterate through those looking for full matches
-
-## retry instruction events
-- link to retry
-  - to new form w/ duplicated data from last (job/event)
-  - from instructions or followup
-
-- cleanup
-  - markdown rendering stopped working
-
 ## BIG PUNCH LIST
 x event navigation
 x image uploads
 ~ making context better
-  x search terms
+  ~ search terms
     - human review of terms
     - option for one more round of file checking after the first, iterative over each file
-  - adding ability to bump context on a followup job
-    - nest the context polishing visually so you can see what a "RoboJob" is
 
 ## contextual files
 - inline edit of seed files
@@ -36,18 +20,9 @@ x image uploads
   - move followon orchestration to RoboConductor out of runner's finish+super
 
 ## lil punch list
-- if can't find edit apply
-  - try reversing the string (' -> ")
-  - try a hidden robo_event to get the correct search
 - expand_all actions button
-- remove pending/skipped actions from prompt when followup
 - rm RoboJob + FollowupJob, replace w/ WorkSession + RoboJobs
-
-# Event Navigation
-## RoboEvent actions
-- add "ignore" action if !start
-  - toggle between active / ignored robo_events + dotted "next event" UI
-- add "stop" to running job (rename scaffold to processing)
+- job termination: add "stop" to running job (rename scaffold to processing)
 - add "copy" to Action renderings
 
 # export sharable RoboJob
