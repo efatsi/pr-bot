@@ -80,9 +80,16 @@ class BaseRoboRunner
   end
 
   def broadcast_event_scaffold
+    # by default, the new event is replacing the next-steps element
+    target = "next-steps"
+    # for retries though (events w/ siblings), we use a -1 id target
+    if robo_event.younger_siblings.any?
+      target = "robo-event--1"
+    end
+
     broadcast(
       partial: "robo_events/scaffold",
-      target: "next-steps",
+      target: target,
       action: :replace,
       locals: {
         robo_event: robo_event,

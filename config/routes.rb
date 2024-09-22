@@ -20,7 +20,9 @@ Rails.application.routes.draw do
       post :reset, on: :member
     end
 
-    resources :followup_jobs, only: [:new, :create]
+    resources :followup_jobs, only: [:new, :create] do
+      post :create_retry, on: :collection
+    end
 
     resources :git_commits, only: [:new, :update]
 

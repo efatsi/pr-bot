@@ -36,6 +36,34 @@ class FollowupJobsController < ApplicationController
     end
   end
 
+  def create_retry
+    followup_job = robo_job.followup_jobs.new(followup_job_params)
+    parent_robo_event = robo_job.last_active_event.parent_robo_event
+
+    if followup_job.save
+      robo_event = RoboEvent.create!(
+        event_type: "followup_instructions",
+        robots: selected_robots,
+        subject: followup_job,
+        parent_robo_event: parent_robo_event
+      )
+
+      RoboConductor.new(robo_event).start_event
+    else
+      stub_event = RoboEvent.new(
+        event_type: "followup_instructions",
+        subject: followup_job,
+        parent_robo_event: parent_robo_event
+      )
+
+      render turbo_stream: turbo_stream.update(
+        "followup-input",
+        partial: "robo_events/followup_instructions/retry_input",
+        locals: { followup_job: followup_job, robo_event: stub_event }
+      )
+    end
+  end
+
   private
 
   helper_method :robo_job

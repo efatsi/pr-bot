@@ -29,7 +29,7 @@
   <% end %>
 <% else %>
   <%= render "robo_events/util/menu_item",
-    path: request.original_url,
+    path: robo_job_path(robo_event.robo_job),
     method: :get,
     button_text: "Cancel",
     button_icon: "no-symbol"

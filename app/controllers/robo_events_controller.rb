@@ -87,7 +87,6 @@ class RoboEventsController < ApplicationController
 
     robo_event = RoboEvent.new(
       event_type: "followup_instructions",
-      robots: selected_robots,
       subject: followup_job,
       parent_robo_event: event_to_retry.parent_robo_event
     )
