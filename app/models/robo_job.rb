@@ -84,6 +84,14 @@ class RoboJob < ApplicationRecord
     end
   end
 
+  def all_robo_events
+    top_level_events = robo_events
+    top_level_events.inject([]) do |events, event|
+      events << event
+      events + collect_child_events(event)
+    end.uniq
+  end
+
   def active_actions
     robo_requests.active.of_type(["build_instructions", "followup_instructions"]).flat_map(&:actions)
   end
@@ -97,6 +105,13 @@ class RoboJob < ApplicationRecord
   end
 
   private
+
+  def collect_child_events(event)
+    event.child_robo_events.inject([]) do |child_events, child_event|
+      child_events << child_event
+      child_events + collect_child_events(child_event)
+    end
+  end
 
   def is_parent_job?
     parent_job_id.nil?
