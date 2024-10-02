@@ -19,7 +19,7 @@ response = HTTParty.post("http://localhost:3069/api/robo_jobs",
 build_event = RoboEvent.find(response["build_event"])
 
 puts "Job created: http://localhost:3069/robo_jobs/#{response["robo_job"]}"
-puts "  - generating actions"
+puts "generating actions..."
 
 start_time = Time.now
 action_count = 0
@@ -35,7 +35,7 @@ if action_count > 0
 
   puts
   ellapsed_seconds = (Time.now - start_time).to_i
-  puts "#{action_count} actions were created in #{ellapsed_seconds}s. Firing now..."
+  puts "#{action_count} #{'action'.pluralize(action_count)} were created in #{ellapsed_seconds}s. Firing now..."
 
   build_event.actions.pending.each_with_index do |action, i|
     print "#{i + 1}: #{action.summary}"
