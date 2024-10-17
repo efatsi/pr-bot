@@ -52,8 +52,16 @@ module Actions
 
       # last effort, check if the original content is there but indented
       matched_indentation_amounts(text).each do |indentation|
-        indented_original_content = original_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
-        indented_new_content = new_content.strip.split("\n").map { |line| " " * indentation + line }.join("\n")
+        pad_line = lambda do |line|
+          if line.present?
+            " " * indentation + line
+          else
+            line
+          end
+        end
+
+        indented_original_content = original_content.strip.split("\n").map(&pad_line).join("\n")
+        indented_new_content = new_content.strip.split("\n").map(&pad_line).join("\n")
 
         if text.include?(indented_original_content)
           return text.sub(indented_original_content, indented_new_content)
