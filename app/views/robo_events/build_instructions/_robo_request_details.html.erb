@@ -72,10 +72,7 @@
           <ul class="list-disc text-left" data-inline-edit-target="content">
             <% robo_job.final_contextual_files.each do |filepath| %>
               <li class="flex items-center gap-1.5">
-                <%= filepath %>
-                <% if robo_job.project.invalid_path?(filepath) %>
-                  <%= heroicon "exclamation-circle", options: { class: "text-red-500 !w-4 !h-4" } %>
-                <% end %>
+                <%= render "shared/file_path_presence", project: robo_job.project, filepath: filepath %>
               </li>
             <% end %>
           </ul>
