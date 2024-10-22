@@ -42,8 +42,26 @@ module Actions
       end
 
       if text.include?(original_content)
+        # find line where original content is included
+        matching_line = text.split("\n").detect { |l| l.include?(original_content) }
+
+        # determine how many spaces are at the beginning of the line containing the original content
+        text_indentation = matching_line.match(/^\s*/)[0].size
+        original_content_indentation = original_content.match(/^\s*/)[0].size
+        indentation_difference = text_indentation - original_content_indentation
+
+        # indent the new content to match the original content
+        indented_new_content = new_content.split("\n").each_with_index.map do |line, i|
+          if i == 0
+            # don't indent the first line
+            line
+          else
+            " " * indentation_difference + line
+          end
+        end.join("\n")
+
         # simple find and replace
-        return text.sub(original_content, new_content)
+        return text.sub(original_content, indented_new_content)
 
       elsif text.include?(original_content.gsub("'", "\""))
         # then try with quotations swapped
