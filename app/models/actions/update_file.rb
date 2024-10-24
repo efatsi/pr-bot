@@ -42,11 +42,14 @@ module Actions
       end
 
       if text.include?(original_content)
-        # find line where original content is included
-        matching_line = text.split("\n").detect { |l| l.include?(original_content) }
+        # get index of original content in the file
+        index = text.index(original_content)
+        # figure out how many newlines are before the original content
+        newlines_before = text[0...index].count("\n")
+        first_line = text.split("\n")[newlines_before]
 
         # determine how many spaces are at the beginning of the line containing the original content
-        text_indentation = matching_line.match(/^\s*/)[0].size
+        text_indentation = first_line.match(/^\s*/)[0].size
         original_content_indentation = original_content.match(/^\s*/)[0].size
         indentation_difference = text_indentation - original_content_indentation
 
