@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["tab"]
 
   connect() {
-    this.currentTab = null
+    this.currentTab = "input"
   }
 
   showTab(event) {
