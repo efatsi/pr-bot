@@ -82,7 +82,7 @@ class RoboEventsController < ApplicationController
       include_last_convo: job_to_retry.includes_past_convo?,
       include_all_convos: job_to_retry.includes_past_convo?,
       feature_request: job_to_retry.feature_request,
-      images: job_to_retry.images
+      images: job_to_retry.images.map(&:blob)
     )
 
     robo_event = RoboEvent.new(
